@@ -59,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:30
 /* ═══════════════════════════════════════════
    LAYOUT
    ═══════════════════════════════════════════ */
-.page{max-width:1060px;margin:0 auto;padding:60px 40px 120px;}
+.page{max-width:1060px;margin:0 auto;padding:80px 56px 140px;}
 
 /* HEADER */
 .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--pb);color:var(--pl);padding:5px 16px;border-radius:100px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;}
@@ -71,12 +71,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:30
 hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:.28;max-width:90px;margin-bottom:52px;}
 
 /* SECTION LABEL */
-.section-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--pl);margin:40px 0 14px;}
-.section-label--g{color:rgba(34,197,94,.6);}
-.section-label--y{color:rgba(255,238,88,.6);}
+.section-label{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--pl);margin:48px 0 18px;}
+.section-label--g{color:var(--g);opacity:.7;}
+.section-label--y{color:var(--y);opacity:.7;}
 
 /* METRIC GRID */
-.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px;}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:16px;}
 .metric-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 24px;}
 .metric-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:8px;}
 .metric-value{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px;}
@@ -84,11 +84,11 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 .mv-g{color:var(--g);}.mv-p{color:var(--pl);}.mv-y{color:var(--y);}.mv-w{color:var(--text);}
 
 /* TWO COL */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
-.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:16px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:16px;}
 
 /* PANEL */
-.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px 28px;}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px 32px;}
 .panel-title{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:18px;}
 
 /* CHART */
@@ -97,7 +97,11 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 /* FUNNEL */
 .funnel-wrap{display:flex;align-items:flex-end;justify-content:space-around;gap:8px;height:140px;margin-bottom:14px;}
 .funnel-col{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
-.funnel-bar{width:100%;border-radius:5px 5px 0 0;}
+.funnel-bar{width:100%;border-radius:5px 5px 0 0;transition:background .3s;}
+.funnel-bar--pl{background:var(--pl);}
+.funnel-bar--g{background:var(--g);}
+.funnel-bar--p{background:var(--p);}
+.funnel-bar--pd{background:var(--p);opacity:.75;}
 .funnel-n{font-family:var(--fd);font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--text);}
 .funnel-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);text-align:center;line-height:1.4;}
 .funnel-pct{font-family:var(--fm);font-size:10px;color:var(--pl);margin-top:2px;}
@@ -142,7 +146,7 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 .path-tag{font-family:var(--fm);font-size:10px;padding:3px 10px;border-radius:100px;white-space:nowrap;}
 .pt-clarity{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
 .pt-cyoc{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
-.pt-seer{background:rgba(55,138,221,.08);color:#378ADD;border:1px solid rgba(55,138,221,.2);}
+.pt-seer{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
 .pt-witch{background:var(--yd);color:var(--y);border:1px solid var(--yb);}
 .pt-priestess{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
 .pt-sep{color:var(--t3);font-size:11px;}
@@ -239,28 +243,28 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
       <div class="funnel-wrap">
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar" style="height:140px;background:#AFA9EC;"></div>
+          <div class="funnel-bar funnel-bar--pl" style="height:140px;"></div>
           <div class="funnel-lbl">In<br>cohort</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar" style="height:140px;background:#5DCAA5;"></div>
+          <div class="funnel-bar funnel-bar--g" style="height:140px;"></div>
           <div class="funnel-lbl">Email<br>opened</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar" style="height:140px;background:#5DCAA5;"></div>
+          <div class="funnel-bar funnel-bar--g" style="height:140px;"></div>
           <div class="funnel-lbl">Any<br>event</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">21</div>
-          <div class="funnel-bar" style="height:122px;background:#7F77DD;"></div>
+          <div class="funnel-bar funnel-bar--p" style="height:122px;"></div>
           <div class="funnel-lbl">1+<br>purchase</div>
           <div class="funnel-pct">87.5%</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">19</div>
-          <div class="funnel-bar" style="height:110px;background:#534AB7;"></div>
+          <div class="funnel-bar funnel-bar--pd" style="height:110px;"></div>
           <div class="funnel-lbl">Repeat<br>buyer</div>
           <div class="funnel-pct">90.5%</div>
         </div>
@@ -311,8 +315,8 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
         </div>
         <div class="ttp-row">
           <div class="ttp-label">Average</div>
-          <div class="ttp-track"><div class="ttp-fill" style="width:27%;background:#AFA9EC;"></div></div>
-          <div class="ttp-val" style="color:#AFA9EC;">118 days</div>
+          <div class="ttp-track"><div class="ttp-fill" style="width:27%;background:var(--pl);"></div></div>
+          <div class="ttp-val" style="color:var(--pl);">118 days</div>
         </div>
         <div class="ttp-row">
           <div class="ttp-label">Fastest</div>
@@ -334,12 +338,12 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
       <div class="email-row">
         <div class="email-bar-wrap">
           <div class="email-pct" style="color:var(--t2);">100%</div>
-          <div class="email-bar" style="height:60px;background:#AFA9EC;"></div>
+          <div class="email-bar" style="height:60px;background:var(--pl);"></div>
           <div class="email-lbl">Sent</div>
         </div>
         <div class="email-bar-wrap">
           <div class="email-pct" style="color:var(--pl);">83.4%</div>
-          <div class="email-bar" style="height:50px;background:#7F77DD;"></div>
+          <div class="email-bar" style="height:50px;background:var(--p);"></div>
           <div class="email-lbl">Opened</div>
         </div>
         <div class="email-bar-wrap">
@@ -467,7 +471,9 @@ function buildRevDistChart(){
       datasets:[{
         label:'Contacts',
         data:[3,4,5,5,4,3],
-        backgroundColor:['rgba(255,255,255,.12)','rgba(255,255,255,.18)','rgba(34,197,94,.35)','rgba(34,197,94,.55)','rgba(167,139,250,.55)','rgba(167,139,250,.9)'],
+        backgroundColor:isDark
+          ?['rgba(255,255,255,.12)','rgba(255,255,255,.18)','rgba(34,197,94,.35)','rgba(34,197,94,.55)','rgba(167,139,250,.55)','rgba(167,139,250,.9)']
+          :['rgba(50,44,36,.08)','rgba(50,44,36,.14)','rgba(26,110,50,.25)','rgba(26,110,50,.45)','rgba(92,30,160,.30)','rgba(92,30,160,.55)'],
         borderRadius:4,
         borderSkipped:false,
       }]
@@ -488,14 +494,14 @@ document.addEventListener('DOMContentLoaded',buildRevDistChart);
 
 <!-- PROTOTYPE NAV -->
 <style>
-.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;transition:background .3s,border-color .3s;}
 .we-bottom-nav::-webkit-scrollbar{display:none;}
 .we-nav-group{display:flex;align-items:center;flex-shrink:0;}
-.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
-.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
-.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
-.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
-.we-bottom-nav a.we-active{color:#FFEE58;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--t3);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:var(--border);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:var(--t2);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:var(--text);}
+.we-bottom-nav a.we-active{color:var(--y);}
 </style>
 <nav class="we-bottom-nav">
   <div class="we-nav-group">
@@ -532,6 +538,7 @@ function setMode(m) {
   document.getElementById('mode-light').classList.toggle('we-active', m === 'light');
   var lbl = document.getElementById('theme-label') || document.getElementById('tlabel');
   if (lbl) lbl.textContent = m === 'dark' ? 'Dark' : 'Light';
+  if (typeof buildRevDistChart === 'function') buildRevDistChart();
 }
 (function() {
   var saved = localStorage.getItem('we-docs-theme');
