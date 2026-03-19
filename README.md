@@ -87,7 +87,6 @@ The complete build process will be documented as open-source methodology:
 
 - **Methodology** — free, CC BY-SA 4.0. Every SKILL, every workflow, every procedure.
 - **Tools** — affordable. Free tier on GitHub. Pro for write abilities and the Fluent suite.
-- **Done-for-you** — premium. Agency service using the documented process.
 
 ---
 
