@@ -41,15 +41,19 @@ Three plugins. One MCP endpoint. Any WordPress site.
 ```
 Layer 01 · Bridge        Abilities MCP                 Local MCP server (Node.js) — connects AI to WordPress
 Layer 02 · Protocol      Abilities MCP Adapter          WordPress plugin — MCP ↔ abilities translation
-Layer 03 · Engine        Abilities for AI               WordPress plugin — 362 core abilities
-Layer 04 · Suite         Abilities for Fluent Plugins    WordPress plugin — 380 Fluent ecosystem abilities
+Layer 03 · Engine        Abilities for AI               WordPress plugin — 362 abilities
+Layer 04 · Suite         Abilities for Fluent Plugins    WordPress plugin — 380 abilities
                                                        ─────────────────────────────────
                                                        747 abilities from source. Operational.
 ```
 
-An AI agent connects through the bridge, discovers available abilities, and operates your WordPress site through typed, schema-validated, permission-gated calls. Content, media, users, menus, taxonomies, settings, cache, cron, filesystem, blocks, Knowledge Layer — all through abilities.
+An AI agent connects through the bridge, discovers available abilities, and operates your WordPress site through typed, schema-validated, permission-gated calls.
 
-The Fluent suite covers FluentCRM, FluentCart, Fluent Forms, Fluent Community, Fluent Support, Fluent SMTP, Fluent Auth, Fluent Boards, Fluent Booking, Fluent Connect, Fluent Snippets, and Presto Player. If the plugin is active, the abilities register. If it's not, they don't.
+**Abilities for AI** covers WordPress core (content, blocks, meta, media, users, menus, taxonomies, settings, cache, cron, filesystem, Knowledge Layer) plus Astra, Spectra, SureCart, and Presto Player.
+
+**Abilities for Fluent Plugins** covers the Fluent ecosystem — FluentCRM, FluentCart, Fluent Forms, Fluent Community, Fluent Support, Fluent SMTP, Fluent Auth, Fluent Boards, Fluent Booking, Fluent Connect, Fluent Snippets, and Fluent Messaging.
+
+If a plugin is active, its abilities register. If it's not, they don't.
 
 ### Knowledge Layer
 
