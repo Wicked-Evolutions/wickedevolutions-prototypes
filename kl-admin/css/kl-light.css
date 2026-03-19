@@ -1,0 +1,63 @@
+/* ── Light Mode Tokens ──────────────────────────────────────────
+   "Warm Greige" — matching docs-prototype light theme.
+   Accent: deep amber-bronze for WCAG AA readability.
+   Badge colours darkened for light bg contrast.
+────────────────────────────────────────────────────────────────── */
+.light,
+[data-theme="light"] {
+  --bg-base:       #F2EFE9;
+  --bg-surface:    #EAE6DF;
+  --bg-raised:     #E2DDD5;
+  --bg-overlay:    #D8D3C9;
+  --bg-hover:      #D0CAC0;
+  --border-subtle:  rgba(50,44,36,0.08);
+  --border-default: rgba(50,44,36,0.14);
+  --border-strong:  rgba(50,44,36,0.24);
+  --text-primary:   #1C1915;
+  --text-secondary: #2E2A24;
+  --text-muted:     #7A7268;
+  --accent:         #8B6914;
+  --accent-dim:     rgba(139,105,20,0.10);
+  --accent-glow:    rgba(139,105,20,0.06);
+  --accent-text:    #7A5C10;
+  --type-skill:#1A7A6E; --type-agent:#BF5A30; --type-knowledge:#1A6E9A; --type-course:#2E7D32;
+  --type-config:#7B1FA2; --type-diagnostic:#9A7B00; --type-boot:#C62828; --type-essence:#AD1457;
+  --type-template:#546E7A; --type-site-identity:#5E35B1; --type-site-state:#3949AB; --type-capabilities:#0277BD;
+  --status-active:#2E7D32; --status-draft:#1565C0; --status-seed:#757575; --status-archived:#9E9E9E;
+  --sev-info:#757575; --sev-attention:#E65100; --sev-action:#C62828;
+  --obs-open:#1565C0; --obs-resolved:#2E7D32; --obs-wontfix:#757575; --obs-deferred:#E65100;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) {
+    --bg-base:#F2EFE9;--bg-surface:#EAE6DF;--bg-raised:#E2DDD5;--bg-overlay:#D8D3C9;--bg-hover:#D0CAC0;
+    --border-subtle:rgba(50,44,36,0.08);--border-default:rgba(50,44,36,0.14);--border-strong:rgba(50,44,36,0.24);
+    --text-primary:#1C1915;--text-secondary:#2E2A24;--text-muted:#7A7268;
+    --accent:#8B6914;--accent-dim:rgba(139,105,20,0.10);--accent-glow:rgba(139,105,20,0.06);--accent-text:#7A5C10;
+    --type-skill:#1A7A6E;--type-agent:#BF5A30;--type-knowledge:#1A6E9A;--type-course:#2E7D32;
+    --type-config:#7B1FA2;--type-diagnostic:#9A7B00;--type-boot:#C62828;--type-essence:#AD1457;
+    --type-template:#546E7A;--type-site-identity:#5E35B1;--type-site-state:#3949AB;--type-capabilities:#0277BD;
+    --status-active:#2E7D32;--status-draft:#1565C0;--status-seed:#757575;--status-archived:#9E9E9E;
+    --sev-info:#757575;--sev-attention:#E65100;--sev-action:#C62828;
+    --obs-open:#1565C0;--obs-resolved:#2E7D32;--obs-wontfix:#757575;--obs-deferred:#E65100;
+  }
+}
+
+/* ── Theme transition ──────────────────────────────────────── */
+body, .kl-sidebar, .kl-page-header, .kl-create-row,
+.kl-stat-card, .kl-feed-item, .kl-content-preview,
+.kl-publish-sidebar, .kl-modal {
+  transition: background .25s cubic-bezier(0.22, 1, 0.36, 1),
+              color .25s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color .25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Light mode fixes ──────────────────────────────────────── */
+.light .kl-filter,
+.light .kl-field-select {
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='rgba(50,44,36,0.45)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.light .kl-btn-primary { color: #fff; }
+.light .kl-publish-sidebar { box-shadow: -8px 0 32px rgba(0,0,0,.1); }
+.light .kl-modal { box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+.light .kl-modal-overlay { background: rgba(0,0,0,.3); }

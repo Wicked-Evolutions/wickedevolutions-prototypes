@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI — The Trinity · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS — exact values from live site
+   ───────────────────────────────────────── */
+:root {
+  --bg:      #111111;
+  --text:    #E0DDD5;
+  --t2:      rgba(224,221,213,0.50);
+  --t3:      rgba(224,221,213,0.22);
+  --t4:      rgba(224,221,213,0.09);
+
+  /* Trinity three-colour system */
+  --y:    #FFEE58;   /* abilities-mcp      · bridge  */
+  --g:    #22c55e;   /* abilities-for-ai   · engine  */
+  --p:    #7c3aed;   /* mcp-adapter        · protocol */
+  --pl:   #a78bfa;
+
+  --yd:  rgba(255,238,88,0.07);
+  --yb:  rgba(255,238,88,0.17);
+  --gd:  rgba(34,197,94,0.07);
+  --gb:  rgba(34,197,94,0.17);
+  --pd:  rgba(124,58,237,0.07);
+  --pb:  rgba(124,58,237,0.16);
+
+  --gl:  rgba(255,255,255,0.025);
+  --glb: rgba(255,255,255,0.055);
+  --glh: rgba(255,255,255,0.11);
+
+  --fd: 'Syne', sans-serif;
+  --fb: 'Manrope', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+
+  --col:  800px;
+  --wide: 1140px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--p); color:#fff; }
+
+/* ── COLUMNS ── */
+.c  { max-width:var(--col);  margin:0 auto; padding:0 56px; }
+.cw { max-width:var(--wide); margin:0 auto; padding:0 56px; }
+
+/* ── GLOW LINE — signature element ── */
+.gl {
+  height:1px;
+  background: linear-gradient(90deg, transparent, var(--p), transparent);
+  box-shadow: 0 0 14px rgba(124,58,237,0.2);
+  opacity:0.28;
+  max-width:90px;
+  border:none;
+}
+
+/* ── EYEBROW ── */
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid var(--pb);
+  color:var(--pl);
+  padding:5px 16px;
+  border-radius:100px;
+  font-family:var(--fm);
+  font-size:10px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  margin-bottom:52px;
+}
+
+.ebdot {
+  width:5px; height:5px;
+  background:var(--g);
+  border-radius:50%;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── HERO ── */
+.hero {
+  padding: 160px 0 100px;
+  position: relative;
+}
+
+.hero-title {
+  font-family: var(--fd);
+  font-size: clamp(3.2rem, 5.8vw, 5.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  color: var(--text);
+  margin-bottom: 40px;
+}
+
+.hero-title em   { font-style:normal; color:var(--g); display:block; }
+.hero-title span { color:var(--t3); }
+
+.hero-sub {
+  font-size: 19px;
+  font-weight: 300;
+  color: var(--t2);
+  max-width: 520px;
+  line-height: 1.85;
+  margin-bottom: 80px;
+}
+
+/* ── STATS — full bleed, no column cap ── */
+.stats-band {
+  border-top:    1px solid var(--glb);
+  border-bottom: 1px solid var(--glb);
+  padding: 64px 56px;
+  margin-bottom: 160px;
+}
+
+.stats-inner {
+  max-width: var(--wide);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 0;
+}
+
+.stat {
+  padding: 0 52px;
+  border-right: 1px solid var(--glb);
+}
+
+.stat:first-child { padding-left:0; }
+.stat:last-child  { border-right:none; }
+
+.stat-n {
+  font-family: var(--fd);
+  font-size: clamp(3rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.ny { color:var(--y); }
+.ng { color:var(--g); }
+.np { color:var(--pl); }
+.nw { color:var(--text); }
+
+.stat-l {
+  font-family: var(--fm);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t3);
+}
+
+/* ── SECTION SHELL ── */
+.section { margin-bottom: 160px; position:relative; }
+
+/* Section number — left margin, absolutely positioned */
+.sn {
+  position: absolute;
+  left: -44px;
+  top: 4px;
+  font-family: var(--fm);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--t4);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  user-select: none;
+}
+
+.sh {
+  font-family: var(--fd);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.sp {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.82;
+  max-width: 560px;
+  margin-bottom: 56px;
+}
+
+/* ── TRINITY CARDS ── */
+.trinity {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 2px;
+}
+
+.tc {
+  padding: 44px 36px;
+  border: 1px solid var(--glb);
+  border-radius: 12px;
+  background: var(--gl);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s;
+}
+
+.tc:hover { border-color: var(--glh); }
+
+.tc--y { border-color:var(--yb); background:var(--yd); }
+.tc--p { border-color:var(--pb); background:var(--pd); }
+.tc--g { border-color:var(--gb); background:var(--gd); }
+
+.tc-layer {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.13em;
+  margin-bottom:20px;
+}
+
+.ly { color:rgba(255,238,88,0.45); }
+.lp { color:rgba(167,139,250,0.45); }
+.lg { color:rgba(34,197,94,0.45); }
+
+.tc-name {
+  font-family:var(--fm);
+  font-size:13px;
+  font-weight:500;
+  line-height:1.4;
+  margin-bottom:6px;
+}
+
+.ny-t { color:var(--y); }
+.np-t { color:var(--pl); }
+.ng-t { color:var(--g); }
+
+.tc-ver {
+  font-family:var(--fm);
+  font-size:10px;
+  color:var(--t3);
+  margin-bottom:28px;
+}
+
+.tc-desc {
+  font-size:14px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.7;
+  flex:1;
+  margin-bottom:36px;
+}
+
+.tc-count {
+  font-family:var(--fd);
+  font-size:2.4rem;
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1;
+  margin-bottom:5px;
+}
+
+.tc-cl {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t3);
+}
+
+/* ── STACK DIAGRAM ── */
+.stack { display:flex; flex-direction:column; gap:2px; }
+
+.st-row {
+  display:flex;
+  align-items:stretch;
+  gap:2px;
+}
+
+.st-aside {
+  width:104px;
+  flex-shrink:0;
+  background:rgba(255,255,255,0.015);
+  border:1px solid var(--glb);
+  border-radius:8px;
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.st-role {
+  font-family:var(--fm);
+  font-size:8.5px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t3);
+  margin-bottom:3px;
+}
+
+.st-type {
+  font-size:12px;
+  font-weight:400;
+  color:var(--t2);
+}
+
+.st-body {
+  flex:1;
+  border:1px solid var(--glb);
+  border-radius:8px;
+  padding:22px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  background:var(--gl);
+  transition:border-color 0.25s;
+}
+
+.st-body:hover { border-color:var(--glh); }
+
+.st--y { border-color:var(--yb); background:linear-gradient(90deg,var(--yd),var(--gl) 65%); }
+.st--p { border-color:var(--pb); background:linear-gradient(90deg,var(--pd),var(--gl) 65%); }
+.st--g { border-color:var(--gb); background:linear-gradient(90deg,var(--gd),var(--gl) 65%); }
+
+.st-name {
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.st-detail {
+  font-family:var(--fm);
+  font-size:11px;
+  color:var(--t3);
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.pill {
+  flex-shrink:0;
+  padding:4px 14px;
+  border-radius:100px;
+  font-family:var(--fm);
+  font-size:10px;
+  font-weight:500;
+  white-space:nowrap;
+}
+
+.py { background:var(--yd); color:var(--y);  border:1px solid var(--yb); }
+.pp { background:var(--pd); color:var(--pl); border:1px solid var(--pb); }
+.pg { background:var(--gd); color:var(--g);  border:1px solid var(--gb); }
+.p0 { background:transparent; color:var(--t3); border:1px solid var(--glb); }
+
+.st-join {
+  margin-left:54px;
+  padding:4px 0;
+}
+
+.st-jl {
+  width:1px; height:22px;
+  background:var(--glh);
+  opacity:0.4;
+}
+
+/* ── TERMINAL ── */
+.terminal {
+  background:#09090f;
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;
+  overflow:hidden;
+  font-family:var(--fm);
+  font-size:13px;
+  line-height:1.9;
+}
+
+.tbar {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:14px 22px;
+  background:rgba(255,255,255,0.015);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+
+.d1,.d2,.d3 { width:9px; height:9px; border-radius:50%; opacity:0.55; }
+.d1 { background:#ef4444; }
+.d2 { background:#f59e0b; }
+.d3 { background:#22c55e; }
+
+.ttab {
+  margin-left:auto;
+  font-size:10px;
+  color:rgba(255,255,255,0.16);
+  letter-spacing:0.05em;
+}
+
+.tbody {
+  padding:36px 36px 40px;
+  color:rgba(224,221,213,0.28);
+}
+
+.ln  { display:block; }
+.lb  { display:block; height:1em; }
+.gy  { color:var(--y); }
+.gp  { color:var(--pl); }
+.gg  { color:var(--g); }
+.gw  { color:rgba(224,221,213,0.78); }
+.cur {
+  display:inline-block; width:7px; height:1em;
+  background:var(--g); vertical-align:text-bottom;
+  animation:blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── MODULE GRID 3×7 ── */
+.mods {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  border-top:1px solid var(--glb);
+  border-left:1px solid var(--glb);
+}
+
+.mod {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid var(--glb);
+  border-right:1px solid var(--glb);
+  gap:8px;
+}
+
+.mod-name {
+  font-size:16px;
+  font-weight:400;
+  color:var(--text);
+}
+
+.mod-name--g {
+  color:var(--g);
+  font-weight:500;
+}
+
+.mod-n {
+  font-family:var(--fm);
+  font-size:11px;
+  color:var(--t3);
+  flex-shrink:0;
+}
+
+/* ── KL BOX ── */
+.klbox {
+  background:var(--gd);
+  border:1px solid var(--gb);
+  border-radius:14px;
+  padding:48px;
+}
+
+.kl-label {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:rgba(34,197,94,0.4);
+  margin-bottom:14px;
+}
+
+.kl-directive {
+  font-family:var(--fm);
+  font-size:13px;
+  color:var(--g);
+  background:rgba(34,197,94,0.04);
+  border:1px solid rgba(34,197,94,0.11);
+  border-radius:8px;
+  padding:22px 26px;
+  margin:0 0 28px;
+  line-height:2.1;
+}
+
+.kl-p {
+  font-size:17px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.78;
+  margin-bottom:36px;
+}
+
+.kl-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-top:1px solid rgba(34,197,94,0.1);
+  padding-top:32px;
+  gap:1px;
+}
+
+.kl-item {
+  padding:14px 20px 14px 0;
+}
+
+.kl-item:nth-child(even) {
+  padding-left:20px;
+  padding-right:0;
+  border-left:1px solid rgba(34,197,94,0.1);
+}
+
+.kl-n { font-family:var(--fm); font-size:11px; color:var(--g); margin-bottom:4px; }
+.kl-d { font-size:13px; font-weight:300; color:var(--t2); }
+
+/* ── SECURITY ── */
+.sec {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+}
+
+.ss {
+  padding:28px 22px;
+  background:var(--gl);
+  border:1px solid var(--glb);
+  border-radius:8px;
+}
+
+.ss--go {
+  border-color:var(--gb);
+  background:var(--gd);
+}
+
+.ss-n {
+  font-family:var(--fm);
+  font-size:8.5px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t3);
+  margin-bottom:10px;
+}
+
+.ss-name {
+  font-size:15px;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:6px;
+}
+
+.ss-name--g { color:var(--g); }
+
+.ss-d {
+  font-size:12px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.55;
+}
+
+/* ── QUOTE — centrepiece ── */
+.quote-monument {
+  padding: 140px 56px;
+  text-align:center;
+  border-top:    1px solid var(--glb);
+  border-bottom: 1px solid var(--glb);
+  margin: 0 0 0;
+}
+
+.quote-text {
+  font-family:var(--fd);
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1.2;
+  color:var(--text);
+  max-width:680px;
+  margin:0 auto;
+}
+
+.quote-text em { font-style:normal; color:var(--y); }
+
+.quote-attr {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t3);
+  margin-top:32px;
+}
+
+/* ── CTA ── */
+.cta {
+  text-align:center;
+  padding: 140px 56px 160px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* green glow orb behind CTA */
+.cta::before {
+  content:'';
+  position:absolute;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(34,197,94,0.12), transparent 65%);
+  border-radius:50%;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  filter:blur(40px);
+}
+
+.cta-title {
+  font-family:var(--fd);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1.08;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.cta-sub {
+  font-size:18px;
+  font-weight:300;
+  color:var(--t2);
+  max-width:440px;
+  margin:0 auto 52px;
+  line-height:1.8;
+  position:relative;
+}
+
+.cta-btns {
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:36px;
+  position:relative;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:15px 36px;
+  border-radius:8px;
+  font-family:var(--fb);
+  font-size:16px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  text-decoration:none;
+  transition:all 0.2s;
+  letter-spacing:-0.01em;
+}
+
+.btn--g {
+  background:var(--g);
+  color:#0a0a0a;
+}
+
+.btn--g:hover {
+  background:#4ade80;
+  transform:translateY(-1px);
+}
+
+.btn--ghost {
+  background:transparent;
+  color:var(--t2);
+  border:1px solid var(--glb);
+}
+
+.btn--ghost:hover {
+  border-color:var(--glh);
+  color:var(--text);
+}
+
+.cta-trust {
+  font-family:var(--fm);
+  font-size:10.5px;
+  color:var(--t3);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  position:relative;
+}
+
+.cta-trust span { margin:0 10px; opacity:0.35; }
+
+/* ── FOOTER ── */
+.footer {
+  max-width:var(--col);
+  margin:0 auto;
+  padding:36px 56px 80px;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  border-top:1px solid var(--glb);
+}
+
+.footer-brand {
+  font-family:var(--fd);
+  font-size:1rem;
+  font-weight:800;
+  letter-spacing:-0.03em;
+}
+
+.footer-brand span { color:var(--pl); }
+
+.footer-meta {
+  font-family:var(--fm);
+  font-size:10px;
+  color:var(--t3);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width:980px) {
+  .trinity { grid-template-columns:1fr; }
+  .mods { grid-template-columns:repeat(2,1fr); }
+  .stats-inner { grid-template-columns:repeat(2,1fr); gap:32px 0; }
+  .stat { border-right:none; border-bottom:1px solid var(--glb); padding:0 0 28px; }
+  .stat:last-child,.stat:nth-child(2) { border-bottom:none; }
+  .sec { grid-template-columns:1fr 1fr; }
+  .kl-grid { grid-template-columns:1fr; }
+  .sn { display:none; }
+}
+
+@media (max-width:600px) {
+  :root { --col:100%; }
+  .c,.cw { padding:0 24px; }
+  .hero { padding:100px 0 80px; }
+  .hero-title { font-size:2.8rem; }
+  .stats-band { padding:48px 24px; }
+  .mods { grid-template-columns:1fr; }
+  .sec { grid-template-columns:1fr; }
+  .quote-monument { padding:90px 24px; }
+  .cta { padding:90px 24px 120px; }
+  .st-aside { display:none; }
+  .footer { padding:28px 24px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<header class="hero c">
+  <div class="eyebrow"><span class="ebdot"></span>Wicked Evolutions · The Trinity</div>
+
+  <h1 class="hero-title">
+    Three plugins.<br>
+    One API surface.<br>
+    <em>627 abilities.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Install on any WordPress site. Connect any MCP-compatible AI.
+    Your data stays on your server — no SaaS, no vendor lock-in,
+    no escape hatch.
+  </p>
+
+  <hr class="gl">
+</header>
+
+<!-- ══════════════════ STATS — full bleed ══════════════════ -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-n ng">627</div>
+      <div class="stat-l">total abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n ny">3</div>
+      <div class="stat-l">plugins in the Trinity</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n np">21</div>
+      <div class="stat-l">core WordPress modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n nw">6.9+</div>
+      <div class="stat-l">WordPress required</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TRINITY CARDS — wide breakout ══════════════════ -->
+<div class="cw" style="margin-bottom:160px;">
+  <div class="section" style="position:relative;">
+    <span class="sn">01 — The three plugins</span>
+    <h2 class="sh">Each layer has one job.</h2>
+    <p class="sp">Three focused plugins. One coordinated system. Remove any one and the others still exist — add all three and WordPress becomes a structured interface for AI.</p>
+
+    <div class="trinity">
+
+      <!-- abilities-mcp — YELLOW -->
+      <div class="tc tc--y">
+        <div class="tc-layer ly">Bridge · Node.js</div>
+        <div class="tc-name ny-t">abilities-mcp</div>
+        <div class="tc-ver">v1.2.0 · @wicked-evolutions/abilities-mcp · npm</div>
+        <p class="tc-desc">
+          The STDIO bridge. Runs on your machine, connects your AI client to WordPress over SSH or HTTP. Handles multi-site routing and three local bridge tools for health checking, browsing, and selective loading. Install once, point at any number of sites.
+        </p>
+        <div>
+          <div class="tc-count ny-t">3</div>
+          <div class="tc-cl">bridge tools</div>
+        </div>
+      </div>
+
+      <!-- abilities-mcp-adapter — PURPLE -->
+      <div class="tc tc--p">
+        <div class="tc-layer lp">Protocol · PHP</div>
+        <div class="tc-name np-t">abilities-mcp-adapter</div>
+        <div class="tc-ver">v1.0.8 · WordPress plugin · PHP 8.0+</div>
+        <p class="tc-desc">
+          The WordPress-side MCP handler. Translates every registered ability into an MCP tool, exposes a REST endpoint, runs the discovery gate, and executes abilities with full permission checking. Upload, activate — your site is an MCP server.
+        </p>
+        <div>
+          <div class="tc-count np-t">2</div>
+          <div class="tc-cl">public abilities</div>
+        </div>
+      </div>
+
+      <!-- abilities-for-ai — GREEN -->
+      <div class="tc tc--g">
+        <div class="tc-layer lg">Engine · PHP</div>
+        <div class="tc-name ng-t">abilities-for-ai</div>
+        <div class="tc-ver">v1.2.0 · WordPress plugin · PHP 8.0+</div>
+        <p class="tc-desc">
+          The core engine. Registers 137 abilities across 21 WordPress modules — content, blocks, meta, menus, themes, users, filesystem, cron, revisions, site health and more. Ships the Knowledge Layer: persistent AI memory in your WordPress database, across sessions.
+        </p>
+        <div>
+          <div class="tc-count ng-t">137</div>
+          <div class="tc-cl">abilities registered</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ STACK + TERMINAL ══════════════════ -->
+<div class="c">
+
+  <div class="section">
+    <span class="sn">02 — How they connect</span>
+    <h2 class="sh">Signal travels top to bottom.</h2>
+    <p class="sp">Every AI call passes through all three layers in sequence. Each layer has one responsibility. Nothing leaks between them.</p>
+
+    <div class="stack">
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Consumer</div>
+          <div class="st-type">AI client</div>
+        </div>
+        <div class="st-body">
+          <div>
+            <div class="st-name">Claude · Cursor · Windsurf · any MCP client</div>
+            <div class="st-detail">STDIO · JSON-RPC 2.0 · Model Context Protocol</div>
+          </div>
+          <span class="pill p0">your tool</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-jl"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Bridge</div>
+          <div class="st-type">Node.js</div>
+        </div>
+        <div class="st-body st--y">
+          <div>
+            <div class="st-name">abilities-mcp</div>
+            <div class="st-detail">STDIO server · SSH + HTTP transports · multi-site routing · bridge tools</div>
+          </div>
+          <span class="pill py">v1.2.0</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-jl"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Protocol</div>
+          <div class="st-type">WP plugin</div>
+        </div>
+        <div class="st-body st--p">
+          <div>
+            <div class="st-name">abilities-mcp-adapter</div>
+            <div class="st-detail">REST endpoint · discovery gate · mcp.public gate · execute · batch</div>
+          </div>
+          <span class="pill pp">v1.0.8</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-jl"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Engine</div>
+          <div class="st-type">WP plugin</div>
+        </div>
+        <div class="st-body st--g">
+          <div>
+            <div class="st-name">abilities-for-ai</div>
+            <div class="st-detail">21 modules · Knowledge Layer · 4 suite loaders · wp_register_ability()</div>
+          </div>
+          <span class="pill pg">137 abilities</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-jl"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Platform</div>
+          <div class="st-type">Foundation</div>
+        </div>
+        <div class="st-body">
+          <div>
+            <div class="st-name">WordPress 6.9+</div>
+            <div class="st-detail">native Abilities API · wp_register_ability() · wp_abilities_api_init</div>
+          </div>
+          <span class="pill p0">43% of the web</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="section">
+    <span class="sn">03 — A real session</span>
+    <h2 class="sh">What happens when you connect.</h2>
+    <p class="sp">The AI arrives oriented. Reads everything. Writes nothing until you say go.</p>
+
+    <div class="terminal">
+      <div class="tbar">
+        <div class="d1"></div><div class="d2"></div><div class="d3"></div>
+        <div class="ttab">abilities-mcp · helenawillow.com · session 4</div>
+      </div>
+      <div class="tbody">
+<span class="ln" style="opacity:.22"># connect. first call always get-started.</span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">mcp-adapter/get-started</span></span>
+<span class="ln">  site: <span class="gw">"Helena Willow"</span>  abilities: <span class="gg">627</span>  next: <span class="gw">"knowledge/boot"</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/boot</span></span>
+<span class="ln">  mode: <span class="gw">"inquiry"</span>  allowed: <span class="gg">["read"]</span>  restricted: <span class="gy">["write", "delete"]</span></span>
+<span class="ln">  lifts: <span class="gw">"when the user gives a directive"</span>  session: <span class="gg">4</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.22"># ai reads. writes nothing. waits.</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get-site-map</span>    <span class="gg">✓ 32 pages returned</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/list-structure</span>  <span class="gg">✓ titles, IDs, slugs, modified dates</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.22"># you: "update the excerpt on page 4439."</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get</span>      <span style="opacity:.22">{ id: 4439 }   ← confirm before touching</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/update</span>   <span style="opacity:.22">{ id: 4439, excerpt: "…" }   ← only after confirm</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/log-session</span>  <span class="gg">✓ session 4 logged. next session picks up here.</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gg">$</span> <span class="cur"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULES 3×7 -->
+  <div class="section">
+    <span class="sn">04 — Core modules</span>
+    <h2 class="sh">21 modules. Every WordPress surface.</h2>
+    <p class="sp">Plus four third-party suite loaders — Astra, Spectra, SureCart, Presto Player — each bailing early if the plugin isn't active. Zero cost.</p>
+
+    <div class="mods">
+      <div class="mod"><span class="mod-name mod-name--g">Knowledge Layer</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Content</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Meta fields</span><span class="mod-n">13</span></div>
+      <div class="mod"><span class="mod-name">Menus</span><span class="mod-n">12</span></div>
+      <div class="mod"><span class="mod-name">Themes</span><span class="mod-n">11</span></div>
+      <div class="mod"><span class="mod-name">Taxonomies</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Users</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Blocks</span><span class="mod-n">8</span></div>
+      <div class="mod"><span class="mod-name">Cache</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Plugins</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Settings</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Media</span><span class="mod-n">6</span></div>
+      <div class="mod"><span class="mod-name">Cron</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Filesystem</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Revisions</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Site health</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Comments</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Patterns</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">REST discovery</span><span class="mod-n">4</span></div>
+      <div class="mod"><span class="mod-name">Rewrite rules</span><span class="mod-n">3</span></div>
+      <div class="mod"><span class="mod-name">MCP adapter</span><span class="mod-n">2</span></div>
+    </div>
+  </div>
+
+  <!-- KNOWLEDGE LAYER -->
+  <div class="section">
+    <span class="sn">05 — The Knowledge Layer</span>
+    <h2 class="sh">Persistent AI memory, inside WordPress.</h2>
+    <p class="sp">Not an external service. Database tables — kl_* — inside your WordPress. The AI reads and writes every session. The next session picks up where this one ended.</p>
+
+    <div class="klbox">
+      <div class="kl-label">Behavioral directive — every connection</div>
+      <div class="kl-directive">
+        mode: inquiry<br>
+        allowed: [ "read" ]<br>
+        restricted: [ "write", "delete" ]<br>
+        lifts: when the user gives a directive
+      </div>
+      <p class="kl-p">The AI arrives knowing the site's full history. It reads everything. It writes nothing until you say go.</p>
+      <div class="kl-grid">
+        <div class="kl-item">
+          <div class="kl-n">knowledge/boot</div>
+          <div class="kl-d">Entry point · directive · history · open observations</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-n">documents</div>
+          <div class="kl-d">list · get · create · update · fork · archive</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-n">sessions</div>
+          <div class="kl-d">list · get · log-session</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-n">observations</div>
+          <div class="kl-d">list · add · resolve</div>
+        </div>
+        <div class="kl-item" style="padding-bottom:0;">
+          <div class="kl-n">revisions</div>
+          <div class="kl-d">get · restore</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="section">
+    <span class="sn">06 — Security model</span>
+    <h2 class="sh">Four gates. Every call. No exceptions.</h2>
+    <p class="sp" style="margin-bottom:40px;">Each gate is independent. All four must pass in sequence. None is skippable by the AI or by the adapter.</p>
+
+    <div class="sec">
+      <div class="ss">
+        <div class="ss-n">01</div>
+        <div class="ss-name">WP capability</div>
+        <div class="ss-d">manage_options · edit_posts · per module</div>
+      </div>
+      <div class="ss">
+        <div class="ss-n">02</div>
+        <div class="ss-name">Permission toggle</div>
+        <div class="ss-d">read / write / delete per module in dashboard</div>
+      </div>
+      <div class="ss">
+        <div class="ss-n">03</div>
+        <div class="ss-name">Pro gate</div>
+        <div class="ss-d">license check · 403 + upgrade URL if absent</div>
+      </div>
+      <div class="ss ss--go">
+        <div class="ss-n">04</div>
+        <div class="ss-name ss-name--g">Execute</div>
+        <div class="ss-d">callback runs</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /c -->
+
+<!-- ══════════════════ QUOTE — full-width centrepiece ══════════════════ -->
+<div class="quote-monument">
+  <div class="quote-text">
+    They put AI inside the plugin.<br>
+    We put <em>the plugin inside AI.</em>
+  </div>
+  <div class="quote-attr">Wicked Evolutions · CTO session 5 · 2026</div>
+</div>
+
+<!-- ══════════════════ CTA ══════════════════ -->
+<section class="cta">
+  <h2 class="cta-title">Start building.</h2>
+  <p class="cta-sub">Free to install. Open source. Your server. Your data. No account required to begin.</p>
+  <div class="cta-btns">
+    <a href="https://github.com/Wicked-Evolutions" class="btn btn--g">Get the stack on GitHub →</a>
+    <a href="https://wickedevolutions.com" class="btn btn--ghost">Read the blog</a>
+  </div>
+  <div class="cta-trust">
+    GPL-2.0 <span>·</span> WordPress 6.9+ <span>·</span> Claude · Cursor · Windsurf · any MCP client
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">Wicked <span>Evolutions</span></div>
+  <div class="footer-meta">GPL-2.0 · wickedevolutions.com · 2026</div>
+</footer>
+
+</body>
+</html>

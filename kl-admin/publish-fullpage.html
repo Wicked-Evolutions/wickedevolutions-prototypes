@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publish Flow: Full Page — Knowledge Layer Admin</title>
+  <link rel="stylesheet" href="css/kl-admin.css" />
+  <link rel="stylesheet" href="css/kl-light.css" />
+</head>
+<body>
+
+<div class="kl-shell">
+  <nav class="kl-sidebar">
+    <div class="kl-sidebar-brand"><h2>Abilities for AI</h2><h1><span class="dot"></span>Knowledge Layer</h1></div>
+    <div class="kl-nav">
+      <a href="dashboard.html" class="kl-nav-item"><span class="kl-nav-icon">◫</span> Dashboard</a>
+      <a href="documents.html" class="kl-nav-item active"><span class="kl-nav-icon">◧</span> Documents</a>
+      <a href="sessions.html" class="kl-nav-item"><span class="kl-nav-icon">▤</span> Sessions</a>
+      <a href="observations.html" class="kl-nav-item"><span class="kl-nav-icon">◉</span> Observations</a>
+      <a href="tags.html" class="kl-nav-item"><span class="kl-nav-icon">⬡</span> Tags</a>
+    </div>
+    <div class="kl-sidebar-footer">v0.1.0 · abilities-for-ai</div>
+  </nav>
+
+  <div class="kl-main">
+
+    <!-- Top Bar with controls -->
+    <div class="kl-page-header">
+      <a href="document-detail.html" class="kl-back" style="margin:0;">← Back to Document</a>
+      <span class="spacer"></span>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="kl-field-label" style="margin:0;">Category</span>
+          <select class="kl-filter" style="width:130px;">
+            <option selected>About</option>
+            <option>Blog</option>
+            <option>Knowledge</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="kl-field-label" style="margin:0;">Status</span>
+          <select class="kl-filter" style="width:110px;">
+            <option>Draft</option>
+            <option selected>Publish</option>
+            <option>Private</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="kl-field-label" style="margin:0;">Author</span>
+          <select class="kl-filter" style="width:140px;">
+            <option selected>Helena Willow</option>
+            <option>J (admin)</option>
+          </select>
+        </div>
+        <button class="kl-btn kl-btn-secondary">Preview</button>
+        <button class="kl-btn kl-btn-primary">Publish</button>
+      </div>
+    </div>
+
+    <!-- Tags bar -->
+    <div style="padding:10px 28px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px;">
+      <span class="kl-field-label" style="margin:0;">Tags</span>
+      <div class="kl-tags-row">
+        <span class="kl-tag"><span class="tag-dot" style="background:#EC407A"></span>essence</span>
+        <span class="kl-tag"><span class="tag-dot" style="background:#7E57C2"></span>content</span>
+        <span class="kl-tag-add">+</span>
+      </div>
+      <span class="spacer"></span>
+      <span style="font-size:.6875rem; font-family:var(--font-mono); color:var(--text-muted);">
+        {{document.content||md_to_blocks}} · 4 headings, 6 paragraphs, 2 lists
+      </span>
+    </div>
+
+    <!-- Split View -->
+    <div class="kl-split">
+
+      <!-- Left: KL Source -->
+      <div class="kl-split-pane">
+        <span class="kl-split-label">Source — Knowledge Layer Document</span>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+          <span class="kl-badge badge-essence">essence</span>
+          <span style="font-family:var(--font-display); font-weight:700; color:var(--text-primary);">Helena Willow — ESSENCE</span>
+          <span style="font-family:var(--font-mono); font-size:.75rem; color:var(--text-muted);">v1.0.0</span>
+        </div>
+        <div class="kl-content-preview" style="max-height:none; background:var(--bg-surface);">
+          <h1>Helena Willow — First Encounter Brief</h1>
+          <p>Helena Willow is a spiritual guide, author, and course creator based in Gothenburg, Sweden. Her work bridges ancient wisdom traditions with contemporary therapeutic practices, creating spaces where people can reconnect with their authentic selves.</p>
+
+          <h2>Voice & Tone</h2>
+          <p>Warm, grounded, and direct. Helena writes as someone who has walked the path and now holds the lantern for others. Her voice carries authority without being authoritarian — she invites rather than instructs.</p>
+
+          <h2>Core Themes</h2>
+          <ul>
+            <li>Spiritual development as a practical discipline, not abstract philosophy</li>
+            <li>The body as a gateway to spiritual awareness</li>
+            <li>Integration of shadow work and light work</li>
+            <li>Community and connection in the healing journey</li>
+          </ul>
+
+          <h2>Audience</h2>
+          <p>Women aged 35–55 who have achieved external success but feel an inner call to deeper meaning. They are often at a crossroads — career transition, relationship shift, health challenge — and are looking for guidance that honors both their intelligence and their intuition.</p>
+
+          <h2>What She Offers</h2>
+          <ul>
+            <li>1-on-1 spiritual guidance sessions (online and in-person)</li>
+            <li>Group courses on seasonal spiritual practices</li>
+            <li>Written guides and blog posts on her website</li>
+            <li>Community gatherings in Gothenburg</li>
+          </ul>
+
+          <h2>Brand Positioning</h2>
+          <p>Helena occupies a space between traditional therapy and new-age spirituality. She's more grounded than most spiritual coaches — her background in psychology gives her work clinical rigor — but more open to mystery than most therapists. This positioning is her strength and should be protected.</p>
+        </div>
+      </div>
+
+      <!-- Right: WP Target -->
+      <div class="kl-split-pane" style="background:var(--bg-surface);">
+        <span class="kl-split-label">Target — WordPress Post Preview</span>
+
+        <div class="kl-field-group" style="margin-bottom:18px;">
+          <label class="kl-field-label">Post Title</label>
+          <input type="text" class="kl-field-input" value="Helena Willow — First Encounter Brief" style="width:100%; font-size:1rem; padding:10px 14px;" />
+        </div>
+
+        <div class="kl-field-group" style="margin-bottom:18px;">
+          <label class="kl-field-label">Excerpt</label>
+          <textarea class="kl-field-textarea" rows="2" style="width:100%;">Helena Willow is a spiritual guide and author based in Sweden. Her work bridges ancient wisdom with contemporary therapeutic practice.</textarea>
+        </div>
+
+        <div class="kl-field-group">
+          <label class="kl-field-label">Content Preview (Gutenberg Blocks)</label>
+          <div style="background:var(--bg-raised); border:1px solid var(--border-default); border-radius:6px; padding:20px; font-size:.875rem; line-height:1.7; color:var(--text-secondary); max-height:400px; overflow-y:auto;">
+            <!-- Simulated block preview -->
+            <div style="border-left:3px solid var(--border-default); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/heading</div>
+              <h2 style="font-family:var(--font-display); font-size:1.125rem; font-weight:700; color:var(--text-primary); margin:0;">Helena Willow — First Encounter Brief</h2>
+            </div>
+            <div style="border-left:3px solid var(--border-default); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/paragraph</div>
+              <p style="margin:0;">Helena Willow is a spiritual guide, author, and course creator based in Gothenburg, Sweden…</p>
+            </div>
+            <div style="border-left:3px solid var(--accent); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/heading (h2)</div>
+              <h3 style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--text-primary); margin:0;">Voice & Tone</h3>
+            </div>
+            <div style="border-left:3px solid var(--border-default); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/paragraph</div>
+              <p style="margin:0;">Warm, grounded, and direct. Helena writes as someone who has walked the path…</p>
+            </div>
+            <div style="border-left:3px solid var(--accent); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/heading (h2)</div>
+              <h3 style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--text-primary); margin:0;">Core Themes</h3>
+            </div>
+            <div style="border-left:3px solid var(--type-course); padding-left:14px; margin-bottom:16px;">
+              <div style="font-size:.625rem; font-family:var(--font-mono); color:var(--type-course); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">core/list</div>
+              <ul style="padding-left:18px; margin:0;">
+                <li>Spiritual development as a practical discipline…</li>
+                <li>The body as a gateway to spiritual awareness</li>
+                <li>Integration of shadow work and light work</li>
+                <li>Community and connection in the healing journey</li>
+              </ul>
+            </div>
+            <div style="text-align:center; padding:12px; color:var(--text-muted); font-size:.75rem; font-family:var(--font-mono);">
+              … 6 more blocks
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/kl-admin.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+.light .we-bottom-nav{background:rgba(234,230,223,0.97);border-top-color:rgba(50,44,36,0.12);}
+.light .we-nav-label{color:rgba(50,44,36,0.30);}
+.light .we-nav-sep{background:rgba(50,44,36,0.12);}
+.light .we-bottom-nav a{color:rgba(50,44,36,0.55);}
+.light .we-bottom-nav a:hover{color:rgba(50,44,36,1);}
+.light .we-bottom-nav a.we-active{color:#7A5C10;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">KL Admin</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="documents.html">Documents</a>
+    <a href="document-detail.html">Detail</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="observations.html">Observations</a>
+    <a href="tags.html">Tags</a>
+    <a href="publish-sidebar.html">Pub:Side</a>
+    <a href="publish-modal.html">Pub:Modal</a>
+    <a href="publish-fullpage.html" class="we-active">Pub:Full</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('kl-admin-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('kl-admin-theme');if(saved)setMode(saved);})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sessions — Knowledge Layer Admin</title>
+  <link rel="stylesheet" href="css/kl-admin.css" />
+  <link rel="stylesheet" href="css/kl-light.css" />
+</head>
+<body>
+
+<div class="kl-shell">
+  <nav class="kl-sidebar">
+    <div class="kl-sidebar-brand"><h2>Abilities for AI</h2><h1><span class="dot"></span>Knowledge Layer</h1></div>
+    <div class="kl-nav">
+      <a href="dashboard.html" class="kl-nav-item"><span class="kl-nav-icon">◫</span> Dashboard</a>
+      <a href="documents.html" class="kl-nav-item"><span class="kl-nav-icon">◧</span> Documents</a>
+      <a href="sessions.html" class="kl-nav-item active"><span class="kl-nav-icon">▤</span> Sessions</a>
+      <a href="observations.html" class="kl-nav-item"><span class="kl-nav-icon">◉</span> Observations</a>
+      <a href="tags.html" class="kl-nav-item"><span class="kl-nav-icon">⬡</span> Tags</a>
+    </div>
+    <div class="kl-sidebar-footer">v0.1.0 · abilities-for-ai</div>
+  </nav>
+
+  <div class="kl-main">
+    <div class="kl-page-header">
+      <h1 class="kl-page-title">Sessions</h1>
+      <span class="spacer"></span>
+      <span style="font-family:var(--font-mono); font-size:.75rem; color:var(--text-muted);">Append-only · Read-only log</span>
+    </div>
+
+    <div class="kl-toolbar">
+      <select class="kl-filter">
+        <option value="">All Agent Types</option>
+        <option>diagnostician</option>
+        <option>publisher</option>
+        <option>designer</option>
+        <option>maintainer</option>
+        <option>operator</option>
+      </select>
+      <select class="kl-filter">
+        <option value="">All Time</option>
+        <option>Last 7 days</option>
+        <option>Last 30 days</option>
+        <option>Last 90 days</option>
+      </select>
+    </div>
+
+    <div class="kl-table-wrap">
+      <table class="kl-table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Agent</th>
+            <th>Model</th>
+            <th>Started</th>
+            <th>Duration</th>
+            <th>Summary</th>
+            <th>Obs.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-expand="expand-1">
+            <td class="kl-cell-mono">#a3f8c1</td>
+            <td><span class="kl-badge badge-agent-type">diagnostician</span></td>
+            <td class="kl-cell-mono kl-cell-muted">claude-opus-4-6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 17, 14:22</td>
+            <td class="kl-cell-mono kl-cell-muted">24 min</td>
+            <td style="max-width:300px;">Ran health check and content structure. Updated Initial Read to v0.3.0.</td>
+            <td class="kl-cell-mono">2</td>
+          </tr>
+          <tr class="kl-expand-row" id="expand-1" style="display:none;">
+            <td colspan="7">
+              <div class="kl-expand-content">
+                <strong>Summary</strong>
+                Ran health check and content structure protocols on helenawillow.com. Updated Initial Read Protocol to v0.3.0 with plugin audit step. Identified 2 observations.
+                <strong>Protocols Run</strong>
+                health-check, content-structure, plugin-audit
+                <strong>Documents Modified</strong>
+                Initial Read Protocol (v0.2.0 → v0.3.0), Health Check — helenawillow.com (created)
+                <strong>Findings</strong>
+                Site running WordPress 6.7 with Flavor theme. 47 published pages. FluentCRM 3.0 active. Object cache not detected.
+                <strong>What's Next</strong>
+                Run theme-design and story-read protocols to complete Introduction Course. Consider adding cache detection to health check protocol.
+              </div>
+            </td>
+          </tr>
+
+          <tr data-expand="expand-2">
+            <td class="kl-cell-mono">#7b2e09</td>
+            <td><span class="kl-badge badge-agent-type">diagnostician</span></td>
+            <td class="kl-cell-mono kl-cell-muted">claude-opus-4-6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5, 10:15</td>
+            <td class="kl-cell-mono kl-cell-muted">18 min</td>
+            <td style="max-width:300px;">First content structure protocol. Updated Initial Read to v0.2.0.</td>
+            <td class="kl-cell-mono">1</td>
+          </tr>
+          <tr class="kl-expand-row" id="expand-2" style="display:none;">
+            <td colspan="7">
+              <div class="kl-expand-content">
+                <strong>Summary</strong>
+                First run of content structure protocol on helenawillow.com. Mapped 47 pages, 3 custom post types, 8 taxonomies. Updated Initial Read Protocol with taxonomy discovery step.
+                <strong>Protocols Run</strong>
+                content-structure
+                <strong>Documents Modified</strong>
+                Initial Read Protocol (v0.1.0 → v0.2.0), Content Structure — helenawillow.com (created)
+                <strong>Findings</strong>
+                Rich taxonomy structure with 8 registered taxonomies. Custom post types: course, testimonial, service. No orphan pages detected.
+                <strong>What's Next</strong>
+                Continue Introduction Course — health check, theme-design, and story-read protocols remaining.
+              </div>
+            </td>
+          </tr>
+
+          <tr data-expand="expand-3">
+            <td class="kl-cell-mono">#e1d4a7</td>
+            <td><span class="kl-badge badge-agent-type">diagnostician</span></td>
+            <td class="kl-cell-mono kl-cell-muted">claude-opus-4-6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1, 09:00</td>
+            <td class="kl-cell-mono kl-cell-muted">8 min</td>
+            <td style="max-width:300px;">Bootstrap session — first connection. Built site identity from discovery.</td>
+            <td class="kl-cell-mono">0</td>
+          </tr>
+          <tr class="kl-expand-row" id="expand-3" style="display:none;">
+            <td colspan="7">
+              <div class="kl-expand-content">
+                <strong>Summary</strong>
+                First connection to helenawillow.com. Bootstrap sequence triggered. Built initial site identity document from WordPress discovery calls. No observations — everything nominal.
+                <strong>Protocols Run</strong>
+                bootstrap
+                <strong>Documents Modified</strong>
+                Helena Willow — Site Identity (created), Capabilities manifest (created)
+                <strong>Findings</strong>
+                WordPress 6.7 on PHP 8.3. Flavor theme. 14 active plugins including FluentCRM 3.0, FluentCommunity 1.2, FluentForms 5.1.
+                <strong>What's Next</strong>
+                Begin Introduction Course — run Initial Read Protocol.
+              </div>
+            </td>
+          </tr>
+
+          <tr data-expand="expand-4">
+            <td class="kl-cell-mono">#f9c2b3</td>
+            <td><span class="kl-badge badge-agent-type">publisher</span></td>
+            <td class="kl-cell-mono kl-cell-muted">claude-opus-4-6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 15, 16:40</td>
+            <td class="kl-cell-mono kl-cell-muted">32 min</td>
+            <td style="max-width:300px;">Published ESSENCE as First Encounter Brief on helenawillow.com blog.</td>
+            <td class="kl-cell-mono">1</td>
+          </tr>
+          <tr class="kl-expand-row" id="expand-4" style="display:none;">
+            <td colspan="7">
+              <div class="kl-expand-content">
+                <strong>Summary</strong>
+                Human-directed publish session. Took the ESSENCE document, applied First Encounter Brief template, and published as a blog post. Human confirmed excerpt and categories before publish.
+                <strong>Protocols Run</strong>
+                (none — manual workflow)
+                <strong>Documents Modified</strong>
+                Helena Willow — ESSENCE (updated wp_post_id in metadata)
+                <strong>Findings</strong>
+                Publish flow worked end-to-end. Markdown-to-blocks conversion handled 4 headings, 2 lists, and 1 callout block correctly. Image block skipped (no featured image set).
+                <strong>What's Next</strong>
+                Set featured image for the published post. Consider publishing the site identity document as an About page update.
+              </div>
+            </td>
+          </tr>
+
+          <tr data-expand="expand-5">
+            <td class="kl-cell-mono">#82ab5d</td>
+            <td><span class="kl-badge badge-agent-type">maintainer</span></td>
+            <td class="kl-cell-mono kl-cell-muted">claude-opus-4-6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 14, 11:00</td>
+            <td class="kl-cell-mono kl-cell-muted">12 min</td>
+            <td style="max-width:300px;">Scheduled task audit. Found 3 orphaned cron events.</td>
+            <td class="kl-cell-mono">3</td>
+          </tr>
+          <tr class="kl-expand-row" id="expand-5" style="display:none;">
+            <td colspan="7">
+              <div class="kl-expand-content">
+                <strong>Summary</strong>
+                Ran scheduled task audit as part of system lane. Found 3 orphaned cron events from deactivated plugins. Logged as observations for human review.
+                <strong>Protocols Run</strong>
+                scheduled-tasks
+                <strong>Documents Modified</strong>
+                (none)
+                <strong>Findings</strong>
+                3 orphaned cron events: old-seo-plugin_check, backup_daily_old, newsletter_send_legacy. All safe to remove but require human confirmation.
+                <strong>What's Next</strong>
+                Human to confirm cron cleanup. Then continue system lane with cache and security checks.
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kl-pagination">
+      <span class="kl-pagination-info">Showing 1–5 of 5</span>
+      <div class="kl-pagination-pages">
+        <button class="kl-page-btn active">1</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/kl-admin.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+.light .we-bottom-nav{background:rgba(234,230,223,0.97);border-top-color:rgba(50,44,36,0.12);}
+.light .we-nav-label{color:rgba(50,44,36,0.30);}
+.light .we-nav-sep{background:rgba(50,44,36,0.12);}
+.light .we-bottom-nav a{color:rgba(50,44,36,0.55);}
+.light .we-bottom-nav a:hover{color:rgba(50,44,36,1);}
+.light .we-bottom-nav a.we-active{color:#7A5C10;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">KL Admin</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="documents.html">Documents</a>
+    <a href="document-detail.html">Detail</a>
+    <a href="sessions.html" class="we-active">Sessions</a>
+    <a href="observations.html">Observations</a>
+    <a href="tags.html">Tags</a>
+    <a href="publish-sidebar.html">Pub:Side</a>
+    <a href="publish-modal.html">Pub:Modal</a>
+    <a href="publish-fullpage.html">Pub:Full</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('kl-admin-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('kl-admin-theme');if(saved)setMode(saved);})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohort 360 · Priestess · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+<style>
+/* ═══════════════════════════════════════════
+   BRAND TOKENS
+   ═══════════════════════════════════════════ */
+:root {
+  --y:  #FFEE58; --g:  #22c55e; --p:  #7c3aed; --pl: #a78bfa;
+  --yd: rgba(255,238,88,0.07);  --yb: rgba(255,238,88,0.17);
+  --gd: rgba(34,197,94,0.07);   --gb: rgba(34,197,94,0.17);
+  --pd: rgba(124,58,237,0.07);  --pb: rgba(124,58,237,0.16);
+  --fd:'Syne',sans-serif; --fb:'Manrope',system-ui,sans-serif; --fm:'JetBrains Mono',monospace;
+}
+[data-theme="dark"] {
+  --bg:#111111; --bg2:#161616; --text:#E0DDD5;
+  --t2:rgba(224,221,213,0.50); --t3:rgba(224,221,213,0.22); --t4:rgba(224,221,213,0.09);
+  --card:rgba(255,255,255,0.025); --border:rgba(255,255,255,0.055); --bordh:rgba(255,255,255,0.11);
+}
+[data-theme="light"] {
+  --bg:#F5F4F0; --bg2:#ECEAE4; --text:#1a1a18;
+  --t2:rgba(26,26,24,0.55); --t3:rgba(26,26,24,0.30); --t4:rgba(26,26,24,0.10);
+  --card:rgba(255,255,255,0.75); --border:rgba(0,0,0,0.09); --bordh:rgba(0,0,0,0.16);
+  --yd:rgba(255,238,88,0.10); --yb:rgba(255,238,88,0.22);
+  --gd:rgba(34,197,94,0.08);  --gb:rgba(34,197,94,0.20);
+  --pd:rgba(124,58,237,0.06); --pb:rgba(124,58,237,0.18);
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh;}
+
+/* ═══════════════════════════════════════════
+   TOP BAR
+   ═══════════════════════════════════════════ */
+.top-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:52px;backdrop-filter:blur(12px);transition:background .3s,border-color .3s;}
+.top-bar-brand{font-family:var(--fd);font-size:.85rem;font-weight:800;letter-spacing:-.02em;color:var(--text);}
+.top-bar-brand span{color:var(--pl);}
+.top-bar-right{display:flex;align-items:center;gap:16px;}
+.top-bar-pill{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
+.theme-btn{display:flex;align-items:center;gap:7px;cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:5px 14px 5px 10px;font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;transition:all .2s;user-select:none;}
+.theme-btn:hover{border-color:var(--bordh);color:var(--text);}
+.theme-dot{width:7px;height:7px;border-radius:50%;background:var(--y);flex-shrink:0;transition:background .3s;}
+[data-theme="light"] .theme-dot{background:var(--p);}
+
+/* ═══════════════════════════════════════════
+   PAGE LAYOUT
+   ═══════════════════════════════════════════ */
+.page{max-width:1060px;margin:0 auto;padding:60px 40px 120px;}
+
+/* ═══════════════════════════════════════════
+   PAGE HEADER
+   ═══════════════════════════════════════════ */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--pb);color:var(--pl);padding:5px 16px;border-radius:100px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;}
+.ebdot{width:5px;height:5px;background:var(--pl);border-radius:50%;animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.page-title{font-family:var(--fd);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.045em;line-height:1.05;margin-bottom:14px;}
+.page-title em{font-style:normal;color:var(--g);}
+.page-sub{font-size:16px;font-weight:300;color:var(--t2);max-width:540px;line-height:1.8;margin-bottom:14px;}
+hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--p),transparent);opacity:.28;max-width:90px;margin-bottom:52px;}
+
+/* ═══════════════════════════════════════════
+   METRIC CARDS GRID
+   ═══════════════════════════════════════════ */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px;}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 24px;}
+.metric-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:8px;}
+.metric-value{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px;}
+.metric-sub{font-family:var(--fm);font-size:10px;color:var(--t3);}
+.mv-g{color:var(--g);} .mv-p{color:var(--pl);} .mv-y{color:var(--y);} .mv-w{color:var(--text);}
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+   ═══════════════════════════════════════════ */
+.section-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--pl);margin:40px 0 14px;}
+.section-label--g{color:rgba(34,197,94,.6);}
+.section-label--y{color:rgba(255,238,88,.6);}
+
+/* ═══════════════════════════════════════════
+   ARCHETYPE GRID
+   ═══════════════════════════════════════════ */
+.arch-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:2px;}
+.arch-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;text-align:center;}
+.arch-name{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;}
+.arch-num{font-family:var(--fd);font-size:1.8rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:3px;}
+.arch-pct{font-family:var(--fm);font-size:9px;color:var(--t3);}
+
+/* ═══════════════════════════════════════════
+   CHARTS ROW
+   ═══════════════════════════════════════════ */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
+.chart-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px 28px;}
+.chart-title{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:20px;}
+.chart-wrap{position:relative;width:100%;height:240px;}
+
+/* ═══════════════════════════════════════════
+   ENTRY PATH BARS
+   ═══════════════════════════════════════════ */
+.bar-list{display:flex;flex-direction:column;gap:14px;margin-top:4px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{font-size:12px;font-weight:300;color:var(--t2);width:160px;flex-shrink:0;line-height:1.3;}
+.bar-track{flex:1;height:8px;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.bar-n{font-family:var(--fm);font-size:11px;color:var(--t2);width:18px;text-align:right;}
+
+/* ═══════════════════════════════════════════
+   FILTER ROW
+   ═══════════════════════════════════════════ */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.filter-btn{font-family:var(--fm);font-size:10px;letter-spacing:.06em;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s;text-transform:uppercase;}
+.filter-btn:hover{border-color:var(--bordh);color:var(--text);}
+.filter-btn.active{background:var(--pd);color:var(--pl);border-color:var(--pb);}
+.filter-btn.active-g{background:var(--gd);color:var(--g);border-color:var(--gb);}
+.filter-btn.active-y{background:var(--yd);color:var(--y);border-color:var(--yb);}
+
+/* ═══════════════════════════════════════════
+   ROSTER TABLE
+   ═══════════════════════════════════════════ */
+.roster-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.roster-table{width:100%;border-collapse:collapse;font-size:13px;}
+.roster-table th{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);font-weight:400;}
+.roster-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--t2);}
+.roster-table tr:last-child td{border-bottom:none;}
+.roster-table tr:hover td{background:rgba(255,255,255,.02);}
+.td-name{font-weight:500;color:var(--text);font-size:13px;}
+.td-mono{font-family:var(--fm);font-size:11px;}
+.tag-pill{display:inline-flex;padding:2px 8px;border-radius:100px;font-family:var(--fm);font-size:9px;font-weight:500;white-space:nowrap;margin:1px;}
+.tp-p{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
+.tp-g{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
+.tp-y{background:var(--yd);color:var(--y);border:1px solid var(--yb);}
+.tp-n{background:rgba(255,255,255,.03);color:var(--t3);border:1px solid var(--border);}
+.rev-high{color:var(--pl);}
+.rev-mid{color:var(--g);}
+.open-hi{color:var(--g);}
+.open-lo{color:var(--t3);}
+
+/* ═══════════════════════════════════════════
+   FOOTER BAND
+   ═══════════════════════════════════════════ */
+.footer-band{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:72px;padding:40px 0;display:grid;grid-template-columns:repeat(4,1fr);}
+.footer-stat{padding:0 32px;border-right:1px solid var(--border);}
+.footer-stat:first-child{padding-left:0;}
+.footer-stat:last-child{border-right:none;}
+.footer-stat-n{font-family:var(--fd);font-size:2.2rem;font-weight:800;letter-spacing:-.045em;line-height:1;margin-bottom:6px;}
+.footer-stat-l{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);}
+
+/* ═══════════════════════════════════════════
+   QUOTE
+   ═══════════════════════════════════════════ */
+.quote-block{padding:60px 0 0;text-align:center;}
+.quote-text{font-family:var(--fd);font-size:clamp(1.2rem,2.2vw,1.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.25;color:var(--text);max-width:600px;margin:0 auto 14px;}
+.quote-text em{font-style:normal;color:var(--y);}
+.quote-attr{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+.fade-in{animation:fadeUp .45s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media(max-width:700px){
+  .page{padding:40px 20px 80px;}
+  .top-bar{padding:0 20px;}
+  .metric-grid{grid-template-columns:1fr 1fr;}
+  .arch-grid{grid-template-columns:repeat(3,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+  .footer-band{grid-template-columns:1fr 1fr;}
+  .footer-stat:nth-child(2){border-right:none;}
+  .footer-stat:nth-child(3){border-right:1px solid var(--border);padding-left:0;margin-top:28px;}
+  .footer-stat:nth-child(4){margin-top:28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="top-bar-brand">Wicked <span>Evolutions</span></div>
+  <div class="top-bar-right">
+    <span class="top-bar-pill">Cohort 360 · The Priestess · 24 contacts</span>
+    <div class="theme-btn" onclick="toggleTheme()">
+      <div class="theme-dot"></div>
+      <span id="theme-label">Dark</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="eyebrow"><span class="ebdot"></span>Priestess cohort · Helena site · Read-only</div>
+  <h1 class="page-title">Cohort 360<br><em>Priestess archetype.</em></h1>
+  <p class="page-sub">Full journey view — 24 contacts tagged AT_PRIESTESS_CH1_ONB or AT_PRIESTESS_CH1_ORD. All customer identifiers anonymised.</p>
+  <hr class="gl">
+
+  <!-- METRIC CARDS -->
+  <div class="metric-grid fade-in">
+    <div class="metric-card">
+      <div class="metric-label">Cohort size</div>
+      <div class="metric-value mv-w">24</div>
+      <div class="metric-sub">all subscribed</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Paid ORD</div>
+      <div class="metric-value mv-p">20</div>
+      <div class="metric-sub">4 onboarding only</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total revenue</div>
+      <div class="metric-value mv-g">117k</div>
+      <div class="metric-sub">SEK · avg 4.9k / contact</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Email open rate</div>
+      <div class="metric-value mv-y">83%</div>
+      <div class="metric-sub">15% click rate</div>
+    </div>
+  </div>
+
+  <!-- ARCHETYPE COVERAGE -->
+  <div class="section-label">Archetype journey coverage</div>
+  <div class="arch-grid fade-in">
+    <div class="arch-card">
+      <div class="arch-name">Seeress</div>
+      <div class="arch-num" style="color:#378ADD;">17</div>
+      <div class="arch-pct">71% of cohort</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-name">Healer</div>
+      <div class="arch-num" style="color:var(--g);">18</div>
+      <div class="arch-pct">75% of cohort</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-name">Witch</div>
+      <div class="arch-num" style="color:var(--y);">19</div>
+      <div class="arch-pct">79% of cohort</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-name">Priestess</div>
+      <div class="arch-num" style="color:var(--pl);">24</div>
+      <div class="arch-pct">100% of cohort</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-name">Client tag</div>
+      <div class="arch-num" style="color:var(--y);">16</div>
+      <div class="arch-pct">67% of cohort</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="section-label section-label--g">Revenue & entry path</div>
+  <div class="charts-row fade-in">
+    <div class="chart-panel">
+      <div class="chart-title">Revenue per contact (SEK) — top 20</div>
+      <div class="chart-wrap"><canvas id="revChart"></canvas></div>
+    </div>
+    <div class="chart-panel">
+      <div class="chart-title">Priestess entry path</div>
+      <div class="bar-list" id="entryBars"></div>
+
+      <div class="chart-title" style="margin-top:32px;">Repeat purchase depth</div>
+      <div class="bar-list" id="repeatBars"></div>
+    </div>
+  </div>
+
+  <!-- ROSTER -->
+  <div class="section-label section-label--y">Cohort roster</div>
+  <div class="filter-row">
+    <button class="filter-btn active" id="btn-all"    onclick="setFilter('all',this)">All (24)</button>
+    <button class="filter-btn"        id="btn-ord"    onclick="setFilter('ord',this)">Paid ORD (20)</button>
+    <button class="filter-btn"        id="btn-free"   onclick="setFilter('free',this)">ONB only (4)</button>
+    <button class="filter-btn"        id="btn-client" onclick="setFilter('client',this)">Client tag (16)</button>
+    <button class="filter-btn"        id="btn-high"   onclick="setFilter('high',this)">High value 5k+ (6)</button>
+  </div>
+  <div class="roster-wrap fade-in">
+    <table class="roster-table">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Member since</th>
+          <th>Purchases</th>
+          <th>Revenue (SEK)</th>
+          <th>Emails</th>
+          <th>Archetype path</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="roster-body"></tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER BAND -->
+  <div class="footer-band">
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--g);">5</div><div class="footer-stat-l">ability calls</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--pl);">24</div><div class="footer-stat-l">contacts analysed</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--y);">117k</div><div class="footer-stat-l">SEK total revenue</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--g);">0</div><div class="footer-stat-l">writes made</div></div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-block">
+    <div class="quote-text">87.5% purchase rate.<br><em>90% of those repeat.</em></div>
+    <div class="quote-attr" style="margin-top:16px;">Priestess cohort · get-cohort-journeys · Helena site · 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+/* ═══════════════════════════════
+   COHORT DATA — anonymised
+   ═══════════════════════════════ */
+const cohort = [
+  {id:1,  label:"Customer 01", since:"2024-11", purchases:4, rev:36092, openPct:99, notes:6,  ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:2,  label:"Customer 02", since:"2024-11", purchases:3, rev:21500, openPct:100,notes:15, ord:false, client:true,  arch:["S","H","P"]},
+  {id:3,  label:"Customer 03", since:"2024-12", purchases:2, rev:1221,  openPct:98, notes:1,  ord:true,  client:true,  arch:["W","P"]},
+  {id:4,  label:"Customer 04", since:"2024-12", purchases:3, rev:7830,  openPct:94, notes:13, ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:5,  label:"Customer 05", since:"2024-12", purchases:2, rev:0,     openPct:99, notes:0,  ord:true,  client:false, arch:["P"]},
+  {id:6,  label:"Customer 06", since:"2024-12", purchases:3, rev:7600,  openPct:62, notes:19, ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:7,  label:"Customer 07", since:"2024-12", purchases:2, rev:4750,  openPct:100,notes:0,  ord:false, client:true,  arch:["H","S","W","P"]},
+  {id:8,  label:"Customer 08", since:"2025-01", purchases:2, rev:2500,  openPct:100,notes:3,  ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:9,  label:"Customer 09", since:"2025-02", purchases:4, rev:3695,  openPct:100,notes:7,  ord:true,  client:true,  arch:["S","H","P"]},
+  {id:10, label:"Customer 10", since:"2025-02", purchases:1, rev:500,   openPct:98, notes:5,  ord:true,  client:true,  arch:["W","P"]},
+  {id:11, label:"Customer 11", since:"2025-02", purchases:3, rev:1000,  openPct:99, notes:1,  ord:true,  client:false, arch:["H","S","P"]},
+  {id:12, label:"Customer 12", since:"2025-02", purchases:3, rev:3608,  openPct:100,notes:0,  ord:true,  client:true,  arch:["H","S","W","P"]},
+  {id:13, label:"Customer 13", since:"2025-02", purchases:2, rev:1150,  openPct:62, notes:0,  ord:true,  client:false, arch:["W","P"]},
+  {id:14, label:"Customer 14", since:"2025-02", purchases:0, rev:0,     openPct:70, notes:0,  ord:false, client:true,  arch:["S","H","P"]},
+  {id:15, label:"Customer 15", since:"2025-03", purchases:3, rev:7296,  openPct:100,notes:0,  ord:true,  client:true,  arch:["H","S","W","P"]},
+  {id:16, label:"Customer 16", since:"2025-04", purchases:2, rev:0,     openPct:67, notes:0,  ord:true,  client:false, arch:["P"]},
+  {id:17, label:"Customer 17", since:"2025-04", purchases:0, rev:0,     openPct:10, notes:0,  ord:true,  client:false, arch:["P"]},
+  {id:18, label:"Customer 18", since:"2025-04", purchases:1, rev:1111,  openPct:88, notes:0,  ord:true,  client:false, arch:["P"]},
+  {id:19, label:"Customer 19", since:"2025-04", purchases:2, rev:5497,  openPct:88, notes:1,  ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:20, label:"Customer 20", since:"2025-04", purchases:0, rev:0,     openPct:18, notes:2,  ord:false, client:false, arch:["P"]},
+  {id:21, label:"Customer 21", since:"2025-06", purchases:2, rev:4247,  openPct:100,notes:8,  ord:true,  client:true,  arch:["H","W","P"]},
+  {id:22, label:"Customer 22", since:"2025-11", purchases:2, rev:5497,  openPct:95, notes:0,  ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:23, label:"Customer 23", since:"2025-11", purchases:4, rev:944,   openPct:100,notes:0,  ord:true,  client:true,  arch:["S","H","W","P"]},
+  {id:24, label:"Customer 24", since:"2025-11", purchases:3, rev:1500,  openPct:6,  notes:0,  ord:true,  client:true,  arch:["W","P"]},
+];
+
+/* ═══════════════════════════════
+   THEME TOGGLE
+   ═══════════════════════════════ */
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-label').textContent=isDark?'Light':'Dark';
+  rebuildRevChart();
+}
+
+/* ═══════════════════════════════
+   REVENUE CHART
+   ═══════════════════════════════ */
+let revChartInst = null;
+function revColor(v){
+  if(v>=10000) return '#a78bfa';
+  if(v>=3000)  return '#22c55e';
+  return '#888780';
+}
+function rebuildRevChart(){
+  const isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  const sorted = [...cohort].sort((a,b)=>b.rev-a.rev).slice(0,20);
+  if(revChartInst){ revChartInst.destroy(); }
+  revChartInst = new Chart(document.getElementById('revChart'),{
+    type:'bar',
+    data:{
+      labels: sorted.map(c=>c.label.replace('Customer ','')),
+      datasets:[{
+        data: sorted.map(c=>c.rev),
+        backgroundColor: sorted.map(c=>revColor(c.rev)),
+        borderRadius:3,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>'SEK '+ctx.parsed.y.toLocaleString()}}
+      },
+      scales:{
+        x:{ticks:{color:isDark?'rgba(224,221,213,.35)':'rgba(26,26,24,.40)',font:{size:10,family:"'JetBrains Mono'"},maxRotation:0},grid:{color:isDark?'rgba(255,255,255,.04)':'rgba(0,0,0,.05)'}},
+        y:{ticks:{color:isDark?'rgba(224,221,213,.35)':'rgba(26,26,24,.40)',font:{size:10,family:"'JetBrains Mono'"},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},grid:{color:isDark?'rgba(255,255,255,.04)':'rgba(0,0,0,.05)'}}
+      }
+    }
+  });
+}
+
+/* ═══════════════════════════════
+   ENTRY PATH BARS
+   ═══════════════════════════════ */
+function buildEntryBars(){
+  const paidPrior   = cohort.filter(c=>c.ord && c.arch.length>1 && c.rev>0).length;
+  const freeAccess  = cohort.filter(c=>c.ord && c.rev===0).length;
+  const onbNoOrd    = cohort.filter(c=>!c.ord).length;
+  const data = [
+    {label:'Paid — prior archetype', n:paidPrior, color:'#a78bfa'},
+    {label:'Free / beta access',     n:freeAccess, color:'#22c55e'},
+    {label:'ONB only, no order',     n:onbNoOrd,  color:'#FFEE58'},
+  ];
+  const max = Math.max(...data.map(d=>d.n));
+  document.getElementById('entryBars').innerHTML = data.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label">${d.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/max*100)}%;background:${d.color};"></div></div>
+      <div class="bar-n">${d.n}</div>
+    </div>`).join('');
+}
+
+function buildRepeatBars(){
+  const b1 = cohort.filter(c=>c.purchases===1).length;
+  const b2 = cohort.filter(c=>c.purchases===2).length;
+  const b3 = cohort.filter(c=>c.purchases===3).length;
+  const b4p= cohort.filter(c=>c.purchases>=4).length;
+  const b0 = cohort.filter(c=>c.purchases===0).length;
+  const data=[
+    {label:'4+ purchases',  n:b4p, color:'#a78bfa'},
+    {label:'3 purchases',   n:b3,  color:'#22c55e'},
+    {label:'2 purchases',   n:b2,  color:'rgba(34,197,94,.5)'},
+    {label:'1 purchase',    n:b1,  color:'rgba(255,255,255,.2)'},
+    {label:'No purchase',   n:b0,  color:'rgba(255,255,255,.1)'},
+  ];
+  const max=Math.max(...data.map(d=>d.n));
+  document.getElementById('repeatBars').innerHTML = data.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label">${d.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/max*100)}%;background:${d.color};"></div></div>
+      <div class="bar-n">${d.n}</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════
+   ROSTER TABLE
+   ═══════════════════════════════ */
+let activeFilter = 'all';
+function setFilter(f, btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.classList.remove('active','active-g','active-y');
+  });
+  if(f==='all')    btn.classList.add('active');
+  if(f==='ord')    btn.classList.add('active');
+  if(f==='free')   btn.classList.add('active');
+  if(f==='client') btn.classList.add('active-g');
+  if(f==='high')   btn.classList.add('active-y');
+  renderRoster();
+}
+
+function archPath(arch){
+  const colors={S:'#378ADD',H:'#22c55e',W:'#FFEE58',P:'#a78bfa'};
+  return arch.map((a,i)=>`<span style="color:${colors[a]};font-family:var(--fm);font-size:11px;">${a}</span>${i<arch.length-1?'<span style="color:var(--t3);font-size:10px;"> → </span>':''}`).join('');
+}
+
+function renderRoster(){
+  let data=[...cohort];
+  if(activeFilter==='ord')    data=data.filter(c=>c.ord);
+  if(activeFilter==='free')   data=data.filter(c=>!c.ord);
+  if(activeFilter==='client') data=data.filter(c=>c.client);
+  if(activeFilter==='high')   data=data.filter(c=>c.rev>=5000);
+  data.sort((a,b)=>b.rev-a.rev);
+
+  document.getElementById('roster-body').innerHTML = data.map(c=>{
+    const revClass = c.rev>=10000?'rev-high':c.rev>=3000?'rev-mid':'';
+    const openClass = c.openPct>=90?'open-hi':c.openPct<30?'open-lo':'';
+    const ordTag = c.ord
+      ? '<span class="tag-pill tp-p">ORD</span>'
+      : '<span class="tag-pill tp-n">ONB only</span>';
+    const clientTag = c.client ? '<span class="tag-pill tp-g">Client</span>' : '';
+    const notesTag = c.notes>0 ? `<span class="tag-pill tp-y">${c.notes} notes</span>` : '';
+    return `<tr>
+      <td class="td-name">${c.label}</td>
+      <td class="td-mono">${c.since}</td>
+      <td class="td-mono">${c.purchases}</td>
+      <td class="td-mono ${revClass}">${c.rev>0?c.rev.toLocaleString():'—'}</td>
+      <td class="td-mono ${openClass}">${c.openPct}% open</td>
+      <td>${archPath(c.arch)}</td>
+      <td>${ordTag}${clientTag}${notesTag}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   INIT
+   ═══════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  rebuildRevChart();
+  buildEntryBars();
+  buildRepeatBars();
+  renderRoster();
+});
+</script>
+</body>
+</html>

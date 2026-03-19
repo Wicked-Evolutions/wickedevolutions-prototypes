@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohort Patterns · Priestess · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+<style>
+/* ═══════════════════════════════════════════
+   BRAND TOKENS
+   ═══════════════════════════════════════════ */
+:root{
+  --y:#FFEE58;--g:#22c55e;--p:#7c3aed;--pl:#a78bfa;
+  --yd:rgba(255,238,88,0.07);--yb:rgba(255,238,88,0.17);
+  --gd:rgba(34,197,94,0.07);--gb:rgba(34,197,94,0.17);
+  --pd:rgba(124,58,237,0.07);--pb:rgba(124,58,237,0.16);
+  --fd:'Syne',sans-serif;--fb:'Manrope',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;
+}
+[data-theme="dark"]{
+  --bg:#111111;--bg2:#161616;--text:#E0DDD5;
+  --t2:rgba(224,221,213,.50);--t3:rgba(224,221,213,.22);--t4:rgba(224,221,213,.09);
+  --card:rgba(255,255,255,.025);--border:rgba(255,255,255,.055);--bordh:rgba(255,255,255,.11);
+}
+[data-theme="light"]{
+  --bg:#F5F4F0;--bg2:#ECEAE4;--text:#1a1a18;
+  --t2:rgba(26,26,24,.55);--t3:rgba(26,26,24,.30);--t4:rgba(26,26,24,.10);
+  --card:rgba(255,255,255,.75);--border:rgba(0,0,0,.09);--bordh:rgba(0,0,0,.16);
+  --yd:rgba(255,238,88,.10);--yb:rgba(255,238,88,.22);
+  --gd:rgba(34,197,94,.08);--gb:rgba(34,197,94,.20);
+  --pd:rgba(124,58,237,.06);--pb:rgba(124,58,237,.18);
+}
+
+/* ═══════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh;}
+
+/* ═══════════════════════════════════════════
+   TOP BAR
+   ═══════════════════════════════════════════ */
+.top-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:52px;backdrop-filter:blur(12px);transition:background .3s,border-color .3s;}
+.top-bar-brand{font-family:var(--fd);font-size:.85rem;font-weight:800;letter-spacing:-.02em;color:var(--text);}
+.top-bar-brand span{color:var(--pl);}
+.top-bar-right{display:flex;align-items:center;gap:16px;}
+.top-bar-pill{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
+.theme-btn{display:flex;align-items:center;gap:7px;cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:5px 14px 5px 10px;font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;transition:all .2s;user-select:none;}
+.theme-btn:hover{border-color:var(--bordh);color:var(--text);}
+.theme-dot{width:7px;height:7px;border-radius:50%;background:var(--y);flex-shrink:0;transition:background .3s;}
+[data-theme="light"] .theme-dot{background:var(--p);}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════ */
+.page{max-width:1060px;margin:0 auto;padding:60px 40px 120px;}
+
+/* HEADER */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--pb);color:var(--pl);padding:5px 16px;border-radius:100px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;}
+.ebdot{width:5px;height:5px;background:var(--pl);border-radius:50%;animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.page-title{font-family:var(--fd);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.045em;line-height:1.05;margin-bottom:14px;}
+.page-title em{font-style:normal;color:var(--g);}
+.page-sub{font-size:16px;font-weight:300;color:var(--t2);max-width:540px;line-height:1.8;margin-bottom:14px;}
+hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:.28;max-width:90px;margin-bottom:52px;}
+
+/* SECTION LABEL */
+.section-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--pl);margin:40px 0 14px;}
+.section-label--g{color:rgba(34,197,94,.6);}
+.section-label--y{color:rgba(255,238,88,.6);}
+
+/* METRIC GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px;}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 24px;}
+.metric-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:8px;}
+.metric-value{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px;}
+.metric-sub{font-family:var(--fm);font-size:10px;color:var(--t3);}
+.mv-g{color:var(--g);}.mv-p{color:var(--pl);}.mv-y{color:var(--y);}.mv-w{color:var(--text);}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;}
+
+/* PANEL */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px 28px;}
+.panel-title{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:18px;}
+
+/* CHART */
+.chart-wrap{position:relative;width:100%;}
+
+/* FUNNEL */
+.funnel-wrap{display:flex;align-items:flex-end;justify-content:space-around;gap:8px;height:140px;margin-bottom:14px;}
+.funnel-col{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
+.funnel-bar{width:100%;border-radius:5px 5px 0 0;}
+.funnel-n{font-family:var(--fd);font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--text);}
+.funnel-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);text-align:center;line-height:1.4;}
+.funnel-pct{font-family:var(--fm);font-size:10px;color:var(--pl);margin-top:2px;}
+
+/* PRODUCT TABLE */
+.prod-table{width:100%;border-collapse:collapse;font-size:12px;}
+.prod-table th{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--border);font-weight:400;}
+.prod-table td{padding:10px 12px 10px 0;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--t2);}
+.prod-table tr:last-child td{border-bottom:none;}
+.prod-name{color:var(--text);font-weight:400;}
+.prod-buyers{font-family:var(--fm);font-size:11px;text-align:center;}
+.prod-rev{font-family:var(--fm);font-size:11px;text-align:right;font-weight:500;}
+.rev-hi{color:var(--pl);}
+.rev-mid{color:var(--g);}
+
+/* TIME TO PURCHASE */
+.ttp-grid{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+.ttp-row{display:flex;align-items:center;gap:10px;}
+.ttp-label{font-size:12px;font-weight:300;color:var(--t2);width:72px;flex-shrink:0;}
+.ttp-track{flex:1;height:7px;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.ttp-fill{height:100%;border-radius:4px;}
+.ttp-val{font-family:var(--fm);font-size:11px;color:var(--text);width:64px;text-align:right;}
+
+/* EMAIL BARS */
+.email-row{display:flex;align-items:flex-end;gap:10px;height:80px;margin-top:8px;}
+.email-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.email-bar{width:100%;border-radius:4px 4px 0 0;}
+.email-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);}
+.email-pct{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em;}
+
+/* SIGNAL CHIPS */
+.signal-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.signal-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);font-size:12px;font-weight:300;color:var(--t2);}
+.chip-n{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em;}
+.chip-n-p{color:var(--pl);}
+.chip-n-g{color:var(--g);}
+.chip-n-w{color:var(--text);}
+
+/* TAG PATH */
+.path-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--border);}
+.path-row:last-child{border-bottom:none;}
+.path-tag{font-family:var(--fm);font-size:10px;padding:3px 10px;border-radius:100px;white-space:nowrap;}
+.pt-clarity{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
+.pt-cyoc{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
+.pt-seer{background:rgba(55,138,221,.08);color:#378ADD;border:1px solid rgba(55,138,221,.2);}
+.pt-witch{background:var(--yd);color:var(--y);border:1px solid var(--yb);}
+.pt-priestess{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
+.pt-sep{color:var(--t3);font-size:11px;}
+.pt-count{font-family:var(--fm);font-size:9px;color:var(--t3);margin-left:4px;}
+
+/* FOOTER BAND */
+.footer-band{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:72px;padding:40px 0;display:grid;grid-template-columns:repeat(4,1fr);}
+.footer-stat{padding:0 32px;border-right:1px solid var(--border);}
+.footer-stat:first-child{padding-left:0;}
+.footer-stat:last-child{border-right:none;}
+.footer-stat-n{font-family:var(--fd);font-size:2.2rem;font-weight:800;letter-spacing:-.045em;line-height:1;margin-bottom:6px;}
+.footer-stat-l{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);}
+
+/* QUOTE */
+.quote-block{padding:60px 0 0;text-align:center;}
+.quote-text{font-family:var(--fd);font-size:clamp(1.2rem,2.2vw,1.7rem);font-weight:800;letter-spacing:-.04em;line-height:1.22;color:var(--text);max-width:620px;margin:0 auto 14px;}
+.quote-text em{font-style:normal;color:var(--y);}
+.quote-attr{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+
+/* INSIGHTS BLOCK */
+.insight-list{display:flex;flex-direction:column;gap:2px;}
+.insight-item{padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:300;color:var(--t2);line-height:1.65;}
+.insight-item strong{color:var(--text);font-weight:500;}
+.insight-item.insight-p{border-color:var(--pb);background:linear-gradient(90deg,var(--pd),var(--card) 60%);}
+.insight-item.insight-g{border-color:var(--gb);background:linear-gradient(90deg,var(--gd),var(--card) 60%);}
+.insight-item.insight-y{border-color:var(--yb);background:linear-gradient(90deg,var(--yd),var(--card) 60%);}
+
+.fade-in{animation:fadeUp .45s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:700px){
+  .page{padding:40px 20px 80px;}
+  .top-bar{padding:0 20px;}
+  .metric-grid,.two-col,.three-col{grid-template-columns:1fr;}
+  .footer-band{grid-template-columns:1fr 1fr;}
+  .footer-stat:nth-child(2){border-right:none;}
+  .footer-stat:nth-child(3){border-right:1px solid var(--border);padding-left:0;margin-top:28px;}
+  .footer-stat:nth-child(4){margin-top:28px;}
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="top-bar-brand">Wicked <span>Evolutions</span></div>
+  <div class="top-bar-right">
+    <span class="top-bar-pill">Cohort patterns · The Priestess · get-cohort-patterns</span>
+    <div class="theme-btn" onclick="toggleTheme()">
+      <div class="theme-dot"></div>
+      <span id="theme-label">Dark</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="eyebrow"><span class="ebdot"></span>Cohort patterns · 24 contacts · all readonly</div>
+  <h1 class="page-title">Aggregate patterns.<br><em>One call.</em></h1>
+  <p class="page-sub">Purchase stats, engagement signals, funnel conversion, and tag progression paths across the full Priestess cohort. All customer identifiers anonymised.</p>
+  <hr class="gl">
+
+  <!-- TOP METRICS -->
+  <div class="metric-grid fade-in">
+    <div class="metric-card">
+      <div class="metric-label">Total revenue</div>
+      <div class="metric-value mv-p">117.5k</div>
+      <div class="metric-sub">SEK · 53 total purchases</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Unique buyers</div>
+      <div class="metric-value mv-g">21 / 24</div>
+      <div class="metric-sub">3 never purchased</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Repeat purchasers</div>
+      <div class="metric-value mv-w">19</div>
+      <div class="metric-sub">avg 2.5 purchases each</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Median to first buy</div>
+      <div class="metric-value mv-y">66</div>
+      <div class="metric-sub">days · avg 118 days</div>
+    </div>
+  </div>
+
+  <!-- FUNNEL + PRODUCTS -->
+  <div class="section-label">Conversion funnel & products</div>
+  <div class="two-col fade-in">
+
+    <!-- FUNNEL -->
+    <div class="panel">
+      <div class="panel-title">Conversion funnel</div>
+      <div class="funnel-wrap">
+        <div class="funnel-col">
+          <div class="funnel-n">24</div>
+          <div class="funnel-bar" style="height:140px;background:#AFA9EC;"></div>
+          <div class="funnel-lbl">In<br>cohort</div>
+        </div>
+        <div class="funnel-col">
+          <div class="funnel-n">24</div>
+          <div class="funnel-bar" style="height:140px;background:#5DCAA5;"></div>
+          <div class="funnel-lbl">Email<br>opened</div>
+        </div>
+        <div class="funnel-col">
+          <div class="funnel-n">24</div>
+          <div class="funnel-bar" style="height:140px;background:#5DCAA5;"></div>
+          <div class="funnel-lbl">Any<br>event</div>
+        </div>
+        <div class="funnel-col">
+          <div class="funnel-n">21</div>
+          <div class="funnel-bar" style="height:122px;background:#7F77DD;"></div>
+          <div class="funnel-lbl">1+<br>purchase</div>
+          <div class="funnel-pct">87.5%</div>
+        </div>
+        <div class="funnel-col">
+          <div class="funnel-n">19</div>
+          <div class="funnel-bar" style="height:110px;background:#534AB7;"></div>
+          <div class="funnel-lbl">Repeat<br>buyer</div>
+          <div class="funnel-pct">90.5%</div>
+        </div>
+      </div>
+      <div style="font-family:var(--fm);font-size:10px;color:var(--t3);text-align:center;line-height:1.8;">
+        100% opened email · 100% triggered an event<br>
+        <span style="color:var(--g);">87.5%</span> purchased · <span style="color:var(--pl);">90.5%</span> of buyers repeat
+      </div>
+    </div>
+
+    <!-- PRODUCT TABLE -->
+    <div class="panel">
+      <div class="panel-title">Products by buyers & revenue</div>
+      <table class="prod-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th style="text-align:center;">Buyers</th>
+            <th style="text-align:right;">Revenue (SEK)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="prod-name">Apprenticeship Path</td><td class="prod-buyers">2</td><td class="prod-rev rev-hi">40,000</td></tr>
+          <tr><td class="prod-name">Seeress & Healer</td><td class="prod-buyers">7</td><td class="prod-rev rev-hi">18,395</td></tr>
+          <tr><td class="prod-name">The Priestess (paid)</td><td class="prod-buyers">11</td><td class="prod-rev rev-mid">17,227</td></tr>
+          <tr><td class="prod-name">The Witch</td><td class="prod-buyers">11</td><td class="prod-rev rev-mid">15,088</td></tr>
+          <tr><td class="prod-name">1:1 Coaching</td><td class="prod-buyers">2</td><td class="prod-rev rev-mid">12,333</td></tr>
+          <tr><td class="prod-name">The Healer</td><td class="prod-buyers">4</td><td class="prod-rev">6,500</td></tr>
+          <tr><td class="prod-name">1:1 Mentorship</td><td class="prod-buyers">3</td><td class="prod-rev">6,195</td></tr>
+          <tr><td class="prod-name">Community & Ceremonies</td><td class="prod-buyers">1</td><td class="prod-rev">2,000</td></tr>
+          <tr><td class="prod-name">The Priestess (free/auto)</td><td class="prod-buyers">5</td><td class="prod-rev" style="color:var(--t3);">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TIME TO PURCHASE + EMAIL -->
+  <div class="section-label section-label--g">Time to purchase & email engagement</div>
+  <div class="two-col fade-in">
+
+    <div class="panel">
+      <div class="panel-title">Time to first purchase</div>
+      <div class="ttp-grid">
+        <div class="ttp-row">
+          <div class="ttp-label">Median</div>
+          <div class="ttp-track"><div class="ttp-fill" style="width:15%;background:var(--pl);"></div></div>
+          <div class="ttp-val" style="color:var(--pl);">66 days</div>
+        </div>
+        <div class="ttp-row">
+          <div class="ttp-label">Average</div>
+          <div class="ttp-track"><div class="ttp-fill" style="width:27%;background:#AFA9EC;"></div></div>
+          <div class="ttp-val" style="color:#AFA9EC;">118 days</div>
+        </div>
+        <div class="ttp-row">
+          <div class="ttp-label">Fastest</div>
+          <div class="ttp-track"><div class="ttp-fill" style="width:1%;background:var(--g);"></div></div>
+          <div class="ttp-val" style="color:var(--g);">day 0</div>
+        </div>
+        <div class="ttp-row">
+          <div class="ttp-label">Slowest</div>
+          <div class="ttp-track"><div class="ttp-fill" style="width:100%;background:var(--border);"></div></div>
+          <div class="ttp-val" style="color:var(--t3);">438 days</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--fm);font-size:10px;color:var(--t3);line-height:1.7;">
+        Negative minimum (−241 days) = Apprenticeship Path purchase predates CRM record. Skews average up significantly — median is the reliable signal.
+      </div>
+
+      <!-- EMAIL MINI -->
+      <div class="panel-title" style="margin-top:24px;">Email engagement · 1,419 sent</div>
+      <div class="email-row">
+        <div class="email-bar-wrap">
+          <div class="email-pct" style="color:var(--t2);">100%</div>
+          <div class="email-bar" style="height:60px;background:#AFA9EC;"></div>
+          <div class="email-lbl">Sent</div>
+        </div>
+        <div class="email-bar-wrap">
+          <div class="email-pct" style="color:var(--pl);">83.4%</div>
+          <div class="email-bar" style="height:50px;background:#7F77DD;"></div>
+          <div class="email-lbl">Opened</div>
+        </div>
+        <div class="email-bar-wrap">
+          <div class="email-pct" style="color:var(--g);">14.9%</div>
+          <div class="email-bar" style="height:9px;background:var(--g);"></div>
+          <div class="email-lbl">Clicked</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVENUE CHART -->
+    <div class="panel">
+      <div class="panel-title">Revenue distribution (SEK buckets)</div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="revDistChart"></canvas></div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+        <div class="panel-title">Average purchases per buyer</div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <div style="font-family:var(--fd);font-size:2.6rem;font-weight:800;letter-spacing:-.045em;color:var(--g);">2.5×</div>
+          <div style="font-size:14px;font-weight:300;color:var(--t2);line-height:1.5;">across 21 buyers.<br>19 of those repeat.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGAGEMENT SIGNALS -->
+  <div class="section-label section-label--y">Pre-purchase engagement signals</div>
+  <div class="panel fade-in">
+    <div class="panel-title">Ranked by occurrences across cohort before first purchase</div>
+    <div class="signal-wrap">
+      <div class="signal-chip"><span class="chip-n chip-n-p">49</span> course enrolled</div>
+      <div class="signal-chip"><span class="chip-n chip-n-p">17</span> tag applied</div>
+      <div class="signal-chip"><span class="chip-n chip-n-w">16</span> contact signup</div>
+      <div class="signal-chip"><span class="chip-n chip-n-w">15</span> WP user created</div>
+      <div class="signal-chip"><span class="chip-n chip-n-g">14</span> community profile</div>
+      <div class="signal-chip"><span class="chip-n chip-n-g">13</span> community comment</div>
+      <div class="signal-chip"><span class="chip-n chip-n-g">9</span> group call booking</div>
+      <div class="signal-chip"><span class="chip-n chip-n-w">6</span> community post</div>
+      <div class="signal-chip"><span class="chip-n chip-n-w">3</span> space joined</div>
+      <div class="signal-chip"><span class="chip-n chip-n-w">2</span> 1:1 booking</div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:14px;font-weight:300;color:var(--t2);line-height:1.7;max-width:680px;">
+      <strong style="color:var(--text);font-weight:500;">Course enrollment is the dominant pre-purchase signal (49×).</strong> This cohort commits to learning first, then buys. Community activity (comments + posts) and group call bookings are the next strongest warmth signals — watch for these clustering together as a conversion predictor.
+    </div>
+  </div>
+
+  <!-- TAG PROGRESSION -->
+  <div class="section-label">Common tag progression paths</div>
+  <div class="panel fade-in">
+    <div class="panel-title">Structural pattern visible across all 24 unique paths</div>
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid var(--border);">
+        <span class="path-tag pt-clarity">CLARITY_ONB</span>
+        <span class="pt-sep">→</span>
+        <span class="path-tag pt-cyoc">CYOC / wwintense</span>
+        <span class="pt-sep">→</span>
+        <span class="path-tag pt-seer">AT_SEER / AT_HEAL</span>
+        <span class="pt-sep">→</span>
+        <span class="path-tag pt-witch">AT_WITCH</span>
+        <span class="pt-sep">→</span>
+        <span class="path-tag pt-priestess">AT_PRIESTESS</span>
+        <span class="pt-count">dominant structure</span>
+      </div>
+    </div>
+    <div style="font-size:14px;font-weight:300;color:var(--t2);line-height:1.75;max-width:680px;">
+      <strong style="color:var(--text);font-weight:500;">Every path is unique — no two contacts share the exact same tag sequence.</strong> The structural pattern (CLARITY → CYOC → Seer/Healer → Witch → Priestess) is visible but with significant variation in ordering and skips. Witch is the most common immediate predecessor to Priestess. CLARITY_ONB and CYOC are near-universal entry points. 5 contacts entered via free access without a full archetype path.
+    </div>
+  </div>
+
+  <!-- KEY INSIGHTS -->
+  <div class="section-label section-label--g">Key insights</div>
+  <div class="insight-list fade-in">
+    <div class="insight-item insight-p">
+      <strong>Apprenticeship Path skews revenue.</strong> Two buyers, 40k SEK — 34% of total cohort revenue from one product. Strip those two out and the Priestess archetype product sits at 17.2k across 11 buyers (~1,565 SEK average ticket). Both revenue pictures are true; present them separately when making decisions.
+    </div>
+    <div class="insight-item insight-g">
+      <strong>87.5% purchase rate is exceptional, and 90.5% of those repeat.</strong> Once contacts are in, they keep buying. The 3 non-buyers are genuinely unusual for this cohort — two have low open rates (&lt;20%) suggesting disengagement; one is actively booking calls but has not purchased.
+    </div>
+    <div class="insight-item insight-y">
+      <strong>Median 66 days to first purchase, but average 118 days.</strong> A small number of slow converters pull the mean up significantly. The fastest entered and bought same-day (likely already knew the brand); the longest took over a year. Don't anchor campaigns on the average — the median is the operative conversion window.
+    </div>
+    <div class="insight-item insight-g">
+      <strong>Course enrollment (49×) is the clearest pre-purchase signal.</strong> When combined with community comments and a group call booking in the same window, this cluster is likely the highest-confidence purchase predictor available in the data.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-band">
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--g);">53</div><div class="footer-stat-l">total purchases</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--pl);">90.5%</div><div class="footer-stat-l">repeat buyer rate</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--y);">83.4%</div><div class="footer-stat-l">email open rate</div></div>
+    <div class="footer-stat"><div class="footer-stat-n" style="color:var(--g);">66</div><div class="footer-stat-l">days median to buy</div></div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-block">
+    <div class="quote-text">
+      They learn first.<br>
+      They buy second.<br>
+      <em>Then they don't stop.</em>
+    </div>
+    <div class="quote-attr" style="margin-top:16px;">Priestess cohort · get-cohort-patterns · Helena site · 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-label').textContent=isDark?'Light':'Dark';
+  buildRevDistChart();
+}
+
+let revDistChartInst=null;
+function buildRevDistChart(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  const tick={color:isDark?'rgba(224,221,213,.35)':'rgba(26,26,24,.40)',font:{size:10,family:"'JetBrains Mono'"}};
+  const grid={color:isDark?'rgba(255,255,255,.04)':'rgba(0,0,0,.05)'};
+  if(revDistChartInst)revDistChartInst.destroy();
+  revDistChartInst=new Chart(document.getElementById('revDistChart'),{
+    type:'bar',
+    data:{
+      labels:['0','1–999','1k–2.9k','3k–4.9k','5k–9.9k','10k+'],
+      datasets:[{
+        label:'Contacts',
+        data:[3,4,5,5,4,3],
+        backgroundColor:['rgba(255,255,255,.12)','rgba(255,255,255,.18)','rgba(34,197,94,.35)','rgba(34,197,94,.55)','rgba(167,139,250,.55)','rgba(167,139,250,.9)'],
+        borderRadius:4,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y+' contacts'}}},
+      scales:{
+        x:{ticks:{...tick,maxRotation:0},grid},
+        y:{ticks:{...tick,stepSize:1},grid,beginAtZero:true}
+      }
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded',buildRevDistChart);
+</script>
+</body>
+</html>

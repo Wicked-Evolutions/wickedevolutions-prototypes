@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnostician Agent — Wicked Evolutions Docs</title>
+  <link rel="stylesheet" href="css/docs.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Documentation</span>
+  <nav class="topbar-nav"><a href="#">Blog</a><a href="#">GitHub</a><a href="#">Community</a><span class="topbar-version">v1.5.0</span><button class="theme-toggle" id="theme-toggle" title="Toggle light/dark"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button></nav>
+</header>
+
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="agent-diagnostician.html" class="nav-item active"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+      <span class="nav-section-label" style="margin-top:.75rem">Agents</span>
+      <a href="agent-diagnostician.html" class="nav-item level-2 active">Diagnostician</a>
+      <a href="#" class="nav-item level-2">Publisher</a>
+      <a href="#" class="nav-item level-2">Designer</a>
+      <a href="#" class="nav-item level-2">Maintainer</a>
+      <a href="#" class="nav-item level-2">Operator</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="content-with-toc">
+      <article class="article">
+        <div class="breadcrumb"><a href="index.html">Docs</a><span class="sep">›</span><a href="#">Agents</a><span class="sep">›</span><span class="current">Diagnostician</span></div>
+
+        <header class="post-header">
+          <div class="post-meta">
+            <span class="category-badge badge-agent">Agent</span>
+            <span class="perm-badge perm-read-only">Read-Only</span>
+            <span class="post-date">updated 2026-03-05</span>
+          </div>
+          <h1>Diagnostician</h1>
+          <p class="post-tagline">A structured read-only agent for site investigation, health assessment, and diagnostic reporting. Never writes. Never guesses.</p>
+          <div class="tag-list">
+            <a href="#" class="tag">read-only</a>
+            <a href="#" class="tag">diagnostic</a>
+            <a href="#" class="tag">system</a>
+            <a href="#" class="tag">content</a>
+            <a href="#" class="tag">structure</a>
+          </div>
+        </header>
+
+        <h2 id="description">Agent Description</h2>
+        <p>The Diagnostician is an AI agent configured to operate in read-only mode on any WordPress site running the Abilities API. Its purpose is investigation and reporting — not execution. It can answer questions about the state of a site, surface problems, and map structure, but it cannot create, update, or delete anything.</p>
+        <p>The Diagnostician is the right agent to launch when you're entering an unknown site, troubleshooting an unexpected behavior, or want a second pair of eyes on content or system structure before making changes.</p>
+
+        <h2 id="lanes">Lanes</h2>
+        <p>The Diagnostician operates across three diagnostic lanes in sequence:</p>
+        <div class="lane-chips">
+          <span class="lane-chip lane-content">Content</span>
+          <span class="lane-chip lane-structure">Structure</span>
+          <span class="lane-chip lane-system">System</span>
+        </div>
+        <div class="ability-table-wrap" style="margin-top:1rem">
+          <table class="ability-table">
+            <thead><tr><th>Lane</th><th>Focus</th><th>Key Abilities</th></tr></thead>
+            <tbody>
+              <tr><td><span class="lane-chip lane-system" style="font-size:.65rem">System</span></td><td>Site health, PHP/WP versions, active plugins, cron state</td><td><span class="ability-name" style="font-size:.72rem">site-health/status, plugins/list, cron/list-events</span></td></tr>
+              <tr><td><span class="lane-chip lane-content" style="font-size:.65rem">Content</span></td><td>Post types, content map, taxonomy structure, recent posts</td><td><span class="ability-name" style="font-size:.72rem">content/discover-types, content/get-site-map, taxonomies/list-terms</span></td></tr>
+              <tr><td><span class="lane-chip lane-structure" style="font-size:.65rem">Structure</span></td><td>Active theme, template hierarchy, enqueued assets</td><td><span class="ability-name" style="font-size:.72rem">themes/get-active, themes/design-snapshot, themes/list-enqueued-assets</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="permissions">Permission Level</h2>
+        <p>The Diagnostician is limited to <strong>read-only abilities</strong>. It can call any ability with type <code>R</code>. Write (<code>W</code>) and delete (<code>D</code>) abilities are outside scope — not permissions-blocked, but behaviorally excluded by the agent definition.</p>
+        <div class="callout"><strong>Why read-only?</strong>Investigation and execution are different mental modes. A diagnostic agent that can also write creates the risk of acting on a half-formed model. The Diagnostician reports; a different agent acts on the report.</div>
+
+        <h2 id="rules">Behavioral Rules</h2>
+        <ul class="rule-list">
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-skill)" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="var(--cat-skill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Follow the Initial Read Protocol on every cold-start. No skipping steps.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-skill)" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="var(--cat-skill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Pause after each ability call. Review the result before proceeding. Pacing rule applies.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-skill)" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="var(--cat-skill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Report findings as observations — factual, specific, without recommendations unless asked.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-skill)" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="var(--cat-skill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Log observations to the Knowledge Layer using <code>knowledge/add-observation</code> if available.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-agent)" stroke-width="1.5"/><path d="M6 6l8 8M14 6l-8 8" stroke="var(--cat-agent)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Do not call write or delete abilities. If a fix is identified, hand off to a Publisher or Maintainer agent.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-agent)" stroke-width="1.5"/><path d="M6 6l8 8M14 6l-8 8" stroke="var(--cat-agent)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Do not assume. If a result is ambiguous, call the clarifying ability rather than inferring.
+          </li>
+          <li class="rule-item">
+            <svg class="rule-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="var(--cat-agent)" stroke-width="1.5"/><path d="M6 6l8 8M14 6l-8 8" stroke="var(--cat-agent)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Do not SSH, WP-CLI, or use filesystem tools. Abilities only. When an ability doesn't exist, surface the gap.
+          </li>
+        </ul>
+
+        <h2 id="course">Course Requirement</h2>
+        <p>The Diagnostician requires the <strong>Introduction Course</strong> before operating in production. The course covers: the abilities-first principle, the pacing rule, how to read diagnostic outputs, and how to hand off findings to action agents.</p>
+        <a href="#" class="quick-link-card" style="display:block; max-width:340px; margin-top:.75rem">
+          <span class="ql-icon">🎓</span>
+          <div class="ql-title">Introduction Course →</div>
+          <div class="ql-desc">Required before running the Diagnostician in production.</div>
+        </a>
+
+        <h2 id="output">Output Format</h2>
+        <p>A Diagnostician session produces a structured report with four sections:</p>
+        <pre><code>## Diagnostic Report — [site] — [date]
+
+### System
+- WordPress version, PHP version, site health status
+- Critical issues (if any)
+- Active plugin count, notable plugins
+
+### Content
+- Post type inventory (types, counts, statuses)
+- Page hierarchy depth and structure
+- Taxonomy structure (categories, tags, custom)
+
+### Structure
+- Active theme, child theme status
+- Block theme: yes/no
+- Template files present
+
+### Observations
+- Numbered list of notable findings
+- Each observation: factual, specific, severity (info/warn/critical)</code></pre>
+
+        <h2 id="related">Related</h2>
+        <div class="related-grid">
+          <a href="skill-initial-read.html" class="related-card"><div class="related-card-title">Initial Read Protocol</div><div class="related-card-meta">SKILL — the boot sequence this agent runs</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Health Check Protocol</div><div class="related-card-meta">SKILL — deep system diagnostic</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Maintainer Agent</div><div class="related-card-meta">Receives handoff when fixes are identified</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Diagnostic Lanes Protocol</div><div class="related-card-meta">The lane structure this agent operates within</div></a>
+        </div>
+
+        <nav class="post-nav">
+          <a href="#" class="post-nav-item"><span class="pn-label">← All Agents</span><span class="pn-title">Agents Overview</span></a>
+          <a href="#" class="post-nav-item next"><span class="pn-label">Next Agent →</span><span class="pn-title">Publisher</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc-rail">
+        <span class="toc-label">On this page</span>
+        <ul class="toc-list">
+          <li class="toc-item"><a href="#description">Agent Description</a></li>
+          <li class="toc-item"><a href="#lanes">Lanes</a></li>
+          <li class="toc-item"><a href="#permissions">Permission Level</a></li>
+          <li class="toc-item"><a href="#rules">Behavioral Rules</a></li>
+          <li class="toc-item"><a href="#course">Course Requirement</a></li>
+          <li class="toc-item"><a href="#output">Output Format</a></li>
+          <li class="toc-item"><a href="#related">Related</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="js/docs.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html">Landing</a>
+    <a href="module-content.html">Module</a>
+    <a href="skill-initial-read.html">SKILL</a>
+    <a href="agent-diagnostician.html" class="we-active">Agent</a>
+    <a href="category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>

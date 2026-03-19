@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities API — Execution Flow · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   BRAND TOKENS — v1.1
+   ═══════════════════════════════════════════════ */
+:root {
+  --y:  #FFEE58; --g: #22c55e; --p: #7c3aed; --pl: #a78bfa;
+  --yd: rgba(255,238,88,0.07);  --yb: rgba(255,238,88,0.17);
+  --gd: rgba(34,197,94,0.07);   --gb: rgba(34,197,94,0.17);
+  --pd: rgba(124,58,237,0.07);  --pb: rgba(124,58,237,0.16);
+  --fd: 'Syne', sans-serif;
+  --fb: 'Manrope', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+}
+[data-theme="dark"] {
+  --bg: #111111; --bg2: #161616; --text: #E0DDD5;
+  --t2: rgba(224,221,213,0.70); --t3: rgba(224,221,213,0.35); --t4: rgba(224,221,213,0.09);
+  --card: rgba(255,255,255,0.025); --border: rgba(255,255,255,0.055); --bordh: rgba(255,255,255,0.11);
+  /* diagram specific */
+  --lane-stripe: rgba(255,255,255,0.012);
+  --lifeline: rgba(255,255,255,0.10);
+  --arrow-note: rgba(255,255,255,0.06);
+  --alt-bg: rgba(124,58,237,0.06);
+  --alt-border: rgba(124,58,237,0.22);
+  --success-bg: rgba(34,197,94,0.06);
+  --success-border: rgba(34,197,94,0.22);
+  --error-bg: rgba(239,68,68,0.06);
+  --error-border: rgba(239,68,68,0.22);
+}
+[data-theme="light"] {
+  --bg: #F5F4F0; --bg2: #ECEAE4; --text: #1a1a18;
+  --t2: rgba(26,26,24,0.70); --t3: rgba(26,26,24,0.35); --t4: rgba(26,26,24,0.10);
+  --card: rgba(255,255,255,0.75); --border: rgba(0,0,0,0.09); --bordh: rgba(0,0,0,0.16);
+  --yd: rgba(255,238,88,0.12); --yb: rgba(255,238,88,0.26);
+  --gd: rgba(34,197,94,0.09);  --gb: rgba(34,197,94,0.22);
+  --pd: rgba(124,58,237,0.07); --pb: rgba(124,58,237,0.20);
+  --lane-stripe: rgba(0,0,0,0.014);
+  --lifeline: rgba(0,0,0,0.12);
+  --arrow-note: rgba(0,0,0,0.05);
+  --alt-bg: rgba(124,58,237,0.05);
+  --alt-border: rgba(124,58,237,0.18);
+  --success-bg: rgba(34,197,94,0.06);
+  --success-border: rgba(34,197,94,0.20);
+  --error-bg: rgba(239,68,68,0.05);
+  --error-border: rgba(239,68,68,0.18);
+}
+
+/* ═══════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════ */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background .3s, color .3s;
+}
+
+/* ═══════════════════════════════════════════════
+   TOP BAR
+   ═══════════════════════════════════════════════ */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+  backdrop-filter: blur(12px);
+  transition: background .3s, border-color .3s;
+}
+.top-bar-brand { font-family:var(--fd); font-size:.85rem; font-weight:800; letter-spacing:-.02em; color:var(--text); }
+.top-bar-brand span { color: var(--pl); }
+.top-bar-right { display:flex; align-items:center; gap:16px; }
+.top-bar-pill {
+  font-family:var(--fm); font-size:10px; text-transform:uppercase; letter-spacing:.12em;
+  color:var(--t3); padding:4px 10px; border:1px solid var(--border); border-radius:100px;
+}
+.theme-btn {
+  display:flex; align-items:center; gap:7px; cursor:pointer;
+  background:var(--card); border:1px solid var(--border); border-radius:100px;
+  padding:5px 14px 5px 10px;
+  font-family:var(--fm); font-size:10px; letter-spacing:.08em; color:var(--t2);
+  text-transform:uppercase; transition:all .2s; user-select:none;
+}
+.theme-btn:hover { border-color:var(--bordh); color:var(--text); }
+.theme-dot { width:7px; height:7px; border-radius:50%; background:var(--y); flex-shrink:0; transition:background .3s; }
+[data-theme="light"] .theme-dot { background: var(--p); }
+
+/* ═══════════════════════════════════════════════
+   PAGE LAYOUT
+   ═══════════════════════════════════════════════ */
+.page { max-width: 960px; margin: 0 auto; padding: 72px 48px 120px; }
+
+/* ═══════════════════════════════════════════════
+   HERO HEADER — smaller than landing page hero
+   ═══════════════════════════════════════════════ */
+.doc-eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--pb); color:var(--pl);
+  padding:4px 14px; border-radius:100px;
+  font-family:var(--fm); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:24px;
+}
+.ebdot { width:5px; height:5px; background:var(--pl); border-radius:50%; animation:pulse 2.2s ease-in-out infinite; flex-shrink:0; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+.doc-title {
+  font-family: var(--fd);
+  font-size: clamp(1.7rem, 3vw, 2.4rem); /* smaller than landing — this is a doc page */
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.08;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.doc-title em { font-style:normal; color: var(--g); }
+
+.doc-ingress {
+  font-size: 18px; /* v1.1 scale — between body and section sub */
+  font-weight: 300;
+  color: var(--t2);
+  max-width: 620px;
+  line-height: 1.78;
+  margin-bottom: 12px;
+}
+
+hr.gl {
+  height:1px; border:none;
+  background: linear-gradient(90deg, transparent, var(--p), transparent);
+  opacity:.28; max-width:72px;
+  margin-bottom: 56px;
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION LABEL
+   ═══════════════════════════════════════════════ */
+.section-label {
+  font-family: var(--fm); font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+  color: var(--pl); margin-bottom:20px;
+}
+.section-label--g { color: rgba(34,197,94,.65); }
+
+/* ═══════════════════════════════════════════════
+   DIAGRAM CONTAINER
+   ═══════════════════════════════════════════════ */
+.diagram-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.diagram-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.diagram-header-left { display:flex; align-items:center; gap:8px; }
+.dh-dot { width:8px; height:8px; border-radius:50%; background:var(--border); }
+.dh-dot:first-child { background: rgba(239,68,68,.55); }
+.dh-dot:nth-child(2) { background: rgba(245,158,11,.55); }
+.dh-dot:nth-child(3) { background: rgba(34,197,94,.55); }
+.diagram-title { font-family:var(--fm); font-size:11px; color:var(--t3); letter-spacing:.06em; }
+
+/* step counter */
+.step-counter {
+  font-family: var(--fm); font-size:10px; color:var(--t3);
+  display:flex; align-items:center; gap:6px;
+}
+.step-dot { width:6px; height:6px; border-radius:50%; background:var(--border); transition:background .3s; }
+.step-dot.active { background: var(--g); }
+.step-dot.done   { background: rgba(34,197,94,.35); }
+
+/* ═══════════════════════════════════════════════
+   SEQUENCE DIAGRAM — SVG CANVAS
+   ═══════════════════════════════════════════════ */
+.seq-canvas {
+  width: 100%;
+  display: block;
+  padding: 0;
+  overflow: visible;
+}
+
+/* SVG text styles — these need to be inside SVG or use CSS classes on SVG elements */
+
+/* ═══════════════════════════════════════════════
+   ACTOR LABELS
+   ═══════════════════════════════════════════════ */
+.actor-box {
+  fill: var(--card);
+  stroke: var(--border);
+  stroke-width: 1;
+  rx: 6; ry: 6;
+  transition: fill .3s, stroke .3s;
+}
+.actor-box--client { stroke: var(--pb); fill: var(--pd); }
+.actor-box--adapter { stroke: var(--pb); fill: var(--pd); }
+.actor-box--wp      { stroke: var(--gb); fill: var(--gd); }
+.actor-box--ability { stroke: var(--gb); fill: var(--gd); }
+
+.actor-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--text);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+.actor-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  fill: var(--t3);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+/* ═══════════════════════════════════════════════
+   ARROWS & MESSAGES
+   ═══════════════════════════════════════════════ */
+.arrow-line {
+  stroke-width: 1.5;
+  fill: none;
+}
+.arrow-call   { stroke: var(--pl); }
+.arrow-return { stroke: var(--g); stroke-dasharray: 5 3; }
+.arrow-error  { stroke: #ef4444; stroke-dasharray: 5 3; }
+.arrow-self   { stroke: var(--t3); }
+
+.arrow-head { fill: var(--pl); }
+.arrow-head--return { fill: var(--g); }
+.arrow-head--error  { fill: #ef4444; }
+
+.msg-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  fill: var(--t2);
+  dominant-baseline: middle;
+}
+.msg-label--call   { fill: var(--pl); font-weight: 500; }
+.msg-label--return { fill: var(--g); }
+.msg-label--error  { fill: #ef4444; }
+
+/* ═══════════════════════════════════════════════
+   ALT/ELSE FRAMES
+   ═══════════════════════════════════════════════ */
+.frame-alt {
+  fill: var(--alt-bg);
+  stroke: var(--alt-border);
+  stroke-width: 1;
+  rx: 4; ry: 4;
+}
+.frame-success {
+  fill: var(--success-bg);
+  stroke: var(--success-border);
+  stroke-width: 1;
+  rx: 4; ry: 4;
+}
+.frame-error {
+  fill: var(--error-bg);
+  stroke: var(--error-border);
+  stroke-width: 1;
+  rx: 4; ry: 4;
+}
+.frame-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+.frame-label--alt     { fill: var(--pl); }
+.frame-label--else    { fill: #ef4444; }
+.frame-label--success { fill: var(--g); }
+.frame-label--note    { fill: var(--t3); }
+
+.frame-condition {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  fill: var(--t3);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════
+   NOTE BOXES
+   ═══════════════════════════════════════════════ */
+.note-box { fill: rgba(255,238,88,.06); stroke: rgba(255,238,88,.18); rx: 4; ry: 4; stroke-width:1; }
+.note-text { font-family:'JetBrains Mono',monospace; font-size:9px; fill:var(--t2); dominant-baseline:middle; }
+
+/* ═══════════════════════════════════════════════
+   ACTIVATION BOXES (execution focus)
+   ═══════════════════════════════════════════════ */
+.activation { fill: var(--pl); opacity: .35; rx: 2; ry: 2; }
+.activation--g { fill: var(--g); opacity: .30; }
+
+/* ═══════════════════════════════════════════════
+   ANNOTATION PANEL
+   ═══════════════════════════════════════════════ */
+.annotation-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 2px;
+  margin-bottom: 40px;
+}
+.anno-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.anno-card--p { border-color: var(--pb); background: linear-gradient(135deg, var(--pd), var(--card) 70%); }
+.anno-card--g { border-color: var(--gb); background: linear-gradient(135deg, var(--gd), var(--card) 70%); }
+.anno-card--r { border-color: rgba(239,68,68,.18); background: linear-gradient(135deg, rgba(239,68,68,.05), var(--card) 70%); }
+.anno-card--y { border-color: var(--yb); background: linear-gradient(135deg, var(--yd), var(--card) 70%); }
+
+.anno-icon {
+  width: 32px; height: 32px; border-radius: 7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+  margin-top: 2px;
+}
+.anno-icon--p { background: var(--pd); border: 1px solid var(--pb); }
+.anno-icon--g { background: var(--gd); border: 1px solid var(--gb); }
+.anno-icon--r { background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2); }
+.anno-icon--y { background: var(--yd); border: 1px solid var(--yb); }
+
+.anno-body {}
+.anno-title {
+  font-family: var(--fd); font-size: 13px; font-weight: 700;
+  letter-spacing: -.01em; color: var(--text); margin-bottom: 4px; line-height:1.2;
+}
+.anno-desc {
+  font-size: 13px; font-weight: 300; color: var(--t2); line-height: 1.65;
+}
+.anno-code {
+  font-family: var(--fm); font-size: 11px; color: var(--pl);
+  background: var(--pd); border: 1px solid var(--pb);
+  padding: 1px 7px; border-radius: 4px; display:inline-block; margin-top:6px;
+}
+.anno-code--g { color: var(--g); background: var(--gd); border-color: var(--gb); }
+.anno-code--r { color: #ef4444; background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.2); }
+
+/* ═══════════════════════════════════════════════
+   PERMISSION LAYERS
+   ═══════════════════════════════════════════════ */
+.layers-row {
+  display: flex; gap: 2px;
+  margin-bottom: 40px;
+}
+.layer-block {
+  flex: 1; padding: 18px 20px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+}
+.layer-block--1 { border-color: rgba(124,58,237,.25); background: linear-gradient(135deg,var(--pd),var(--card) 60%); }
+.layer-block--2 { border-color: rgba(34,197,94,.22); background: linear-gradient(135deg,var(--gd),var(--card) 60%); }
+.layer-n { font-family:var(--fm); font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--t3); margin-bottom:8px; }
+.layer-title { font-family:var(--fd); font-size:.95rem; font-weight:700; letter-spacing:-.02em; color:var(--text); margin-bottom:6px; line-height:1.2; }
+.layer-desc { font-size:13px; font-weight:300; color:var(--t2); line-height:1.65; }
+.layer-code { font-family:var(--fm); font-size:10.5px; color:var(--pl); display:block; margin-top:8px; }
+.layer-code--g { color: var(--g); }
+
+/* ═══════════════════════════════════════════════
+   PLAY BUTTON
+   ═══════════════════════════════════════════════ */
+.play-btn {
+  display: inline-flex; align-items:center; gap:8px;
+  font-family:var(--fm); font-size:11px; text-transform:uppercase; letter-spacing:.1em;
+  color: var(--g); cursor:pointer; padding:6px 16px;
+  border:1px solid var(--gb); border-radius:100px; background: var(--gd);
+  transition:all .2s; user-select:none;
+}
+.play-btn:hover { background: rgba(34,197,94,.14); border-color:var(--g); }
+.play-btn svg { width:10px; height:10px; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media(max-width:700px) {
+  .page { padding:40px 20px 80px; }
+  .top-bar { padding:0 20px; }
+  .annotation-panel { grid-template-columns:1fr; }
+  .layers-row { flex-direction:column; }
+  .doc-ingress { font-size:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="top-bar-brand">Wicked <span>Evolutions</span></div>
+  <div class="top-bar-right">
+    <span class="top-bar-pill">Abilities API · Architecture · Developer Reference</span>
+    <div class="theme-btn" onclick="toggleTheme()">
+      <div class="theme-dot"></div>
+      <span id="theme-label">Dark</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════
+       HERO HEADER
+       ═══════════════════════════════════════════ -->
+  <div class="doc-eyebrow"><span class="ebdot"></span>Execution Model · abilities-for-ai · v1.5</div>
+
+  <h1 class="doc-title">
+    How an ability call<br>
+    <em>actually executes.</em>
+  </h1>
+
+  <p class="doc-ingress">
+    From MCP Client to WordPress Core to your callback — every hop, every gate, every branch. The complete execution path with permission layers, schema validation, and error handling shown precisely where they fire.
+  </p>
+
+  <hr class="gl">
+
+  <!-- ═══════════════════════════════════════════
+       SEQUENCE DIAGRAM
+       ═══════════════════════════════════════════ -->
+  <div class="section-label" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>Execution Flow · Sequence Diagram</span>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="step-counter" id="step-counter">
+        <div class="step-dot" id="sd0"></div>
+        <div class="step-dot" id="sd1"></div>
+        <div class="step-dot" id="sd2"></div>
+        <div class="step-dot" id="sd3"></div>
+        <div class="step-dot" id="sd4"></div>
+        <div class="step-dot" id="sd5"></div>
+        <div class="step-dot" id="sd6"></div>
+        <div class="step-dot" id="sd7"></div>
+      </div>
+      <div class="play-btn" onclick="replayDiagram()">
+        <svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg>
+        Replay
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-header">
+      <div class="diagram-header-left">
+        <div class="dh-dot"></div>
+        <div class="dh-dot"></div>
+        <div class="dh-dot"></div>
+        <span class="diagram-title" style="margin-left:8px;">abilities-for-ai · wp_get_ability() → execute() → callback</span>
+      </div>
+      <span class="diagram-title">sequenceDiagram</span>
+    </div>
+
+    <!-- SVG SEQUENCE DIAGRAM -->
+    <svg id="seq-svg" class="seq-canvas" viewBox="0 0 920 680" xmlns="http://www.w3.org/2000/svg"
+         style="padding:24px 20px 32px;">
+
+      <defs>
+        <!-- Arrow markers -->
+        <marker id="ah-call"   markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#a78bfa"/>
+        </marker>
+        <marker id="ah-return" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#22c55e"/>
+        </marker>
+        <marker id="ah-error"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#ef4444"/>
+        </marker>
+        <marker id="ah-self"   markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#a78bfa" opacity=".5"/>
+        </marker>
+        <!-- Stripe pattern for actor lanes -->
+        <pattern id="lane-stripe" x="0" y="0" width="1" height="40" patternUnits="userSpaceOnUse">
+          <rect width="1" height="40" fill="transparent"/>
+        </pattern>
+      </defs>
+
+      <!-- ═════════════════════════════
+           ACTOR POSITIONS (x-centers)
+           MCP Client    : 90
+           MCP Adapter   : 270
+           WP Core       : 460
+           Ability CB    : 670
+           ═════════════════════════════ -->
+
+      <!-- LANE BACKGROUNDS -->
+      <rect x="55"  y="0"   width="72"  height="680" fill="rgba(124,58,237,0.03)"/>
+      <rect x="235" y="0"   width="72"  height="680" fill="rgba(124,58,237,0.025)"/>
+      <rect x="425" y="0"   width="72"  height="680" fill="rgba(34,197,94,0.025)"/>
+      <rect x="635" y="0"   width="72"  height="680" fill="rgba(34,197,94,0.03)"/>
+
+      <!-- ═════════════════════════════
+           ACTOR HEADER BOXES (top)
+           ═════════════════════════════ -->
+      <!-- MCP Client -->
+      <rect x="42" y="8" width="96" height="52" rx="6" class="actor-box actor-box--client" id="actor-client"/>
+      <text x="90" y="26" class="actor-label" fill="#a78bfa">Client</text>
+      <text x="90" y="42" class="actor-sub">MCP Client</text>
+
+      <!-- MCP Adapter -->
+      <rect x="222" y="8" width="96" height="52" rx="6" class="actor-box actor-box--adapter" id="actor-adapter"/>
+      <text x="270" y="26" class="actor-label" fill="#a78bfa">Adapter</text>
+      <text x="270" y="42" class="actor-sub">MCP Adapter</text>
+
+      <!-- WordPress Core -->
+      <rect x="412" y="8" width="96" height="52" rx="6" class="actor-box actor-box--wp" id="actor-wp"/>
+      <text x="460" y="26" class="actor-label" fill="#22c55e">WordPress</text>
+      <text x="460" y="42" class="actor-sub">Core (WP 6.9+)</text>
+
+      <!-- Ability Callback -->
+      <rect x="622" y="8" width="96" height="52" rx="6" class="actor-box actor-box--ability" id="actor-ability"/>
+      <text x="670" y="26" class="actor-label" fill="#22c55e">Callback</text>
+      <text x="670" y="42" class="actor-sub">Ability + Gates</text>
+
+      <!-- ═════════════════════════════
+           LIFELINES (vertical dashed)
+           ═════════════════════════════ -->
+      <line x1="90"  y1="60" x2="90"  y2="650" stroke="rgba(124,58,237,.15)" stroke-width="1.5" stroke-dasharray="4 4" id="ll-client"/>
+      <line x1="270" y1="60" x2="270" y2="650" stroke="rgba(124,58,237,.15)" stroke-width="1.5" stroke-dasharray="4 4" id="ll-adapter"/>
+      <line x1="460" y1="60" x2="460" y2="650" stroke="rgba(34,197,94,.15)"  stroke-width="1.5" stroke-dasharray="4 4" id="ll-wp"/>
+      <line x1="670" y1="60" x2="670" y2="650" stroke="rgba(34,197,94,.15)"  stroke-width="1.5" stroke-dasharray="4 4" id="ll-ability"/>
+
+      <!-- ═════════════════════════════
+           STEP 0: tools/call
+           Y = 88
+           ═════════════════════════════ -->
+      <g id="step-0" opacity="0">
+        <line x1="94" y1="88" x2="262" y2="88" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah-call)"/>
+        <rect x="100" y="73" width="158" height="15" fill="var(--bg)" opacity=".6" rx="2"/>
+        <text x="179" y="82" class="msg-label msg-label--call" text-anchor="middle">tools/call {ability_name, input}</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 1: wp_get_ability(name)
+           Y = 118
+           ═════════════════════════════ -->
+      <g id="step-1" opacity="0">
+        <rect x="262" y="83" width="12" height="80" rx="2" class="activation"/>
+        <line x1="278" y1="118" x2="452" y2="118" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah-call)"/>
+        <rect x="282" y="103" width="167" height="15" fill="var(--bg)" opacity=".6" rx="2"/>
+        <text x="366" y="112" class="msg-label msg-label--call" text-anchor="middle">wp_get_ability(name)</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 2: $ability object returned
+           Y = 148 (dashed return)
+           ═════════════════════════════ -->
+      <g id="step-2" opacity="0">
+        <rect x="452" y="83" width="12" height="40" rx="2" class="activation--g" style="fill:var(--g);opacity:.3;"/>
+        <line x1="452" y1="148" x2="282" y2="148" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-return)"/>
+        <rect x="295" y="133" width="153" height="15" fill="var(--bg)" opacity=".6" rx="2"/>
+        <text x="372" y="142" class="msg-label msg-label--return" text-anchor="middle">$ability object</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 3: $ability->execute(input)
+           Y = 182
+           ═════════════════════════════ -->
+      <g id="step-3" opacity="0">
+        <line x1="278" y1="182" x2="452" y2="182" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah-call)"/>
+        <rect x="282" y="167" width="167" height="15" fill="var(--bg)" opacity=".6" rx="2"/>
+        <text x="366" y="176" class="msg-label msg-label--call" text-anchor="middle">$ability→execute(input)</text>
+      </g>
+
+      <!-- WP CORE: validate input_schema -->
+      <g id="step-3b" opacity="0">
+        <!-- Self-loop on WP Core: validate -->
+        <path d="M 472 210 Q 510 210 510 222 Q 510 234 472 234" stroke="#a78bfa" stroke-width="1" fill="none" stroke-dasharray="3 2" opacity=".6"/>
+        <rect x="434" y="205" width="16" height="36" rx="2" class="activation" opacity=".4"/>
+        <rect x="516" y="209" width="132" height="28" rx="4" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
+        <text x="582" y="222" class="msg-label" text-anchor="middle" font-size="9">validate input against</text>
+        <text x="582" y="232" class="msg-label msg-label--call" text-anchor="middle" font-size="9">input_schema</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           ALT FRAME — full outer
+           Y=252 to Y=580
+           ═════════════════════════════ -->
+      <g id="alt-frame" opacity="0">
+        <rect x="30" y="252" width="860" height="320" rx="4"
+              fill="rgba(124,58,237,0.03)" stroke="rgba(124,58,237,0.22)" stroke-width="1"/>
+        <!-- Top left badge -->
+        <rect x="30" y="252" width="26" height="16" rx="2" fill="#7c3aed"/>
+        <text x="43" y="263" class="frame-label frame-label--alt" text-anchor="middle" font-size="8">alt</text>
+        <!-- Condition label -->
+        <text x="66" y="264" class="frame-condition">[ Validation fails ]</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           ALT BRANCH A — Validation fails
+           Y=268 to Y=320
+           ═════════════════════════════ -->
+      <g id="step-4a" opacity="0">
+        <rect x="30" y="268" width="860" height="66" rx="0"
+              fill="rgba(239,68,68,0.04)" stroke="none"/>
+        <!-- WP_Error return to Adapter -->
+        <rect x="452" y="268" width="12" height="30" rx="2" style="fill:#ef4444;opacity:.25;"/>
+        <line x1="452" y1="298" x2="282" y2="298" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-error)"/>
+        <rect x="292" y="283" width="155" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="370" y="292" class="msg-label msg-label--error" text-anchor="middle">WP_Error</text>
+        <!-- Pass to Client -->
+        <line x1="266" y1="318" x2="98" y2="318" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-error)"/>
+        <rect x="104" y="303" width="156" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="182" y="312" class="msg-label msg-label--error" text-anchor="middle">MCP error response</text>
+      </g>
+
+      <!-- ELSE divider -->
+      <g id="alt-else" opacity="0">
+        <line x1="30" y1="338" x2="890" y2="338" stroke="rgba(124,58,237,.22)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="36" y="349" class="frame-label frame-label--alt" font-size="8">else</text>
+        <text x="66" y="349" class="frame-condition">[ Validation passes ]</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 5: execute_callback(input)
+           Y = 368
+           ═════════════════════════════ -->
+      <g id="step-5" opacity="0">
+        <rect x="452" y="355" width="12" height="180" rx="2" class="activation"/>
+        <line x1="464" y1="370" x2="662" y2="370" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah-call)"/>
+        <rect x="468" y="355" width="190" height="15" fill="var(--bg)" opacity=".6" rx="2"/>
+        <text x="563" y="364" class="msg-label msg-label--call" text-anchor="middle">execute_callback(input)</text>
+      </g>
+
+      <!-- INNER ALT: Permission gate -->
+      <g id="inner-alt" opacity="0">
+        <rect x="648" y="385" width="232" height="188" rx="4"
+              fill="rgba(34,197,94,0.03)" stroke="rgba(34,197,94,.20)" stroke-width="1"/>
+        <rect x="648" y="385" width="30" height="16" rx="2" fill="#22c55e"/>
+        <text x="663" y="396" class="frame-label" text-anchor="middle" font-size="7.5" fill="#0a0a0a">alt</text>
+        <text x="685" y="396" class="frame-condition">[ Permission denied ]</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 6a: Permission denied
+           Y = 408
+           ═════════════════════════════ -->
+      <g id="step-6a" opacity="0">
+        <rect x="648" y="405" width="232" height="55" rx="0"
+              fill="rgba(239,68,68,.04)" stroke="none"/>
+        <!-- note about gate check -->
+        <rect x="652" y="407" width="226" height="22" rx="3"
+              fill="rgba(255,238,88,.05)" stroke="rgba(255,238,88,.15)" stroke-width="1"/>
+        <text x="765" y="422" class="note-text" text-anchor="middle">abilities_for_ai_ability_enabled()</text>
+        <!-- error return -->
+        <rect x="658" y="432" width="12" height="20" rx="2" style="fill:#ef4444;opacity:.25;"/>
+        <line x1="658" y1="448" x2="476" y2="448" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-error)"/>
+        <rect x="478" y="433" width="178" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="567" y="442" class="msg-label msg-label--error" text-anchor="middle">WP_Error (403 · ability_disabled)</text>
+      </g>
+
+      <!-- Inner ELSE -->
+      <g id="inner-else" opacity="0">
+        <line x1="648" y1="468" x2="880" y2="468" stroke="rgba(34,197,94,.20)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="654" y="478" class="frame-label frame-label--success" font-size="8">else</text>
+        <text x="683" y="478" class="frame-condition">[ Permission granted ]</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 6b: result array
+           Y = 492
+           ═════════════════════════════ -->
+      <g id="step-6b" opacity="0">
+        <rect x="658" y="485" width="12" height="80" rx="2" class="activation--g" style="fill:var(--g);opacity:.35;"/>
+        <line x1="658" y1="498" x2="476" y2="498" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-return)"/>
+        <rect x="478" y="483" width="176" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="566" y="492" class="msg-label msg-label--return" text-anchor="middle">result array</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 7: WP → Adapter: result
+           Y = 530
+           ═════════════════════════════ -->
+      <g id="step-7" opacity="0">
+        <line x1="452" y1="548" x2="282" y2="548" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-return)"/>
+        <rect x="290" y="533" width="157" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="368" y="542" class="msg-label msg-label--return" text-anchor="middle">result</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           STEP 8: Adapter → Client: MCP response
+           Y = 578
+           ═════════════════════════════ -->
+      <g id="step-8" opacity="0">
+        <line x1="266" y1="578" x2="98" y2="578" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ah-return)"/>
+        <rect x="104" y="563" width="158" height="15" fill="var(--bg)" opacity=".7" rx="2"/>
+        <text x="183" y="572" class="msg-label msg-label--return" text-anchor="middle">MCP response</text>
+      </g>
+
+      <!-- ═════════════════════════════
+           ACTOR FOOTER BOXES (bottom)
+           ═════════════════════════════ -->
+      <rect x="42"  y="598" width="96" height="46" rx="6" class="actor-box actor-box--client"/>
+      <text x="90"  y="616" class="actor-label" fill="#a78bfa">Client</text>
+      <text x="90"  y="632" class="actor-sub">MCP Client</text>
+
+      <rect x="222" y="598" width="96" height="46" rx="6" class="actor-box actor-box--adapter"/>
+      <text x="270" y="616" class="actor-label" fill="#a78bfa">Adapter</text>
+      <text x="270" y="632" class="actor-sub">MCP Adapter</text>
+
+      <rect x="412" y="598" width="96" height="46" rx="6" class="actor-box actor-box--wp"/>
+      <text x="460" y="616" class="actor-label" fill="#22c55e">WordPress</text>
+      <text x="460" y="632" class="actor-sub">Core (WP 6.9+)</text>
+
+      <rect x="622" y="598" width="96" height="46" rx="6" class="actor-box actor-box--ability"/>
+      <text x="670" y="616" class="actor-label" fill="#22c55e">Callback</text>
+      <text x="670" y="632" class="actor-sub">Ability + Gates</text>
+
+    </svg><!-- /svg -->
+  </div><!-- /diagram-wrap -->
+
+  <!-- STEP ROW LEGEND -->
+  <div style="display:flex;align-items:center;gap:24px;padding:14px 20px;background:var(--card);border:1px solid var(--border);border-radius:0 0 10px 10px;margin-bottom:40px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="40" height="10"><line x1="0" y1="5" x2="36" y2="5" stroke="#a78bfa" stroke-width="1.5"/><polygon points="36,2 40,5 36,8" fill="#a78bfa"/></svg>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--t2);">Call / Request</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="40" height="10"><line x1="0" y1="5" x2="36" y2="5" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3"/><polygon points="36,2 40,5 36,8" fill="#22c55e"/></svg>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--t2);">Return / Response</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="40" height="10"><line x1="0" y1="5" x2="36" y2="5" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5 3"/><polygon points="36,2 40,5 36,8" fill="#ef4444"/></svg>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--t2);">Error (WP_Error)</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+      <div style="width:10px;height:10px;background:rgba(124,58,237,.4);border-radius:2px;"></div>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--t2);">Execution focus</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       KEY MECHANICS
+       ═══════════════════════════════════════════ -->
+  <div class="section-label section-label--g">Key execution mechanics</div>
+
+  <div class="annotation-panel">
+
+    <div class="anno-card anno-card--p">
+      <div class="anno-icon anno-icon--p">🔍</div>
+      <div class="anno-body">
+        <div class="anno-title">No wp_execute_ability()</div>
+        <div class="anno-desc">Execution goes through the ability object — <code style="font-family:var(--fm);font-size:11px;">$ability→execute($input)</code> — not a global function. The Adapter retrieves the object then calls execute directly.</div>
+        <div class="anno-code">wp_get_ability($name)→execute($input)</div>
+      </div>
+    </div>
+
+    <div class="anno-card anno-card--g">
+      <div class="anno-icon anno-icon--g">✓</div>
+      <div class="anno-body">
+        <div class="anno-title">Schema validation is automatic</div>
+        <div class="anno-desc">WordPress Core validates <code style="font-family:var(--fm);font-size:11px;">$input</code> against the registered <code style="font-family:var(--fm);font-size:11px;">input_schema</code> before the callback is invoked. Your callback never receives invalid data.</div>
+        <div class="anno-code anno-code--g">input_schema · WP_Error on failure</div>
+      </div>
+    </div>
+
+    <div class="anno-card anno-card--r">
+      <div class="anno-icon anno-icon--r">⛔</div>
+      <div class="anno-body">
+        <div class="anno-title">Permission gate fires inside callback</div>
+        <div class="anno-desc">The Registrar wraps every callback with <code style="font-family:var(--fm);font-size:11px;">abilities_for_ai_ability_enabled()</code>. The ability always registers — it returns WP_Error 403 at <em>execution time</em> if disabled.</div>
+        <div class="anno-code anno-code--r">WP_Error · code: ability_disabled · 403</div>
+      </div>
+    </div>
+
+    <div class="anno-card anno-card--y">
+      <div class="anno-icon anno-icon--y">🪝</div>
+      <div class="anno-body">
+        <div class="anno-title">Registration hook is critical</div>
+        <div class="anno-desc">Abilities must register on <code style="font-family:var(--fm);font-size:11px;">wp_abilities_api_init</code>. Registering on any other hook silently fails — the registry isn't initialised yet. No error, no log.</div>
+        <div class="anno-code" style="color:var(--y);background:var(--yd);border-color:var(--yb);">add_action('wp_abilities_api_init', ...)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PERMISSION LAYERS
+       ═══════════════════════════════════════════ -->
+  <div class="section-label">Two permission layers · resolution order</div>
+
+  <div class="layers-row">
+    <div class="layer-block layer-block--1">
+      <div class="layer-n">Layer 1 · Runs first</div>
+      <div class="layer-title">WordPress Capability Check</div>
+      <div class="layer-desc">The <code style="font-family:var(--fm);font-size:11px;color:var(--pl);">permission_callback</code> fires before execution. Fails here — the ability never reaches your code.</div>
+      <code class="layer-code">current_user_can($capability)</code>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0 4px;color:var(--t3);font-family:var(--fm);font-size:11px;">then</div>
+    <div class="layer-block layer-block--2">
+      <div class="layer-n">Layer 2 · Inside callback</div>
+      <div class="layer-title">Ability Enable / Disable Toggle</div>
+      <div class="layer-desc">The Registrar wraps your callback with an enable-check. Per-ability overrides win over module-level defaults. Read=ON, Write=ON, Delete=OFF by default.</div>
+      <code class="layer-code layer-code--g">abilities_for_ai_ability_enabled()</code>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER STAT BAND
+       ═══════════════════════════════════════════ -->
+  <div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 0;display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:56px;gap:0;">
+    <div style="padding:0 24px;border-right:1px solid var(--border);">
+      <div style="font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.045em;color:var(--pl);line-height:1;margin-bottom:5px;">3</div>
+      <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);">actors in the chain</div>
+    </div>
+    <div style="padding:0 24px;border-right:1px solid var(--border);">
+      <div style="font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.045em;color:var(--g);line-height:1;margin-bottom:5px;">2</div>
+      <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);">permission layers</div>
+    </div>
+    <div style="padding:0 24px;border-right:1px solid var(--border);">
+      <div style="font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.045em;color:var(--text);line-height:1;margin-bottom:5px;">2</div>
+      <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);">error exit points</div>
+    </div>
+    <div style="padding:0 24px;">
+      <div style="font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.045em;color:var(--y);line-height:1;margin-bottom:5px;">0</div>
+      <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);">global execute fns</div>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div style="text-align:center;padding:20px 0 0;">
+    <div style="font-family:var(--fd);font-size:clamp(1.1rem,2vw,1.5rem);font-weight:800;letter-spacing:-.04em;line-height:1.22;color:var(--text);max-width:540px;margin:0 auto 12px;">
+      The ability always registers.<br>
+      <em style="font-style:normal;color:var(--g);">The gate decides at runtime.</em>
+    </div>
+    <div style="font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);">abilities-for-ai · helpers.php · Permission gating pattern · 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+/* ═══════════════════════════════
+   THEME
+   ═══════════════════════════════ */
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+}
+
+/* ═══════════════════════════════
+   ANIMATION ENGINE
+   Each step fades in with a delay.
+   Steps are SVG groups — we animate
+   opacity 0→1 with CSS transitions.
+   ═══════════════════════════════ */
+const STEPS = [
+  { id: 'step-0',     dot: 0, delay: 400  },
+  { id: 'step-1',     dot: 1, delay: 900  },
+  { id: 'step-2',     dot: 1, delay: 1300 },
+  { id: 'step-3',     dot: 2, delay: 1700 },
+  { id: 'step-3b',    dot: 2, delay: 2000 },
+  { id: 'alt-frame',  dot: 3, delay: 2400 },
+  { id: 'step-4a',    dot: 3, delay: 2700 },
+  { id: 'alt-else',   dot: 3, delay: 3100 },
+  { id: 'step-5',     dot: 4, delay: 3400 },
+  { id: 'inner-alt',  dot: 5, delay: 3700 },
+  { id: 'step-6a',    dot: 5, delay: 3950 },
+  { id: 'inner-else', dot: 5, delay: 4200 },
+  { id: 'step-6b',    dot: 6, delay: 4450 },
+  { id: 'step-7',     dot: 6, delay: 4850 },
+  { id: 'step-8',     dot: 7, delay: 5200 },
+];
+
+let timers = [];
+let currentDot = -1;
+
+function setDot(dotIdx) {
+  if (dotIdx === currentDot) return;
+  // mark previous as done
+  if (currentDot >= 0) {
+    const prev = document.getElementById('sd' + currentDot);
+    if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+  }
+  currentDot = dotIdx;
+  const el = document.getElementById('sd' + dotIdx);
+  if (el) { el.classList.remove('done'); el.classList.add('active'); }
+}
+
+function resetDots() {
+  for (let i = 0; i < 8; i++) {
+    const el = document.getElementById('sd' + i);
+    if (el) { el.classList.remove('active', 'done'); }
+  }
+  currentDot = -1;
+}
+
+function showStep(id, dotIdx) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.transition = 'opacity .45s ease';
+  el.style.opacity = '1';
+  setDot(dotIdx);
+}
+
+function replayDiagram() {
+  // Clear all timers
+  timers.forEach(clearTimeout);
+  timers = [];
+
+  // Reset all steps to invisible
+  STEPS.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+    }
+  });
+  resetDots();
+
+  // Re-animate
+  STEPS.forEach(s => {
+    const t = setTimeout(() => showStep(s.id, s.dot), s.delay);
+    timers.push(t);
+  });
+}
+
+// Auto-start on load with a short delay
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(replayDiagram, 600);
+});
+</script>
+
+</body>
+</html>

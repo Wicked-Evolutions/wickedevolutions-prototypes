@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI — Stack Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --s0: #080810;
+  --s1: #0e0e1a;
+  --s2: #141424;
+  --s3: #1c1c32;
+  --txt: #eeeef6;
+  --txt2: #8888a8;
+  --txt3: #44445a;
+  --border: rgba(255,255,255,0.07);
+  --border-hi: rgba(255,255,255,0.16);
+  --accent: #7c3aed;
+  --accent-l: #a78bfa;
+  --accent-dim: rgba(124,58,237,0.10);
+  --lumi: #22c55e;
+  --lumi-dim: rgba(34,197,94,0.10);
+  --lumi-border: rgba(34,197,94,0.22);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.10);
+  --glass: rgba(255,255,255,0.035);
+  --glass-hi: rgba(255,255,255,0.065);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --r: 12px;
+  --r-sm: 6px;
+  --r-pill: 100px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--s0);
+  color: var(--txt);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 32px 100px;
+}
+
+/* ── HEADER ── */
+.header {
+  margin-bottom: 64px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lumi);
+  margin-bottom: 20px;
+}
+
+.eyebrow-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--lumi);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.4; transform:scale(0.8); }
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--txt);
+  margin-bottom: 18px;
+}
+
+.header-title em {
+  font-style: normal;
+  color: var(--lumi);
+}
+
+.header-sub {
+  font-size: 16px;
+  color: var(--txt2);
+  max-width: 540px;
+  line-height: 1.65;
+}
+
+/* ── STAT ROW ── */
+.stats {
+  display: flex;
+  gap: 2px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 14px 20px;
+  border-radius: var(--r-sm);
+  min-width: 120px;
+  transition: border-color 0.2s;
+}
+
+.stat:hover { border-color: var(--border-hi); }
+
+.stat-n {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--lumi);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--txt3);
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 72px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--txt3);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.card:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-1px);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  pointer-events: none;
+}
+
+/* lumi green accent card */
+.card--lumi {
+  border-color: var(--lumi-border);
+  background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, var(--glass) 50%);
+}
+
+.card--lumi::after {
+  background: linear-gradient(90deg, transparent, rgba(34,197,94,0.25), transparent);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--txt);
+  margin-bottom: 4px;
+}
+
+.card-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--txt3);
+  margin-bottom: 16px;
+}
+
+.card-body {
+  font-size: 14px;
+  color: var(--txt2);
+  line-height: 1.6;
+}
+
+/* ── STACK DIAGRAM ── */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 72px;
+}
+
+.stack-layer {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2px;
+  align-items: stretch;
+}
+
+.stack-label {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stack-label-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--txt3);
+  margin-bottom: 4px;
+}
+
+.stack-label-role {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt2);
+}
+
+.stack-main {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--glass);
+  transition: border-color 0.2s;
+  cursor: default;
+}
+
+.stack-main:hover { border-color: var(--border-hi); }
+
+/* lumi accent on key layers */
+.stack-main--lumi {
+  border-color: var(--lumi-border);
+  background: linear-gradient(90deg, rgba(34,197,94,0.05), var(--glass));
+}
+
+.stack-main--accent {
+  border-color: rgba(124,58,237,0.2);
+  background: linear-gradient(90deg, rgba(124,58,237,0.06), var(--glass));
+}
+
+.stack-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--txt);
+}
+
+.stack-detail {
+  font-size: 13px;
+  color: var(--txt2);
+  margin-top: 2px;
+}
+
+.stack-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pill--lumi {
+  background: var(--lumi-dim);
+  color: var(--lumi);
+  border: 1px solid var(--lumi-border);
+}
+
+.pill--accent {
+  background: var(--accent-dim);
+  color: var(--accent-l);
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+.pill--ghost {
+  background: transparent;
+  color: var(--txt3);
+  border: 1px solid var(--border);
+}
+
+.stack-arrow {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 0 4px 162px;
+}
+
+.stack-arrow-line {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  position: relative;
+}
+
+.stack-arrow-line::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+
+/* ── MODULE GRID ── */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2px;
+  margin-bottom: 72px;
+}
+
+.module {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+}
+
+.module:hover {
+  border-color: var(--border-hi);
+  background: var(--glass-hi);
+}
+
+.module--lumi { border-color: var(--lumi-border); }
+.module--lumi:hover { background: rgba(34,197,94,0.06); }
+
+.module-cat {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--txt3);
+  margin-bottom: 6px;
+}
+
+.module-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--txt);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.module-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--lumi);
+}
+
+/* ── KNOWLEDGE CARD ── */
+.kl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 2px;
+  margin-top: 20px;
+}
+
+.kl-item {
+  background: rgba(34,197,94,0.05);
+  border: 1px solid var(--lumi-border);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+}
+
+.kl-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--lumi);
+  margin-bottom: 3px;
+}
+
+.kl-desc {
+  font-size: 12px;
+  color: var(--txt2);
+  line-height: 1.4;
+}
+
+/* ── SECURITY FLOW ── */
+.security-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.sec-step {
+  flex: 1;
+  min-width: 140px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px;
+  position: relative;
+}
+
+.sec-step-n {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--txt3);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sec-step-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  margin-bottom: 4px;
+}
+
+.sec-step-detail {
+  font-size: 12px;
+  color: var(--txt2);
+}
+
+.sec-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--txt3);
+  font-size: 16px;
+  padding: 0 4px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.sec-step--execute {
+  border-color: var(--lumi-border);
+  background: rgba(34,197,94,0.05);
+}
+
+.sec-step--execute .sec-step-name { color: var(--lumi); }
+
+/* ── TERMINAL BLOCK ── */
+.terminal {
+  background: #060610;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 72px;
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.terminal-tab {
+  margin-left: auto;
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+}
+
+.terminal-body { padding: 20px; }
+
+.ln { display: block; }
+.ln-prompt { color: var(--lumi); }
+.ln-cmd { color: #c4c4e0; }
+.ln-comment { color: #3c3c5c; }
+.ln-key { color: var(--accent-l); }
+.ln-val { color: #4ade80; }
+.ln-num { color: var(--amber); }
+.ln-str { color: #67e8f9; }
+.ln-blank { height: 0.8em; display: block; }
+.ln-dim { color: #44445a; }
+.cursor {
+  display: inline-block;
+  width: 7px; height: 1.1em;
+  background: var(--lumi);
+  vertical-align: text-bottom;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── FLUENT MODULES ── */
+.fluent-bar {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.fluent-chip {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 90px;
+  transition: border-color 0.2s;
+  cursor: default;
+}
+
+.fluent-chip:hover { border-color: var(--border-hi); }
+
+.fluent-chip-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt);
+  white-space: nowrap;
+}
+
+.fluent-chip-n {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--lumi);
+}
+
+.fluent-chip--cross {
+  border-color: var(--lumi-border);
+  background: rgba(34,197,94,0.05);
+}
+
+/* ── QUOTE ── */
+.quote-block {
+  border-left: 2px solid var(--lumi);
+  padding: 20px 28px;
+  margin-bottom: 72px;
+  background: var(--lumi-dim);
+  border-radius: 0 var(--r) var(--r) 0;
+}
+
+.quote-text {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: var(--txt);
+}
+
+.quote-text em {
+  font-style: normal;
+  color: var(--lumi);
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.footer-brand span { color: var(--accent-l); }
+
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--txt3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .page { padding: 40px 20px 80px; }
+  .stack-layer { grid-template-columns: 1fr; }
+  .stack-arrow { padding-left: 0; }
+  .security-flow { flex-direction: column; }
+  .sec-arrow { transform: rotate(90deg); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      Abilities for AI · Architecture
+    </div>
+    <h1 class="header-title">
+      You didn't install a plugin.<br>
+      You gave AI <em>a nervous system.</em>
+    </h1>
+    <p class="header-sub">
+      Four layers. 627 abilities. Your WordPress. Your server.
+      Zero browser required.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n">627</div>
+        <div class="stat-label">abilities</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">4</div>
+        <div class="stat-label">plugins</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">38</div>
+        <div class="stat-label">categories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">13</div>
+        <div class="stat-label">Fluent modules</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">GPL</div>
+        <div class="stat-label">open source</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STACK -->
+  <div class="section-label">01 — The four-plugin stack</div>
+
+  <div class="stack">
+
+    <!-- AI CLIENT -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Consumer</div>
+        <div class="stack-label-role">Your AI client</div>
+      </div>
+      <div class="stack-main">
+        <div>
+          <div class="stack-name">Claude · Cursor · Windsurf · any MCP client</div>
+          <div class="stack-detail">STDIO / JSON-RPC 2.0 — standard Model Context Protocol</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--ghost">MCP client</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-arrow"><div class="stack-arrow-line"></div></div>
+
+    <!-- ABILITIES-MCP -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Bridge</div>
+        <div class="stack-label-role">Node.js process</div>
+      </div>
+      <div class="stack-main stack-main--accent">
+        <div>
+          <div class="stack-name">abilities-mcp <span style="color:var(--txt3);font-weight:400;font-size:0.75rem">v1.2.0</span></div>
+          <div class="stack-detail">STDIO server · SSH + HTTP transports · multi-site routing · bridge tools</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--ghost">npm</span>
+          <span class="pill pill--accent">@wicked-evolutions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-arrow"><div class="stack-arrow-line"></div></div>
+
+    <!-- ADAPTER -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Transport</div>
+        <div class="stack-label-role">WordPress plugin</div>
+      </div>
+      <div class="stack-main">
+        <div>
+          <div class="stack-name">abilities-mcp-adapter <span style="color:var(--txt3);font-weight:400;font-size:0.75rem">v1.0.8</span></div>
+          <div class="stack-detail">REST endpoint · discovery gate · 2 public abilities · execute + batch internal</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--ghost">PHP</span>
+          <span class="pill pill--ghost">WP plugin</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-arrow"><div class="stack-arrow-line"></div></div>
+
+    <!-- ABILITIES-FOR-AI -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Engine</div>
+        <div class="stack-label-role">Core plugin</div>
+      </div>
+      <div class="stack-main stack-main--lumi">
+        <div>
+          <div class="stack-name">abilities-for-ai <span style="color:var(--txt3);font-weight:400;font-size:0.75rem">v1.2.0</span></div>
+          <div class="stack-detail">21 modules · Knowledge Layer · 4 suite auto-loaders · wp_register_ability()</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--lumi">137 abilities</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-arrow"><div class="stack-arrow-line"></div></div>
+
+    <!-- FLUENT SUITE -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Ecosystem</div>
+        <div class="stack-label-role">Standalone plugin</div>
+      </div>
+      <div class="stack-main stack-main--lumi">
+        <div>
+          <div class="stack-name">abilities-suite-for-fluent-plugins <span style="color:var(--txt3);font-weight:400;font-size:0.75rem">v2.3.1</span></div>
+          <div class="stack-detail">13 conditional modules · loads only active Fluent plugins</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--lumi">490 abilities</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-arrow"><div class="stack-arrow-line"></div></div>
+
+    <!-- WP CORE -->
+    <div class="stack-layer">
+      <div class="stack-label">
+        <div class="stack-label-name">Platform</div>
+        <div class="stack-label-role">Foundation</div>
+      </div>
+      <div class="stack-main">
+        <div>
+          <div class="stack-name">WordPress 6.9+</div>
+          <div class="stack-detail">wp_abilities_api_init · wp_abilities_api_categories_init · native Abilities API</div>
+        </div>
+        <div class="stack-meta">
+          <span class="pill pill--ghost">43% of the web</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TERMINAL — a real session -->
+  <div class="section-label">02 — What a session looks like</div>
+
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <div class="terminal-tab">abilities-mcp · helenawillow.com</div>
+    </div>
+    <div class="terminal-body">
+      <span class="ln"><span class="ln-comment"># AI connects. First call is always get-started.</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">mcp-adapter/get-started</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">site:</span>        <span class="ln-str">"Helena Willow"</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">abilities:</span>   <span class="ln-num">627</span> <span class="ln-dim">across 38 categories</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">next_action:</span> <span class="ln-str">"knowledge/boot"</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-comment"># Boot loads session history, behavioral directive, open observations.</span></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">knowledge/boot</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">mode:</span>        <span class="ln-str">"inquiry"</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">allowed:</span>     <span class="ln-val">["read"]</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">restricted:</span>  <span class="ln-val">["write","delete"]</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">lifts_when:</span>  <span class="ln-str">"user gives a directive"</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">session:</span>     <span class="ln-num">4</span>   <span class="ln-key">observations_open:</span> <span class="ln-num">24</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-comment"># AI reads freely. Writes nothing. Waits.</span></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">content/get-site-map</span></span>
+      <span class="ln"><span class="ln-dim">  </span><span class="ln-key">pages:</span>       <span class="ln-num">32</span>   <span class="ln-key">published:</span> <span class="ln-num">9</span>   <span class="ln-key">draft:</span> <span class="ln-num">23</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-comment"># Human: "Update the excerpt on page 4439."</span></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">content/get</span>  <span class="ln-dim">{ id: 4439 }  ← confirm before touching</span></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">content/update</span>  <span class="ln-dim">{ id: 4439, excerpt: "..." }  ← after confirm</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-comment"># Session end. Memory written. Next session picks up here.</span></span>
+      <span class="ln"><span class="ln-prompt">→</span> <span class="ln-cmd">knowledge/log-session</span>  <span class="ln-dim">{ summary: "..." }</span></span>
+      <span class="ln-blank"></span>
+      <span class="ln"><span class="ln-prompt">$</span> <span class="cursor"></span></span>
+    </div>
+  </div>
+
+  <!-- CORE MODULES -->
+  <div class="section-label">03 — Core WordPress modules (abilities-for-ai)</div>
+
+  <div class="module-grid" style="margin-bottom:2px;">
+    <div class="module module--lumi">
+      <div class="module-cat">Knowledge Layer</div>
+      <div class="module-name">knowledge</div>
+      <div class="module-count">15 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Content</div>
+      <div class="module-name">content</div>
+      <div class="module-count">15 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Meta</div>
+      <div class="module-name">meta fields</div>
+      <div class="module-count">13 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Navigation</div>
+      <div class="module-name">menus</div>
+      <div class="module-count">12 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Themes</div>
+      <div class="module-name">themes</div>
+      <div class="module-count">11 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Taxonomy</div>
+      <div class="module-name">taxonomies</div>
+      <div class="module-count">9 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Users</div>
+      <div class="module-name">users</div>
+      <div class="module-count">9 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Blocks</div>
+      <div class="module-name">blocks</div>
+      <div class="module-count">8 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Cache</div>
+      <div class="module-name">cache</div>
+      <div class="module-count">7 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Plugins</div>
+      <div class="module-name">plugins</div>
+      <div class="module-count">7 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Settings</div>
+      <div class="module-name">settings</div>
+      <div class="module-count">7 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Media</div>
+      <div class="module-name">media</div>
+      <div class="module-count">6 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Cron</div>
+      <div class="module-name">cron</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Filesystem</div>
+      <div class="module-name">filesystem</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Revisions</div>
+      <div class="module-name">revisions</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Site health</div>
+      <div class="module-name">site health</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Comments</div>
+      <div class="module-name">comments</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Patterns</div>
+      <div class="module-name">patterns</div>
+      <div class="module-count">5 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">REST</div>
+      <div class="module-name">rest discovery</div>
+      <div class="module-count">4 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">Rewrite</div>
+      <div class="module-name">rewrite rules</div>
+      <div class="module-count">3 abilities</div>
+    </div>
+    <div class="module">
+      <div class="module-cat">MCP</div>
+      <div class="module-name">mcp adapter</div>
+      <div class="module-count">2 abilities</div>
+    </div>
+  </div>
+
+  <!-- Suite loaders note -->
+  <div class="card" style="margin-bottom:72px;margin-top:2px;">
+    <div class="card-title">+ 4 third-party suite loaders</div>
+    <div class="card-sub">auto-glob · includes/suites/*/loader.php · deferred to wp_abilities_api_init</div>
+    <div class="card-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+        <span class="pill pill--ghost">Astra · 36 abilities</span>
+        <span class="pill pill--ghost">Spectra · 25 abilities</span>
+        <span class="pill pill--ghost">SureCart · 91 abilities</span>
+        <span class="pill pill--ghost">Presto Player · 33 abilities</span>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--txt2);">Each loader bails early if <code style="font-family:var(--font-mono);font-size:12px;color:var(--accent-l);">class_exists()</code> or <code style="font-family:var(--font-mono);font-size:12px;color:var(--accent-l);">defined()</code> returns false. Zero cost if the plugin isn't active.</div>
+    </div>
+  </div>
+
+  <!-- KNOWLEDGE LAYER -->
+  <div class="section-label">04 — The Knowledge Layer</div>
+
+  <div class="card card--lumi" style="margin-bottom:72px;">
+    <div class="card-title">Persistent AI memory, built into the plugin</div>
+    <div class="card-sub">kl_* database tables · 15 abilities · boot sequence · session history · observations</div>
+    <div class="card-body">
+      The default behavioral directive every AI receives on connection:
+      <code style="display:block;margin:12px 0;font-family:var(--font-mono);font-size:12px;color:var(--lumi);background:rgba(34,197,94,0.06);border:1px solid var(--lumi-border);border-radius:6px;padding:12px;">mode: inquiry · allowed: read · restricted: write, delete · lifts: when user gives a directive</code>
+      The AI arrives knowing the site's history. It reads everything. It writes nothing until you say go.
+    </div>
+    <div class="kl-grid">
+      <div class="kl-item">
+        <div class="kl-name">knowledge/boot</div>
+        <div class="kl-desc">Entry point · behavioral directive · session history</div>
+      </div>
+      <div class="kl-item">
+        <div class="kl-name">documents</div>
+        <div class="kl-desc">list · get · create · update · fork · delete</div>
+      </div>
+      <div class="kl-item">
+        <div class="kl-name">sessions</div>
+        <div class="kl-desc">list · get · log-session</div>
+      </div>
+      <div class="kl-item">
+        <div class="kl-name">observations</div>
+        <div class="kl-desc">list · add · resolve</div>
+      </div>
+      <div class="kl-item">
+        <div class="kl-name">revisions</div>
+        <div class="kl-desc">get-revisions · restore-revision</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLUENT MODULES -->
+  <div class="section-label">05 — Fluent ecosystem (490 abilities · 13 modules)</div>
+
+  <div class="fluent-bar">
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">FluentCRM</div>
+      <div class="fluent-chip-n">81</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Community</div>
+      <div class="fluent-chip-n">56</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Affiliate</div>
+      <div class="fluent-chip-n">50</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Cart</div>
+      <div class="fluent-chip-n">33</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Boards</div>
+      <div class="fluent-chip-n">13</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Support</div>
+      <div class="fluent-chip-n">10</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Snippets</div>
+      <div class="fluent-chip-n">7</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Forms</div>
+      <div class="fluent-chip-n">6</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Booking</div>
+      <div class="fluent-chip-n">9</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">SMTP</div>
+      <div class="fluent-chip-n">5</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Messaging</div>
+      <div class="fluent-chip-n">5</div>
+    </div>
+    <div class="fluent-chip">
+      <div class="fluent-chip-name">Auth</div>
+      <div class="fluent-chip-n">4</div>
+    </div>
+    <div class="fluent-chip fluent-chip--cross">
+      <div class="fluent-chip-name">Cross-module</div>
+      <div class="fluent-chip-n">5</div>
+    </div>
+  </div>
+
+  <!-- USER 360 CARD -->
+  <div class="card card--lumi" style="margin-bottom:72px;">
+    <div class="card-title">fluent/get-user-360</div>
+    <div class="card-sub">One call · unified view across all active Fluent products</div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px;margin-top:8px;">
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">CRM</div>
+          <div style="font-size:12px;color:var(--txt2);">subscribed · tags · last email</div>
+        </div>
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">Community</div>
+          <div style="font-size:12px;color:var(--txt2);">member since · posts · courses</div>
+        </div>
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">Forms</div>
+          <div style="font-size:12px;color:var(--txt2);">submissions · last entry</div>
+        </div>
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">Bookings</div>
+          <div style="font-size:12px;color:var(--txt2);">upcoming sessions</div>
+        </div>
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">Support</div>
+          <div style="font-size:12px;color:var(--txt2);">open tickets</div>
+        </div>
+        <div style="background:rgba(34,197,94,0.05);border:1px solid var(--lumi-border);border-radius:6px;padding:10px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--txt3);margin-bottom:3px;">Boards</div>
+          <div style="font-size:12px;color:var(--txt2);">assigned tasks · stage</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--txt2);">That used to be six admin panels. Now it's one typed call.</div>
+    </div>
+  </div>
+
+  <!-- SECURITY FLOW -->
+  <div class="section-label">06 — Security model (every ability execution)</div>
+
+  <div class="security-flow">
+    <div class="sec-step">
+      <div class="sec-step-n">01</div>
+      <div class="sec-step-name">WP capability</div>
+      <div class="sec-step-detail">manage_options · edit_posts · per module</div>
+    </div>
+    <div class="sec-arrow">→</div>
+    <div class="sec-step">
+      <div class="sec-step-n">02</div>
+      <div class="sec-step-name">Permission toggle</div>
+      <div class="sec-step-detail">read / write / delete per module in dashboard</div>
+    </div>
+    <div class="sec-arrow">→</div>
+    <div class="sec-step">
+      <div class="sec-step-n">03</div>
+      <div class="sec-step-name">Pro gate</div>
+      <div class="sec-step-detail">license check · 403 + upgrade URL</div>
+    </div>
+    <div class="sec-arrow">→</div>
+    <div class="sec-step sec-step--execute">
+      <div class="sec-step-n">04</div>
+      <div class="sec-step-name">Execute</div>
+      <div class="sec-step-detail">callback runs</div>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-block">
+    <div class="quote-text">
+      They put AI inside the plugin.<br>
+      We put <em>the plugin inside AI.</em>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">Wicked <span>Evolutions</span></div>
+    <div class="footer-meta">GPL-2.0 · WordPress 6.9+ · wickedevolutions.com</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

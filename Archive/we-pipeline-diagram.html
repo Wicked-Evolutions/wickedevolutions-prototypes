@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities Pipeline · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   BRAND TOKENS
+   ══════════════════════════════════════════ */
+:root {
+  --y:   #FFEE58;
+  --g:   #22c55e;
+  --p:   #7c3aed;
+  --pl:  #a78bfa;
+
+  --yd:  rgba(255,238,88,0.07);
+  --yb:  rgba(255,238,88,0.17);
+  --gd:  rgba(34,197,94,0.07);
+  --gb:  rgba(34,197,94,0.17);
+  --pd:  rgba(124,58,237,0.07);
+  --pb:  rgba(124,58,237,0.16);
+
+  --gl:  rgba(255,255,255,0.025);
+  --glb: rgba(255,255,255,0.055);
+  --glh: rgba(255,255,255,0.11);
+
+  --fd: 'Syne', sans-serif;
+  --fb: 'Manrope', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+}
+
+[data-theme="dark"] {
+  --bg:    #111111;
+  --bg2:   #161616;
+  --text:  #E0DDD5;
+  --t2:    rgba(224,221,213,0.50);
+  --t3:    rgba(224,221,213,0.22);
+  --t4:    rgba(224,221,213,0.09);
+  --card:  rgba(255,255,255,0.025);
+  --border: rgba(255,255,255,0.055);
+  --bordh: rgba(255,255,255,0.11);
+}
+
+[data-theme="light"] {
+  --bg:    #F5F4F0;
+  --bg2:   #ECEAE4;
+  --text:  #1a1a18;
+  --t2:    rgba(26,26,24,0.55);
+  --t3:    rgba(26,26,24,0.30);
+  --t4:    rgba(26,26,24,0.10);
+  --card:  rgba(255,255,255,0.70);
+  --border: rgba(0,0,0,0.09);
+  --bordh: rgba(0,0,0,0.16);
+  --gl:    rgba(0,0,0,0.03);
+  --glb:   rgba(0,0,0,0.09);
+  --glh:   rgba(0,0,0,0.16);
+}
+
+/* ══════════════════════════════════════════
+   RESET & BASE
+   ══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ══════════════════════════════════════════
+   CHROME — NAV BAR
+   ══════════════════════════════════════════ */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--glb);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  backdrop-filter: blur(12px);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.top-bar-brand {
+  font-family: var(--fd);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.top-bar-brand span { color: var(--pl); }
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-bar-label {
+  font-family: var(--fm);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--t3);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--glb);
+  border-radius: 100px;
+  padding: 5px 14px 5px 10px;
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--t2);
+  text-transform: uppercase;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.theme-toggle:hover { border-color: var(--bordh); color: var(--text); }
+
+.theme-toggle-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--y);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+[data-theme="light"] .theme-toggle-dot { background: var(--p); }
+
+/* ══════════════════════════════════════════
+   LAYOUT WRAPPER
+   ══════════════════════════════════════════ */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 72px 40px 120px;
+}
+
+/* ══════════════════════════════════════════
+   PAGE HEADER
+   ══════════════════════════════════════════ */
+.page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--pb);
+  color: var(--pl);
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.ebdot {
+  width: 5px; height: 5px;
+  background: var(--pl);
+  border-radius: 50%;
+  animation: pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.page-title {
+  font-family: var(--fd);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.page-title em { font-style: normal; color: var(--g); }
+.page-title .accent-p { color: var(--pl); }
+
+.page-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--t2);
+  max-width: 560px;
+  line-height: 1.82;
+  margin-bottom: 16px;
+}
+
+hr.gl {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, transparent, var(--p), transparent);
+  box-shadow: 0 0 14px rgba(124,58,237,0.2);
+  opacity: 0.28;
+  max-width: 90px;
+  margin-bottom: 72px;
+}
+
+/* ══════════════════════════════════════════
+   LANE LABELS
+   ══════════════════════════════════════════ */
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0;
+  align-items: stretch;
+  position: relative;
+}
+
+.lane + .lane { margin-top: 2px; }
+
+.lane-label {
+  padding: 0 20px 0 0;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 26px;
+}
+
+.lane-label-inner {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--t3);
+  writing-mode: horizontal-tb;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lane-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════
+   NODE CARDS
+   ══════════════════════════════════════════ */
+.node-card {
+  background: var(--card);
+  border: 1px solid var(--glb);
+  border-radius: 10px;
+  padding: 22px 28px;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+  animation: fadeIn 0.5s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.node-card--discovery { border-color: rgba(167,139,250,0.20); background: linear-gradient(135deg, rgba(124,58,237,0.05), var(--card) 70%); animation-delay: 0.05s; }
+.node-card--resolve   { border-color: rgba(167,139,250,0.25); background: linear-gradient(135deg, rgba(124,58,237,0.07), var(--card) 60%); animation-delay: 0.15s; }
+.node-card--fetch     { border-color: rgba(34,197,94,0.20); background: linear-gradient(135deg, rgba(34,197,94,0.06), var(--card) 60%); animation-delay: 0.25s; }
+.node-card--patterns  { border-color: rgba(34,197,94,0.20); background: linear-gradient(135deg, rgba(34,197,94,0.06), var(--card) 60%); animation-delay: 0.35s; }
+.node-card--assemble  { border-color: rgba(255,238,88,0.18); background: linear-gradient(135deg, rgba(255,238,88,0.05), var(--card) 60%); animation-delay: 0.45s; }
+.node-card--render    { border-color: rgba(255,238,88,0.22); background: linear-gradient(135deg, rgba(255,238,88,0.07), var(--card) 60%); animation-delay: 0.55s; }
+
+.node-card-meta {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node-card-ability {
+  font-family: var(--fm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.ability-ns  { color: var(--t3); }
+.ability-sep { color: var(--t3); margin: 0 1px; }
+.ability-name-y  { color: var(--y); }
+.ability-name-p  { color: var(--pl); }
+.ability-name-g  { color: var(--g); }
+
+.node-card-sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.6;
+}
+
+.node-card-sub strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Parallel fetch wrapper */
+.parallel-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+/* Return badge */
+.return-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-top: 10px;
+}
+
+.rb--y { background: var(--yd); color: var(--y); border: 1px solid var(--yb); }
+.rb--p { background: var(--pd); color: var(--pl); border: 1px solid var(--pb); }
+.rb--g { background: var(--gd); color: var(--g); border: 1px solid var(--gb); }
+.rb--n { background: var(--gl); color: var(--t2); border: 1px solid var(--glb); }
+
+/* Annotation badge */
+.anno {
+  font-family: var(--fm);
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.anno--ro { background: var(--gd); color: var(--g); border: 1px solid var(--gb); }
+
+/* ══════════════════════════════════════════
+   CONNECTOR ARROWS
+   ══════════════════════════════════════════ */
+.connector {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 110px;
+  height: 36px;
+  gap: 12px;
+  position: relative;
+}
+
+.connector-line {
+  width: 1px;
+  height: 36px;
+  position: absolute;
+  left: 149px;
+  top: 0;
+}
+
+.connector-line--p { background: linear-gradient(to bottom, rgba(124,58,237,0.35), rgba(124,58,237,0.15)); }
+.connector-line--g { background: linear-gradient(to bottom, rgba(34,197,94,0.35), rgba(34,197,94,0.15)); }
+.connector-line--y { background: linear-gradient(to bottom, rgba(255,238,88,0.30), rgba(255,238,88,0.12)); }
+
+.connector-label {
+  padding-left: 49px;
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--t3);
+  letter-spacing: 0.05em;
+}
+
+/* Parallel split connector */
+.split-connector {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  height: 44px;
+  align-items: stretch;
+  margin: 2px 0;
+}
+
+.split-connector-lane { }
+
+.split-connector-body {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.split-line-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+/* Merge connector */
+.merge-connector {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  height: 44px;
+  align-items: stretch;
+  margin: 2px 0;
+}
+
+/* ══════════════════════════════════════════
+   SPLIT / MERGE SVG
+   ══════════════════════════════════════════ */
+.flow-svg {
+  width: 100%;
+  overflow: visible;
+}
+
+/* ══════════════════════════════════════════
+   ASSEMBLE PANEL — DATA COLUMNS
+   ══════════════════════════════════════════ */
+.assemble-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 16px;
+  border: 1px solid var(--yb);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.assemble-col {
+  padding: 14px 16px;
+  background: var(--yd);
+}
+
+.assemble-col + .assemble-col {
+  border-left: 1px solid var(--yb);
+}
+
+.assemble-col-title {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,238,88,0.5);
+  margin-bottom: 8px;
+}
+
+.assemble-field {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--t2);
+  line-height: 1.8;
+}
+
+.assemble-field span { color: var(--y); }
+
+/* ══════════════════════════════════════════
+   RENDER PANELS
+   ══════════════════════════════════════════ */
+.render-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.render-panel {
+  background: var(--card);
+  border: 1px solid rgba(255,238,88,0.15);
+  border-radius: 10px;
+  padding: 20px 24px;
+  animation: fadeIn 0.5s ease 0.6s both;
+}
+
+.render-panel-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: rgba(255,238,88,0.45);
+  margin-bottom: 8px;
+}
+
+.render-panel-name {
+  font-family: var(--fd);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--y);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.render-panel-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════
+   STAT BAND — FOOTER
+   ══════════════════════════════════════════ */
+.footer-band {
+  border-top: 1px solid var(--glb);
+  border-bottom: 1px solid var(--glb);
+  margin-top: 72px;
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.footer-stat {
+  padding: 0 32px;
+  border-right: 1px solid var(--glb);
+}
+
+.footer-stat:first-child { padding-left: 0; }
+.footer-stat:last-child { border-right: none; }
+
+.footer-stat-n {
+  font-family: var(--fd);
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.footer-stat-l {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t2);
+}
+
+/* ══════════════════════════════════════════
+   QUOTE
+   ══════════════════════════════════════════ */
+.quote-block {
+  padding: 56px 0 0;
+  text-align: center;
+}
+
+.quote-text {
+  font-family: var(--fd);
+  font-size: clamp(1.3rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  color: var(--text);
+  max-width: 640px;
+  margin: 0 auto 16px;
+}
+
+.quote-text em { font-style: normal; color: var(--y); }
+
+.quote-attr {
+  font-family: var(--fm);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t3);
+}
+
+/* ══════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ══════════════════════════════════════════ */
+[data-theme="light"] .node-card--discovery { background: linear-gradient(135deg, rgba(124,58,237,0.05), rgba(255,255,255,0.7) 70%); }
+[data-theme="light"] .node-card--resolve   { background: linear-gradient(135deg, rgba(124,58,237,0.07), rgba(255,255,255,0.75) 60%); }
+[data-theme="light"] .node-card--fetch     { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(255,255,255,0.75) 60%); }
+[data-theme="light"] .node-card--patterns  { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(255,255,255,0.75) 60%); }
+[data-theme="light"] .node-card--assemble  { background: linear-gradient(135deg, rgba(255,238,88,0.08), rgba(255,255,255,0.75) 60%); }
+[data-theme="light"] .node-card--render    { background: linear-gradient(135deg, rgba(255,238,88,0.10), rgba(255,255,255,0.75) 60%); }
+[data-theme="light"] .render-panel         { background: rgba(255,255,255,0.7); }
+[data-theme="light"] .assemble-col         { background: rgba(255,238,88,0.06); }
+[data-theme="light"] .ability-ns           { color: var(--t3); }
+[data-theme="light"] .ability-sep          { color: var(--t3); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .page { padding: 48px 20px 80px; }
+  .top-bar { padding: 0 20px; }
+  .lane { grid-template-columns: 72px 1fr; }
+  .connector { padding-left: 72px; }
+  .connector-line { left: 111px; }
+  .connector-label { padding-left: 49px; }
+  .parallel-wrap { grid-template-columns: 1fr; }
+  .assemble-grid { grid-template-columns: 1fr; }
+  .render-grid { grid-template-columns: 1fr; }
+  .footer-band { grid-template-columns: repeat(2, 1fr); }
+  .footer-stat:nth-child(2) { border-right: none; }
+  .footer-stat:nth-child(3) { border-right: 1px solid var(--glb); padding-left: 0; margin-top: 28px; }
+  .footer-stat:nth-child(4) { margin-top: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="top-bar-brand">Wicked <span>Evolutions</span></div>
+  <div class="top-bar-right">
+    <div class="top-bar-label">Ability pipeline · Priestess cohort 360</div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="theme-toggle-dot"></div>
+      <span id="theme-label">Dark</span>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-eyebrow">
+    <span class="ebdot"></span>
+    Abilities MCP · Helena site · Read-only session
+  </div>
+
+  <h1 class="page-title">
+    Five calls.<br>
+    <em>One complete picture.</em>
+  </h1>
+
+  <p class="page-sub">
+    How Claude assembled the Priestess cohort 360 — from tag ID discovery through full journey fetch to rendered dashboard. Every step visible, every call documented.
+  </p>
+
+  <hr class="gl">
+
+  <!-- ════════════════════════════
+       PIPELINE
+       ════════════════════════════ -->
+  <div class="pipeline">
+
+    <!-- ── LANE 1: DISCOVERY ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--pl);"></div>
+          Discovery
+        </div>
+      </div>
+      <div class="node-card node-card--discovery">
+        <div class="node-card-meta">
+          <span style="color:var(--t3);">Call 1 of 5</span>
+          <span class="anno anno--ro">readonly</span>
+        </div>
+        <div class="node-card-ability">
+          <span class="ability-ns">mcp-adapter</span>
+          <span class="ability-sep">/</span>
+          <span class="ability-name-p">discover-abilities</span>
+        </div>
+        <div class="node-card-sub">
+          Searched twice — <strong>"contact"</strong> then <strong>"tag"</strong> — to confirm the CRM ability manifest and learn exact parameter schemas before making any data calls. Returned <strong>41 abilities</strong> with input schemas, annotations, and tier info.
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+          <span class="return-badge rb--p">41 abilities confirmed</span>
+          <span class="return-badge rb--n">schemas inspected</span>
+          <span class="return-badge rb--n">annotations read</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="connector-line connector-line--p"></div>
+      <span class="connector-label">manifest confirmed → proceed to resolve</span>
+    </div>
+
+    <!-- ── LANE 2: RESOLVE ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--pl);"></div>
+          Resolve
+        </div>
+      </div>
+      <div class="node-card node-card--resolve">
+        <div class="node-card-meta">
+          <span style="color:var(--t3);">Call 2 of 5</span>
+          <span class="anno anno--ro">readonly</span>
+        </div>
+        <div class="node-card-ability">
+          <span class="ability-ns">fluent-crm</span>
+          <span class="ability-sep">/</span>
+          <span class="ability-name-p">list-tags</span>
+        </div>
+        <div class="node-card-sub">
+          Searched <strong>"priestess"</strong> to resolve tag IDs before filtering contacts. Without this step, the contact query would require guessing numeric IDs. Returned two tags with subscriber counts.
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+          <span class="return-badge rb--p">ID 52 · AT_PRIESTESS_CH1_ONB · 24 subscribers</span>
+          <span class="return-badge rb--p">ID 53 · AT_PRIESTESS_CH1_ORD · 20 subscribers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="connector-line connector-line--g"></div>
+      <span class="connector-label">IDs resolved → parallel fetch begins</span>
+    </div>
+
+    <!-- ── LANE 3: FETCH (parallel) ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--g);"></div>
+          Fetch
+        </div>
+      </div>
+      <div class="parallel-wrap">
+        <div class="node-card node-card--fetch">
+          <div class="node-card-meta">
+            <span style="color:var(--t3);">Call 3 of 5</span>
+            <span class="anno anno--ro">readonly</span>
+          </div>
+          <div class="node-card-ability">
+            <span class="ability-ns">fluent-crm</span>
+            <span class="ability-sep">/</span>
+            <span class="ability-name-g">list-contacts</span>
+          </div>
+          <div class="node-card-sub">
+            Filter: <strong>tags "52,53"</strong> · per_page 100. Returns the full contact roster — IDs, names, emails, status, created dates — used as the selector for the next call.
+          </div>
+          <div style="margin-top:10px;">
+            <span class="return-badge rb--g">24 contacts · all subscribed</span>
+          </div>
+        </div>
+        <div class="node-card node-card--fetch">
+          <div class="node-card-meta">
+            <span style="color:var(--t3);">Call 4a of 5</span>
+            <span class="anno anno--ro">readonly</span>
+          </div>
+          <div class="node-card-ability">
+            <span class="ability-ns">fluent-crm</span>
+            <span class="ability-sep">/</span>
+            <span class="ability-name-g">get-cohort-journeys</span>
+          </div>
+          <div class="node-card-sub">
+            Selector: <strong>contact_ids</strong> · all 24 IDs · include_notes: summary. Returns tags + tag_dates, purchases, email stats, automations, event keys + counts, note summaries. 10–15× cheaper than individual journey calls.
+          </div>
+          <div style="margin-top:10px;">
+            <span class="return-badge rb--g">full journey per contact</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="connector-line connector-line--g"></div>
+      <span class="connector-label">journeys merged into context → patterns call</span>
+    </div>
+
+    <!-- ── LANE 4: PATTERNS ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--g);"></div>
+          Analyse
+        </div>
+      </div>
+      <div class="node-card node-card--patterns">
+        <div class="node-card-meta">
+          <span style="color:var(--t3);">Call 4b of 5 · second turn</span>
+          <span class="anno anno--ro">readonly</span>
+        </div>
+        <div class="node-card-ability">
+          <span class="ability-ns">fluent-crm</span>
+          <span class="ability-sep">/</span>
+          <span class="ability-name-g">get-cohort-patterns</span>
+        </div>
+        <div class="node-card-sub">
+          Same 24 contact IDs · purchase_event_key: cart_order_paid. Returns aggregate purchase stats, time-to-first-purchase distribution, pre-purchase engagement signals ranked by frequency, tag progression paths, email engagement totals, and the full conversion funnel. ~2K tokens.
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+          <span class="return-badge rb--g">117.5k SEK total revenue</span>
+          <span class="return-badge rb--g">87.5% purchase rate</span>
+          <span class="return-badge rb--g">83.4% email open rate</span>
+          <span class="return-badge rb--g">10 engagement signals ranked</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="connector-line connector-line--y"></div>
+      <span class="connector-label">all data in context → render</span>
+    </div>
+
+    <!-- ── LANE 5: ASSEMBLE ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--y);"></div>
+          Assemble
+        </div>
+      </div>
+      <div class="node-card node-card--assemble">
+        <div class="node-card-meta">
+          <span style="color:var(--t3);">In-context · no further calls</span>
+        </div>
+        <div class="node-card-ability">
+          <span style="color:var(--y);">Data assembled in Claude context</span>
+        </div>
+        <div class="node-card-sub">
+          All three return payloads are merged in the conversation context. No additional ability calls needed to render either dashboard — the data is already complete.
+        </div>
+        <div class="assemble-grid">
+          <div class="assemble-col">
+            <div class="assemble-col-title">list-contacts</div>
+            <div class="assemble-field">
+              <span>id</span>, name, email<br>
+              status, created_at
+            </div>
+          </div>
+          <div class="assemble-col">
+            <div class="assemble-col-title">get-cohort-journeys</div>
+            <div class="assemble-field">
+              tags + <span>tag_dates</span><br>
+              purchases, emails<br>
+              automations, events<br>
+              note summaries
+            </div>
+          </div>
+          <div class="assemble-col">
+            <div class="assemble-col-title">get-cohort-patterns</div>
+            <div class="assemble-field">
+              purchase_stats<br>
+              conversion <span>funnel</span><br>
+              engagement signals<br>
+              tag_progression
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="connector-line connector-line--y"></div>
+      <span class="connector-label">rendered in-browser · no server calls</span>
+    </div>
+
+    <!-- ── LANE 6: RENDER ── -->
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--y);"></div>
+          Render
+        </div>
+      </div>
+      <div style="width:100%;">
+        <div class="render-grid">
+          <div class="render-panel">
+            <div class="render-panel-label">Dashboard 1 · Turn 1</div>
+            <div class="render-panel-name">360 Cohort Dashboard</div>
+            <div class="render-panel-desc">Roster table with filters, revenue bar chart, archetype coverage grid, entry path bars. Built from list-contacts + get-cohort-journeys data.</div>
+          </div>
+          <div class="render-panel">
+            <div class="render-panel-label">Dashboard 2 · Turn 2</div>
+            <div class="render-panel-name">Cohort Patterns</div>
+            <div class="render-panel-desc">Conversion funnel, product revenue table, time-to-purchase distribution, engagement signals, email stats. Built from get-cohort-patterns data.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CALL 5: DIAGRAM ── -->
+    <div class="connector">
+      <div class="connector-line connector-line--p"></div>
+      <span class="connector-label">pipeline documented → this diagram</span>
+    </div>
+
+    <div class="lane">
+      <div class="lane-label">
+        <div class="lane-label-inner">
+          <div class="lane-dot" style="background:var(--pl);"></div>
+          Document
+        </div>
+      </div>
+      <div class="node-card node-card--discovery">
+        <div class="node-card-meta">
+          <span style="color:var(--t3);">Call 5 of 5 · this file</span>
+          <span class="anno anno--ro">readonly</span>
+        </div>
+        <div class="node-card-ability">
+          <span class="ability-name-p">Pipeline diagram · HTML artifact</span>
+        </div>
+        <div class="node-card-sub">
+          The pipeline itself, diagrammed in WE brand language and exported as a standalone HTML file for use on site, in blog posts, and in communications. Dark and light mode. No external dependencies beyond Google Fonts.
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+          <span class="return-badge rb--p">dark mode</span>
+          <span class="return-badge rb--p">light mode</span>
+          <span class="return-badge rb--n">embeddable</span>
+          <span class="return-badge rb--n">standalone HTML</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pipeline -->
+
+  <!-- ════════════════════════════
+       STAT BAND
+       ════════════════════════════ -->
+  <div class="footer-band">
+    <div class="footer-stat">
+      <div class="footer-stat-n" style="color:var(--g);">5</div>
+      <div class="footer-stat-l">ability calls total</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-n" style="color:var(--g);">0</div>
+      <div class="footer-stat-l">writes made</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-n" style="color:var(--pl);">24</div>
+      <div class="footer-stat-l">contacts in cohort</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-n" style="color:var(--y);">2</div>
+      <div class="footer-stat-l">dashboards rendered</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════
+       QUOTE
+       ════════════════════════════ -->
+  <div class="quote-block">
+    <div class="quote-text">
+      Five calls.<br>
+      Zero dashboards.<br>
+      <em>One conversation.</em>
+    </div>
+    <div class="quote-attr" style="margin-top:20px;">Wicked Evolutions · Abilities MCP · Helena site · Session 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+}
+</script>
+
+</body>
+</html>

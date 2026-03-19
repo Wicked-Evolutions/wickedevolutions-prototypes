@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI — Stack Architecture</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS — from the live site + landing.css
+   ───────────────────────────────────────── */
+:root {
+  --bg:          #111111;
+  --text:        #E0DDD5;
+  --text-2:      rgba(224,221,213,0.55);
+  --text-3:      rgba(224,221,213,0.28);
+
+  --lumi:        #22c55e;
+  --lumi-dim:    rgba(34,197,94,0.07);
+  --lumi-border: rgba(34,197,94,0.18);
+
+  --accent:      #7c3aed;
+  --accent-l:    #a78bfa;
+  --accent-dim:  rgba(124,58,237,0.08);
+
+  --amber:       #f59e0b;
+
+  --glass:       rgba(255,255,255,0.03);
+  --glass-b:     rgba(255,255,255,0.06);
+  --glass-b-hi:  rgba(255,255,255,0.12);
+
+  --font-d: 'Syne', sans-serif;
+  --font-b: 'Manrope', system-ui, sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 20px;           /* exact match: live blog body */
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color:#fff; }
+
+/* ─── COLUMN — 680px, same as the blog ─── */
+.col {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ─── SECTIONS — generous vertical rhythm ─── */
+.section {
+  padding: 96px 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--glass-b);
+}
+
+/* ─── GLOW LINE (signature from landing.css) ─── */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 12px rgba(124,58,237,0.25);
+  opacity: 0.35;
+  max-width: 120px;
+  margin: 0 auto;
+  border: none;
+}
+
+/* ─── EYEBROW ─── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(124,58,237,0.18);
+  color: var(--accent-l);
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.dot {
+  width: 5px; height: 5px;
+  background: var(--lumi);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ─── HERO ─── */
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--lumi);
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 72px;
+}
+
+/* ─── STATS ─── */
+.stats {
+  display: flex;
+  gap: 52px;
+  flex-wrap: wrap;
+}
+
+.stat-n {
+  font-family: var(--font-d);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--lumi);
+}
+
+.stat-l {
+  font-family: var(--font-m);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-top: 5px;
+}
+
+/* ─── SECTION META ─── */
+.section-n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  margin-bottom: 40px;
+}
+
+.section-h {
+  font-family: var(--font-d);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.section-p {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 48px;
+}
+
+/* ─── GLASS ─── */
+.g {
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: 12px;
+  transition: border-color 0.3s;
+}
+
+.g:hover { border-color: var(--glass-b-hi); }
+
+.g--lumi {
+  border-color: var(--lumi-border);
+  background: linear-gradient(135deg, var(--lumi-dim) 0%, var(--glass) 65%);
+}
+
+/* ─── STACK ─── */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stack-row {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.stack-aside {
+  width: 88px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stack-aside-role {
+  font-family: var(--font-m);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 3px;
+}
+
+.stack-aside-type {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.stack-main {
+  flex: 1;
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--glass);
+  transition: border-color 0.25s;
+}
+
+.stack-main:hover { border-color: var(--glass-b-hi); }
+
+.stack-main--lumi {
+  border-color: var(--lumi-border);
+  background: linear-gradient(90deg, rgba(34,197,94,0.04) 0%, var(--glass) 70%);
+}
+
+.stack-main--accent {
+  border-color: rgba(124,58,237,0.16);
+  background: linear-gradient(90deg, rgba(124,58,237,0.04) 0%, var(--glass) 70%);
+}
+
+.stack-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.stack-detail {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+
+.pill {
+  flex-shrink: 0;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pill--lumi { background:var(--lumi-dim); color:var(--lumi); border:1px solid var(--lumi-border); }
+.pill--ghost { background:transparent; color:var(--text-3); border:1px solid var(--glass-b); }
+
+.stack-join {
+  margin-left: 46px;
+  padding: 3px 0;
+}
+
+.stack-join-line {
+  width: 1px;
+  height: 18px;
+  background: var(--glass-b-hi);
+  opacity: 0.5;
+}
+
+/* ─── TERMINAL ─── */
+.terminal {
+  background: #09090f;
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: var(--font-m);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.018);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.d1 { width:9px; height:9px; border-radius:50%; background:#ef4444; opacity:0.6; }
+.d2 { width:9px; height:9px; border-radius:50%; background:#f59e0b; opacity:0.6; }
+.d3 { width:9px; height:9px; border-radius:50%; background:#22c55e; opacity:0.6; }
+
+.term-tab {
+  margin-left: auto;
+  font-size: 10px;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.05em;
+}
+
+.term-body {
+  padding: 28px 28px 32px;
+  color: rgba(224,221,213,0.35);
+}
+
+.ln  { display:block; }
+.lb  { display:block; height:0.9em; }
+.tg  { color:var(--lumi); }
+.tp  { color:var(--accent-l); }
+.ta  { color:var(--amber); }
+.tw  { color:rgba(224,221,213,0.75); }
+.cur {
+  display:inline-block; width:7px; height:1em;
+  background:var(--lumi); vertical-align:text-bottom;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ─── MODULE LIST ─── */
+.mods {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mod {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--glass-b);
+}
+
+.mod:last-child { border-bottom: none; }
+
+.mod-name {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.mod-name--lumi { color: var(--lumi); }
+
+.mod-n {
+  font-family: var(--font-m);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ─── KL CARD ─── */
+.kl-card {
+  padding: 36px;
+}
+
+.kl-directive {
+  font-family: var(--font-m);
+  font-size: 12px;
+  color: var(--lumi);
+  background: rgba(34,197,94,0.04);
+  border: 1px solid var(--lumi-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  line-height: 2;
+}
+
+.kl-note {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-2);
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+.kl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 28px;
+}
+
+.kl-item {
+  padding: 16px 0 16px;
+  border-bottom: 1px solid rgba(34,197,94,0.1);
+}
+
+.kl-item:nth-child(odd) { padding-right: 20px; border-right: 1px solid rgba(34,197,94,0.1); }
+.kl-item:nth-child(even) { padding-left: 20px; }
+
+.kl-name {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--lumi);
+  margin-bottom: 4px;
+}
+
+.kl-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* ─── FLUENT ─── */
+.fluent {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fl-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--glass-b);
+}
+
+.fl-row:last-child { border-bottom:none; }
+
+.fl-name {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.fl-name--cross { color: var(--lumi); font-weight: 500; }
+
+.fl-n {
+  font-family: var(--font-m);
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.fl-n--lumi { color: var(--lumi); }
+
+/* ─── 360 CARD ─── */
+.u360 {
+  padding: 36px;
+}
+
+.u360-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 24px;
+}
+
+.u360-item {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(34,197,94,0.1);
+}
+
+.u360-item:nth-child(odd) { padding-right:20px; border-right:1px solid rgba(34,197,94,0.1); }
+.u360-item:nth-child(even) { padding-left:20px; }
+
+.u360-src {
+  font-family: var(--font-m);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+
+.u360-detail {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-2);
+}
+
+/* ─── SECURITY ─── */
+.sec {
+  display: flex;
+  gap: 1px;
+}
+
+.sec-step {
+  flex: 1;
+  padding: 22px 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+}
+
+.sec-step--go {
+  border-color: var(--lumi-border);
+  background: var(--lumi-dim);
+}
+
+.sec-n {
+  font-family: var(--font-m);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+
+.sec-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.sec-name--lumi { color: var(--lumi); }
+
+.sec-detail {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* ─── QUOTE ─── */
+.quote {
+  border-left: 2px solid var(--lumi);
+  padding: 0 0 0 32px;
+}
+
+.quote-text {
+  font-family: var(--font-d);
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.quote-text em { font-style:normal; color:var(--lumi); }
+
+/* ─── FOOTER ─── */
+.footer {
+  border-top: 1px solid var(--glass-b);
+  padding: 40px 0 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-brand {
+  font-family: var(--font-d);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.footer-brand span { color: var(--accent-l); }
+
+.footer-meta {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 500px) {
+  body { font-size: 17px; }
+  .col { padding: 0 20px; }
+  .stack-row { flex-direction: column; }
+  .stack-aside { width: 100%; flex-direction: row; align-items: center; padding: 10px 14px; }
+  .stack-aside-role { margin-bottom: 0; margin-right: 8px; }
+  .sec { flex-direction: column; }
+  .kl-grid, .u360-grid { grid-template-columns: 1fr; }
+  .kl-item:nth-child(odd), .kl-item:nth-child(even) { padding-left:0; padding-right:0; border-right:none; }
+  .u360-item:nth-child(odd), .u360-item:nth-child(even) { padding-left:0; padding-right:0; border-right:none; }
+}
+</style>
+</head>
+<body>
+
+<div style="padding: 120px 0 160px;">
+<div class="col">
+
+  <!-- ── HERO ── -->
+  <section class="section" style="padding-top:0; border-top:none;">
+    <div class="eyebrow"><span class="dot"></span>The Experiment · Stack Architecture</div>
+
+    <h1 class="hero-title">
+      You didn't install<br>
+      a plugin. You gave AI<br>
+      <em>a nervous system.</em>
+    </h1>
+
+    <p class="hero-sub">
+      Four layers. 627 abilities. Your WordPress,
+      your server — no browser, no SaaS, no escape hatch.
+    </p>
+
+    <div class="stats">
+      <div>
+        <div class="stat-n">627</div>
+        <div class="stat-l">abilities</div>
+      </div>
+      <div>
+        <div class="stat-n">4</div>
+        <div class="stat-l">plugins</div>
+      </div>
+      <div>
+        <div class="stat-n">38</div>
+        <div class="stat-l">categories</div>
+      </div>
+      <div>
+        <div class="stat-n">13</div>
+        <div class="stat-l">Fluent modules</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STACK ── -->
+  <section class="section">
+    <div class="section-n">01 — The stack</div>
+
+    <div class="stack">
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Consumer</div>
+          <div class="stack-aside-type">AI client</div>
+        </div>
+        <div class="stack-main">
+          <div>
+            <div class="stack-name">Claude · Cursor · Windsurf · any MCP client</div>
+            <div class="stack-detail">STDIO · JSON-RPC 2.0 · Model Context Protocol</div>
+          </div>
+          <span class="pill pill--ghost">your tool</span>
+        </div>
+      </div>
+
+      <div class="stack-join"><div class="stack-join-line"></div></div>
+
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Bridge</div>
+          <div class="stack-aside-type">Node.js</div>
+        </div>
+        <div class="stack-main stack-main--accent">
+          <div>
+            <div class="stack-name">abilities-mcp <span style="font-weight:300;font-size:13px;color:var(--text-2)">v1.2.0</span></div>
+            <div class="stack-detail">STDIO server · SSH + HTTP transports · multi-site routing</div>
+          </div>
+          <span class="pill pill--ghost">npm</span>
+        </div>
+      </div>
+
+      <div class="stack-join"><div class="stack-join-line"></div></div>
+
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Transport</div>
+          <div class="stack-aside-type">WP plugin</div>
+        </div>
+        <div class="stack-main">
+          <div>
+            <div class="stack-name">abilities-mcp-adapter <span style="font-weight:300;font-size:13px;color:var(--text-2)">v1.0.8</span></div>
+            <div class="stack-detail">REST endpoint · discovery gate · execute · batch</div>
+          </div>
+          <span class="pill pill--ghost">PHP</span>
+        </div>
+      </div>
+
+      <div class="stack-join"><div class="stack-join-line"></div></div>
+
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Engine</div>
+          <div class="stack-aside-type">WP plugin</div>
+        </div>
+        <div class="stack-main stack-main--lumi">
+          <div>
+            <div class="stack-name">abilities-for-ai <span style="font-weight:300;font-size:13px;color:var(--text-2)">v1.2.0</span></div>
+            <div class="stack-detail">21 modules · Knowledge Layer · 4 suite loaders</div>
+          </div>
+          <span class="pill pill--lumi">137 abilities</span>
+        </div>
+      </div>
+
+      <div class="stack-join"><div class="stack-join-line"></div></div>
+
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Ecosystem</div>
+          <div class="stack-aside-type">WP plugin</div>
+        </div>
+        <div class="stack-main stack-main--lumi">
+          <div>
+            <div class="stack-name">abilities-suite-for-fluent-plugins <span style="font-weight:300;font-size:13px;color:var(--text-2)">v2.3.1</span></div>
+            <div class="stack-detail">13 conditional modules · only loads active Fluent plugins</div>
+          </div>
+          <span class="pill pill--lumi">490 abilities</span>
+        </div>
+      </div>
+
+      <div class="stack-join"><div class="stack-join-line"></div></div>
+
+      <div class="stack-row">
+        <div class="stack-aside">
+          <div class="stack-aside-role">Platform</div>
+          <div class="stack-aside-type">Foundation</div>
+        </div>
+        <div class="stack-main">
+          <div>
+            <div class="stack-name">WordPress 6.9+</div>
+            <div class="stack-detail">native Abilities API · wp_register_ability()</div>
+          </div>
+          <span class="pill pill--ghost">43% of the web</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TERMINAL ── -->
+  <section class="section">
+    <div class="section-n">02 — A session</div>
+    <h2 class="section-h">What happens when you connect.</h2>
+    <p class="section-p">The AI arrives oriented, reads everything, and waits. It writes nothing until you say go.</p>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="d1"></div><div class="d2"></div><div class="d3"></div>
+        <div class="term-tab">abilities-mcp · helenawillow.com</div>
+      </div>
+      <div class="term-body">
+<span class="ln" style="color:rgba(224,221,213,0.2)"># connect. first call always get-started.</span>
+<span class="lb"></span>
+<span class="ln"><span class="tp">→ mcp-adapter/get-started</span></span>
+<span class="ln">  site: <span class="tw">"Helena Willow"</span>  abilities: <span class="tg">627</span>  next: <span class="tw">"knowledge/boot"</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="tp">→ knowledge/boot</span></span>
+<span class="ln">  mode: <span class="tw">"inquiry"</span>  allowed: <span class="tg">read</span>  restricted: <span class="ta">write, delete</span></span>
+<span class="ln">  lifts: <span class="tw">"when the user gives a directive"</span>  session: <span class="tg">4</span></span>
+<span class="lb"></span>
+<span class="ln" style="color:rgba(224,221,213,0.2)"># ai reads. writes nothing. waits.</span>
+<span class="ln"><span class="tp">→ content/get-site-map</span>  <span class="tg">✓ 32 pages</span></span>
+<span class="lb"></span>
+<span class="ln" style="color:rgba(224,221,213,0.2)"># you: "update the excerpt on page 4439."</span>
+<span class="ln"><span class="tp">→ content/get</span>      <span style="color:rgba(224,221,213,0.25)">{ id: 4439 }  ← read first</span></span>
+<span class="ln"><span class="tp">→ content/update</span>   <span style="color:rgba(224,221,213,0.25)">{ id: 4439, excerpt: "..." }  ← after confirm</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="tp">→ knowledge/log-session</span>  <span class="tg">✓ session logged</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="tg">$</span> <span class="cur"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MODULES ── -->
+  <section class="section">
+    <div class="section-n">03 — Core modules</div>
+    <h2 class="section-h">21 modules. Every WordPress surface.</h2>
+    <p class="section-p">Plus four third-party suite loaders — Astra, Spectra, SureCart, Presto Player. Each bails early if the plugin isn't active. Zero cost.</p>
+
+    <div class="mods">
+      <div class="mod"><span class="mod-name mod-name--lumi">Knowledge Layer</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Content</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Meta fields</span><span class="mod-n">13</span></div>
+      <div class="mod"><span class="mod-name">Menus</span><span class="mod-n">12</span></div>
+      <div class="mod"><span class="mod-name">Themes</span><span class="mod-n">11</span></div>
+      <div class="mod"><span class="mod-name">Taxonomies</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Users</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Blocks</span><span class="mod-n">8</span></div>
+      <div class="mod"><span class="mod-name">Cache</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Plugins</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Settings</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Media</span><span class="mod-n">6</span></div>
+      <div class="mod"><span class="mod-name">Cron</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Filesystem</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Revisions</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Site health</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Comments</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Patterns</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">REST discovery</span><span class="mod-n">4</span></div>
+      <div class="mod"><span class="mod-name">Rewrite rules</span><span class="mod-n">3</span></div>
+      <div class="mod"><span class="mod-name">MCP adapter</span><span class="mod-n">2</span></div>
+    </div>
+  </section>
+
+  <!-- ── KNOWLEDGE LAYER ── -->
+  <section class="section">
+    <div class="section-n">04 — The Knowledge Layer</div>
+    <h2 class="section-h">Persistent AI memory, built into the plugin.</h2>
+    <p class="section-p">Not an external service. Not a config file. Database tables inside WordPress — kl_* — that the AI reads and writes every session. It arrives knowing the site's history.</p>
+
+    <div class="g g--lumi kl-card">
+      <p class="kl-note">The behavioral directive every AI receives on connection:</p>
+      <div class="kl-directive">
+        mode: inquiry<br>
+        allowed: [ "read" ]<br>
+        restricted: [ "write", "delete" ]<br>
+        lifts: when the user gives a directive
+      </div>
+      <p class="kl-note" style="margin-bottom:0;">The AI reads everything. Writes nothing. Waits.</p>
+      <div class="kl-grid">
+        <div class="kl-item">
+          <div class="kl-name">knowledge/boot</div>
+          <div class="kl-desc">Entry point · directive · session history</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">documents</div>
+          <div class="kl-desc">list · get · create · update · fork</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">sessions</div>
+          <div class="kl-desc">list · get · log-session</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">observations</div>
+          <div class="kl-desc">list · add · resolve</div>
+        </div>
+        <div class="kl-item" style="border-bottom:none;">
+          <div class="kl-name">revisions</div>
+          <div class="kl-desc">get · restore</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FLUENT ── -->
+  <section class="section">
+    <div class="section-n">05 — Fluent ecosystem</div>
+    <h2 class="section-h">490 abilities. 13 modules. Conditional.</h2>
+    <p class="section-p">Each module checks for its parent plugin at boot. If it's not there, nothing registers. Clean manifest, zero waste.</p>
+
+    <div class="fluent">
+      <div class="fl-row"><span class="fl-name">FluentCRM</span><span class="fl-n fl-n--lumi">81</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Community</span><span class="fl-n fl-n--lumi">56</span></div>
+      <div class="fl-row"><span class="fl-name">FluentAffiliate</span><span class="fl-n fl-n--lumi">50</span></div>
+      <div class="fl-row"><span class="fl-name">FluentCart</span><span class="fl-n">33</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Boards</span><span class="fl-n">13</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Support</span><span class="fl-n">10</span></div>
+      <div class="fl-row"><span class="fl-name">FluentBooking</span><span class="fl-n">9</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Snippets</span><span class="fl-n">7</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Forms</span><span class="fl-n">6</span></div>
+      <div class="fl-row"><span class="fl-name">FluentSMTP</span><span class="fl-n">5</span></div>
+      <div class="fl-row"><span class="fl-name">Fluent Messaging</span><span class="fl-n">5</span></div>
+      <div class="fl-row"><span class="fl-name">FluentAuth</span><span class="fl-n">4</span></div>
+      <div class="fl-row"><span class="fl-name fl-name--cross">Cross-module suite</span><span class="fl-n fl-n--lumi">5</span></div>
+    </div>
+  </section>
+
+  <!-- ── USER 360 ── -->
+  <section class="section">
+    <div class="section-n">06 — fluent/get-user-360</div>
+    <h2 class="section-h">One call. Six admin panels, gone.</h2>
+    <p class="section-p">Unified view of a user across every active Fluent product. The call that used to mean opening six dashboards.</p>
+
+    <div class="g g--lumi u360">
+      <div class="u360-grid">
+        <div class="u360-item">
+          <div class="u360-src">CRM</div>
+          <div class="u360-detail">subscribed · tags · last email</div>
+        </div>
+        <div class="u360-item">
+          <div class="u360-src">Community</div>
+          <div class="u360-detail">member since · posts · courses</div>
+        </div>
+        <div class="u360-item">
+          <div class="u360-src">Forms</div>
+          <div class="u360-detail">submissions · last entry</div>
+        </div>
+        <div class="u360-item">
+          <div class="u360-src">Bookings</div>
+          <div class="u360-detail">upcoming sessions</div>
+        </div>
+        <div class="u360-item" style="border-bottom:none;">
+          <div class="u360-src">Support</div>
+          <div class="u360-detail">open tickets</div>
+        </div>
+        <div class="u360-item" style="border-bottom:none;">
+          <div class="u360-src">Boards</div>
+          <div class="u360-detail">tasks · current stage</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECURITY ── -->
+  <section class="section">
+    <div class="section-n">07 — Security model</div>
+    <h2 class="section-h">Four gates. All four. Every call.</h2>
+
+    <div class="sec">
+      <div class="sec-step">
+        <div class="sec-n">01</div>
+        <div class="sec-name">WP capability</div>
+        <div class="sec-detail">manage_options<br>edit_posts per module</div>
+      </div>
+      <div class="sec-step">
+        <div class="sec-n">02</div>
+        <div class="sec-name">Permission toggle</div>
+        <div class="sec-detail">read / write / delete<br>per module</div>
+      </div>
+      <div class="sec-step">
+        <div class="sec-n">03</div>
+        <div class="sec-name">Pro gate</div>
+        <div class="sec-detail">license check<br>403 + URL</div>
+      </div>
+      <div class="sec-step sec-step--go">
+        <div class="sec-n">04</div>
+        <div class="sec-name sec-name--lumi">Execute</div>
+        <div class="sec-detail">callback runs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUOTE ── -->
+  <section class="section">
+    <div class="quote">
+      <div class="quote-text">
+        They put AI inside the plugin.<br>
+        We put <em>the plugin inside AI.</em>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-brand">Wicked <span>Evolutions</span></div>
+    <div class="footer-meta">GPL-2.0 · WordPress 6.9+ · wickedevolutions.com</div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

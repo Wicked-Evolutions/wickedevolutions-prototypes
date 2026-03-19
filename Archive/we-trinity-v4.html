@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI — The Trinity</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────
+   TOKENS
+   ───────────────────────────────────────────────── */
+:root {
+  --bg:      #111111;
+  --text:    #E0DDD5;
+  --text-2:  rgba(224,221,213,0.52);
+  --text-3:  rgba(224,221,213,0.24);
+  --text-4:  rgba(224,221,213,0.10);
+
+  /* Three colours — one per Trinity layer */
+  --yellow:  #FFEE58;   /* abilities-mcp      — the bridge   */
+  --green:   #22c55e;   /* abilities-for-ai   — the engine   */
+  --purple:  #7c3aed;   /* mcp-adapter        — the protocol */
+  --purple-l:#a78bfa;
+
+  --yellow-dim: rgba(255,238,88,0.07);
+  --yellow-b:   rgba(255,238,88,0.18);
+  --green-dim:  rgba(34,197,94,0.07);
+  --green-b:    rgba(34,197,94,0.18);
+  --purple-dim: rgba(124,58,237,0.07);
+  --purple-b:   rgba(124,58,237,0.16);
+
+  --glass:   rgba(255,255,255,0.025);
+  --glass-b: rgba(255,255,255,0.055);
+  --glass-hi:rgba(255,255,255,0.11);
+
+  --font-d: 'Syne', sans-serif;
+  --font-b: 'Manrope', system-ui, sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+
+  --col: 800px;        /* main column */
+  --col-wide: 1100px;  /* breakout moments */
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--purple); color: #fff; }
+
+/* ─── COLUMNS ─── */
+.col     { max-width: var(--col);      margin:0 auto; padding:0 48px; }
+.col-w   { max-width: var(--col-wide); margin:0 auto; padding:0 48px; }
+
+/* ─── GLOW LINE ─── */
+hr.gl {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--purple), transparent);
+  box-shadow: 0 0 16px rgba(124,58,237,0.22);
+  opacity: 0.3;
+  max-width: 100px;
+  margin: 0;
+  border: none;
+}
+
+/* ─── EYEBROW ─── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--purple-b);
+  color: var(--purple-l);
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.eb-dot {
+  width: 5px; height: 5px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 130px 0 120px;
+}
+
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(3rem, 5.5vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--green);
+}
+
+.hero-sub {
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 300;
+  color: var(--text-2);
+  max-width: 560px;
+  line-height: 1.8;
+  margin-bottom: 80px;
+}
+
+/* ─── STATS — break out of column ─── */
+.stats-outer {
+  border-top: 1px solid var(--glass-b);
+  border-bottom: 1px solid var(--glass-b);
+  padding: 56px 0;
+  margin: 0 0 140px;
+}
+
+.stats {
+  display: flex;
+  gap: 0;
+}
+
+.stat {
+  flex: 1;
+  padding: 0 40px 0 0;
+  border-right: 1px solid var(--glass-b);
+}
+
+.stat:last-child { border-right:none; padding-right:0; padding-left:40px; }
+.stat:not(:first-child):not(:last-child) { padding:0 40px; }
+
+.stat-n {
+  font-family: var(--font-d);
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-n--y { color: var(--yellow); }
+.stat-n--g { color: var(--green); }
+.stat-n--p { color: var(--purple-l); }
+.stat-n--w { color: var(--text); }
+
+.stat-l {
+  font-family: var(--font-m);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+}
+
+/* ─── SECTION ─── */
+.section { margin-bottom: 140px; }
+
+.section-n {
+  font-family: var(--font-m);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  margin-bottom: 48px;
+}
+
+.section-h {
+  font-family: var(--font-d);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.section-p {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 56px;
+}
+
+/* ─── TRINITY — Three plugin cards, side by side ─── */
+.trinity {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 140px;
+}
+
+.t-card {
+  padding: 36px 32px;
+  border: 1px solid var(--glass-b);
+  border-radius: 12px;
+  background: var(--glass);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.3s;
+}
+
+.t-card:hover { border-color: var(--glass-hi); }
+
+.t-card--y { border-color: var(--yellow-b); background: var(--yellow-dim); }
+.t-card--p { border-color: var(--purple-b); background: var(--purple-dim); }
+.t-card--g { border-color: var(--green-b);  background: var(--green-dim);  }
+
+.t-layer {
+  font-family: var(--font-m);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+}
+
+.t-layer--y { color: rgba(255,238,88,0.5); }
+.t-layer--p { color: rgba(167,139,250,0.5); }
+.t-layer--g { color: rgba(34,197,94,0.5); }
+
+.t-name {
+  font-family: var(--font-m);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.t-name--y { color: var(--yellow); }
+.t-name--p { color: var(--purple-l); }
+.t-name--g { color: var(--green); }
+
+.t-version {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+  margin-bottom: 24px;
+}
+
+.t-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 28px;
+}
+
+.t-count {
+  font-family: var(--font-d);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.t-count--y { color: var(--yellow); }
+.t-count--p { color: var(--purple-l); }
+.t-count--g { color: var(--green); }
+
+.t-count-l {
+  font-family: var(--font-m);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+}
+
+/* ─── STACK — vertical diagram ─── */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.st-row {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.st-aside {
+  width: 100px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.015);
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.st-role {
+  font-family: var(--font-m);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 3px;
+}
+
+.st-type {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.st-body {
+  flex: 1;
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--glass);
+  transition: border-color 0.25s;
+}
+
+.st-body:hover { border-color: var(--glass-hi); }
+
+.st-body--y { border-color: var(--yellow-b); background: linear-gradient(90deg, var(--yellow-dim), var(--glass) 70%); }
+.st-body--p { border-color: var(--purple-b); background: linear-gradient(90deg, var(--purple-dim), var(--glass) 70%); }
+.st-body--g { border-color: var(--green-b);  background: linear-gradient(90deg, var(--green-dim),  var(--glass) 70%); }
+
+.st-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.st-detail {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.pill {
+  flex-shrink: 0;
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pill--y { background:var(--yellow-dim); color:var(--yellow);   border:1px solid var(--yellow-b); }
+.pill--p { background:var(--purple-dim); color:var(--purple-l); border:1px solid var(--purple-b); }
+.pill--g { background:var(--green-dim);  color:var(--green);    border:1px solid var(--green-b); }
+.pill--0 { background:transparent; color:var(--text-3); border:1px solid var(--glass-b); }
+
+.st-join {
+  margin-left: 52px;
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.st-join-line {
+  width: 1px;
+  height: 20px;
+  background: var(--glass-hi);
+  opacity: 0.4;
+}
+
+/* ─── TERMINAL ─── */
+.terminal {
+  background: #09090f;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: var(--font-m);
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.t-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 20px;
+  background: rgba(255,255,255,0.015);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.d1{width:9px;height:9px;border-radius:50%;background:#ef4444;opacity:0.55;}
+.d2{width:9px;height:9px;border-radius:50%;background:#f59e0b;opacity:0.55;}
+.d3{width:9px;height:9px;border-radius:50%;background:#22c55e;opacity:0.55;}
+
+.t-tab {
+  margin-left: auto;
+  font-size: 10px;
+  color: rgba(255,255,255,0.16);
+  letter-spacing: 0.05em;
+}
+
+.t-body {
+  padding: 32px 32px 36px;
+  color: rgba(224,221,213,0.3);
+}
+
+.ln  { display:block; }
+.lb  { display:block; height:1em; }
+.gy  { color: var(--yellow); }
+.gp  { color: var(--purple-l); }
+.gg  { color: var(--green); }
+.gw  { color: rgba(224,221,213,0.75); }
+.cur {
+  display:inline-block; width:7px; height:1em;
+  background: var(--green); vertical-align:text-bottom;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ─── MODULE LIST ─── */
+.mods { border-top: 1px solid var(--glass-b); }
+
+.mod {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--glass-b);
+  gap: 16px;
+}
+
+.mod-name {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.mod-name--g { color: var(--green); font-weight: 500; }
+
+.mod-n {
+  font-family: var(--font-m);
+  font-size: 12px;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+/* ─── KL DIRECTIVE ─── */
+.kl-box {
+  background: var(--green-dim);
+  border: 1px solid var(--green-b);
+  border-radius: 12px;
+  padding: 40px;
+}
+
+.kl-directive {
+  font-family: var(--font-m);
+  font-size: 13px;
+  color: var(--green);
+  background: rgba(34,197,94,0.04);
+  border: 1px solid rgba(34,197,94,0.12);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  line-height: 2.1;
+}
+
+.kl-label {
+  font-family: var(--font-m);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(34,197,94,0.45);
+  margin-bottom: 12px;
+}
+
+.kl-p {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+}
+
+.kl-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 32px;
+  border-top: 1px solid rgba(34,197,94,0.12);
+  padding-top: 28px;
+}
+
+.kl-item {
+  padding: 14px 20px 14px 0;
+}
+
+.kl-item:nth-child(even) { padding-left: 20px; padding-right: 0; border-left: 1px solid rgba(34,197,94,0.1); }
+
+.kl-name { font-family:var(--font-m); font-size:11px; color:var(--green); margin-bottom:4px; }
+.kl-desc { font-size:13px; font-weight:300; color:var(--text-2); }
+
+/* ─── SECURITY ─── */
+.sec {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.sec-step {
+  padding: 26px 22px;
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: 8px;
+}
+
+.sec-step--go {
+  border-color: var(--green-b);
+  background: var(--green-dim);
+}
+
+.sec-n {
+  font-family: var(--font-m);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.sec-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.sec-name--g { color: var(--green); }
+
+.sec-detail {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+/* ─── QUOTE ─── */
+.quote {
+  padding-left: 36px;
+  border-left: 2px solid var(--yellow);
+}
+
+.quote-text {
+  font-family: var(--font-d);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.quote-text em { font-style:normal; color:var(--yellow); }
+
+/* ─── CTA ─── */
+.cta {
+  text-align: center;
+  padding: 100px 0 140px;
+  border-top: 1px solid var(--glass-b);
+}
+
+.cta-title {
+  font-family: var(--font-d);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.cta-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-2);
+  margin-bottom: 48px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.75;
+}
+
+.cta-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-family: var(--font-b);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn--primary {
+  background: var(--green);
+  color: #111;
+}
+
+.btn--primary:hover {
+  background: #4ade80;
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--glass-b);
+}
+
+.btn--ghost:hover {
+  border-color: var(--glass-hi);
+  color: var(--text);
+}
+
+.cta-trust {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cta-trust span { margin: 0 10px; opacity: 0.4; }
+
+/* ─── FOOTER ─── */
+.footer {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 0 48px 80px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid var(--glass-b);
+  padding-top: 36px;
+}
+
+.footer-brand {
+  font-family: var(--font-d);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.footer-brand span { color: var(--purple-l); }
+
+.footer-meta {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 860px) {
+  .trinity { grid-template-columns: 1fr; }
+  .stats { flex-direction: column; gap: 32px; }
+  .stat { border-right: none; border-bottom: 1px solid var(--glass-b); padding: 0 0 24px; }
+  .stat:last-child { border-bottom: none; }
+  .sec { grid-template-columns: 1fr 1fr; }
+  .kl-items { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .col, .col-w { padding: 0 24px; }
+  .hero { padding: 80px 0 80px; }
+  .sec { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.6rem; }
+  .st-aside { display: none; }
+  .footer { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ────────────────────────────── HERO ────────────────────────────── -->
+<section class="hero col">
+  <div class="eyebrow"><span class="eb-dot"></span>Wicked Evolutions · The Trinity</div>
+
+  <h1 class="hero-title">
+    Three plugins.<br>
+    One API surface.<br>
+    <em>627 abilities.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Install on any WordPress site. Connect any MCP-compatible AI.
+    Your data stays on your server. No SaaS. No vendor lock-in.
+    No escape hatch.
+  </p>
+
+  <hr class="gl">
+</section>
+
+<!-- ────────────────────────────── STATS ────────────────────────────── -->
+<div class="stats-outer">
+  <div class="stats col-w">
+    <div class="stat">
+      <div class="stat-n stat-n--g">627</div>
+      <div class="stat-l">total abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n stat-n--y">3</div>
+      <div class="stat-l">plugins in the Trinity</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n stat-n--p">21</div>
+      <div class="stat-l">core WP modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n stat-n--w">6.9+</div>
+      <div class="stat-l">WordPress required</div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────── TRINITY CARDS ────────────────────────────── -->
+<div class="col">
+  <div class="section">
+    <div class="section-n">The three plugins</div>
+    <h2 class="section-h">Each layer has one job.</h2>
+    <p class="section-p">Three focused plugins. One coordinated system. Remove any one and the others still exist — add all three and WordPress becomes a structured interface for AI.</p>
+  </div>
+</div>
+
+<div class="col-w" style="margin-bottom:140px;">
+  <div class="trinity">
+
+    <!-- abilities-mcp — YELLOW -->
+    <div class="t-card t-card--y">
+      <div class="t-layer t-layer--y">Bridge · Node.js</div>
+      <div class="t-name t-name--y">abilities-mcp</div>
+      <div class="t-version">v1.2.0 · @wicked-evolutions/abilities-mcp</div>
+      <p class="t-desc">
+        The STDIO bridge that runs on your machine. Connects your AI client to WordPress over SSH or HTTP. Handles multi-site routing, session management, and three local bridge tools for health, browsing, and loading. Install once, connect to any number of sites.
+      </p>
+      <div>
+        <div class="t-count t-count--y">3</div>
+        <div class="t-count-l">bridge tools</div>
+      </div>
+    </div>
+
+    <!-- abilities-mcp-adapter — PURPLE -->
+    <div class="t-card t-card--p">
+      <div class="t-layer t-layer--p">Transport · PHP</div>
+      <div class="t-name t-name--p">abilities-mcp-adapter</div>
+      <div class="t-version">v1.0.8 · WordPress plugin</div>
+      <p class="t-desc">
+        The WordPress-side MCP protocol handler. Translates every registered ability into an MCP tool. Exposes a REST endpoint, handles the discovery gate, executes abilities with full permission checking, and supports batch execution. Upload and activate — your site becomes an MCP server.
+      </p>
+      <div>
+        <div class="t-count t-count--p">2</div>
+        <div class="t-count-l">public abilities</div>
+      </div>
+    </div>
+
+    <!-- abilities-for-ai — GREEN -->
+    <div class="t-card t-card--g">
+      <div class="t-layer t-layer--g">Engine · PHP</div>
+      <div class="t-name t-name--g">abilities-for-ai</div>
+      <div class="t-version">v1.2.0 · WordPress plugin</div>
+      <p class="t-desc">
+        The core engine. Registers 137 abilities across 21 WordPress modules — content, blocks, meta, menus, themes, users, filesystem, cron, revisions, site health, and more. Ships the Knowledge Layer: persistent AI memory in your WordPress database across sessions.
+      </p>
+      <div>
+        <div class="t-count t-count--g">137</div>
+        <div class="t-count-l">abilities registered</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ────────────────────────────── STACK FLOW ────────────────────────────── -->
+<div class="col">
+  <div class="section">
+    <div class="section-n">How they connect</div>
+    <h2 class="section-h">Signal travels top to bottom.</h2>
+    <p class="section-p">Every AI call passes through all three layers in sequence. Each layer has one responsibility. Nothing leaks between them.</p>
+
+    <div class="stack">
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Consumer</div>
+          <div class="st-type">AI client</div>
+        </div>
+        <div class="st-body">
+          <div>
+            <div class="st-name">Claude · Cursor · Windsurf · any MCP client</div>
+            <div class="st-detail">STDIO · JSON-RPC 2.0 · Model Context Protocol</div>
+          </div>
+          <span class="pill pill--0">your tool</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-join-line"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Bridge</div>
+          <div class="st-type">Node.js</div>
+        </div>
+        <div class="st-body st-body--y">
+          <div>
+            <div class="st-name">abilities-mcp</div>
+            <div class="st-detail">STDIO server · SSH + HTTP · multi-site routing · bridge tools</div>
+          </div>
+          <span class="pill pill--y">v1.2.0</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-join-line"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Transport</div>
+          <div class="st-type">WP plugin</div>
+        </div>
+        <div class="st-body st-body--p">
+          <div>
+            <div class="st-name">abilities-mcp-adapter</div>
+            <div class="st-detail">REST endpoint · discovery gate · execute · batch</div>
+          </div>
+          <span class="pill pill--p">v1.0.8</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-join-line"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Engine</div>
+          <div class="st-type">WP plugin</div>
+        </div>
+        <div class="st-body st-body--g">
+          <div>
+            <div class="st-name">abilities-for-ai</div>
+            <div class="st-detail">21 modules · Knowledge Layer · 4 suite auto-loaders · wp_register_ability()</div>
+          </div>
+          <span class="pill pill--g">137 abilities</span>
+        </div>
+      </div>
+
+      <div class="st-join"><div class="st-join-line"></div></div>
+
+      <div class="st-row">
+        <div class="st-aside">
+          <div class="st-role">Platform</div>
+          <div class="st-type">Foundation</div>
+        </div>
+        <div class="st-body">
+          <div>
+            <div class="st-name">WordPress 6.9+</div>
+            <div class="st-detail">native Abilities API · wp_register_ability() · wp_abilities_api_init</div>
+          </div>
+          <span class="pill pill--0">43% of the web</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── TERMINAL ────────────────────────────── -->
+  <div class="section">
+    <div class="section-n">A real session</div>
+    <h2 class="section-h">What happens when you connect.</h2>
+    <p class="section-p">The AI arrives oriented. Reads everything. Writes nothing until you say go.</p>
+
+    <div class="terminal">
+      <div class="t-bar">
+        <div class="d1"></div><div class="d2"></div><div class="d3"></div>
+        <div class="t-tab">abilities-mcp · helenawillow.com · session 4</div>
+      </div>
+      <div class="t-body">
+<span class="ln" style="opacity:.3"># connect. first call always get-started.</span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">mcp-adapter/get-started</span></span>
+<span class="ln">  site: <span class="gw">"Helena Willow"</span>  abilities: <span class="gg">627</span>  next: <span class="gw">"knowledge/boot"</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/boot</span></span>
+<span class="ln">  mode: <span class="gw">"inquiry"</span>  allowed: <span class="gg">["read"]</span>  restricted: <span class="gy">["write","delete"]</span></span>
+<span class="ln">  lifts: <span class="gw">"when the user gives a directive"</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.3"># ai reads. writes nothing. waits.</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get-site-map</span>  <span class="gg">✓ 32 pages returned</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/list-structure</span>  <span class="gg">✓ titles, IDs, slugs, dates</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.3"># you: "update the excerpt on page 4439"</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get</span>     <span style="opacity:.3">{ id: 4439 }  ← read first, always</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/update</span>  <span style="opacity:.3">{ id: 4439, excerpt: "..." }  ← after your confirm</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/log-session</span>  <span class="gg">✓ session 4 logged. next session starts here.</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gg">$</span> <span class="cur"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── MODULES ────────────────────────────── -->
+  <div class="section">
+    <div class="section-n">abilities-for-ai · 21 core modules</div>
+    <h2 class="section-h">Every surface WordPress exposes.</h2>
+    <p class="section-p">Three tiers of security on every call: WordPress capability, permission toggle, pro gate. All three must pass.</p>
+
+    <div class="mods">
+      <div class="mod"><span class="mod-name mod-name--g">Knowledge Layer</span><span class="mod-n">15 abilities</span></div>
+      <div class="mod"><span class="mod-name">Content</span><span class="mod-n">15 abilities</span></div>
+      <div class="mod"><span class="mod-name">Meta fields</span><span class="mod-n">13 abilities</span></div>
+      <div class="mod"><span class="mod-name">Menus</span><span class="mod-n">12 abilities</span></div>
+      <div class="mod"><span class="mod-name">Themes</span><span class="mod-n">11 abilities</span></div>
+      <div class="mod"><span class="mod-name">Taxonomies</span><span class="mod-n">9 abilities</span></div>
+      <div class="mod"><span class="mod-name">Users</span><span class="mod-n">9 abilities</span></div>
+      <div class="mod"><span class="mod-name">Blocks</span><span class="mod-n">8 abilities</span></div>
+      <div class="mod"><span class="mod-name">Cache</span><span class="mod-n">7 abilities</span></div>
+      <div class="mod"><span class="mod-name">Plugins</span><span class="mod-n">7 abilities</span></div>
+      <div class="mod"><span class="mod-name">Settings</span><span class="mod-n">7 abilities</span></div>
+      <div class="mod"><span class="mod-name">Media</span><span class="mod-n">6 abilities</span></div>
+      <div class="mod"><span class="mod-name">Cron</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">Filesystem</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">Revisions</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">Site health</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">Comments</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">Patterns</span><span class="mod-n">5 abilities</span></div>
+      <div class="mod"><span class="mod-name">REST discovery</span><span class="mod-n">4 abilities</span></div>
+      <div class="mod"><span class="mod-name">Rewrite rules</span><span class="mod-n">3 abilities</span></div>
+      <div class="mod"><span class="mod-name">MCP adapter</span><span class="mod-n">2 abilities</span></div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── KNOWLEDGE LAYER ────────────────────────────── -->
+  <div class="section">
+    <div class="section-n">The Knowledge Layer</div>
+    <h2 class="section-h">Persistent AI memory, inside WordPress.</h2>
+    <p class="section-p">Not an external service. Not a config file. Database tables — kl_* — that the AI reads and writes every session. The next session picks up where this one ended.</p>
+
+    <div class="kl-box">
+      <div class="kl-label">Behavioral directive — every connection</div>
+      <div class="kl-directive">
+        mode: inquiry<br>
+        allowed: [ "read" ]<br>
+        restricted: [ "write", "delete" ]<br>
+        lifts: when the user gives a directive
+      </div>
+      <p class="kl-p">The AI arrives knowing the site's history. It reads everything. Writes nothing until you say go.</p>
+      <div class="kl-items">
+        <div class="kl-item">
+          <div class="kl-name">knowledge/boot</div>
+          <div class="kl-desc">Entry point · directive · session history · open observations</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">documents</div>
+          <div class="kl-desc">list · get · create · update · fork · archive</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">sessions</div>
+          <div class="kl-desc">list · get · log-session</div>
+        </div>
+        <div class="kl-item">
+          <div class="kl-name">observations</div>
+          <div class="kl-desc">list · add · resolve</div>
+        </div>
+        <div class="kl-item" style="padding-bottom:0;">
+          <div class="kl-name">revisions</div>
+          <div class="kl-desc">get · restore</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── SECURITY ────────────────────────────── -->
+  <div class="section">
+    <div class="section-n">Security model</div>
+    <h2 class="section-h">Four gates. Every call. No exceptions.</h2>
+    <p class="section-p" style="margin-bottom:40px;">Each gate is independent. All four must pass in sequence before a callback executes.</p>
+
+    <div class="sec">
+      <div class="sec-step">
+        <div class="sec-n">01</div>
+        <div class="sec-name">WP capability</div>
+        <div class="sec-detail">manage_options · edit_posts · per module</div>
+      </div>
+      <div class="sec-step">
+        <div class="sec-n">02</div>
+        <div class="sec-name">Permission toggle</div>
+        <div class="sec-detail">read / write / delete per module in dashboard</div>
+      </div>
+      <div class="sec-step">
+        <div class="sec-n">03</div>
+        <div class="sec-name">Pro gate</div>
+        <div class="sec-detail">license check · 403 + upgrade URL</div>
+      </div>
+      <div class="sec-step sec-step--go">
+        <div class="sec-n">04</div>
+        <div class="sec-name sec-name--g">Execute</div>
+        <div class="sec-detail">callback runs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── QUOTE ────────────────────────────── -->
+  <div class="section">
+    <div class="quote">
+      <div class="quote-text">
+        They put AI<br>inside the plugin.<br>
+        We put <em>the plugin<br>inside AI.</em>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ────────────────────────────── CTA ────────────────────────────── -->
+<section class="cta">
+  <div class="cta-title">Start building.</div>
+  <p class="cta-sub">Free to install. Open source. Your server. Your data. No account required to begin.</p>
+  <div class="cta-btns">
+    <a href="https://github.com/Wicked-Evolutions" class="btn btn--primary">Get the stack on GitHub →</a>
+    <a href="https://wickedevolutions.com" class="btn btn--ghost">Read the blog</a>
+  </div>
+  <div class="cta-trust">
+    GPL-2.0 <span>·</span> WordPress 6.9+ <span>·</span> Claude · Cursor · Windsurf · any MCP client
+  </div>
+</section>
+
+<!-- ────────────────────────────── FOOTER ────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-brand">Wicked <span>Evolutions</span></div>
+  <div class="footer-meta">GPL-2.0 · wickedevolutions.com · 2026</div>
+</footer>
+
+</body>
+</html>

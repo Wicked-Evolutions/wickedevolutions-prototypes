@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation — Wicked Evolutions</title>
+  <link rel="stylesheet" href="css/docs.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Docs</span>
+  <nav class="topbar-nav">
+    <a href="#">Blog</a>
+    <a href="#">GitHub</a>
+    <a href="#">Community</a>
+    <span class="topbar-version">v1.5.0</span>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">
+      <span class="icon-moon">🌙</span>
+      <span class="icon-sun">☀️</span>
+    </button>
+  </nav>
+</header>
+
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item active">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Products</span>
+      <a href="#" class="nav-item level-2">Abilities for AI</a>
+      <a href="#" class="nav-item level-2">Abilities for Fluent Plugins</a>
+      <a href="#" class="nav-item level-2">Abilities MCP Adapter</a>
+      <a href="#" class="nav-item level-2">Abilities MCP Bridge</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Core Concepts</span>
+      <a href="#" class="nav-item level-2">How Abilities Work</a>
+      <a href="#" class="nav-item level-2">Permissions &amp; Access</a>
+      <a href="#" class="nav-item level-2">Free vs Pro</a>
+      <a href="#" class="nav-item level-2">Multi-Site Support</a>
+      <a href="#" class="nav-item level-2">Error Handling</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Policy</span>
+      <a href="#" class="nav-item level-2">Security</a>
+      <a href="#" class="nav-item level-2">Licensing</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="landing-article">
+      <section class="landing-hero">
+        <div class="eyebrow">Abilities API</div>
+        <h1>Wicked Evolutions<br>Documentation</h1>
+        <p class="subtitle">The complete reference for the WordPress Abilities API — 732 abilities across 39 modules, connecting AI agents to WordPress through a clean, discoverable, permission-aware interface.</p>
+        <div class="tag-list" style="margin-top:1.25rem">
+          <span class="tag">v1.5.0</span>
+          <span class="tag">740 abilities</span>
+          <span class="tag">39 modules</span>
+          <span class="tag">5 products</span>
+          <span class="tag">open source</span>
+        </div>
+      </section>
+
+      <div class="quick-links">
+        <a href="#getting-started" class="quick-link-card"><span class="ql-icon">🚀</span><div class="ql-title">Getting Started</div><div class="ql-desc">Install the plugin, authenticate, and make your first ability call in minutes.</div></a>
+        <a href="#products" class="quick-link-card"><span class="ql-icon">📦</span><div class="ql-title">Products</div><div class="ql-desc">Explore the four-product stack: WordPress core, Fluent, Adapter, and Bridge.</div></a>
+        <a href="#ai-agents" class="quick-link-card"><span class="ql-icon">🤖</span><div class="ql-title">For AI Agents</div><div class="ql-desc">Zero-context onboarding guide and known gotchas for AI agent integration.</div></a>
+      </div>
+
+      <h2 id="architecture">How It Works</h2>
+      <p>The Abilities API is a four-layer stack. Your AI agent connects to the MCP Bridge locally, which routes commands over HTTPS to the MCP Adapter running as a WordPress plugin. The Adapter dispatches to the WordPress Abilities API — a registry of named, permission-gated, discoverable PHP functions.</p>
+      <div class="arch-diagram">AI Client (Claude Code, Cursor, etc.)
+    │
+    │  STDIO JSON-RPC
+    ▼
+Abilities MCP Bridge  ──── local Node.js process
+    │
+    │  HTTPS
+    ▼
+Abilities MCP Adapter ──── WordPress plugin (server-side endpoint)
+    │
+    │  PHP function calls
+    ▼
+WordPress Abilities API
+    ├── Abilities for AI          350 abilities · 26 modules
+    │   ├── Core WP: Content, Blocks, Users, Media, Taxonomies…
+    │   ├── Suites: Astra, Presto Player, Spectra, SureCart
+    │   └── Knowledge Layer: Documents, Sessions, Observations
+    │
+    └── Abilities for Fluent Plugins   382 abilities · 13 modules
+        ├── CRM, Community, Forms, Support, Boards
+        ├── Cart, Booking, Affiliate, Auth, SMTP
+        └── Snippets, Messaging, Cross-Module</div>
+
+      <h2 id="products">The Product Suite</h2>
+      <div class="product-grid">
+        <a href="#" class="product-card"><div class="pc-label">Plugin</div><div class="pc-title">Abilities for AI</div><div class="pc-count">350 abilities · 26 modules</div><div class="pc-desc">Core WordPress abilities — content, blocks, users, media, taxonomies, and the Knowledge Layer.</div></a>
+        <a href="#" class="product-card"><div class="pc-label">Plugin</div><div class="pc-title">Abilities for Fluent Plugins</div><div class="pc-count">382 abilities · 13 modules</div><div class="pc-desc">Full coverage of the Fluent ecosystem: CRM, Community, Cart, Booking, Boards, Support, and more.</div></a>
+        <a href="#" class="product-card"><div class="pc-label">Plugin</div><div class="pc-title">Abilities MCP Adapter</div><div class="pc-count">5 meta-abilities · auto-discovery</div><div class="pc-desc">Server-side MCP endpoint. Registers all abilities as MCP tools and exposes them via JSON-RPC.</div></a>
+        <a href="#" class="product-card"><div class="pc-label">Bridge</div><div class="pc-title">Abilities MCP Bridge</div><div class="pc-count">Multi-site · STDIO + HTTP</div><div class="pc-desc">Local Node.js process. Routes your AI client's MCP calls to one or more WordPress sites.</div></a>
+      </div>
+
+      <h2 id="getting-started">Getting Started</h2>
+      <p>Three steps to your first ability call: install the plugins, configure the bridge, authenticate.</p>
+      <ol class="step-list" style="padding-left:0; list-style:none">
+        <li class="step-item"><div class="step-number">1</div><div class="step-body"><div class="step-title">Install the WordPress plugins</div><p style="font-size:.88rem; color:var(--text-secondary)">Upload and activate <code>Abilities for AI</code> and <code>Abilities MCP Adapter</code> on your WordPress site. Both are available on GitHub under the Wicked-Evolutions org.</p></div></li>
+        <li class="step-item"><div class="step-number">2</div><div class="step-body"><div class="step-title">Configure the bridge</div><p style="font-size:.88rem; color:var(--text-secondary)">Clone <code>abilities-mcp</code> locally. Edit <code>wp-sites.json</code> with your site URL and WordPress Application Password.</p></div></li>
+        <li class="step-item"><div class="step-number">3</div><div class="step-body"><div class="step-title">Call your first ability</div><p style="font-size:.88rem; color:var(--text-secondary)">Run <code>mcp-adapter/discover-abilities</code> to see everything available. Then call <code>content/list</code> to retrieve posts.</p></div></li>
+      </ol>
+
+      <h2 id="ai-agents">For AI Agents</h2>
+      <p>If you're an AI agent booting into a WordPress site for the first time, start here. The <strong>Initial Read Protocol</strong> walks you through a structured discovery sequence: site health, active plugins, content structure, and theme context — in the right order, using only read abilities.</p>
+      <div class="callout"><strong>Abilities First</strong>WordPress data operations go through the abilities API. No SSH fallback. When an ability doesn't exist for something you need, that's a product gap — document it and wait for it to be built.</div>
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.5rem">
+        <a href="skill-initial-read.html" class="quick-link-card" style="flex:1; min-width:200px"><span class="ql-icon">🔍</span><div class="ql-title">Initial Read Protocol →</div><div class="ql-desc">Structured boot sequence for new site contexts.</div></a>
+        <a href="agent-diagnostician.html" class="quick-link-card" style="flex:1; min-width:200px"><span class="ql-icon">🤖</span><div class="ql-title">Diagnostician Agent →</div><div class="ql-desc">Read-only diagnostic agent definition and behavioral rules.</div></a>
+      </div>
+
+      <h2 id="reference">Reference Library</h2>
+      <p>39 module reference posts, 7 SKILL protocols, 5 agent definitions, and growing.</p>
+      <div class="related-grid">
+        <a href="module-content.html" class="related-card"><div class="related-card-title">Content Module</div><div class="related-card-meta">17 abilities · 10R / 5W / 2D</div></a>
+        <a href="#" class="related-card"><div class="related-card-title">Blocks Module</div><div class="related-card-meta">13 abilities · 7R / 5W / 1D</div></a>
+        <a href="#" class="related-card"><div class="related-card-title">Fluent CRM Module</div><div class="related-card-meta">81 abilities · 47R / 27W / 7D</div></a>
+        <a href="#" class="related-card"><div class="related-card-title">Knowledge Layer Module</div><div class="related-card-meta">15 abilities · 7R / 6W / 2D</div></a>
+        <a href="category-skills.html" class="related-card"><div class="related-card-title">All SKILLs →</div><div class="related-card-meta">7 protocols and growing</div></a>
+        <a href="#" class="related-card"><div class="related-card-title">All Agents →</div><div class="related-card-meta">5 defined agents</div></a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/docs.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html" class="we-active">Landing</a>
+    <a href="module-content.html">Module</a>
+    <a href="skill-initial-read.html">SKILL</a>
+    <a href="agent-diagnostician.html">Agent</a>
+    <a href="category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>

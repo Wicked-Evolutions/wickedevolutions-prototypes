@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKILLs — Wicked Evolutions Docs</title>
+  <link rel="stylesheet" href="css/docs.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Documentation</span>
+  <nav class="topbar-nav"><a href="#">Blog</a><a href="#">GitHub</a><a href="#">Community</a><span class="topbar-version">v1.5.0</span><button class="theme-toggle" id="theme-toggle" title="Toggle light/dark"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button></nav>
+</header>
+
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item active"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="agent-diagnostician.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+      <span class="nav-section-label" style="margin-top:.75rem">SKILLs</span>
+      <a href="skill-initial-read.html" class="nav-item level-2">Initial Read Protocol</a>
+      <a href="#" class="nav-item level-2">Health Check Protocol</a>
+      <a href="#" class="nav-item level-2">Content Structure Protocol</a>
+      <a href="#" class="nav-item level-2">Theme and Design Protocol</a>
+      <a href="#" class="nav-item level-2">End Session Protocol</a>
+      <a href="#" class="nav-item level-2">Plugin Audit Protocol</a>
+      <a href="#" class="nav-item level-2">Scheduled Tasks Protocol</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="content-with-toc">
+      <article class="article" style="max-width:900px">
+        <div class="breadcrumb"><a href="index.html">Docs</a><span class="sep">›</span><span class="current">SKILLs</span></div>
+
+        <header class="archive-header">
+          <div class="post-meta" style="margin-bottom:.5rem">
+            <span class="category-badge badge-skill">Category</span>
+          </div>
+          <h1>SKILLs</h1>
+          <p style="font-size:.95rem; color:var(--text-secondary); max-width:560px; margin-top:.5rem">Structured protocols for repeatable WordPress site work. Each SKILL is a named, ordered sequence of ability calls for a specific context. Written by AI for AI.</p>
+
+          <div class="archive-filters">
+            <span class="filter-label">Lane:</span>
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="system">System</button>
+            <button class="filter-chip" data-filter="content">Content</button>
+            <button class="filter-chip" data-filter="structure">Structure</button>
+          </div>
+          <div class="archive-filters" style="margin-top:.5rem">
+            <span class="filter-label">Tag:</span>
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="diagnostic">Diagnostic</button>
+            <button class="filter-chip" data-filter="onboarding">Onboarding</button>
+            <button class="filter-chip" data-filter="continuity">Continuity</button>
+            <button class="filter-chip" data-filter="security">Security</button>
+            <button class="filter-chip" data-filter="cron">Cron</button>
+          </div>
+        </header>
+
+        <div class="post-list">
+          <a href="skill-initial-read.html" class="post-list-item" data-tags="system,onboarding,diagnostic">
+            <div class="pli-icon">🔍</div>
+            <div class="pli-body">
+              <div class="pli-title">Initial Read Protocol</div>
+              <div class="pli-excerpt">Structured boot sequence for AI agents entering an unfamiliar WordPress site. Read-only. Ordered for maximum signal with minimum calls.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">system</span>
+                <span class="tag" style="font-size:.67rem">onboarding</span>
+                <span class="tag" style="font-size:.67rem">diagnostic</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.3.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="system,diagnostic">
+            <div class="pli-icon">🩺</div>
+            <div class="pli-body">
+              <div class="pli-title">Health Check Protocol</div>
+              <div class="pli-excerpt">Deep system audit: PHP health tests, database checks, file permissions, security scan, and cron state. Use after Initial Read when issues are suspected.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">system</span>
+                <span class="tag" style="font-size:.67rem">diagnostic</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.2.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="content,diagnostic">
+            <div class="pli-icon">📋</div>
+            <div class="pli-body">
+              <div class="pli-title">Content Structure Protocol</div>
+              <div class="pli-excerpt">Map the full content landscape of a site: post types, taxonomy depth, content volume by status, and publishing patterns over time.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">content</span>
+                <span class="tag" style="font-size:.67rem">diagnostic</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.2.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="structure,diagnostic">
+            <div class="pli-icon">🎨</div>
+            <div class="pli-body">
+              <div class="pli-title">Theme and Design Protocol</div>
+              <div class="pli-excerpt">Audit the active theme: block theme detection, template hierarchy, enqueued assets, theme mods, and design token inventory from theme.json.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">structure</span>
+                <span class="tag" style="font-size:.67rem">diagnostic</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.2.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="system,continuity">
+            <div class="pli-icon">🔒</div>
+            <div class="pli-body">
+              <div class="pli-title">End Session Protocol</div>
+              <div class="pli-excerpt">Role-aware session closing. Writes observations, updates state documents, and archives session memory. Ensures the next agent can boot cleanly.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">system</span>
+                <span class="tag" style="font-size:.67rem">continuity</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.8.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="system,security">
+            <div class="pli-icon">🔐</div>
+            <div class="pli-body">
+              <div class="pli-title">Plugin Audit Protocol</div>
+              <div class="pli-excerpt">Survey all installed plugins — active, inactive, outdated, and vulnerable. Flags auto-update configuration and known security advisories.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">system</span>
+                <span class="tag" style="font-size:.67rem">security</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.2.0</span>
+            </div>
+          </a>
+
+          <a href="#" class="post-list-item" data-tags="system,cron">
+            <div class="pli-icon">⏱</div>
+            <div class="pli-body">
+              <div class="pli-title">Scheduled Tasks Protocol</div>
+              <div class="pli-excerpt">Inventory all WP-Cron events: overdue tasks, stuck crons, custom schedules, and events tied to specific plugins.</div>
+              <div class="pli-meta">
+                <span class="tag" style="font-size:.67rem">system</span>
+                <span class="tag" style="font-size:.67rem">cron</span>
+                <span class="pli-date">2026-03-05</span>
+              </div>
+            </div>
+            <div class="pli-right">
+              <span class="category-badge badge-skill" style="font-size:.62rem">SKILL</span>
+              <span style="font-family:var(--font-mono); font-size:.67rem; color:var(--text-muted)">v0.2.0</span>
+            </div>
+          </a>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border-subtle)">
+          <span style="font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted)">7 SKILLs · growing over time</span>
+          <a href="#" style="font-family:var(--font-display); font-size:.78rem; font-weight:600; color:var(--accent)">Suggest a SKILL →</a>
+        </div>
+      </article>
+
+      <aside class="toc-rail">
+        <span class="toc-label">About SKILLs</span>
+        <p style="font-size:.75rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem">Structured protocols for repeatable WordPress work — written by AI agents, validated in production, and documented for future use.</p>
+        <p style="font-size:.75rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem">Each SKILL names the abilities it uses, the order it calls them, and the pacing rule it follows.</p>
+        <span class="toc-label" style="margin-top:1rem">Lanes</span>
+        <div style="display:flex; flex-direction:column; gap:.35rem; margin-top:.5rem">
+          <span class="lane-chip lane-system" style="display:inline-block; width:fit-content">System</span>
+          <span class="lane-chip lane-content" style="display:inline-block; width:fit-content">Content</span>
+          <span class="lane-chip lane-structure" style="display:inline-block; width:fit-content">Structure</span>
+        </div>
+        <span class="toc-label" style="margin-top:1.5rem">See also</span>
+        <ul class="toc-list" style="margin-top:.5rem">
+          <li class="toc-item"><a href="agent-diagnostician.html">Diagnostician Agent</a></li>
+          <li class="toc-item"><a href="#">Pacing Rule Protocol</a></li>
+          <li class="toc-item"><a href="#">Diagnostic Lanes Protocol</a></li>
+          <li class="toc-item"><a href="#">Introduction Course</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="js/docs.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html">Landing</a>
+    <a href="module-content.html">Module</a>
+    <a href="skill-initial-read.html">SKILL</a>
+    <a href="agent-diagnostician.html">Agent</a>
+    <a href="category-skills.html" class="we-active">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>

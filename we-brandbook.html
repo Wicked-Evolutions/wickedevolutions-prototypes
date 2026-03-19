@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Book — Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════
+   BRAND TOKENS — single source of truth
+   ══════════════════════════════════════════════════════ */
+:root {
+  /* Background & text */
+  --bg:    #111111;
+  --text:  #E0DDD5;
+  --t2:    rgba(224,221,213,0.70); /* ↑ was 0.50 · rendered #a2a09a · contrast 7.22:1 WCAG AAA */
+  --t3:    rgba(224,221,213,0.35); /* ↑ was 0.22 · rendered #595856 · contrast 2.66:1 intentional ghost */
+  --t4:    rgba(224,221,213,0.09);
+
+  /* Brand accent colours — each maps to one Trinity layer */
+  --y:   #FFEE58;   /* abilities-mcp     · Yellow   */
+  --g:   #22c55e;   /* abilities-for-ai  · Green    */
+  --p:   #7c3aed;   /* mcp-adapter       · Purple   */
+  --pl:  #a78bfa;   /* Purple light      */
+
+  /* Tinted backgrounds */
+  --yd:  rgba(255,238,88,0.07);
+  --yb:  rgba(255,238,88,0.17);
+  --gd:  rgba(34,197,94,0.07);
+  --gb:  rgba(34,197,94,0.17);
+  --pd:  rgba(124,58,237,0.07);
+  --pb:  rgba(124,58,237,0.16);
+
+  /* Glass surfaces */
+  --gl:  rgba(255,255,255,0.025);
+  --glb: rgba(255,255,255,0.055);
+  --glh: rgba(255,255,255,0.11);
+
+  /* Typography */
+  --fd: 'Syne', sans-serif;        /* Display / headings */
+  --fb: 'Manrope', system-ui, sans-serif; /* Body */
+  --fm: 'JetBrains Mono', monospace;      /* Code / labels */
+
+  /* Layout */
+  --col:  800px;
+  --wide: 1140px;
+}
+
+/* ══════════════════════════════════════════════════════
+   GUIDE SHELL
+   ══════════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 19px; /* ↑ was 18px */
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Guide navigation */
+.guide-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(17,17,17,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glb);
+  padding: 0 56px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.guide-nav::-webkit-scrollbar { display: none; }
+
+.guide-nav-brand {
+  font-family: var(--fd);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.guide-nav-brand span { color: var(--pl); }
+
+.guide-nav a {
+  font-family: var(--fm);
+  font-size: 11px; /* ↑ was 10px */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.guide-nav a:hover { color: var(--text); }
+
+.guide-nav-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--glb);
+  flex-shrink: 0;
+}
+
+/* Guide header */
+.guide-header {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 120px 56px 80px;
+  border-bottom: 1px solid var(--glb);
+}
+
+.guide-header-eyebrow {
+  font-family: var(--fm);
+  font-size: 14px; /* ↑ was 10px */
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--t3);
+  margin-bottom: 20px;
+}
+
+.guide-header h1 {
+  font-family: var(--fd);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.guide-header h1 span { color: var(--pl); }
+
+.guide-header p {
+  font-size: 21px; /* ↑ was 17px */
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.8;
+  max-width: 520px;
+}
+
+/* Section wrapper */
+.guide-section {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--glb);
+}
+
+.guide-section-inner {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+.guide-section-inner--wide {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+/* Section label */
+.guide-label {
+  font-family: var(--fm);
+  font-size: 14px; /* ↑ was 9.5px */
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--pl);
+  margin-bottom: 12px;
+}
+
+.guide-label--y { color: rgba(255,238,88,0.6); }
+.guide-label--g { color: rgba(34,197,94,0.6); }
+
+/* Section title */
+.guide-title {
+  font-family: var(--fd);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 12px;
+}
+
+/* Section description */
+.guide-desc {
+  font-size: 22px; /* ↑ was 16px */
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.8;
+  max-width: 560px;
+  margin-bottom: 56px;
+}
+
+/* Spec table */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.spec-table th {
+  font-family: var(--fm);
+  font-size: 13px; /* ↑ was 9px */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t2);
+  text-align: left;
+  padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--glb);
+}
+
+.spec-table td {
+  padding: 12px 16px 12px 0;
+  border-bottom: 1px solid var(--glb);
+  vertical-align: top;
+}
+
+.spec-table td:first-child {
+  font-family: var(--fm);
+  font-size: 14px; /* ↑ was 12px */
+  color: var(--t2);
+  width: 180px;
+  white-space: nowrap;
+}
+
+.spec-table td:last-child {
+  color: var(--text);
+}
+
+/* Code spec */
+.spec-code {
+  font-family: var(--fm);
+  font-size: 14px; /* ↑ was 12px */
+  color: var(--pl);
+  background: var(--pd);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.spec-code--y { color: var(--y); background: var(--yd); }
+.spec-code--g { color: var(--g); background: var(--gd); }
+
+/* Divider */
+.guide-divider {
+  height: 1px;
+  background: var(--glb);
+  margin: 56px 0;
+}
+
+/* Block note */
+.block-note {
+  background: var(--gd);
+  border: 1px solid var(--gb);
+  border-radius: 8px;
+  padding: 18px 22px;
+  font-family: var(--fm);
+  font-size: 14px; /* ↑ was 11px */
+  color: rgba(34,197,94,0.8);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.block-note strong {
+  color: var(--g);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px; /* ↑ was 10px */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION 01 — COLOUR SYSTEM
+   ══════════════════════════════════════════════════════ */
+.colour-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 2px;
+  margin-bottom: 40px;
+}
+
+.colour-swatch {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.colour-swatch-name {
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.colour-swatch-value {
+  font-family: var(--fm);
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+.colour-swatch-token {
+  font-family: var(--fm);
+  font-size: 9px;
+  opacity: 0.5;
+  margin-top: 2px;
+}
+
+.on-dark { color: var(--text); }
+.on-light { color: #111; }
+
+/* Trinity accent row */
+.accent-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.accent-block {
+  padding: 32px 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accent-block-name {
+  font-family: var(--fd);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.accent-block-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+}
+
+.accent-block-hex {
+  font-family: var(--fm);
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* Tint grid */
+.tint-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+  margin-bottom: 40px;
+}
+
+.tint-swatch {
+  height: 56px;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 10px;
+}
+
+.tint-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION 02 — TYPOGRAPHY
+   ══════════════════════════════════════════════════════ */
+.type-specimen {
+  margin-bottom: 56px;
+}
+
+.type-specimen + .type-specimen {
+  padding-top: 40px;
+  border-top: 1px solid var(--glb);
+}
+
+.type-meta {
+  font-family: var(--fm);
+  font-size: 13px; /* ↑ was 10px */
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--t3);
+  margin-bottom: 16px;
+  display: flex;
+  gap: 24px;
+}
+
+.type-meta span { color: var(--t2); }
+
+/* ══════════════════════════════════════════════════════
+   SECTION 03 — SPACING & LAYOUT
+   ══════════════════════════════════════════════════════ */
+.spacing-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.spacing-block {
+  background: var(--pd);
+  border: 1px solid var(--pb);
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px;
+}
+
+.spacing-label {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--pl);
+  margin-top: 8px;
+}
+
+.spacing-value {
+  font-family: var(--fm);
+  font-size: 9px;
+  color: var(--t3);
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION 04 — COMPONENTS
+   ══════════════════════════════════════════════════════ */
+.component-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+/* All component CSS pulled directly from landing page */
+.eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--pb); color:var(--pl);
+  padding:5px 16px; border-radius:100px;
+  font-family:var(--fm); font-size:14px; /* ↑ was 10px */
+  letter-spacing:0.1em; text-transform:uppercase;
+}
+.eyebrow--y { border-color:var(--yb); color:var(--y); }
+.eyebrow--g { border-color:var(--gb); color:var(--g); }
+.ebdot { width:5px; height:5px; background:var(--g); border-radius:50%; animation:pulse 2.2s ease-in-out infinite; }
+.ebdot--y { background:var(--y); }
+.ebdot--p { background:var(--pl); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.pill { padding:4px 14px; border-radius:100px; font-family:var(--fm); font-size:14px; font-weight:500; white-space:nowrap; display:inline-flex; } /* ↑ was 10px */
+.py { background:var(--yd); color:var(--y); border:1px solid var(--yb); }
+.pp { background:var(--pd); color:var(--pl); border:1px solid var(--pb); }
+.pg { background:var(--gd); color:var(--g); border:1px solid var(--gb); }
+.p0 { background:transparent; color:var(--t3); border:1px solid var(--glb); }
+
+.btn { display:inline-flex; align-items:center; gap:8px; padding:15px 36px; border-radius:8px; font-family:var(--fb); font-size:16px; font-weight:500; cursor:pointer; border:none; text-decoration:none; transition:all 0.2s; letter-spacing:-0.01em; }
+.btn--g { background:var(--g); color:#0a0a0a; }
+.btn--g:hover { background:#4ade80; transform:translateY(-1px); }
+.btn--ghost { background:transparent; color:var(--t2); border:1px solid var(--glb); }
+.btn--ghost:hover { border-color:var(--glh); color:var(--text); }
+
+.gl { height:1px; background:linear-gradient(90deg, transparent, var(--p), transparent); box-shadow:0 0 14px rgba(124,58,237,0.2); opacity:0.28; max-width:90px; border:none; }
+.gl--y { background:linear-gradient(90deg, transparent, var(--y), transparent); box-shadow:0 0 14px rgba(255,238,88,0.2); }
+.gl--g { background:linear-gradient(90deg, transparent, var(--g), transparent); box-shadow:0 0 14px rgba(34,197,94,0.2); }
+
+/* ══════════════════════════════════════════════════════
+   SECTION 05 — BLOCK PATTERNS
+   ══════════════════════════════════════════════════════ */
+
+/* All block patterns are reproduced exactly as they appear on the landing page */
+
+/* Hero block */
+.hero { padding:160px 0 120px; }
+.hero-title { font-family:var(--fd); font-size:clamp(3rem,5.5vw,5rem); font-weight:800; letter-spacing:-0.045em; line-height:1.03; margin-bottom:36px; }
+.hero-title em { font-style:normal; color:var(--g); display:block; }
+.hero-title em.y { color:var(--y); }
+.hero-title em.p { color:var(--pl); }
+.hero-sub { font-size:23px; font-weight:300; color:var(--t2); max-width:540px; line-height:1.85; margin-bottom:80px; } /* ↑ was 19px */
+
+/* Stats band */
+.stat-band { border-top:1px solid var(--glb); border-bottom:1px solid var(--glb); padding:64px 56px; }
+.stat-band--y { border-color:var(--yb); }
+.stat-band--g { border-color:var(--gb); }
+.stat-band--p { border-color:var(--pb); }
+.stats { max-width:var(--wide); margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); }
+.stat { padding:0 52px; border-right:1px solid var(--glb); }
+.stat:first-child { padding-left:0; }
+.stat:last-child { border-right:none; }
+.stat-n { font-family:var(--fd); font-size:clamp(2.8rem,4.2vw,4rem); font-weight:800; letter-spacing:-0.045em; line-height:1; margin-bottom:8px; }
+.stat-l { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.1em; color:var(--t2); } /* ↑ was 10px */
+.stat-band--y .stat-l { color:rgba(255,238,88,0.55); }
+.stat-band--y .stat { border-right-color:var(--yb); }
+.stat-band--g .stat-l { color:rgba(34,197,94,0.55); }
+.stat-band--g .stat { border-right-color:var(--gb); }
+.stat-band--p .stat-l { color:rgba(167,139,250,0.55); }
+.stat-band--p .stat { border-right-color:var(--pb); }
+.sy { color:var(--y); } .sg { color:var(--g); } .sp { color:var(--pl); } .sw { color:var(--text); }
+
+/* Section heading block */
+.sh { font-family:var(--fd); font-size:clamp(1.8rem,3vw,2.6rem); font-weight:700; letter-spacing:-0.03em; line-height:1.12; color:var(--text); margin-bottom:16px; }
+.sp2 { font-size:22px; font-weight:300; color:var(--t2); line-height:1.82; max-width:580px; margin-bottom:56px; } /* ↑ was 18px */
+
+/* Cap list */
+.cap-list { border-top:1px solid var(--glb); }
+.cap-item { display:flex; align-items:flex-start; gap:28px; padding:22px 0; border-bottom:1px solid var(--glb); }
+.cap-n { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.1em; color:var(--t2); flex-shrink:0; width:52px; padding-top:3px; } /* ↑ was 10px */
+.cap-title { font-size:17px; font-weight:500; color:var(--text); margin-bottom:5px; letter-spacing:-0.01em; }
+.cap-desc { font-size:21px; font-weight:300; color:var(--t2); line-height:1.7; } /* ↑ was 15px */
+
+/* Value list */
+.value-list { border-top:1px solid var(--glb); }
+.value-item { display:grid; grid-template-columns:200px 1fr; gap:40px; align-items:baseline; padding:28px 0; border-bottom:1px solid var(--glb); }
+.value-name { font-family:var(--fd); font-size:1rem; font-weight:700; letter-spacing:-0.02em; color:var(--text); line-height:1.2; }
+.value-copy { font-size:21px; font-weight:300; color:var(--t2); line-height:1.78; } /* ↑ was 17px */
+
+/* Audience block */
+.audience-block { display:grid; grid-template-columns:220px 1fr; gap:2px; align-items:stretch; }
+.audience-aside { padding:36px 32px; border:1px solid var(--glb); border-radius:8px; background:var(--gl); display:flex; flex-direction:column; justify-content:flex-start; gap:10px; }
+.audience-label { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.13em; margin-bottom:2px; } /* ↑ was 9px */
+.audience-label--y { color:rgba(255,238,88,0.65); }
+.audience-label--p { color:rgba(167,139,250,0.65); }
+.audience-label--g { color:rgba(34,197,94,0.65); }
+.audience-name { font-family:var(--fd); font-size:1.1rem; font-weight:700; letter-spacing:-0.02em; line-height:1.2; color:var(--text); }
+.audience-body { flex:1; padding:36px 40px; border:1px solid var(--glb); border-radius:8px; background:var(--gl); }
+.audience-body--y { border-color:var(--yb); background:linear-gradient(135deg,var(--yd),var(--gl) 60%); }
+.audience-body--p { border-color:var(--pb); background:linear-gradient(135deg,var(--pd),var(--gl) 60%); }
+.audience-body--g { border-color:var(--gb); background:linear-gradient(135deg,var(--gd),var(--gl) 60%); }
+.audience-transform { font-family:var(--fd); font-size:1.15rem; font-weight:700; letter-spacing:-0.02em; color:var(--text); margin-bottom:18px; line-height:1.25; }
+.audience-copy { font-size:22px; font-weight:300; color:var(--t2); line-height:1.78; } /* ↑ was 16px */
+.audience-copy p + p { margin-top:12px; }
+
+/* Segment block */
+.seg { display:flex; flex-direction:column; gap:0; }
+.seg-header { margin-bottom:28px; }
+.seg-label { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.13em; margin-bottom:10px; } /* ↑ was 10px */
+.seg-label--y { color:rgba(255,238,88,0.65); }
+.seg-label--p { color:rgba(167,139,250,0.65); }
+.seg-label--g { color:rgba(34,197,94,0.65); }
+.seg-name { font-family:var(--fd); font-size:clamp(1.6rem,3vw,2.2rem); font-weight:700; letter-spacing:-0.03em; line-height:1.12; color:var(--text); }
+.seg-card { padding:40px 44px; border:1px solid var(--glb); border-radius:12px; background:var(--gl); }
+.seg-card--y { border-color:var(--yb); background:linear-gradient(135deg,var(--yd),var(--gl) 60%); }
+.seg-card--p { border-color:var(--pb); background:linear-gradient(135deg,var(--pd),var(--gl) 60%); }
+.seg-card--g { border-color:var(--gb); background:linear-gradient(135deg,var(--gd),var(--gl) 60%); }
+.seg-transform { font-family:var(--fd); font-size:1.15rem; font-weight:700; letter-spacing:-0.02em; line-height:1.25; color:var(--text); margin-bottom:24px; }
+.seg-copy { display:flex; flex-direction:column; gap:18px; }
+.seg-copy p { font-size:21px; font-weight:300; color:var(--t2); line-height:1.82; max-width:620px; } /* ↑ was 17px */
+
+/* Gate diagram */
+.gate-box { flex:1; padding:22px 26px; border:1px solid var(--glb); border-radius:8px; background:var(--gl); }
+.gate-box--p { border-color:var(--pb); background:linear-gradient(90deg,var(--pd),var(--gl) 70%); }
+.gate-box--open { border-color:rgba(124,58,237,0.3); background:var(--pd); }
+.gate-label { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.12em; color:var(--t2); margin-bottom:6px; } /* ↑ was 9px */
+.gate-name { font-size:15px; font-weight:600; color:var(--text); letter-spacing:-0.01em; }
+.gate-name--p { color:var(--pl); }
+.gate-detail { font-family:var(--fm); font-size:14px; color:var(--t2); margin-top:4px; line-height:1.5; } /* ↑ was 11px */
+
+/* Transport card */
+.transport { padding:36px 32px; border:1px solid var(--glb); border-radius:12px; background:var(--gl); }
+.transport--ssh { border-color:var(--yb); background:var(--yd); }
+.tr-label { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.13em; color:rgba(255,238,88,0.65); margin-bottom:16px; } /* ↑ was 9px */
+.tr-label--http { color:var(--t2); }
+.tr-name { font-family:var(--fd); font-size:1.4rem; font-weight:700; letter-spacing:-0.03em; color:var(--y); margin-bottom:12px; }
+.tr-name--http { color:var(--text); }
+.tr-desc { font-size:21px; font-weight:300; color:var(--t2); line-height:1.7; margin-bottom:24px; } /* ↑ was 15px */
+.tr-features { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.tr-features li { font-family:var(--fm); font-size:14px; color:var(--t2); display:flex; align-items:center; gap:8px; } /* ↑ was 11px */
+.tr-features li::before { content:''; width:4px; height:4px; background:var(--y); border-radius:50%; flex-shrink:0; opacity:0.5; }
+
+/* Terminal */
+.terminal { background:#09090f; border:1px solid rgba(255,255,255,0.05); border-radius:14px; overflow:hidden; font-family:var(--fm); font-size:16px; line-height:1.9; } /* ↑ was 13px */
+.tbar { display:flex; align-items:center; gap:6px; padding:14px 22px; background:rgba(255,255,255,0.015); border-bottom:1px solid rgba(255,255,255,0.04); }
+.d1,.d2,.d3 { width:9px; height:9px; border-radius:50%; opacity:0.55; }
+.d1{background:#ef4444;} .d2{background:#f59e0b;} .d3{background:#22c55e;}
+.ttab { margin-left:auto; font-size:10px; color:rgba(255,255,255,0.16); letter-spacing:0.05em; }
+.tbody { padding:32px 32px 36px; color:rgba(224,221,213,0.28); }
+.ln { display:block; } .lb { display:block; height:0.9em; }
+.gy { color:var(--y); } .gp { color:var(--pl); } .gg { color:var(--g); } .gw { color:rgba(224,221,213,0.75); }
+.cur { display:inline-block; width:7px; height:1em; background:var(--g); vertical-align:text-bottom; animation:blink 0.9s steps(1) infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Loose prose */
+.prose { display:flex; flex-direction:column; gap:20px; }
+.prose p { font-size:21px; font-weight:300; color:var(--t2); line-height:1.82; max-width:600px; } /* ↑ was 17px */
+.prose p strong { color:var(--text); font-weight:500; }
+
+/* Boot sequence */
+.boot-step { display:flex; align-items:flex-start; gap:20px; padding:20px 22px; border:1px solid var(--glb); border-radius:8px; background:var(--gl); }
+.boot-step--active { border-color:var(--gb); background:var(--gd); }
+.boot-n { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.1em; color:var(--t2); padding-top:3px; flex-shrink:0; width:28px; } /* ↑ was 9px */
+.boot-file { font-family:var(--fm); font-size:16px; color:var(--g); margin-bottom:4px; } /* ↑ was 13px */
+.boot-desc { font-size:21px; font-weight:300; color:var(--t2); line-height:1.65; } /* ↑ was 15px */
+
+/* Agent card */
+.agent { padding:28px 24px; border:1px solid var(--glb); border-radius:10px; background:var(--gl); }
+.agent--kl { border-color:var(--gb); background:var(--gd); }
+.agent-role { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.12em; color:var(--t2); margin-bottom:10px; } /* ↑ was 9px */
+.agent-name { font-size:17px; font-weight:600; color:var(--text); margin-bottom:8px; letter-spacing:-0.01em; }
+.agent-name--g { color:var(--g); }
+.agent-desc { font-size:16px; font-weight:300; color:var(--t2); line-height:1.65; } /* ↑ was 13px */
+
+/* KL document card */
+.kl-doc { padding:24px 26px; border:1px solid var(--glb); border-radius:8px; background:var(--gl); }
+.kl-doc--active { border-color:var(--gb); background:var(--gd); }
+.kl-doc-type { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.12em; color:var(--t2); margin-bottom:8px; } /* ↑ was 9px */
+.kl-doc-type--g { color:rgba(34,197,94,0.65); }
+.kl-doc-name { font-size:16px; font-weight:500; color:var(--text); margin-bottom:6px; letter-spacing:-0.01em; }
+.kl-doc-name--g { color:var(--g); }
+.kl-doc-desc { font-size:16px; font-weight:300; color:var(--t2); line-height:1.6; } /* ↑ was 13px */
+
+/* Layer CTA */
+.layer-cta { padding:48px 0 0; margin-top:80px; border-top:1px solid var(--glb); }
+.layer-cta-label { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.12em; color:var(--t3); margin-bottom:10px; } /* ↑ was 10px */
+.layer-cta-heading { font-family:var(--fd); font-size:clamp(1.4rem,2.5vw,1.8rem); font-weight:700; letter-spacing:-0.03em; line-height:1.15; color:var(--text); margin-bottom:10px; }
+.layer-cta-text { font-size:22px; font-weight:300; color:var(--t2); line-height:1.75; max-width:520px; margin-bottom:28px; } /* ↑ was 16px */
+.layer-cta-btns { display:flex; gap:10px; flex-wrap:wrap; }
+
+/* Quote monument */
+.quote-monument { padding:140px 56px; text-align:center; border-top:1px solid var(--glb); border-bottom:1px solid var(--glb); }
+.quote-text { font-family:var(--fd); font-size:clamp(2rem,4.5vw,3.4rem); font-weight:800; letter-spacing:-0.04em; line-height:1.2; color:var(--text); max-width:700px; margin:0 auto; }
+.quote-text em { font-style:normal; color:var(--y); }
+.quote-attr { font-family:var(--fm); font-size:14px; text-transform:uppercase; letter-spacing:0.1em; color:var(--t3); margin-top:32px; } /* ↑ was 10px */
+
+/* Section divider */
+.section-divider { border:none; border-top:1px solid var(--glb); }
+
+/* Mod grid */
+.mods { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border-top:1px solid var(--glb); border-left:1px solid var(--glb); }
+.mod { display:flex; align-items:baseline; justify-content:space-between; padding:15px 18px; border-bottom:1px solid var(--glb); border-right:1px solid var(--glb); gap:8px; }
+.mod-name { font-size:16px; font-weight:400; color:var(--text); }
+.mod-name--g { color:var(--g); font-weight:500; }
+.mod-n { font-family:var(--fm); font-size:14px; color:var(--t2); flex-shrink:0; } /* ↑ was 11px */
+
+/* Demo container */
+.demo { background: var(--gl); border: 1px solid var(--glb); border-radius: 12px; padding: 48px; margin-bottom: 12px; }
+.demo-label { font-family: var(--fm); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 32px; }
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE TYPE SCALE
+   Desktop (default above): hero-sub 23px · section-sub 22px · body 21px · eyebrow 14px · terminal 16px
+   Tablet  (≤1024px):       hero-sub 21px · section-sub 20px · body 19px · eyebrow 13px · terminal 15px
+   Mobile  (≤640px):        hero-sub 19px · section-sub 18px · body 17px · eyebrow 12px · terminal 14px
+   ══════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  body { font-size: 17px; }
+
+  /* Eyebrows & labels → 13px */
+  .eyebrow { font-size: 13px; }
+  .guide-label { font-size: 13px; }
+  .guide-header-eyebrow { font-size: 13px; }
+  .seg-label { font-size: 13px; }
+  .audience-label { font-size: 13px; }
+  .cap-n { font-size: 13px; }
+  .tr-label { font-size: 13px; }
+  .gate-label { font-size: 13px; }
+  .gate-detail { font-size: 13px; }
+  .boot-n { font-size: 13px; }
+  .kl-doc-type { font-size: 13px; }
+  .agent-role { font-size: 13px; }
+  .layer-cta-label { font-size: 13px; }
+  .quote-attr { font-size: 13px; }
+  .stat-l { font-size: 13px; }
+  .pill { font-size: 13px; }
+  .guide-nav a { font-size: 11px; }
+
+  /* Terminal / Code → 15px */
+  .terminal { font-size: 15px; }
+  .boot-file { font-size: 15px; }
+  .tr-features li { font-size: 13px; }
+  .mod-n { font-size: 13px; }
+
+  /* Hero Sub → 21px */
+  .hero-sub { font-size: 21px; }
+  .guide-header p { font-size: 21px; }
+
+  /* Section Sub / Ingress → 20px */
+  .sp2 { font-size: 20px; }
+  .guide-desc { font-size: 20px; }
+  .audience-copy { font-size: 20px; }
+  .layer-cta-text { font-size: 20px; }
+
+  /* Body / Prose → 19px */
+  .prose p { font-size: 19px; }
+  .seg-copy p { font-size: 19px; }
+  .value-copy { font-size: 19px; }
+  .cap-desc { font-size: 19px; }
+  .tr-desc { font-size: 19px; }
+  .boot-desc { font-size: 19px; }
+  .agent-desc { font-size: 15px; }
+  .kl-doc-desc { font-size: 15px; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .guide-header { padding: 60px 24px 48px; }
+  .guide-section-inner { padding: 0 24px; }
+  .guide-section-inner--wide { padding: 0 24px; }
+  .guide-nav { padding: 0 24px; gap: 20px; }
+  .demo { padding: 28px 20px; }
+
+  /* Eyebrows & labels → 12px */
+  .eyebrow { font-size: 12px; }
+  .guide-label { font-size: 12px; }
+  .guide-header-eyebrow { font-size: 12px; }
+  .seg-label { font-size: 12px; }
+  .audience-label { font-size: 12px; }
+  .cap-n { font-size: 12px; }
+  .tr-label { font-size: 12px; }
+  .gate-label { font-size: 12px; }
+  .gate-detail { font-size: 12px; }
+  .boot-n { font-size: 12px; }
+  .kl-doc-type { font-size: 12px; }
+  .agent-role { font-size: 12px; }
+  .layer-cta-label { font-size: 12px; }
+  .quote-attr { font-size: 12px; }
+  .stat-l { font-size: 12px; }
+  .pill { font-size: 12px; }
+  .guide-nav a { font-size: 11px; }
+
+  /* Terminal / Code → 14px */
+  .terminal { font-size: 14px; }
+  .boot-file { font-size: 14px; }
+  .tr-features li { font-size: 12px; }
+  .mod-n { font-size: 12px; }
+
+  /* Hero Sub → 19px */
+  .hero-sub { font-size: 19px; }
+  .guide-header p { font-size: 19px; }
+
+  /* Section Sub / Ingress → 18px */
+  .sp2 { font-size: 18px; }
+  .guide-desc { font-size: 18px; }
+  .audience-copy { font-size: 18px; }
+  .layer-cta-text { font-size: 18px; }
+
+  /* Body / Prose → 17px */
+  .prose p { font-size: 17px; }
+  .seg-copy p { font-size: 17px; }
+  .value-copy { font-size: 17px; }
+  .cap-desc { font-size: 17px; }
+  .tr-desc { font-size: 17px; }
+  .boot-desc { font-size: 17px; }
+  .agent-desc { font-size: 14px; }
+  .kl-doc-desc { font-size: 14px; }
+
+  /* Layout adjustments */
+  .accent-row { grid-template-columns: 1fr; }
+  .tint-grid { grid-template-columns: repeat(3, 1fr); }
+  .audience-block { grid-template-columns: 1fr; }
+  .value-item { grid-template-columns: 1fr; gap: 8px; }
+  .stat-band { padding: 40px 24px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(3) { padding-left: 0; margin-top: 24px; }
+  .stat:nth-child(4) { margin-top: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="guide-nav">
+  <div class="guide-nav-brand">Wicked <span>Evolutions</span></div>
+  <div class="guide-nav-sep"></div>
+  <a href="#colours">Colours</a>
+  <a href="#typography">Typography</a>
+  <a href="#spacing">Spacing</a>
+  <a href="#components">Components</a>
+  <a href="#hero">Hero</a>
+  <a href="#stats">Stats Band</a>
+  <a href="#sections">Section Heading</a>
+  <a href="#cap-list">Cap List</a>
+  <a href="#value-list">Value List</a>
+  <a href="#audience">Audience Block</a>
+  <a href="#segment">Segment Block</a>
+  <a href="#gate">Gate Diagram</a>
+  <a href="#transport">Transport Card</a>
+  <a href="#terminal">Terminal</a>
+  <a href="#boot">Boot Sequence</a>
+  <a href="#agents">Agent Card</a>
+  <a href="#kl-docs">KL Document</a>
+  <a href="#cta">Layer CTA</a>
+  <a href="#quote">Quote Monument</a>
+</nav>
+
+
+<!-- HEADER -->
+<header class="guide-header">
+  <div class="guide-header-eyebrow">Brand Book · v1.1 · Typography & contrast update</div>
+  <h1>Wicked <span>Evolutions</span><br>Design System</h1>
+  <p>Tokens, components, and block patterns for the Trinity landing page and WordPress site. Each pattern section maps directly to a reusable Gutenberg block or unsynced pattern.</p>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════
+     01 — COLOUR SYSTEM
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="colours">
+<div class="guide-section-inner">
+
+  <div class="guide-label">01 — Foundation</div>
+  <h2 class="guide-title">Colour System</h2>
+  <p class="guide-desc">Dark-first. One background, one text, three accent colours — each owned by one Trinity layer. All tints and glass surfaces derived from these six roots.</p>
+
+  <table class="spec-table">
+    <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+    <tr><td><span class="spec-code">--bg</span></td><td>#111111</td><td>Page background — only background used</td></tr>
+    <tr><td><span class="spec-code">--text</span></td><td>#E0DDD5</td><td>Primary text — warm off-white · contrast 13.91:1</td></tr>
+    <tr><td><span class="spec-code">--t2</span></td><td>rgba(224,221,213, 0.70) → #a2a09a</td><td>Body copy, descriptions, secondary text · contrast 7.22:1 WCAG AAA ↑ was 0.50 / 4.23:1</td></tr>
+    <tr><td><span class="spec-code">--t3</span></td><td>rgba(224,221,213, 0.35) → #595856</td><td>Ghost text — intentional only (attribution, footers) · contrast 2.66:1 ↑ was 0.22 / 1.77:1</td></tr>
+    <tr><td><span class="spec-code">--t4</span></td><td>rgba(224,221,213, 0.09)</td><td>Ultra-ghost — vertical section numbers only</td></tr>
+  </table>
+
+  <!-- Trinity accent blocks -->
+  <div class="accent-row">
+    <div class="accent-block" style="background:var(--yd); border:1px solid var(--yb);">
+      <div class="accent-block-label accent-label--y" style="color:rgba(255,238,88,0.6);">Layer 01 · abilities-mcp</div>
+      <div class="accent-block-name" style="color:var(--y);">Yellow</div>
+      <div class="accent-block-hex" style="color:rgba(255,238,88,0.5);">#FFEE58 · --y</div>
+    </div>
+    <div class="accent-block" style="background:var(--pd); border:1px solid var(--pb);">
+      <div class="accent-block-label" style="color:rgba(167,139,250,0.6);">Layer 02 · mcp-adapter</div>
+      <div class="accent-block-name" style="color:var(--pl);">Purple</div>
+      <div class="accent-block-hex" style="color:rgba(167,139,250,0.5);">#7c3aed / #a78bfa · --p / --pl</div>
+    </div>
+    <div class="accent-block" style="background:var(--gd); border:1px solid var(--gb);">
+      <div class="accent-block-label" style="color:rgba(34,197,94,0.6);">Layer 03+04 · abilities-for-ai + KL</div>
+      <div class="accent-block-name" style="color:var(--g);">Green</div>
+      <div class="accent-block-hex" style="color:rgba(34,197,94,0.5);">#22c55e · --g</div>
+    </div>
+  </div>
+
+  <div class="guide-divider"></div>
+
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;color:var(--t2);">Tinted backgrounds — used for cards, borders, stat bands</h3>
+
+  <div class="tint-grid">
+    <div class="tint-swatch" style="background:var(--yd); border:1px solid var(--yb);"><span class="tint-label" style="color:rgba(255,238,88,0.5);">--yd 7%</span></div>
+    <div class="tint-swatch" style="background:var(--yb); border:1px solid var(--yb);"><span class="tint-label" style="color:rgba(255,238,88,0.7);">--yb 17%</span></div>
+    <div class="tint-swatch" style="background:var(--gd); border:1px solid var(--gb);"><span class="tint-label" style="color:rgba(34,197,94,0.5);">--gd 7%</span></div>
+    <div class="tint-swatch" style="background:var(--gb); border:1px solid var(--gb);"><span class="tint-label" style="color:rgba(34,197,94,0.7);">--gb 17%</span></div>
+    <div class="tint-swatch" style="background:var(--pd); border:1px solid var(--pb);"><span class="tint-label" style="color:rgba(167,139,250,0.5);">--pd 7%</span></div>
+    <div class="tint-swatch" style="background:var(--pb); border:1px solid var(--pb);"><span class="tint-label" style="color:rgba(167,139,250,0.7);">--pb 16%</span></div>
+  </div>
+
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;color:var(--t2);">Glass surfaces — cards, hovers, overlays</h3>
+  <table class="spec-table">
+    <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+    <tr><td><span class="spec-code">--gl</span></td><td>rgba(255,255,255, 0.025)</td><td>Default card background</td></tr>
+    <tr><td><span class="spec-code">--glb</span></td><td>rgba(255,255,255, 0.055)</td><td>Default card border, dividers</td></tr>
+    <tr><td><span class="spec-code">--glh</span></td><td>rgba(255,255,255, 0.11)</td><td>Hover state border</td></tr>
+  </table>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     02 — TYPOGRAPHY
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="typography">
+<div class="guide-section-inner">
+
+  <div class="guide-label">02 — Foundation</div>
+  <h2 class="guide-title">Typography</h2>
+  <p class="guide-desc">Three typefaces, three roles. Never substitute. Font weights and sizes are specified as exact values — use clamp() for responsive scaling at hero sizes.</p>
+
+  <table class="spec-table">
+    <tr><th>Token</th><th>Family</th><th>Weights</th><th>Role</th></tr>
+    <tr><td><span class="spec-code">--fd</span></td><td>Syne</td><td>700, 800</td><td>Display — hero titles, section headings, segment names, CTA headings</td></tr>
+    <tr><td><span class="spec-code">--fb</span></td><td>Manrope</td><td>300, 400, 500, 600</td><td>Body — all paragraph copy, labels, buttons</td></tr>
+    <tr><td><span class="spec-code">--fm</span></td><td>JetBrains Mono</td><td>400, 500</td><td>Code — eyebrows, labels, mono tags, terminal</td></tr>
+  </table>
+
+  <table class="spec-table" style="margin-top:32px;">
+    <tr><th>Element</th><th>Desktop</th><th>Tablet ≤1024px</th><th>Mobile ≤640px</th><th>Line height</th></tr>
+    <tr><td><span class="spec-code">Hero Sub</span></td><td>23px</td><td>21px</td><td>19px</td><td>1.85</td></tr>
+    <tr><td><span class="spec-code">Section Sub</span></td><td>22px</td><td>20px</td><td>18px</td><td>1.82</td></tr>
+    <tr><td><span class="spec-code">Body / Prose</span></td><td>21px</td><td>19px</td><td>17px</td><td>1.82</td></tr>
+    <tr><td><span class="spec-code">Eyebrow / Label</span></td><td>14px</td><td>13px</td><td>12px</td><td>—</td></tr>
+    <tr><td><span class="spec-code">Terminal / Code</span></td><td>16px</td><td>15px</td><td>14px</td><td>1.9</td></tr>
+    <tr><td><span class="spec-code">Hero Eyebrow</span></td><td>14px</td><td>13px</td><td>12px</td><td>—</td></tr>
+  </table>
+
+  <!-- Type specimens -->
+  <div class="type-specimen">
+    <div class="type-meta">Hero Title <span>Syne 800 · clamp(3rem, 5.5vw, 5rem) · tracking -0.045em · lh 1.03</span></div>
+    <div class="hero-title" style="margin-bottom:0;">With The Trinity Of Abilities.<br><em>Today.</em></div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Section Heading <span>Syne 700 · clamp(1.8rem, 3vw, 2.6rem) · tracking -0.03em · lh 1.12</span></div>
+    <h2 class="sh" style="margin-bottom:0;">The admin panel is now optional.</h2>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Segment Name <span>Syne 700 · clamp(1.6rem, 3vw, 2.2rem) · tracking -0.03em · lh 1.12</span></div>
+    <div class="seg-name" style="margin-bottom:0;">Your site, your focus</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Hero Sub <span>Manrope 300 · 23px desktop / 21px tablet / 19px mobile · lh 1.85 · color --t2 · max-width 540px</span></div>
+    <p class="hero-sub" style="margin-bottom:0;">One MCP to Bind Them All — an MCP server that runs on your machine and connects your AI client to any number of WordPress sites simultaneously.</p>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Section Sub <span>Manrope 300 · 22px desktop / 20px tablet / 18px mobile · lh 1.82 · color --t2 · max-width 580px</span></div>
+    <p class="sp2" style="margin-bottom:0;">The conversation becomes the operating layer. The dashboard becomes the review layer.</p>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Body / Prose <span>Manrope 300 · 21px desktop / 19px tablet / 17px mobile · lh 1.82 · color --t2 · max-width 600px · gap 20px between paragraphs</span></div>
+    <div class="prose" style="margin-bottom:0;">
+      <p>Your time is entirely yours — until WordPress needs attention. Then an hour of creating becomes an hour of clicking through menus.</p>
+      <p>With the Trinity, your site reports to you. Ask what's wrong and get a structured answer in a conversation, not a dashboard.</p>
+    </div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Eyebrow / Label <span>JetBrains Mono 400 · 14px desktop / 13px tablet / 12px mobile · uppercase · tracking 0.1em</span></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+      <div class="eyebrow"><span class="ebdot ebdot--p"></span>Layer 02 · Protocol · WordPress Plugin</div>
+      <div class="eyebrow eyebrow--y"><span class="ebdot ebdot--y"></span>Layer 01 · Bridge · Node.js</div>
+      <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Layer 03 · Engine · WordPress Plugin</div>
+    </div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-meta">Terminal / Code <span>JetBrains Mono 400 · 16px desktop / 15px tablet / 14px mobile · lh 1.9</span></div>
+    <div style="font-family:var(--fm);font-size:16px;color:var(--g);">knowledge/boot → mode: inquiry · allowed: ["read"] · observations_open: 24</div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     03 — SPACING & LAYOUT
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="spacing">
+<div class="guide-section-inner">
+
+  <div class="guide-label">03 — Foundation</div>
+  <h2 class="guide-title">Spacing & Layout</h2>
+  <p class="guide-desc">All spacing is on a base-8 scale. Layout uses two column widths. Padding is always 56px horizontal at desktop.</p>
+
+  <table class="spec-table">
+    <tr><th>Name</th><th>Value</th><th>Usage</th></tr>
+    <tr><td><span class="spec-code">--col</span></td><td>800px</td><td>Content column — all body text and sections</td></tr>
+    <tr><td><span class="spec-code">--wide</span></td><td>1140px</td><td>Wide column — stats bands, full-bleed elements</td></tr>
+    <tr><td>Column padding</td><td>56px</td><td>Horizontal padding on all .c and .cw wrappers</td></tr>
+    <tr><td>Section gap</td><td>160px</td><td>Vertical margin between major sections</td></tr>
+    <tr><td>Hero padding</td><td>160px top / 120px bottom</td><td>Each layer hero section</td></tr>
+    <tr><td>Card gap</td><td>2px</td><td>Gap between adjacent cards (dense grid feel)</td></tr>
+    <tr><td>Segment gap</td><td>80px</td><td>Between .seg blocks in one-pipeline section</td></tr>
+    <tr><td>Prose gap</td><td>20px</td><td>Between paragraphs in .prose blocks</td></tr>
+    <tr><td>Stat band padding</td><td>64px / 56px</td><td>Full-bleed stat bands — vertical / horizontal</td></tr>
+    <tr><td>Section border radius</td><td>8–14px</td><td>Cards 8px · Transport/Segment 12px · Terminal 14px</td></tr>
+  </table>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     04 — CORE COMPONENTS
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="components">
+<div class="guide-section-inner">
+
+  <div class="guide-label">04 — Components</div>
+  <h2 class="guide-title">Core Components</h2>
+  <p class="guide-desc">Small, reusable elements. Each maps to a single Gutenberg block or inline HTML class.</p>
+
+  <!-- Eyebrows -->
+  <div class="guide-divider" style="margin-top:0;"></div>
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Eyebrows</h3>
+  <p style="font-size:14px;color:var(--t2);margin-bottom:24px;">Layer label shown above each hero headline. Pill shape, animated dot, mono text. Three colour variants — one per layer.</p>
+  <div class="block-note"><strong>Gutenberg block</strong>Custom HTML block or Paragraph block with class <code>eyebrow</code> / <code>eyebrow--y</code> / <code>eyebrow--g</code>. The dot is a <code>&lt;span class="ebdot"&gt;</code> inside.</div>
+  <div class="component-row">
+    <div class="eyebrow"><span class="ebdot ebdot--p"></span>Layer 02 · Protocol · WordPress Plugin</div>
+    <div class="eyebrow eyebrow--y"><span class="ebdot ebdot--y"></span>Layer 01 · Bridge · Node.js</div>
+    <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Layer 03 · Engine</div>
+    <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Alpha release</div>
+  </div>
+
+  <!-- Glow lines -->
+  <div class="guide-divider"></div>
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Glow Lines</h3>
+  <p style="font-size:14px;color:var(--t2);margin-bottom:24px;">1px horizontal gradient line. Used under hero headlines. Three colour variants.</p>
+  <div class="block-note"><strong>Gutenberg block</strong>Separator block with class <code>gl</code> / <code>gl--y</code> / <code>gl--g</code>. Set separator to "wide" width, custom colour disabled — styling is pure CSS.</div>
+  <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:40px;">
+    <div><div style="font-family:var(--fm);font-size:13px;color:var(--t3);margin-bottom:10px;">Default — purple</div><hr class="gl" style="max-width:200px;"></div>
+    <div><div style="font-family:var(--fm);font-size:13px;color:var(--t3);margin-bottom:10px;">Yellow variant</div><hr class="gl gl--y" style="max-width:200px;"></div>
+    <div><div style="font-family:var(--fm);font-size:13px;color:var(--t3);margin-bottom:10px;">Green variant</div><hr class="gl gl--g" style="max-width:200px;"></div>
+  </div>
+
+  <!-- Pills -->
+  <div class="guide-divider"></div>
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Pills</h3>
+  <p style="font-size:14px;color:var(--t2);margin-bottom:24px;">Small tinted labels. Used inline in content and in stat-band accent labels.</p>
+  <div class="block-note"><strong>Gutenberg block</strong>Inline HTML span with class <code>pill py</code> / <code>pill pp</code> / <code>pill pg</code> / <code>pill p0</code> inside a Paragraph block.</div>
+  <div class="component-row">
+    <span class="pill py">Alpha release</span>
+    <span class="pill pp">Protocol</span>
+    <span class="pill pg">Open source</span>
+    <span class="pill p0">Coming soon</span>
+  </div>
+
+  <!-- Buttons -->
+  <div class="guide-divider"></div>
+  <h3 style="font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Buttons</h3>
+  <p style="font-size:14px;color:var(--t2);margin-bottom:24px;">Two variants. Green primary for the preferred action (shop/install). Ghost for secondary (GitHub). Always pair in this order: ghost left, green right.</p>
+  <div class="block-note"><strong>Gutenberg block</strong>Buttons block. Primary button: class <code>btn--g</code>. Ghost button: class <code>btn--ghost</code>. Use Buttons block in horizontal layout with gap 10px.</div>
+  <div class="component-row">
+    <a href="#" class="btn btn--g">Get Pro with auto-updates →</a>
+    <a href="#" class="btn btn--ghost">Get free on GitHub →</a>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     05 — HERO BLOCK
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="hero">
+<div class="guide-section-inner">
+
+  <div class="guide-label">05 — Block Pattern</div>
+  <h2 class="guide-title">Hero Block</h2>
+  <p class="guide-desc">Opening section of each Trinity layer. Eyebrow + large title + sub paragraph + glow line. Title uses Syne 800, last line in accent colour via <code>&lt;em&gt;</code>.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group block (full-width, padding 160px top / 120px bottom) → Column block (800px max-width, 56px padding) → Custom HTML eyebrow → Heading H1 with class hero-title → Paragraph with class hero-sub → Separator with class gl. The em colour variant (em.y / em.p / default green) is set via inline HTML in the heading.
+  </div>
+
+  <table class="spec-table">
+    <tr><th>Element</th><th>Spec</th></tr>
+    <tr><td><span class="spec-code">Eyebrow</span></td><td>JetBrains Mono · 14px desktop / 13px tablet / 12px mobile · uppercase · margin-bottom 52px</td></tr>
+    <tr><td><span class="spec-code">Title</span></td><td>Syne 800 · clamp(3rem, 5.5vw, 5rem) · tracking -0.045em · lh 1.03 · margin-bottom 36px</td></tr>
+    <tr><td><span class="spec-code">Title em (accent)</span></td><td>display:block · color: --y / --pl / --g depending on layer</td></tr>
+    <tr><td><span class="spec-code">Sub</span></td><td>Manrope 300 · 23px desktop / 21px tablet / 19px mobile · lh 1.85 · color --t2 · max-width 540px · margin-bottom 80px</td></tr>
+    <tr><td><span class="spec-code">Glow line</span></td><td>1px · opacity 0.28 · max-width 90px · variant matches layer colour</td></tr>
+  </table>
+
+  <div class="demo">
+    <div class="demo-label">Preview — Layer 01 Yellow</div>
+    <div class="eyebrow eyebrow--y"><span class="ebdot ebdot--y"></span>Layer 01 · Bridge · Node.js</div>
+    <div class="hero-title">One MCP<br>To Rule Your<br><em class="y">WordPress World.</em></div>
+    <p class="hero-sub">One MCP to Bind Them All — an MCP server that runs on your machine and connects your AI client to any number of WordPress sites simultaneously.</p>
+    <hr class="gl gl--y">
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     06 — STATS BAND
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="stats">
+<div class="guide-section-inner--wide">
+
+  <div class="guide-section-inner" style="max-width:var(--col);padding-left:0;padding-right:0;">
+    <div class="guide-label">06 — Block Pattern</div>
+    <h2 class="guide-title">Stats Band</h2>
+    <p class="guide-desc">Full-bleed band with four stats. Sits immediately after each hero section. Each band has an accent colour variant matching its layer.</p>
+
+    <div class="block-note">
+      <strong>Gutenberg pattern</strong>
+      Full-width Group block (no column constraint) → inner grid with 4 columns → each column: large Heading (Syne 800) + small Paragraph label (JetBrains Mono). Band border-top and border-bottom use accent colour via class. Four variants: default, stat-band--y, stat-band--g, stat-band--p.
+    </div>
+
+    <table class="spec-table">
+      <tr><th>Element</th><th>Spec</th></tr>
+      <tr><td>Number</td><td>Syne 800 · clamp(2.8rem, 4.2vw, 4rem) · tracking -0.045em · lh 1 · accent colour class (sy/sg/sp/sw)</td></tr>
+      <tr><td>Label</td><td>JetBrains Mono · 14px desktop / 13px tablet / 12px mobile · uppercase · tracking 0.1em · accent-tinted colour per band variant</td></tr>
+      <tr><td>Column divider</td><td>1px border-right using accent colour per band</td></tr>
+      <tr><td>Band padding</td><td>64px vertical · 56px horizontal</td></tr>
+    </table>
+  </div>
+
+  <div style="margin-bottom:12px;">
+    <div style="font-family:var(--fm);font-size:13px;color:var(--t3);padding:0 0 10px 56px;">Yellow variant — abilities-mcp</div>
+    <div class="stat-band stat-band--y">
+      <div class="stats">
+        <div class="stat"><div class="stat-n sy">2</div><div class="stat-l">transports</div></div>
+        <div class="stat"><div class="stat-n sy">∞</div><div class="stat-l">sites per instance</div></div>
+        <div class="stat"><div class="stat-n sw">10s</div><div class="stat-l">reconnect backoff</div></div>
+        <div class="stat"><div class="stat-n sw">45s</div><div class="stat-l">healthcheck interval</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:12px;">
+    <div style="font-family:var(--fm);font-size:13px;color:var(--t3);padding:0 0 10px 56px;">Purple variant — mcp-adapter</div>
+    <div class="stat-band stat-band--p">
+      <div class="stats">
+        <div class="stat"><div class="stat-n sp">2</div><div class="stat-l">public abilities</div></div>
+        <div class="stat"><div class="stat-n sw">4</div><div class="stat-l">internal abilities</div></div>
+        <div class="stat"><div class="stat-n sw">627</div><div class="stat-l">abilities it exposes</div></div>
+        <div class="stat"><div class="stat-n sw">PHP 8.0+</div><div class="stat-l">requirement</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-family:var(--fm);font-size:13px;color:var(--t3);padding:0 0 10px 56px;">Green variant — abilities-for-ai</div>
+    <div class="stat-band stat-band--g">
+      <div class="stats">
+        <div class="stat"><div class="stat-n sg">137</div><div class="stat-l">abilities</div></div>
+        <div class="stat"><div class="stat-n sg">21</div><div class="stat-l">modules</div></div>
+        <div class="stat"><div class="stat-n sw">4</div><div class="stat-l">suite loaders</div></div>
+        <div class="stat"><div class="stat-n sw">PHP 8.0+</div><div class="stat-l">WordPress 6.9+</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     07 — SECTION HEADING
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="sections">
+<div class="guide-section-inner">
+
+  <div class="guide-label">07 — Block Pattern</div>
+  <h2 class="guide-title">Section Heading</h2>
+  <p class="guide-desc">Heading + sub-paragraph used to open every content section within a layer. Always followed by the content block it introduces.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Heading H2 with class <code>sh</code> + Paragraph with class <code>sp2</code>. Optionally preceded by a ghosted vertical section number (<code>sn</code> class, absolute positioned — requires Group block with position relative).
+  </div>
+
+  <table class="spec-table">
+    <tr><th>Element</th><th>Spec</th></tr>
+    <tr><td>Heading (.sh)</td><td>Syne 700 · clamp(1.8rem, 3vw, 2.6rem) · tracking -0.03em · lh 1.12 · color --text · margin-bottom 16px</td></tr>
+    <tr><td>Sub (.sp2)</td><td>Manrope 300 · 22px desktop / 20px tablet / 18px mobile · lh 1.82 · color --t2 · max-width 580px · margin-bottom 56px</td></tr>
+  </table>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <h2 class="sh">Delete is off. You turn it on.</h2>
+    <p class="sp2">Every module ships with a default permission state built into the source code. Read is on. Write is on. Delete is off — across every module, from first install.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     08 — CAPABILITY LIST
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="cap-list">
+<div class="guide-section-inner">
+
+  <div class="guide-label">08 — Block Pattern</div>
+  <h2 class="guide-title">Capability List</h2>
+  <p class="guide-desc">Bordered list of named capabilities. Label left (mono, uppercase, 52px wide), title + description right. Used for technical feature lists, MCP annotations, bridge tools.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group block with class <code>cap-list</code> + border-top. Each item: Group block with class <code>cap-item</code> + border-bottom → two Column blocks (52px left, 1fr right) → left: Paragraph with class <code>cap-n</code> → right: Heading H3 with class <code>cap-title</code> + Paragraph with class <code>cap-desc</code> or nested prose Group.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div class="cap-list">
+      <div class="cap-item">
+        <div class="cap-n">Auth</div>
+        <div>
+          <div class="cap-title">WordPress authentication</div>
+          <div class="prose">
+            <p>The AI agent connects as a WordPress user. The WordPress role you assign governs exactly what the AI can reach.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Gate</div>
+        <div>
+          <div class="cap-title">Discovery gate</div>
+          <div class="prose">
+            <p>Only abilities marked <code style="font-family:var(--fm);font-size:14px;color:var(--pl);">mcp.public: true</code> appear in the manifest. Everything else is invisible.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     09 — VALUE LIST
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="value-list">
+<div class="guide-section-inner">
+
+  <div class="guide-label">09 — Block Pattern</div>
+  <h2 class="guide-title">Value List</h2>
+  <p class="guide-desc">Two-column list of value propositions. Name left in Syne 700 (200px), copy right in Manrope 300. Used in the "What changes" section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group block with class <code>value-list</code> + border-top. Each item: Group with class <code>value-item</code> → Columns block (200px fixed left, 1fr right) → left: Heading H3 with class <code>value-name</code> → right: Paragraph with class <code>value-copy</code>.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div class="value-list">
+      <div class="value-item">
+        <div class="value-name">Stop logging in</div>
+        <div class="value-copy">Seven dashboards, one conversation. Ask questions in natural language, get unified intelligence back. The clicking stops. The conversation starts.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-name">Your server, your data</div>
+        <div class="value-copy">No SaaS layer between your AI and your site. Your WordPress database is the source of truth — and it stays yours.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-name">The site remembers</div>
+        <div class="value-copy">Every session logs to the Knowledge Layer. Six months of sessions compound into operational intelligence that no single conversation could hold.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     10 — AUDIENCE BLOCK
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="audience">
+<div class="guide-section-inner">
+
+  <div class="guide-label">10 — Block Pattern</div>
+  <h2 class="guide-title">Audience Block</h2>
+  <p class="guide-desc">Two-column card: 220px aside on left (label + name), body on right (transformation headline + copy). Three colour variants. Used in "Who this is for" section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Columns block with class <code>audience-block</code> (220px left, 1fr right, gap 2px) → Left: Group with class <code>audience-aside</code> → Paragraph label (<code>audience-label--y/p/g</code>) + Heading (<code>audience-name</code>) → Right: Group with class <code>audience-body audience-body--y/p/g</code> → Heading (<code>audience-transform</code>) + Paragraph group (<code>audience-copy</code>).
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview — Yellow variant</div>
+    <div class="audience-block" style="margin-bottom:2px;">
+      <div class="audience-aside">
+        <div class="audience-label audience-label--y">Founders & Operators</div>
+        <div class="audience-name">The dashboard problem</div>
+      </div>
+      <div class="audience-body audience-body--y">
+        <div class="audience-transform">You are the integration layer. You shouldn't be.</div>
+        <div class="audience-copy">
+          <p>Every morning you open six dashboards. Your CRM doesn't know what your community platform knows. You're manually correlating data between silos that will never talk to each other.</p>
+          <p>With the Trinity, one conversation covers all of it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     11 — SEGMENT BLOCK
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="segment">
+<div class="guide-section-inner">
+
+  <div class="guide-label">11 — Block Pattern</div>
+  <h2 class="guide-title">Segment Block</h2>
+  <p class="guide-desc">Standalone headline above a full-width card. Label + display-size name sit above the card with 28px of space. Three colour variants. Used in "One pipeline" section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group with class <code>seg</code> → Header group with class <code>seg-header</code>: Paragraph (<code>seg-label seg-label--y/p/g</code>) + Heading H3 (<code>seg-name</code>) → Card group with class <code>seg-card seg-card--y/p/g</code>: Heading H4 (<code>seg-transform</code>) + Paragraph group (<code>seg-copy</code>) with gap 18px between paragraphs. Repeat for each segment, with margin-top 80px between.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview — Purple variant</div>
+    <div class="seg">
+      <div class="seg-header">
+        <div class="seg-label seg-label--p">Entrepreneurs & Business Owners</div>
+        <div class="seg-name">One conversation, all your tools</div>
+      </div>
+      <div class="seg-card seg-card--p">
+        <div class="seg-transform">One conversation across all your tools.</div>
+        <div class="seg-copy">
+          <p>You open six dashboards every morning. Your CRM doesn't know what your bookings platform knows.</p>
+          <p>The Trinity connects the dots — all in one WordPress database, all reachable in one conversation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     12 — GATE DIAGRAM
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="gate">
+<div class="guide-section-inner">
+
+  <div class="guide-label">12 — Block Pattern</div>
+  <h2 class="guide-title">Gate Diagram</h2>
+  <p class="guide-desc">Vertical chain of boxes connected by thin lines. Used to show the flow from AI client through adapter to unlocked abilities. Three box states: default, purple-accented, open/unlocked.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Custom HTML block — this pattern requires HTML due to the connecting line elements. Each row: div.gate-row → div.gate-box (or gate-box--p / gate-box--open) → div.gate-label + div.gate-name (+ gate-name--p) + div.gate-detail. Between rows: div.gate-join → div.gate-jl (the 1px line). Full pattern as Custom HTML block.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="gate-box">
+        <div class="gate-label">AI Client</div>
+        <div class="gate-name">Claude · Cursor · any MCP client</div>
+        <div class="gate-detail">STDIO · JSON-RPC 2.0</div>
+      </div>
+      <div style="margin-left:20px;padding:3px 0;display:flex;align-items:center;"><div style="width:1px;height:18px;background:var(--pb);opacity:0.35;"></div></div>
+      <div class="gate-box gate-box--p">
+        <div class="gate-label">Discovery gate · mcp.public filter</div>
+        <div class="gate-name gate-name--p">mcp-adapter/discover-abilities</div>
+        <div class="gate-detail">Full manifest · filter by category · annotation · keyword search</div>
+      </div>
+      <div style="margin-left:20px;padding:3px 0;display:flex;align-items:center;"><div style="width:1px;height:18px;background:var(--pb);opacity:0.35;"></div></div>
+      <div class="gate-box gate-box--open">
+        <div class="gate-label">Every registered ability — unlocked</div>
+        <div class="gate-name gate-name--p">Schema-validated · Permission-gated · MCP-native</div>
+        <div class="gate-detail">content · blocks · meta · menus · themes · knowledge · fluent · surecart · astra · spectra · presto</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     13 — TRANSPORT CARD
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="transport">
+<div class="guide-section-inner">
+
+  <div class="guide-label">13 — Block Pattern</div>
+  <h2 class="guide-title">Transport Card</h2>
+  <p class="guide-desc">Feature card with label, display-size name, description, and feature bullet list. Two variants: SSH (yellow-accented) and HTTP (default glass). Used side by side in abilities-mcp section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Columns block (2 equal columns, gap 2px) → each: Group with class <code>transport</code> (or <code>transport--ssh</code>) → Paragraph (<code>tr-label</code> / <code>tr-label--http</code>) + Heading (<code>tr-name</code> / <code>tr-name--http</code>) + Paragraph (<code>tr-desc</code>) + List block with class <code>tr-features</code>.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview — SSH variant</div>
+    <div class="transport transport--ssh" style="max-width:420px;">
+      <div class="tr-label">Transport A · Developers</div>
+      <div class="tr-name">SSH + WP-CLI</div>
+      <p class="tr-desc">Connects over your existing SSH tunnel. Auto-reconnects with exponential backoff, replays the MCP handshake on reconnect.</p>
+      <ul class="tr-features">
+        <li>Auto-reconnect · up to 10 retries</li>
+        <li>45s healthcheck ping · kills and respawns on timeout</li>
+        <li>Request queue — up to 100 messages buffered</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     14 — TERMINAL
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="terminal">
+<div class="guide-section-inner">
+
+  <div class="guide-label">14 — Block Pattern</div>
+  <h2 class="guide-title">Terminal Block</h2>
+  <p class="guide-desc">Dark-on-darker terminal window with traffic light dots, tab label, and coloured code lines. Used to show real AI sessions. Always green cursor at end.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Custom HTML block — terminal structure requires HTML. Outer: div.terminal → div.tbar (dots + tab label) → div.tbody. Inside tbody: span.ln for each line, span.lb for blank lines. Colours: span.gy (yellow), span.gp (purple), span.gg (green), span.gw (white). Cursor: span.cur. Full block as Custom HTML.
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div class="terminal">
+      <div class="tbar">
+        <div class="d1"></div><div class="d2"></div><div class="d3"></div>
+        <div class="ttab">abilities-mcp · helenawillow.com · session 4</div>
+      </div>
+      <div class="tbody">
+        <span class="ln"><span class="gy">→</span> <span class="gp">mcp-adapter/get-started</span></span>
+        <span class="ln">  site: <span class="gw">"Helena Willow"</span>  abilities: <span class="gg">627</span>  next: <span class="gw">"knowledge/boot"</span></span>
+        <span class="lb"></span>
+        <span class="ln"><span class="gy">→</span> <span class="gp">knowledge/boot</span></span>
+        <span class="ln">  mode: <span class="gw">"inquiry"</span>  allowed: <span class="gg">["read"]</span>  restricted: <span class="gy">["write","delete"]</span></span>
+        <span class="lb"></span>
+        <span class="ln"><span class="gg">$</span> <span class="cur"></span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     15 — BOOT SEQUENCE
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="boot">
+<div class="guide-section-inner">
+
+  <div class="guide-label">15 — Block Pattern</div>
+  <h2 class="guide-title">Boot Sequence</h2>
+  <p class="guide-desc">Vertical stack of step cards. Step number left (28px, mono), filename in green mono, description in body text. Active state: green-accented card.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group block with class <code>boot-seq</code> (flex column, gap 2px) → each step: Group with class <code>boot-step</code> (or <code>boot-step--active</code>) → Columns (28px left, 1fr right) → left: Paragraph (<code>boot-n</code>) → right: Paragraph (<code>boot-file</code>) + Paragraph (<code>boot-desc</code>).
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="boot-step boot-step--active">
+        <div class="boot-n">01</div>
+        <div>
+          <div class="boot-file">knowledge/boot</div>
+          <div class="boot-desc">The entry point. Returns the behavioral directive, session count, last session summary, and the next_action sequence.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">02</div>
+        <div>
+          <div class="boot-file">ESSENCE.md</div>
+          <div class="boot-desc">Who is this site. The business, the mission, the voice, the audience. Synthesized from the first diagnostic session.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">03</div>
+        <div>
+          <div class="boot-file">SITE-IDENTITY.md</div>
+          <div class="boot-desc">How the site is built. Environment, theme stack, plugins, capabilities.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     16 — AGENT CARD
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="agents">
+<div class="guide-section-inner">
+
+  <div class="guide-label">16 — Block Pattern</div>
+  <h2 class="guide-title">Agent Card</h2>
+  <p class="guide-desc">Card showing an AI agent role. Role label (mono, uppercase), agent name (semi-bold), description. Active/featured state uses green accent. Used in Knowledge Layer section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Columns block (3 equal columns, gap 2px) → each: Group with class <code>agent</code> (or <code>agent--kl</code> for active) → Paragraph (<code>agent-role</code>) + Heading H3 (<code>agent-name</code> / <code>agent-name--g</code>) + Paragraph (<code>agent-desc</code>).
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+      <div class="agent">
+        <div class="agent-role">Default · read-only</div>
+        <div class="agent-name">Diagnostician</div>
+        <div class="agent-desc">Runs diagnostic protocols. Health checks, plugin audits. Read-only by default.</div>
+      </div>
+      <div class="agent agent--kl">
+        <div class="agent-role">Full access · experienced users</div>
+        <div class="agent-name agent-name--g">Operator</div>
+        <div class="agent-desc">All lanes. Full read-write access. Available after the Introduction Course is complete.</div>
+      </div>
+      <div class="agent">
+        <div class="agent-role">Content lane</div>
+        <div class="agent-name">Publisher</div>
+        <div class="agent-desc">Creates, edits, and publishes posts and pages. Read-write in its lane.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     17 — KL DOCUMENT CARD
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="kl-docs">
+<div class="guide-section-inner">
+
+  <div class="guide-label">17 — Block Pattern</div>
+  <h2 class="guide-title">Knowledge Layer Document Card</h2>
+  <p class="guide-desc">Two-column grid of document type cards. Type label (mono, uppercase), document name (medium weight), description. Active state uses green accent. Used in Knowledge Layer section.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Columns block (2 equal columns, gap 2px) → each: Group with class <code>kl-doc</code> (or <code>kl-doc--active</code>) → Paragraph (<code>kl-doc-type</code> / <code>kl-doc-type--g</code>) + Heading H3 (<code>kl-doc-name</code> / <code>kl-doc-name--g</code>) + Paragraph (<code>kl-doc-desc</code>).
+  </div>
+
+  <div class="demo">
+    <div class="demo-label">Preview</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+      <div class="kl-doc kl-doc--active">
+        <div class="kl-doc-type kl-doc-type--g">Document type · boot</div>
+        <div class="kl-doc-name kl-doc-name--g">BOOT.md</div>
+        <div class="kl-doc-desc">The startup sequence. The AI reads this before speaking. No exceptions.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · identity</div>
+        <div class="kl-doc-name">ESSENCE.md</div>
+        <div class="kl-doc-desc">The site's identity brief — synthesized from the first diagnostic session.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · observation</div>
+        <div class="kl-doc-name">Observations</div>
+        <div class="kl-doc-desc">Structured findings from every diagnostic. Category, severity, session, status. Open → resolved with notes.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · session</div>
+        <div class="kl-doc-name">Session logs</div>
+        <div class="kl-doc-desc">Every session is a coherent unit — what was attempted, found, modified, deferred.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     18 — LAYER CTA
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="cta">
+<div class="guide-section-inner">
+
+  <div class="guide-label">18 — Block Pattern</div>
+  <h2 class="guide-title">Layer CTA</h2>
+  <p class="guide-desc">End-of-layer call to action. Alpha release label, heading, one-line description, and one or two buttons. Green button = preferred path (shop). Ghost button = GitHub. Where there is only one path, use only the green button.</p>
+
+  <div class="block-note">
+    <strong>Gutenberg pattern</strong>
+    Group block with class <code>layer-cta</code> (border-top, padding-top 48px, margin-top 80px) → Paragraph (<code>layer-cta-label</code>) + Heading H2 (<code>layer-cta-heading</code>) + Paragraph (<code>layer-cta-text</code>) + Buttons block with class <code>layer-cta-btns</code> → Ghost button + Green button. Three instances across the page, one per layer.
+  </div>
+
+  <table class="spec-table">
+    <tr><th>Layer</th><th>GitHub URL</th><th>Shop URL</th><th>Buttons</th></tr>
+    <tr><td>abilities-mcp</td><td>github.com/Wicked-Evolutions/abilities-mcp</td><td>—</td><td>Green only</td></tr>
+    <tr><td>abilities-mcp-adapter</td><td>github.com/Wicked-Evolutions/abilities-mcp-adapter</td><td>community.wickedevolutions.com/item/abilities-mcp-adapter/</td><td>Ghost + Green</td></tr>
+    <tr><td>abilities-for-ai</td><td>github.com/Wicked-Evolutions/abilities-for-ai</td><td>community.wickedevolutions.com/item/abilities-for-ai/</td><td>Ghost + Green</td></tr>
+  </table>
+
+  <div class="demo">
+    <div class="demo-label">Preview — Layer 03 (two buttons)</div>
+    <div class="layer-cta" style="margin-top:0;border-top:none;padding-top:0;">
+      <div class="layer-cta-label">Alpha release</div>
+      <div class="layer-cta-heading">Get abilities-for-ai</div>
+      <p class="layer-cta-text">Free tier on GitHub. Full Pro — including write and delete abilities — available from our shop with automatic updates in your WordPress admin.</p>
+      <div class="layer-cta-btns">
+        <a href="#" class="btn btn--ghost">Get free on GitHub →</a>
+        <a href="#" class="btn btn--g">Get Pro with auto-updates →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     19 — QUOTE MONUMENT
+     ══════════════════════════════════════════════════════ -->
+<section class="guide-section" id="quote">
+<div class="guide-section-inner--wide">
+
+  <div class="guide-section-inner" style="max-width:var(--col);padding-left:0;padding-right:0;">
+    <div class="guide-label">19 — Block Pattern</div>
+    <h2 class="guide-title">Quote Monument</h2>
+    <p class="guide-desc">Full-width centred statement. Large Syne 800 text, accent em in yellow. Sub-line in ghost text. Attribution in mono below. Used once — between the layers and the final CTA.</p>
+
+    <div class="block-note">
+      <strong>Gutenberg pattern</strong>
+      Full-width Group block with class <code>quote-monument</code> (border-top + border-bottom, 140px padding) → Paragraph/Heading with class <code>quote-text</code> (text-align centre) with <code>&lt;em&gt;</code> in yellow → Paragraph with class <code>quote-attr</code>. The sub-line "The site is the shared state." is a <code>&lt;span&gt;</code> with inline ghost styling.
+    </div>
+  </div>
+
+  <div class="quote-monument" style="margin:0;">
+    <div class="quote-text">
+      They put AI inside the plugin.<br>
+      We put <em>all plugins inside AI.</em><br>
+      <span style="color:var(--t3);font-size:0.6em;font-weight:700;letter-spacing:-0.02em;">The site is the shared state.</span>
+    </div>
+    <div class="quote-attr">Wicked Evolutions · CTO session 5 · 2026</div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════ -->
+<footer style="max-width:var(--col);margin:0 auto;padding:36px 56px 80px;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--glb);">
+  <div style="font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-0.03em;">Wicked <span style="color:var(--pl);">Evolutions</span> · Brand Book v1.1</div>
+  <div style="font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;">v1.1 · March 2026 · Typography & contrast update · 19 patterns</div>
+</footer>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="we-trinity-fullv4.html">Trinity</a>
+    <a href="we-blog-proto.html">Blog</a>
+    <a href="we-brandbook.html" class="we-active">Brand Book</a>
+    <a href="team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="docs-prototype/index.html">Landing</a>
+    <a href="docs-prototype/module-content.html">Module</a>
+    <a href="docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="docs-prototype/category-skills.html">Archive</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+
+</body>
+</html>

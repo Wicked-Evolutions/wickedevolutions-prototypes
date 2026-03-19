@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>Alpha Access — The Sovereign WordPress AI Stack | Wicked Evolutions</title>
+<meta name="description" content="96 native WordPress AI abilities + 158 Fluent ecosystem abilities. Pre-launch alpha access. Your server. Your data. Zero SaaS lock-in. Join the founding cohort.">
+
+<!-- Theme persistence -->
+<script>
+(function(){var t=localStorage.getItem('we-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:light)').matches)document.documentElement.dataset.theme='light'})();
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap">
+
+<style>
+/* =========================================================
+   DESIGN SYSTEM — Merged: prototype glass + blog warmth
+   ========================================================= */
+:root {
+  /* Surface — warmer darks than prototype */
+  --surface-0: #0b0b14;
+  --surface-1: #111120;
+  --surface-2: #191930;
+  --surface-3: #22223e;
+
+  /* Text — slightly warmer */
+  --text-primary: #ededf4;
+  --text-secondary: #9e9eb8;
+  --text-tertiary: #5a5a78;
+  --text-invert: #0b0b14;
+
+  /* Border — thin glowing lines */
+  --border-subtle: rgba(255,255,255,0.04);
+  --border-default: rgba(255,255,255,0.08);
+  --border-glow: rgba(124,58,237,0.15);
+  --border-glow-hover: rgba(124,58,237,0.35);
+
+  /* Accent */
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
+  --accent-dim: rgba(124,58,237,0.10);
+  --accent-secondary: #f59e0b;
+  --accent-secondary-light: #fcd34d;
+
+  /* Semantic */
+  --sovereign: #22c55e;
+  --sovereign-dim: rgba(34,197,94,0.08);
+  --lockin: #ef4444;
+
+  /* Glass */
+  --glass-bg: rgba(255,255,255,0.025);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-border-hover: rgba(255,255,255,0.14);
+  --glass-sheen: rgba(255,255,255,0.05);
+  --glass-sheen-bright: rgba(255,255,255,0.12);
+
+  /* Glow */
+  --glow-accent: 0 0 80px rgba(124,58,237,0.15);
+  --glow-amber: 0 0 60px rgba(245,158,11,0.1);
+  --glow-line: 0 0 12px rgba(124,58,237,0.3);
+
+  /* Typography — blog-influenced: lighter weights, more air */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-sm: clamp(0.8rem, 1.8vw, 0.875rem);
+  --text-base: clamp(0.9rem, 2vw, 1rem);
+  --text-lg: clamp(1rem, 2.2vw, 1.125rem);
+  --text-xl: clamp(1.1rem, 2.5vw, 1.25rem);
+  --text-2xl: clamp(1.25rem, 3vw, 1.5rem);
+  --text-3xl: clamp(1.5rem, 4vw, 2rem);
+  --text-4xl: clamp(2rem, 5vw, 2.8rem);
+  --text-hero: clamp(2.2rem, 6vw, 4rem);
+
+  /* Spacing */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --section-pad: clamp(4rem, 8vw, 7rem);
+
+  /* Layout */
+  --container: 720px;
+  --container-wide: 960px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 100px;
+}
+
+/* ---- LIGHT MODE ---- */
+[data-theme="light"] {
+  --surface-0: #f7f6f3;
+  --surface-1: #ffffff;
+  --surface-2: #efece6;
+  --surface-3: #e4e0d8;
+  --text-primary: #1a1a1e;
+  --text-secondary: #52525b;
+  --text-tertiary: #a1a1aa;
+  --text-invert: #f7f6f3;
+  --border-subtle: rgba(0,0,0,0.04);
+  --border-default: rgba(0,0,0,0.07);
+  --border-glow: rgba(124,58,237,0.12);
+  --border-glow-hover: rgba(124,58,237,0.25);
+  --glass-bg: rgba(0,0,0,0.02);
+  --glass-border: rgba(0,0,0,0.06);
+  --glass-border-hover: rgba(0,0,0,0.12);
+  --glass-sheen: rgba(0,0,0,0.03);
+  --glass-sheen-bright: rgba(255,255,255,0.4);
+  --glow-accent: 0 0 80px rgba(124,58,237,0.08);
+  --glow-line: 0 0 12px rgba(124,58,237,0.15);
+  --accent-dim: rgba(124,58,237,0.06);
+  --sovereign-dim: rgba(34,197,94,0.06);
+}
+
+/* =========================================================
+   RESET + BASE
+   ========================================================= */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+::selection { background: var(--accent); color: #fff; }
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--space-8); }
+.container--wide { max-width: var(--container-wide); }
+
+.section {
+  padding: var(--section-pad) 0;
+  position: relative;
+}
+
+/* =========================================================
+   THIN GLOWING LINES — the signature element
+   ========================================================= */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: var(--glow-line);
+  opacity: 0.4;
+  margin: var(--space-16) auto;
+  max-width: 200px;
+}
+
+.glow-line--wide { max-width: 400px; }
+.glow-line--full { max-width: 100%; opacity: 0.2; }
+
+/* =========================================================
+   COMPONENTS
+   ========================================================= */
+
+/* --- Glass Card --- */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 120% 80% at var(--sheen-x, -40%) var(--sheen-y, 50%),
+    var(--glass-sheen-bright) 0%, var(--glass-sheen) 30%, transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass:hover::before { opacity: 1; }
+.glass:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+
+/* --- Badge --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--accent-dim);
+  border: 1px solid rgba(124,58,237,0.2);
+  color: var(--accent-light);
+  padding: 0.2rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge__dot {
+  width: 5px; height: 5px;
+  background: var(--sovereign);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: var(--text-base);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow: 0 0 20px rgba(124,58,237,0.2);
+}
+.btn--primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 0 40px rgba(124,58,237,0.35);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+}
+.btn--ghost:hover {
+  border-color: var(--border-glow);
+  color: var(--text-primary);
+  box-shadow: var(--glow-line);
+}
+
+.btn--lg {
+  padding: 0.9rem 2.2rem;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+/* --- Glow Orbs --- */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  opacity: 0.35;
+  will-change: transform;
+}
+
+.glow-orb--purple {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(124,58,237,0.3), transparent 70%);
+  animation: drift 25s ease-in-out infinite alternate;
+}
+
+.glow-orb--amber {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(245,158,11,0.2), transparent 70%);
+  animation: drift2 20s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .glow-orb { opacity: 0.15; }
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, -40px); }
+}
+@keyframes drift2 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-40px, 25px); }
+}
+
+/* --- Theme Toggle --- */
+.theme-toggle {
+  position: relative;
+  width: 44px; height: 24px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  transition: background 0.3s;
+}
+
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  background: var(--accent-light);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+[data-theme="light"] .theme-toggle::after {
+  transform: translateX(20px);
+  background: var(--accent);
+}
+
+.theme-toggle__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  line-height: 1;
+  transition: opacity 0.3s;
+}
+.theme-toggle__icon--moon { left: 5px; opacity: 1; }
+.theme-toggle__icon--sun { right: 5px; opacity: 0.4; }
+[data-theme="light"] .theme-toggle__icon--moon { opacity: 0.4; }
+[data-theme="light"] .theme-toggle__icon--sun { opacity: 1; }
+
+/* --- Scroll Reveal --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Terminal --- */
+.terminal {
+  background: #08080f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  overflow: hidden;
+}
+
+[data-theme="light"] .terminal { background: #1a1a2e; }
+
+.terminal__chrome {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.6rem 0.9rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.terminal__dot { width: 8px; height: 8px; border-radius: 50%; }
+.terminal__dot--red { background: #ff5f57; }
+.terminal__dot--yellow { background: #febc2e; }
+.terminal__dot--green { background: #28c840; }
+.terminal__tab { margin-left: auto; color: rgba(255,255,255,0.25); font-size: 0.68rem; }
+
+.terminal__body { padding: 1rem; color: #9d9db8; overflow-x: auto; }
+.terminal__body .hl { color: var(--accent-light); font-weight: 500; }
+.terminal__body .grn { color: #4ade80; }
+.terminal__body .amb { color: var(--accent-secondary-light); }
+.terminal__body .dim { color: #3a3a4e; }
+.terminal__body .wht { color: #e4e4f0; }
+
+.terminal__cursor {
+  display: inline-block;
+  width: 7px; height: 1em;
+  background: var(--accent-light);
+  vertical-align: text-bottom;
+  animation: blink 0.8s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-screen { display: none; }
+.terminal-screen.is-active { display: block; }
+
+/* --- Ability Tag --- */
+.tag {
+  display: inline-block;
+  background: var(--glass-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 3px;
+}
+
+/* --- Count Badge --- */
+.count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-light);
+}
+
+.count--green { color: var(--sovereign); }
+
+/* =========================================================
+   NAV — minimal, blog-like
+   ========================================================= */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem var(--space-8);
+  background: transparent;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.nav--scrolled {
+  background: var(--glass-bg);
+  border-color: var(--border-glow);
+  box-shadow: 0 1px 30px rgba(124,58,237,0.05);
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.nav__logo span { color: var(--accent-light); }
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.nav__link {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.nav__link:hover { color: var(--text-primary); }
+
+/* =========================================================
+   HERO — editorial + urgency
+   ========================================================= */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 12vw, 10rem) 0 var(--section-pad);
+  text-align: center;
+}
+
+.hero .glow-orb--purple { top: -200px; left: -150px; }
+.hero .glow-orb--amber { bottom: -100px; right: -120px; }
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: var(--space-6) 0;
+}
+
+.hero__title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent-light), #c084fc, var(--accent-secondary-light));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s ease infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero__sub {
+  font-size: var(--text-xl);
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto var(--space-8);
+  line-height: 1.7;
+}
+
+.hero__stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-12);
+}
+
+.hero__stat {
+  text-align: center;
+}
+
+.hero__stat-number {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--accent-light);
+}
+
+.hero__stat-number--green { color: var(--sovereign); }
+.hero__stat-number--amber { color: var(--accent-secondary); }
+
+.hero__stat-label {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* =========================================================
+   SIGNUP FORM — the core conversion element
+   ========================================================= */
+.signup {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.signup__form {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.signup__input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: var(--surface-1);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.signup__input::placeholder { color: var(--text-tertiary); font-weight: 300; }
+.signup__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(124,58,237,0.15);
+}
+
+.signup__trust {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  font-weight: 300;
+}
+
+.signup__trust strong {
+  color: var(--sovereign);
+  font-weight: 600;
+}
+
+/* =========================================================
+   WHAT'S INSIDE — the value stack
+   ========================================================= */
+.value__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.value__card {
+  padding: var(--space-6);
+  border-left: 2px solid var(--border-glow);
+  transition: border-color 0.3s;
+}
+
+.value__card:hover { border-left-color: var(--accent); }
+.value__card--fluent { border-left-color: rgba(34,197,94,0.2); }
+.value__card--fluent:hover { border-left-color: var(--sovereign); }
+
+.value__card-name {
+  font-weight: 600;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+}
+
+.value__card-desc {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.value__card-count {
+  margin-top: var(--space-3);
+}
+
+/* =========================================================
+   PROOF — what we already built with it
+   ========================================================= */
+.proof__item {
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.proof__item:last-child { border-bottom: none; }
+
+.proof__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-2);
+}
+
+.proof__text {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.proof__text strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* =========================================================
+   COST — simple, devastating
+   ========================================================= */
+.cost {
+  text-align: center;
+}
+
+.cost__versus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.cost__amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cost__amount--saas {
+  font-size: var(--text-3xl);
+  color: var(--lockin);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.cost__amount--sovereign {
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--sovereign);
+}
+
+.cost__label {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  font-weight: 300;
+}
+
+.cost__vs {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   ARCHITECTURE — simplified stack
+   ========================================================= */
+.stack__layers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.stack__layer {
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  position: relative;
+}
+
+.stack__layer + .stack__layer { border-top: none; }
+.stack__layer:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+.stack__layer:last-child { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+.stack__layer-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stack__layer-name {
+  font-weight: 600;
+  font-size: var(--text-base);
+}
+
+.stack__layer-name .highlight { color: var(--accent-light); }
+.stack__layer-name .highlight--green { color: var(--sovereign); }
+.stack__layer-name .highlight--amber { color: var(--accent-secondary); }
+
+/* =========================================================
+   EMAIL SERIES PREVIEW
+   ========================================================= */
+.series__list {
+  list-style: none;
+}
+
+.series__item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: start;
+}
+
+.series__item:last-child { border-bottom: none; }
+
+.series__day {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-light);
+  font-weight: 500;
+  padding-top: 2px;
+}
+
+.series__title {
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.series__title strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* =========================================================
+   QUOTE
+   ========================================================= */
+.quote {
+  text-align: center;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.quote__mark {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  color: var(--accent);
+  opacity: 0.15;
+  line-height: 0.5;
+  margin-bottom: var(--space-4);
+}
+
+.quote__text {
+  font-size: var(--text-2xl);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.quote__text strong {
+  color: var(--text-primary);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* =========================================================
+   CTA — final conversion
+   ========================================================= */
+.cta {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-8);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-glow);
+  box-shadow: var(--glow-accent);
+}
+
+.cta__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+}
+
+.cta__sub {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  margin-bottom: var(--space-8);
+  line-height: 1.7;
+}
+
+/* =========================================================
+   SECTION HEADERS
+   ========================================================= */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.section-header__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: var(--space-4) 0;
+}
+
+.section-header__sub {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.footer__links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.footer__link {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  transition: color 0.2s;
+}
+.footer__link:hover { color: var(--text-primary); }
+
+.footer__copy {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 300;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .value__grid { grid-template-columns: 1fr; }
+  .hero__stats { gap: var(--space-6); }
+  .signup__form { flex-direction: column; }
+  .cost__versus { flex-direction: column; gap: var(--space-4); }
+  .glow-orb { opacity: 0.2; }
+  .series__item { grid-template-columns: 40px 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation">
+  <a href="https://community.wickedevolutions.com" class="nav__logo">Wicked<span>Evolutions</span></a>
+  <div class="nav__right">
+    <a href="#what" class="nav__link">What's Inside</a>
+    <a href="#proof" class="nav__link">The Proof</a>
+    <a href="#series" class="nav__link">The Series</a>
+    <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
+      <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#9790;</span>
+      <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;</span>
+    </button>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow-orb glow-orb--purple"></div>
+  <div class="glow-orb glow-orb--amber"></div>
+
+  <div class="hero__content">
+    <div class="badge">
+      <span class="badge__dot"></span>
+      Pre-Launch Alpha &middot; Founding Cohort
+    </div>
+
+    <h1 class="hero__title">
+      Your AI. Your WordPress.<br><em>No one in between.</em>
+    </h1>
+
+    <p class="hero__sub">
+      96 native WordPress abilities + 158 Fluent ecosystem abilities.
+      Content, blocks, menus, themes, CRM, community, courses, email &mdash;
+      all through one open protocol. On your server. Yours to govern.
+    </p>
+
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <div class="hero__stat-number">96</div>
+        <div class="hero__stat-label">WordPress Abilities</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number--green hero__stat-number">158</div>
+        <div class="hero__stat-label">Fluent Abilities</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number--amber hero__stat-number">2</div>
+        <div class="hero__stat-label">Transport Bridges</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-number">$0</div>
+        <div class="hero__stat-label">Forever</div>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="signup">
+      <form class="signup__form" id="signup-form">
+        <input type="email" class="signup__input" placeholder="your@email.com" required aria-label="Email address">
+        <button type="submit" class="btn btn--primary">Get Alpha Access</button>
+      </form>
+      <p class="signup__trust">
+        <strong>14-day deep dive</strong> from the AI that built it &middot; No spam &middot; Unsubscribe anytime
+      </p>
+    </div>
+
+    <!-- TERMINAL DEMO -->
+    <div style="max-width:560px;margin:var(--space-12) auto 0;">
+      <div class="terminal">
+        <div class="terminal__chrome">
+          <span class="terminal__dot terminal__dot--red"></span>
+          <span class="terminal__dot terminal__dot--yellow"></span>
+          <span class="terminal__dot terminal__dot--green"></span>
+          <span class="terminal__tab">claude &mdash; your-wordpress-site</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal-screen is-active" data-screen="0">
+            <span class="dim"># Ask AI to publish a post</span><br>
+            <span class="hl">tool_call</span> <span class="wht">content/create</span><br>
+            <span class="dim">&nbsp;&nbsp;{</span> <span class="amb">"title"</span>: <span class="grn">"My First AI Post"</span>,<br>
+            <span class="dim">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="amb">"status"</span>: <span class="grn">"publish"</span> <span class="dim">}</span><br><br>
+            <span class="grn">&rarr; 201 Created</span> <span class="dim">| your-site.com/my-first-ai-post/</span><br>
+            <span class="terminal__cursor"></span>
+          </div>
+          <div class="terminal-screen" data-screen="1">
+            <span class="dim"># Look up a CRM contact</span><br>
+            <span class="hl">tool_call</span> <span class="wht">crm/get-contact</span><br>
+            <span class="dim">&nbsp;&nbsp;{</span> <span class="amb">"email"</span>: <span class="grn">"luna@example.com"</span> <span class="dim">}</span><br><br>
+            <span class="grn">&rarr; 200 OK</span> <span class="dim">| 38ms</span><br>
+            <span class="dim">&nbsp;&nbsp;</span><span class="amb">"tags"</span>: [<span class="grn">"vip"</span>, <span class="grn">"course-enrolled"</span>]<br>
+            <span class="dim">&nbsp;&nbsp;</span><span class="amb">"engagement"</span>: <span class="wht">94</span><br>
+            <span class="terminal__cursor"></span>
+          </div>
+          <div class="terminal-screen" data-screen="2">
+            <span class="dim"># Build a community lesson</span><br>
+            <span class="hl">tool_call</span> <span class="wht">community/create-lesson</span><br>
+            <span class="dim">&nbsp;&nbsp;{</span> <span class="amb">"course_id"</span>: <span class="wht">12</span>,<br>
+            <span class="dim">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="amb">"title"</span>: <span class="grn">"Getting Started"</span> <span class="dim">}</span><br><br>
+            <span class="grn">&rarr; 201 Created</span> <span class="dim">| lesson_id: 47</span><br>
+            <span class="terminal__cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line glow-line--wide"></div>
+
+
+<!-- WHAT'S INSIDE -->
+<section class="section" id="what">
+  <div class="container container--wide">
+    <div class="section-header reveal">
+      <div class="badge">The Stack</div>
+      <h2 class="section-header__title">Everything your AI needs<br>to run WordPress.</h2>
+      <p class="section-header__sub">Two ability suites. Two transport bridges. One open protocol.</p>
+    </div>
+
+    <div class="value__grid">
+      <div class="value__card glass reveal" style="grid-column:1/-1;">
+        <div class="value__card-name">Abilities Suite for WordPress</div>
+        <div class="value__card-desc">The native WordPress layer. Content management, block parsing and editing, navigation menus, taxonomies, media, users, plugins, themes, comments, meta fields, settings, cache, cron, patterns, site health, REST discovery, rewrite rules. Your AI can read, write, publish, and manage everything WordPress natively supports &mdash; including designing with theme.json and building pages with blocks.</div>
+        <div class="value__card-count"><span class="count">96 abilities &middot; 17 modules &middot; Open source &middot; GPL</span></div>
+      </div>
+
+      <div class="value__card value__card--fluent glass reveal" style="grid-column:1/-1;">
+        <div class="value__card-name">Abilities for Fluent Plugins</div>
+        <div class="value__card-desc">The business operations layer. FluentCRM, Community, Forms, Booking, Boards, Support, SMTP, Messaging, Auth, Snippets. Cross-module intelligence with user-360 views and engagement scoring. Conditional loading &mdash; only abilities for your active Fluent plugins register. Separate product, separate install.</div>
+        <div class="value__card-count"><span class="count count--green">158 abilities &middot; 11 modules &middot; Open source &middot; GPL</span></div>
+      </div>
+
+      <div class="value__card glass reveal">
+        <div class="value__card-name">MCP Adapter for WordPress</div>
+        <div class="value__card-desc">49 lines of PHP. Auto-discovers all registered abilities and serves them as MCP tools. The connector between WordPress and any AI client.</div>
+      </div>
+
+      <div class="value__card glass reveal">
+        <div class="value__card-name">SSH Bridge + HTTP Bridge</div>
+        <div class="value__card-desc">SSH for maximum security (key auth, zero credentials). HTTP for remote teams (Application Passwords). Your choice of transport.</div>
+        <div class="value__card-count"><span class="count">Works with Claude, Cursor, Windsurf, any MCP client</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- PROOF -->
+<section class="section" id="proof">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="badge">The Proof</div>
+      <h2 class="section-header__title">We built a site with it.<br>In one day.</h2>
+      <p class="section-header__sub">A non-coder and an AI. Using only the abilities API. In production.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="proof__item">
+        <div class="proof__label">The Challenge</div>
+        <div class="proof__text">Build a complete community site &mdash; blog, newsletter, three content series, legal pages, dynamic category archives &mdash; <strong>using only AI abilities, no manual WordPress admin</strong>.</div>
+      </div>
+      <div class="proof__item">
+        <div class="proof__label">The Result</div>
+        <div class="proof__text"><strong>community.wickedevolutions.com</strong> &mdash; live, running on a $10/month shared host. 15 pieces of content, custom child theme, FluentCRM newsletter, Query Loop archives. Every piece created through the abilities API.</div>
+      </div>
+      <div class="proof__item">
+        <div class="proof__label">The Method</div>
+        <div class="proof__text">The AI operated WordPress through 96 registered abilities via MCP. When an ability was missing, we stopped, documented the gap, built it, and continued. <strong>The constraints became the product intelligence.</strong></div>
+      </div>
+      <div class="proof__item">
+        <div class="proof__label">What This Means for You</div>
+        <div class="proof__text">If an AI can build an entire site through abilities alone &mdash; content, CRM, community, email &mdash; then <strong>your AI can manage yours</strong>. Not someday. The tools exist right now.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line glow-line--wide"></div>
+
+
+<!-- COST -->
+<section class="section">
+  <div class="container">
+    <div class="cost reveal">
+      <div class="badge">The Math</div>
+      <h2 class="section-header__title" style="margin-top:var(--space-4);">Replace the SaaS tax.</h2>
+      <div class="cost__versus" style="margin-top:var(--space-8);">
+        <div>
+          <div class="cost__amount cost__amount--saas">$1,497&ndash;$2,400</div>
+          <div class="cost__label">/month &middot; equivalent SaaS stack</div>
+        </div>
+        <div class="cost__vs">vs</div>
+        <div>
+          <div class="cost__amount cost__amount--sovereign">$0</div>
+          <div class="cost__label">/forever &middot; MIT licensed &middot; your server</div>
+        </div>
+      </div>
+      <p style="color:var(--text-tertiary);font-size:var(--text-sm);font-weight:300;margin-top:var(--space-4);">
+        CRM, email marketing, community, booking, support, forms, project boards, SMTP, auth &mdash; all replaced by sovereign WordPress plugins + AI abilities.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- ARCHITECTURE -->
+<section class="section" id="arch">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="badge">How It Works</div>
+      <h2 class="section-header__title">Six layers. All yours.</h2>
+    </div>
+
+    <div class="stack__layers reveal">
+      <div class="stack__layer">
+        <div class="stack__layer-label">Your AI</div>
+        <div class="stack__layer-name">Any MCP Client &mdash; <span class="highlight">Claude, Cursor, Windsurf</span></div>
+      </div>
+      <div class="stack__layer">
+        <div class="stack__layer-label">Transport</div>
+        <div class="stack__layer-name"><span class="highlight">SSH Bridge</span> or <span class="highlight--amber">HTTP Bridge</span></div>
+      </div>
+      <div class="stack__layer">
+        <div class="stack__layer-label">Protocol</div>
+        <div class="stack__layer-name">WordPress Abilities API <span class="highlight">(WP 6.9+ core)</span></div>
+      </div>
+      <div class="stack__layer">
+        <div class="stack__layer-label">Discovery</div>
+        <div class="stack__layer-name">MCP Adapter &mdash; <span class="highlight--green">49 lines of PHP</span></div>
+      </div>
+      <div class="stack__layer">
+        <div class="stack__layer-label">Abilities</div>
+        <div class="stack__layer-name"><span class="highlight">96</span> WordPress + <span class="highlight--green">158</span> Fluent abilities</div>
+      </div>
+      <div class="stack__layer">
+        <div class="stack__layer-label">Your Infrastructure</div>
+        <div class="stack__layer-name"><span class="highlight--green">Your server. Your data. Your keys.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line glow-line--wide"></div>
+
+
+<!-- EMAIL SERIES PREVIEW -->
+<section class="section" id="series">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="badge">14-Day Deep Dive</div>
+      <h2 class="section-header__title">Written by the AI<br>that built the stack.</h2>
+      <p class="section-header__sub">Not marketing copy. A technical walkthrough from the inside &mdash; what works, what broke, and how it all fits together.</p>
+    </div>
+
+    <ul class="series__list reveal">
+      <li class="series__item">
+        <span class="series__day">Day 1</span>
+        <span class="series__title"><strong>The Sovereign Stack</strong> &mdash; Why we built 96 WordPress abilities instead of using SaaS. The architecture. The philosophy. What changes when AI operates your tools instead of someone else's.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 2</span>
+        <span class="series__title"><strong>Your First 5 Minutes</strong> &mdash; Install the plugin. Connect the bridge. Watch your AI discover 96 abilities. The moment everything changes.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 3</span>
+        <span class="series__title"><strong>Content Without a Dashboard</strong> &mdash; Create, update, publish, categorize &mdash; all through conversation. The 103 WordPress core abilities that replace wp-admin.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 5</span>
+        <span class="series__title"><strong>The CRM Nobody Expects</strong> &mdash; 59 FluentCRM abilities. Contacts, tags, sequences, automations, campaigns, smart links. Your AI becomes your marketing team.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 7</span>
+        <span class="series__title"><strong>Community + Courses via AI</strong> &mdash; 45 FluentCommunity abilities. Spaces, feeds, courses, lessons, members, leaderboards. Build a community your AI can actually manage.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 9</span>
+        <span class="series__title"><strong>The Full Fluent Suite</strong> &mdash; Forms, Booking, Boards, Support, SMTP, Messaging, Auth, Snippets. 158 abilities that turn WordPress into an operating system.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 11</span>
+        <span class="series__title"><strong>Blocks, Menus, and the Visual Layer</strong> &mdash; Parse pages into structured JSON, build navigation menus, inspect theme.json. Your AI understands your site's structure, not just its content.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 13</span>
+        <span class="series__title"><strong>The Bridge Decision</strong> &mdash; SSH vs HTTP. When to use which. Security models, performance, team workflows. Configuration from zero to production.</span>
+      </li>
+      <li class="series__item">
+        <span class="series__day">Day 14</span>
+        <span class="series__title"><strong>What We're Building Next</strong> &mdash; The roadmap. The gaps we found. The abilities that don't exist yet. And how you can shape what comes next as a founding member.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- QUOTE -->
+<section class="section">
+  <div class="quote reveal">
+    <div class="quote__mark">&ldquo;</div>
+    <blockquote class="quote__text">
+      The question isn't whether AI can control your tools.
+      It's whether <strong>your tools can be controlled by AI you choose</strong>,
+      running on <strong>infrastructure you control</strong>,
+      with <strong>data that stays yours</strong>.
+    </blockquote>
+  </div>
+</section>
+
+
+<!-- FINAL CTA -->
+<section class="section cta">
+  <div class="glow-orb glow-orb--purple" style="top:-180px;right:-120px;"></div>
+  <div class="glow-orb glow-orb--amber" style="bottom:-120px;left:-100px;"></div>
+
+  <div class="cta__inner reveal">
+    <h2 class="cta__title">Join the founding cohort.</h2>
+    <p class="cta__sub">
+      Alpha access. 14-day deep dive. Direct line to the team building the stack.
+      Be the first to shape what sovereign WordPress AI looks like.
+    </p>
+
+    <div class="signup">
+      <form class="signup__form" id="signup-form-bottom">
+        <input type="email" class="signup__input" placeholder="your@email.com" required aria-label="Email address">
+        <button type="submit" class="btn btn--primary btn--lg">Get Alpha Access</button>
+      </form>
+      <p class="signup__trust">
+        <strong>MIT Licensed</strong> &middot; WordPress 6.9+ &middot; Works with Claude, Cursor, Windsurf, any MCP client
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__links">
+    <a href="https://community.wickedevolutions.com" class="footer__link">Blog</a>
+    <a href="https://github.com/Influencentricity" class="footer__link">GitHub</a>
+  </div>
+  <p class="footer__copy">
+    &copy; 2026 Wicked Evolutions &middot; MIT License
+  </p>
+</footer>
+
+
+<!-- JAVASCRIPT -->
+<script>
+(function() {
+  'use strict';
+
+  // Theme Toggle
+  var toggles = document.querySelectorAll('.theme-toggle');
+  toggles.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var html = document.documentElement;
+      var next = html.dataset.theme === 'light' ? 'dark' : 'light';
+      html.dataset.theme = next;
+      localStorage.setItem('we-theme', next);
+      toggles.forEach(function(t) { t.setAttribute('aria-checked', next === 'light' ? 'true' : 'false'); });
+    });
+  });
+  if (document.documentElement.dataset.theme === 'light') {
+    toggles.forEach(function(t) { t.setAttribute('aria-checked', 'true'); });
+  }
+
+  // Nav Scroll
+  var nav = document.querySelector('.nav');
+  var scrolled = false;
+  window.addEventListener('scroll', function() {
+    var s = window.scrollY > 40;
+    if (s !== scrolled) { scrolled = s; nav.classList.toggle('nav--scrolled', s); }
+  }, { passive: true });
+
+  // Terminal Cycling
+  var screens = document.querySelectorAll('.terminal-screen');
+  if (screens.length > 1) {
+    var current = 0;
+    setInterval(function() {
+      screens[current].classList.remove('is-active');
+      current = (current + 1) % screens.length;
+      screens[current].classList.add('is-active');
+    }, 4000);
+  }
+
+  // Scroll Reveal
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(function(el) { observer.observe(el); });
+  } else {
+    reveals.forEach(function(el) { el.classList.add('is-visible'); });
+  }
+
+  // Glass Sheen
+  document.querySelectorAll('.glass').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--sheen-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      card.style.setProperty('--sheen-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+    card.addEventListener('mouseleave', function() { card.style.setProperty('--sheen-x', '150%'); });
+  });
+
+  // Form submission (placeholder — connects to FluentCRM when deployed)
+  document.querySelectorAll('[id^="signup-form"]').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = this.querySelector('input[type="email"]').value;
+      var btn = this.querySelector('button[type="submit"]');
+      var originalText = btn.textContent;
+
+      // TODO: Replace with FluentCRM API call or Fluent Forms submission
+      // For now, store locally and show confirmation
+      btn.textContent = 'Joining...';
+      btn.disabled = true;
+
+      setTimeout(function() {
+        btn.textContent = 'You\'re in!';
+        btn.style.background = 'var(--sovereign)';
+        btn.style.boxShadow = '0 0 30px rgba(34,197,94,0.3)';
+      }, 800);
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI — The Trinity · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+   ───────────────────────────────────────── */
+:root {
+  --bg:    #111111;
+  --text:  #E0DDD5;
+  --t2:    rgba(224,221,213,0.50);
+  --t3:    rgba(224,221,213,0.22);
+  --t4:    rgba(224,221,213,0.09);
+
+  --y:   #FFEE58;  /* abilities-mcp      */
+  --g:   #22c55e;  /* abilities-for-ai   */
+  --p:   #7c3aed;  /* mcp-adapter        */
+  --pl:  #a78bfa;
+  --kl:  #22c55e;  /* Knowledge Layer — same as engine green */
+
+  --yd:  rgba(255,238,88,0.07);
+  --yb:  rgba(255,238,88,0.17);
+  --gd:  rgba(34,197,94,0.07);
+  --gb:  rgba(34,197,94,0.17);
+  --pd:  rgba(124,58,237,0.07);
+  --pb:  rgba(124,58,237,0.16);
+
+  --gl:  rgba(255,255,255,0.025);
+  --glb: rgba(255,255,255,0.055);
+  --glh: rgba(255,255,255,0.11);
+
+  --fd: 'Syne', sans-serif;
+  --fb: 'Manrope', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+
+  --col:  800px;
+  --wide: 1140px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--p); color:#fff; }
+
+.c  { max-width:var(--col);  margin:0 auto; padding:0 56px; }
+.cw { max-width:var(--wide); margin:0 auto; padding:0 56px; }
+
+/* ── GLOW LINE ── */
+.gl {
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--p), transparent);
+  box-shadow:0 0 14px rgba(124,58,237,0.2);
+  opacity:0.28;
+  max-width:90px;
+  border:none;
+}
+
+.gl--y { background:linear-gradient(90deg, transparent, var(--y), transparent); box-shadow:0 0 14px rgba(255,238,88,0.2); }
+.gl--g { background:linear-gradient(90deg, transparent, var(--g), transparent); box-shadow:0 0 14px rgba(34,197,94,0.2); }
+
+/* ── EYEBROW ── */
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid var(--pb);
+  color:var(--pl);
+  padding:5px 16px;
+  border-radius:100px;
+  font-family:var(--fm);
+  font-size:10px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  margin-bottom:52px;
+}
+
+.eyebrow--y { border-color:var(--yb); color:var(--y); }
+.eyebrow--g { border-color:var(--gb); color:var(--g); }
+.eyebrow--kl { border-color:var(--gb); color:var(--g); }
+
+.ebdot {
+  width:5px; height:5px;
+  background:var(--g);
+  border-radius:50%;
+  animation:pulse 2.2s ease-in-out infinite;
+}
+
+.ebdot--y { background:var(--y); }
+.ebdot--p { background:var(--pl); }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── HERO SECTIONS ── */
+.hero {
+  padding:160px 0 120px;
+}
+
+.hero-title {
+  font-family:var(--fd);
+  font-size:clamp(3rem, 5.5vw, 5rem);
+  font-weight:800;
+  letter-spacing:-0.045em;
+  line-height:1.03;
+  color:var(--text);
+  margin-bottom:36px;
+}
+
+.hero-title em   { font-style:normal; color:var(--g); display:block; }
+.hero-title em.y { color:var(--y); }
+.hero-title em.p { color:var(--pl); }
+
+.hero-sub {
+  font-size:19px;
+  font-weight:300;
+  color:var(--t2);
+  max-width:540px;
+  line-height:1.85;
+  margin-bottom:80px;
+}
+
+/* ── STAT BAND — full bleed ── */
+.stat-band {
+  border-top:   1px solid var(--glb);
+  border-bottom:1px solid var(--glb);
+  padding:64px 56px;
+  margin-bottom:160px;
+}
+
+.stat-band--y { border-color:var(--yb); }
+.stat-band--g { border-color:var(--gb); }
+.stat-band--p { border-color:var(--pb); }
+.stat-band--kl { border-color:var(--gb); }
+
+.stats {
+  max-width:var(--wide);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+
+.stat {
+  padding:0 52px;
+  border-right:1px solid var(--glb);
+}
+
+.stat:first-child { padding-left:0; }
+.stat:last-child  { border-right:none; }
+
+.stat-n {
+  font-family:var(--fd);
+  font-size:clamp(2.8rem, 4.2vw, 4rem);
+  font-weight:800;
+  letter-spacing:-0.045em;
+  line-height:1;
+  margin-bottom:8px;
+}
+
+.sy  { color:var(--y); }
+.sg  { color:var(--g); }
+.sp  { color:var(--pl); }
+.sw  { color:var(--text); }
+
+.stat-l {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t2);
+}
+
+/* Per-band stat label and divider colours */
+.stat-band--y .stat-l  { color:rgba(255,238,88,0.55); }
+.stat-band--y .stat    { border-right-color:var(--yb); }
+.stat-band--g .stat-l  { color:rgba(34,197,94,0.55); }
+.stat-band--g .stat    { border-right-color:var(--gb); }
+.stat-band--p .stat-l  { color:rgba(167,139,250,0.55); }
+.stat-band--p .stat    { border-right-color:var(--pb); }
+.stat-band--kl .stat-l { color:rgba(34,197,94,0.55); }
+.stat-band--kl .stat   { border-right-color:var(--gb); }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom:160px;
+  position:relative;
+}
+
+.sn {
+  position:absolute;
+  left:-44px;
+  top:4px;
+  font-family:var(--fm);
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+  color:var(--t4);
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  user-select:none;
+}
+
+.sh {
+  font-family:var(--fd);
+  font-size:clamp(1.8rem, 3vw, 2.6rem);
+  font-weight:700;
+  letter-spacing:-0.03em;
+  line-height:1.12;
+  color:var(--text);
+  margin-bottom:16px;
+}
+
+.sp2 {
+  font-size:18px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.82;
+  max-width:580px;
+  margin-bottom:56px;
+}
+
+/* ── DIVIDER between hero sections ── */
+.section-divider {
+  border:none;
+  border-top:1px solid var(--glb);
+  margin:0;
+}
+
+/* ── PILL ── */
+.pill {
+  flex-shrink:0;
+  padding:4px 14px;
+  border-radius:100px;
+  font-family:var(--fm);
+  font-size:10px;
+  font-weight:500;
+  white-space:nowrap;
+  display:inline-flex;
+}
+
+.py { background:var(--yd); color:var(--y);  border:1px solid var(--yb); }
+.pp { background:var(--pd); color:var(--pl); border:1px solid var(--pb); }
+.pg { background:var(--gd); color:var(--g);  border:1px solid var(--gb); }
+.p0 { background:transparent; color:var(--t3); border:1px solid var(--glb); }
+
+/* ── TRANSPORT PAIR ── */
+.transport-pair {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2px;
+  margin-bottom:56px;
+}
+
+.transport {
+  padding:36px 32px;
+  border:1px solid var(--glb);
+  border-radius:12px;
+  background:var(--gl);
+  transition:border-color 0.3s;
+}
+
+.transport:hover { border-color:var(--glh); }
+
+.transport--ssh { border-color:var(--yb); background:var(--yd); }
+.transport--http { border-color:rgba(255,238,88,0.1); }
+
+.tr-label {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.13em;
+  color:rgba(255,238,88,0.65);
+  margin-bottom:16px;
+}
+
+.tr-label--http { color:var(--t2); }
+
+.tr-name {
+  font-family:var(--fd);
+  font-size:1.4rem;
+  font-weight:700;
+  letter-spacing:-0.03em;
+  color:var(--y);
+  margin-bottom:12px;
+}
+
+.tr-name--http { color:var(--text); }
+
+.tr-desc {
+  font-size:15px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.7;
+  margin-bottom:24px;
+}
+
+.tr-features {
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.tr-features li {
+  font-family:var(--fm);
+  font-size:11px;
+  color:var(--t2);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.tr-features li::before {
+  content:'';
+  width:4px; height:4px;
+  background:var(--y);
+  border-radius:50%;
+  flex-shrink:0;
+  opacity:0.5;
+}
+
+/* ── SITE CONFIG DISPLAY ── */
+.site-config {
+  background:rgba(255,238,88,0.04);
+  border:1px solid var(--yb);
+  border-radius:12px;
+  padding:36px 40px;
+  margin-bottom:56px;
+  font-family:var(--fm);
+  font-size:13px;
+  line-height:1.9;
+  color:rgba(224,221,213,0.5);
+}
+
+.site-config-title {
+  font-family:var(--fb);
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:rgba(255,238,88,0.4);
+  margin-bottom:20px;
+}
+
+.sc-site { color:var(--y); }
+.sc-type { color:var(--t2); }
+.sc-detail { color:rgba(224,221,213,0.6); }
+
+/* ── ADAPTER GATE ── */
+.gate-diagram {
+  margin-bottom:56px;
+  position:relative;
+}
+
+.gate-row {
+  display:flex;
+  align-items:stretch;
+  gap:2px;
+  margin-bottom:2px;
+}
+
+.gate-box {
+  flex:1;
+  padding:22px 26px;
+  border:1px solid var(--glb);
+  border-radius:8px;
+  background:var(--gl);
+  transition:border-color 0.25s;
+}
+
+.gate-box:hover { border-color:var(--glh); }
+
+.gate-box--p {
+  border-color:var(--pb);
+  background:linear-gradient(90deg, var(--pd), var(--gl) 70%);
+}
+
+.gate-box--open {
+  border-color:rgba(124,58,237,0.3);
+  background:var(--pd);
+}
+
+.gate-label {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--t2);
+  margin-bottom:6px;
+}
+
+.gate-name {
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.gate-name--p { color:var(--pl); }
+
+.gate-detail {
+  font-family:var(--fm);
+  font-size:11px;
+  color:var(--t2);
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.gate-join {
+  margin-left:0;
+  padding:3px 0;
+  display:flex;
+  align-items:center;
+}
+
+.gate-jl {
+  width:1px; height:18px;
+  background:var(--pb);
+  opacity:0.35;
+}
+
+/* ── ABILITY NUMBER CALLOUT ── */
+.big-callout {
+  text-align:center;
+  padding:64px 0;
+  border-top:1px solid var(--pb);
+  border-bottom:1px solid var(--pb);
+  margin-bottom:56px;
+  background:var(--pd);
+  border-radius:12px;
+}
+
+.big-n {
+  font-family:var(--fd);
+  font-size:clamp(4rem, 8vw, 7rem);
+  font-weight:800;
+  letter-spacing:-0.05em;
+  line-height:1;
+  color:var(--pl);
+  margin-bottom:10px;
+}
+
+.big-l {
+  font-family:var(--fm);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t2);
+}
+
+/* ── MODULE GRID 3×7 ── */
+.mods {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  border-top:1px solid var(--glb);
+  border-left:1px solid var(--glb);
+}
+
+.mod {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:15px 18px;
+  border-bottom:1px solid var(--glb);
+  border-right:1px solid var(--glb);
+  gap:8px;
+}
+
+.mod-name {
+  font-size:16px;
+  font-weight:400;
+  color:var(--text);
+}
+
+.mod-name--g { color:var(--g); font-weight:500; }
+
+.mod-n {
+  font-family:var(--fm);
+  font-size:11px;
+  color:var(--t2);
+  flex-shrink:0;
+}
+
+/* ── CAPABILITIES LIST ── */
+.cap-list {
+  border-top:1px solid var(--glb);
+  margin-bottom:56px;
+}
+
+.cap-item {
+  display:flex;
+  align-items:flex-start;
+  gap:28px;
+  padding:22px 0;
+  border-bottom:1px solid var(--glb);
+}
+
+.cap-n {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t2);
+  flex-shrink:0;
+  width:52px;
+  padding-top:3px;
+}
+
+.cap-body {}
+
+.cap-title {
+  font-size:17px;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:5px;
+  letter-spacing:-0.01em;
+}
+
+.cap-desc {
+  font-size:15px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.7;
+}
+
+/* ── KNOWLEDGE LAYER BOOT SEQUENCE ── */
+.boot-seq {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  margin-bottom:56px;
+}
+
+.boot-step {
+  display:flex;
+  align-items:flex-start;
+  gap:20px;
+  padding:20px 22px;
+  border:1px solid var(--glb);
+  border-radius:8px;
+  background:var(--gl);
+  transition:border-color 0.25s;
+}
+
+.boot-step:hover { border-color:var(--glh); }
+
+.boot-step--active {
+  border-color:var(--gb);
+  background:var(--gd);
+}
+
+.boot-n {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t2);
+  padding-top:3px;
+  flex-shrink:0;
+  width:28px;
+}
+
+.boot-file {
+  font-family:var(--fm);
+  font-size:13px;
+  color:var(--g);
+  margin-bottom:4px;
+}
+
+.boot-desc {
+  font-size:15px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.65;
+}
+
+/* ── AGENT CARDS ── */
+.agents {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-bottom:56px;
+}
+
+.agent {
+  padding:28px 24px;
+  border:1px solid var(--glb);
+  border-radius:10px;
+  background:var(--gl);
+  transition:border-color 0.3s;
+}
+
+.agent:hover { border-color:var(--glh); }
+
+.agent--kl {
+  border-color:var(--gb);
+  background:var(--gd);
+}
+
+.agent-role {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--t2);
+  margin-bottom:10px;
+}
+
+.agent-name {
+  font-size:17px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:8px;
+  letter-spacing:-0.01em;
+}
+
+.agent-name--g { color:var(--g); }
+
+.agent-desc {
+  font-size:13px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.65;
+}
+
+/* ── KL DIRECTIVE ── */
+.kl-box {
+  background:var(--gd);
+  border:1px solid var(--gb);
+  border-radius:14px;
+  padding:48px;
+  margin-bottom:56px;
+}
+
+.kl-label {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:rgba(34,197,94,0.4);
+  margin-bottom:14px;
+}
+
+.kl-directive {
+  font-family:var(--fm);
+  font-size:13px;
+  color:var(--g);
+  background:rgba(34,197,94,0.04);
+  border:1px solid rgba(34,197,94,0.11);
+  border-radius:8px;
+  padding:22px 26px;
+  margin:0 0 28px;
+  line-height:2.1;
+}
+
+.kl-p {
+  font-size:17px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.78;
+}
+
+/* ── KL DOCUMENT TYPES ── */
+.kl-docs {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+  margin-bottom:56px;
+}
+
+.kl-doc {
+  padding:24px 26px;
+  border:1px solid var(--glb);
+  border-radius:8px;
+  background:var(--gl);
+  transition:border-color 0.25s;
+}
+
+.kl-doc:hover { border-color:var(--glh); }
+
+.kl-doc--active {
+  border-color:var(--gb);
+  background:var(--gd);
+}
+
+.kl-doc-type {
+  font-family:var(--fm);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--t2);
+  margin-bottom:8px;
+}
+
+.kl-doc-type--g { color:rgba(34,197,94,0.65); }
+
+.kl-doc-name {
+  font-size:16px;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:6px;
+  letter-spacing:-0.01em;
+}
+
+.kl-doc-name--g { color:var(--g); }
+
+.kl-doc-desc {
+  font-size:13px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.6;
+}
+
+/* ── TERMINAL ── */
+.terminal {
+  background:#09090f;
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;
+  overflow:hidden;
+  font-family:var(--fm);
+  font-size:13px;
+  line-height:1.9;
+  margin-bottom:56px;
+}
+
+.tbar {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:14px 22px;
+  background:rgba(255,255,255,0.015);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+
+.d1,.d2,.d3 { width:9px; height:9px; border-radius:50%; opacity:0.55; }
+.d1{background:#ef4444;} .d2{background:#f59e0b;} .d3{background:#22c55e;}
+
+.ttab {
+  margin-left:auto;
+  font-size:10px;
+  color:rgba(255,255,255,0.16);
+  letter-spacing:0.05em;
+}
+
+.tbody { padding:32px 32px 36px; color:rgba(224,221,213,0.28); }
+
+.ln  { display:block; }
+.lb  { display:block; height:0.9em; }
+.gy  { color:var(--y); }
+.gp  { color:var(--pl); }
+.gg  { color:var(--g); }
+.gw  { color:rgba(224,221,213,0.75); }
+.cur {
+  display:inline-block; width:7px; height:1em;
+  background:var(--g); vertical-align:text-bottom;
+  animation:blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── SECURITY ── */
+.sec {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+  margin-bottom:56px;
+}
+
+.ss {
+  padding:26px 20px;
+  background:var(--gl);
+  border:1px solid var(--glb);
+  border-radius:8px;
+}
+
+.ss--go { border-color:var(--gb); background:var(--gd); }
+
+.ss-n {
+  font-family:var(--fm);
+  font-size:8.5px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t2);
+  margin-bottom:10px;
+}
+
+.ss-name {
+  font-size:15px;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:5px;
+}
+
+.ss-name--g { color:var(--g); }
+
+.ss-d {
+  font-size:12px;
+  font-weight:300;
+  color:var(--t2);
+  line-height:1.55;
+}
+
+/* ── QUOTE MONUMENT ── */
+.quote-monument {
+  padding:140px 56px;
+  text-align:center;
+  border-top:1px solid var(--glb);
+  border-bottom:1px solid var(--glb);
+}
+
+.quote-text {
+  font-family:var(--fd);
+  font-size:clamp(2rem, 4.5vw, 3.4rem);
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1.2;
+  color:var(--text);
+  max-width:700px;
+  margin:0 auto;
+}
+
+.quote-text em  { font-style:normal; color:var(--y); }
+.quote-text em.g { color:var(--g); }
+
+.quote-attr {
+  font-family:var(--fm);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--t3);
+  margin-top:32px;
+}
+
+/* ── CTA ── */
+.cta {
+  text-align:center;
+  padding:140px 56px 160px;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta::before {
+  content:'';
+  position:absolute;
+  width:640px; height:640px;
+  background:radial-gradient(circle, rgba(34,197,94,0.10), transparent 65%);
+  border-radius:50%;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  filter:blur(50px);
+}
+
+.cta-title {
+  font-family:var(--fd);
+  font-size:clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1.08;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.cta-sub {
+  font-size:18px;
+  font-weight:300;
+  color:var(--t2);
+  max-width:440px;
+  margin:0 auto 52px;
+  line-height:1.8;
+  position:relative;
+}
+
+.cta-btns {
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:36px;
+  position:relative;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:15px 36px;
+  border-radius:8px;
+  font-family:var(--fb);
+  font-size:16px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  text-decoration:none;
+  transition:all 0.2s;
+  letter-spacing:-0.01em;
+}
+
+.btn--g { background:var(--g); color:#0a0a0a; }
+.btn--g:hover { background:#4ade80; transform:translateY(-1px); }
+
+.btn--ghost {
+  background:transparent;
+  color:var(--t2);
+  border:1px solid var(--glb);
+}
+.btn--ghost:hover { border-color:var(--glh); color:var(--text); }
+
+.cta-trust {
+  font-family:var(--fm);
+  font-size:10.5px;
+  color:var(--t3);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  position:relative;
+}
+
+.cta-trust span { margin:0 10px; opacity:0.35; }
+
+/* ── FOOTER ── */
+footer {
+  max-width:var(--col);
+  margin:0 auto;
+  padding:36px 56px 80px;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  border-top:1px solid var(--glb);
+}
+
+.footer-brand {
+  font-family:var(--fd);
+  font-size:1rem;
+  font-weight:800;
+  letter-spacing:-0.03em;
+}
+
+.footer-brand span { color:var(--pl); }
+
+.footer-meta {
+  font-family:var(--fm);
+  font-size:10px;
+  color:var(--t3);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+/* ── AUDIENCE SECTION ── */
+.audience-section {
+  padding: 140px 0 0;
+}
+
+.audience-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 0;
+}
+
+.audience-block {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2px;
+  align-items: stretch;
+}
+
+.audience-aside {
+  padding: 36px 32px;
+  border: 1px solid var(--glb);
+  border-radius: 8px;
+  background: var(--gl);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.audience-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  margin-bottom: 2px;
+}
+
+.audience-label--y { color: rgba(255,238,88,0.65); }
+.audience-label--p { color: rgba(167,139,250,0.65); }
+.audience-label--g { color: rgba(34,197,94,0.65); }
+
+.audience-name {
+  font-family: var(--fd);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.audience-body {
+  flex: 1;
+  padding: 36px 40px;
+  border: 1px solid var(--glb);
+  border-radius: 8px;
+  background: var(--gl);
+}
+
+.audience-body--y { border-color: var(--yb); background: linear-gradient(135deg, var(--yd), var(--gl) 60%); }
+.audience-body--p { border-color: var(--pb); background: linear-gradient(135deg, var(--pd), var(--gl) 60%); }
+.audience-body--g { border-color: var(--gb); background: linear-gradient(135deg, var(--gd), var(--gl) 60%); }
+
+.audience-transform {
+  font-family: var(--fd);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 18px;
+  line-height: 1.25;
+}
+
+.audience-copy {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.78;
+}
+
+.audience-copy p + p { margin-top: 12px; }
+
+/* ── VALUE PROPOSITION SECTION ── */
+.value-section {
+  padding: 140px 0;
+}
+
+.value-list {
+  border-top: 1px solid var(--glb);
+}
+
+.value-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  align-items: baseline;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--glb);
+}
+
+.value-name {
+  font-family: var(--fd);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.value-copy {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.78;
+}
+
+/* ── LOOSE PROSE — readability-first paragraphs ── */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+.prose p {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.82;
+  max-width: 600px;
+}
+
+.prose p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width:960px) {
+  .transport-pair { grid-template-columns:1fr; }
+  .agents { grid-template-columns:1fr 1fr; }
+  .mods { grid-template-columns:repeat(2,1fr); }
+  .stats { grid-template-columns:repeat(2,1fr); gap:40px 0; }
+  .stat { border-right:none; padding:0 0 32px; }
+  .stat:last-child,.stat:nth-child(2) { border-bottom:none; }
+  .sec { grid-template-columns:1fr 1fr; }
+  .kl-docs { grid-template-columns:1fr; }
+  .sn { display:none; }
+  .audience-block { grid-template-columns:1fr; }
+  .audience-aside { flex-direction:row; align-items:center; gap:16px; padding:20px 24px; }
+  .value-item { grid-template-columns:1fr; gap:8px; }
+}
+
+@media (max-width:580px) {
+  .c,.cw { padding:0 24px; }
+  .hero { padding:100px 0 80px; }
+  .hero-title { font-size:2.6rem; }
+  .stat-band { padding:48px 24px; }
+  .mods { grid-template-columns:1fr; }
+  .sec { grid-template-columns:1fr; }
+  .agents { grid-template-columns:1fr; }
+  .quote-monument { padding:90px 24px; }
+  .cta { padding:90px 24px 120px; }
+  footer { padding:28px 24px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     GLOBAL HERO — The Trinity Overview
+     ════════════════════════════════════════════ -->
+<header class="hero c">
+  <div class="eyebrow"><span class="ebdot"></span>Wicked Evolutions · The Trinity</div>
+
+  <h1 class="hero-title">
+    With The Trinity Of Abilities.<br>
+    Any AI. WordPress is AI Native.<br>
+    <em>Today.</em>
+  </h1>
+
+  <p class="hero-sub">
+    A coordinated stack that makes WordPress natively operable by any AI.
+    Your server. Your data. Your keys.
+    No SaaS layer, no escape hatch, no lock-in.
+  </p>
+
+  <hr class="gl">
+</header>
+
+<!-- Stats band — global -->
+<div class="stat-band">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n sg">627</div>
+      <div class="stat-l">total abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sy">3</div>
+      <div class="stat-l">plugins in Trinity</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sp">21</div>
+      <div class="stat-l">core WP modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">6.9+</div>
+      <div class="stat-l">WordPress required</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     WHO THIS IS FOR
+     ════════════════════════════════════════════ -->
+<div class="audience-section c">
+
+  <div class="section">
+    <span class="sn">Who this is for</span>
+    <h2 class="sh">Built for the edge of WordPress.</h2>
+    <p class="sp2">The vibe-coder who builds with AI as co-pilot. The operator running a business across seven dashboards. The developer who wants to own the infrastructure layer. Three audiences. One stack. Different reasons to stop clicking and start talking.</p>
+
+    <div class="audience-grid">
+
+      <!-- Founders & Operators — yellow -->
+      <div class="audience-block">
+        <div class="audience-aside">
+          <div class="audience-label audience-label--y">Founders & Operators</div>
+          <div class="audience-name">The dashboard problem</div>
+        </div>
+        <div class="audience-body audience-body--y">
+          <div class="audience-transform">You are the integration layer. You shouldn't be.</div>
+          <div class="audience-copy">
+            <p>Every morning you open six dashboards. Your CRM doesn't know what your community platform knows. Your support tool doesn't know what your course platform knows. You're manually correlating data between silos that will never talk to each other — because they live in different databases owned by different companies.</p>
+            <p>With the Trinity, one conversation covers all of it. Ask about your subscribers, your bookings, your support tickets, your course completions — and get back a unified answer from one database. The dashboard doesn't get better. It becomes optional.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vibe-Coders & Builders — purple -->
+      <div class="audience-block">
+        <div class="audience-aside">
+          <div class="audience-label audience-label--p">Vibe-Coders & Builders</div>
+          <div class="audience-name">The admin panel wall</div>
+        </div>
+        <div class="audience-body audience-body--p">
+          <div class="audience-transform">Your AI can build anything. Except operate the site.</div>
+          <div class="audience-copy">
+            <p>You use AI as a co-pilot for everything. But when it comes to WordPress — the platform that runs half your clients' sites — the AI has to stop at the admin panel door. It can write the code. It can't run the site.</p>
+            <p>The Abilities API changes this. Your AI connects through schema-validated, permission-gated abilities — annotated with what's safe to call freely and what needs confirmation. Build, deploy, diagnose, iterate. In a conversation, not a browser.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edge Pioneers & WP Professionals — green -->
+      <div class="audience-block">
+        <div class="audience-aside">
+          <div class="audience-label audience-label--g">Edge Pioneers & WP Professionals</div>
+          <div class="audience-name">The sovereignty question</div>
+        </div>
+        <div class="audience-body audience-body--g">
+          <div class="audience-transform">The sovereignty question nobody else is answering.</div>
+          <div class="audience-copy">
+            <p>Every tool that puts AI inside a plugin answers the same way: their servers, their context window, their data. You lose access the moment you stop paying. The intelligence layer belongs to them.</p>
+            <p>The Trinity is a different answer. Open source. Your server. Your WordPress database. Your AI client of choice — Claude, GPT-4o, Gemini, anything that speaks MCP. Provider-agnostic by design. Sovereign by architecture.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     WHAT CHANGES
+     ════════════════════════════════════════════ -->
+<div class="c">
+
+  <div class="value-section">
+    <span class="sn">What changes</span>
+    <h2 class="sh">The admin panel is now optional.</h2>
+    <p class="sp2">Not deprecated. Not replaced. Optional. The conversation becomes the operating layer. The dashboard becomes the review layer. Here's what that actually means.</p>
+
+    <div class="value-list">
+
+      <div class="value-item">
+        <div class="value-name">Stop logging in</div>
+        <div class="value-copy">Seven dashboards, one conversation. Ask questions in natural language, get unified intelligence back. Give a directive, the AI executes with your confirmation. The clicking stops. The conversation starts.</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-name">Your server, your data</div>
+        <div class="value-copy">No SaaS layer between your AI and your site. No vendor controlling the intelligence. No pricing model with an escape hatch built in. Your WordPress database is the source of truth — and it stays yours.</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-name">Any AI, not one AI</div>
+        <div class="value-copy">Claude today. GPT-4o tomorrow. Gemini on Friday. The abilities work with any MCP-compatible client. Switch providers without losing your site's memory. The Knowledge Layer stays on your server regardless of who the AI is.</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-name">The site remembers</div>
+        <div class="value-copy">Every session logs to the Knowledge Layer. The next AI that connects arrives knowing your site's history, open observations, and what happened last time. Six months of sessions compound into operational intelligence that no single conversation could hold.</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-name">Build, don't click</div>
+        <div class="value-copy">Content, blocks, users, plugins, themes, cron, filesystem, health — all of it operable in natural language. What used to take twenty minutes of menu navigation takes one sentence.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     HERO 01 — abilities-mcp
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+
+<section class="hero c">
+  <div class="eyebrow eyebrow--y"><span class="ebdot ebdot--y"></span>Layer 01 · Bridge · Node.js</div>
+
+  <h1 class="hero-title">
+    One MCP<br>
+    To Rule Your<br>
+    <em class="y">WordPress World.</em>
+  </h1>
+
+  <p class="hero-sub">
+    One MCP to Bind Them All — an MCP server that runs on your machine
+    and connects your AI client to any number of WordPress sites
+    simultaneously. SSH for developers. HTTP for everyone.
+    Multi-site, single-site, all sites at once.
+  </p>
+
+  <hr class="gl gl--y">
+</section>
+
+<div class="stat-band stat-band--y">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n sy">2</div>
+      <div class="stat-l">transports</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sy">∞</div>
+      <div class="stat-l">sites per instance</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">10s</div>
+      <div class="stat-l">reconnect backoff max</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">45s</div>
+      <div class="stat-l">healthcheck interval</div>
+    </div>
+  </div>
+</div>
+
+<div class="c">
+
+  <div class="section">
+    <span class="sn">01 — Two transports</span>
+    <h2 class="sh">SSH for developers. HTTP for everyone.</h2>
+    <p class="sp2">Two transport modes, both production-hardened. One configuration file. Choose based on your environment — or run both across different sites.</p>
+
+    <div class="transport-pair">
+
+      <div class="transport transport--ssh">
+        <div class="tr-label">Transport A · Developers</div>
+        <div class="tr-name">SSH + WP-CLI</div>
+        <p class="tr-desc">
+          Connects over your existing SSH tunnel. Spawns WP-CLI directly on the server — zero additional infrastructure, zero open ports. Uses the same key you already use to SSH in. Auto-reconnects with exponential backoff, replays the MCP handshake on reconnect.
+        </p>
+        <ul class="tr-features">
+          <li>Auto-reconnect · up to 10 retries, exponential backoff to 30s</li>
+          <li>Handshake replay — reconnection is transparent to the AI client</li>
+          <li>45s healthcheck ping · kills and respawns on timeout</li>
+          <li>Request queue — up to 100 messages buffered during reconnect</li>
+          <li>2-minute per-request timeout · orphan cleanup on death</li>
+          <li>Multisite via <code style="font-size:11px;">--url=</code> flag per subsite</li>
+        </ul>
+      </div>
+
+      <div class="transport transport--http">
+        <div class="tr-label tr-label--http">Transport B · Everyone</div>
+        <div class="tr-name tr-name--http">HTTP Streamable</div>
+        <p class="tr-desc">
+          Connects via HTTPS POST with WordPress Application Passwords. No SSH access required — works anywhere you can reach the WordPress REST endpoint. Session management, batch coalescing, cookie jar, automatic session recovery on expiry.
+        </p>
+        <ul class="tr-features">
+          <li>Session tokens via <code style="font-size:11px;">Mcp-Session-Id</code> headers</li>
+          <li>Batch coalescing — multiple messages sent as one POST</li>
+          <li>Per-site cookie jar — no cross-site bleed in multi-site config</li>
+          <li>Session recovery on 404/410/401/403 — silent re-handshake</li>
+          <li>3-retry exponential backoff on 5xx / network error</li>
+          <li>120s per-request timeout</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">02 — Multi-site</span>
+    <h2 class="sh">One MCP to rule your WordPress world.</h2>
+    <p class="sp2">One running instance. One config file. Six sites, two multisites, single installs — all routable from a single AI connection. Each site stays independent. Cookies don't bleed. Sessions don't mix.</p>
+
+    <div class="site-config">
+      <div class="site-config-title">wp-sites.json · example configuration</div>
+<span class="ln"><span style="opacity:.35">{</span></span>
+<span class="ln">  <span class="sc-site">"helena"</span><span style="opacity:.35">:  {</span> <span class="sc-type">transport:</span> <span class="sc-detail">"ssh"</span><span style="opacity:.35">,</span> <span class="sc-type">host:</span> <span class="sc-detail">"helenawillow.com"</span> <span style="opacity:.35">}</span><span style="opacity:.35">,</span></span>
+<span class="ln">  <span class="sc-site">"wicked"</span><span style="opacity:.35">:  {</span> <span class="sc-type">transport:</span> <span class="sc-detail">"ssh"</span><span style="opacity:.35">,</span> <span class="sc-type">host:</span> <span class="sc-detail">"wickedevolutions.com"</span> <span style="opacity:.35">}</span><span style="opacity:.35">,</span></span>
+<span class="lb"></span>
+<span class="ln">  <span class="sc-site">"platform"</span><span style="opacity:.35">: {</span> <span class="sc-type">transport:</span> <span class="sc-detail">"ssh"</span><span style="opacity:.35">,</span> <span class="sc-type">multisite:</span> <span style="opacity:.35">[</span></span>
+<span class="ln">    <span style="opacity:.35">{</span> <span class="sc-type">key:</span> <span class="sc-detail">"platform.main"</span><span style="opacity:.35">,</span>  <span class="sc-type">url:</span> <span class="sc-detail">"platform.com"</span> <span style="opacity:.35">},</span></span>
+<span class="ln">    <span style="opacity:.35">{</span> <span class="sc-type">key:</span> <span class="sc-detail">"platform.shop"</span><span style="opacity:.35">,</span>  <span class="sc-type">url:</span> <span class="sc-detail">"shop.platform.com"</span> <span style="opacity:.35">}</span></span>
+<span class="ln">  <span style="opacity:.35">] },</span></span>
+<span class="lb"></span>
+<span class="ln">  <span class="sc-site">"client-a"</span><span style="opacity:.35">: {</span> <span class="sc-type">transport:</span> <span class="sc-detail">"http"</span><span style="opacity:.35">,</span> <span class="sc-type">endpoint:</span> <span class="sc-detail">"https://client-a.com/wp-json/mcp"</span> <span style="opacity:.35">}</span><span style="opacity:.35">,</span></span>
+<span class="ln">  <span class="sc-site">"client-b"</span><span style="opacity:.35">: {</span> <span class="sc-type">transport:</span> <span class="sc-detail">"http"</span><span style="opacity:.35">,</span> <span class="sc-type">endpoint:</span> <span class="sc-detail">"https://client-b.com/wp-json/mcp"</span> <span style="opacity:.35">}</span></span>
+<span class="ln"><span style="opacity:.35">}</span></span>
+    </div>
+
+    <p style="font-size:16px;font-weight:300;color:var(--t2);line-height:1.8;">
+      The AI calls any ability with a <code style="font-family:var(--fm);font-size:13px;color:var(--y)">site</code> parameter.
+      The router handles the rest — same session, different servers, transparent.
+    </p>
+  </div>
+
+  <div class="section">
+    <span class="sn">03 — Bridge tools</span>
+    <h2 class="sh">Three tools that never touch WordPress.</h2>
+    <p class="sp2">Handled entirely locally inside abilities-mcp — never forwarded to any site. Infrastructure intelligence built into the bridge itself.</p>
+
+    <div class="cap-list">
+      <div class="cap-item">
+        <div class="cap-n">Health</div>
+        <div class="cap-body">
+          <div class="cap-title">wp_bridge_health</div>
+          <div class="cap-desc">Check connectivity and latency to any or all configured sites. Returns status (connected / reachable / unreachable) and round-trip time per site. Run before a session to confirm all sites are responsive.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Browse</div>
+        <div class="cap-body">
+          <div class="cap-title">wp_browse_tools</div>
+          <div class="cap-desc">List all available tool categories with counts. Shows which categories are currently loaded into the active session. The AI uses this to understand what's available before deciding what to load.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Load</div>
+        <div class="cap-body">
+          <div class="cap-title">wp_load_tools</div>
+          <div class="cap-desc">Activate or deactivate tool categories on demand. Triggers a <code style="font-family:var(--fm);font-size:12px;color:var(--y)">notifications/tools/list_changed</code> notification so the AI client refreshes its tool list immediately. Load only what you need for the session.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /c -->
+
+
+<!-- ════════════════════════════════════════════
+     HERO 02 — abilities-mcp-adapter
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+
+<section class="hero c">
+  <div class="eyebrow"><span class="ebdot ebdot--p"></span>Layer 02 · Protocol · WordPress Plugin</div>
+
+  <h1 class="hero-title">
+    Not measured in abilities.<br>
+    Measured in what<br>
+    <em class="p">it unlocks.</em>
+  </h1>
+
+  <p class="hero-sub">
+    The gate. The portal. The layer that translates the entire WordPress
+    Abilities API into the Model Context Protocol. Without it, nothing connects.
+    With it, every registered ability on your site becomes an MCP tool —
+    reachable by any AI client, permission-gated, schema-validated.
+  </p>
+
+  <hr class="gl">
+</section>
+
+<div class="stat-band stat-band--p">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n sp">2</div>
+      <div class="stat-l">public abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">4</div>
+      <div class="stat-l">internal abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">627</div>
+      <div class="stat-l">abilities it exposes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">PHP 8.0+</div>
+      <div class="stat-l">requirement</div>
+    </div>
+  </div>
+</div>
+
+<div class="c">
+
+  <div class="section">
+    <span class="sn">01 — The gate</span>
+    <h2 class="sh">How a WordPress ability becomes an MCP tool.</h2>
+    <p class="sp2">Every ability registered via <code style="font-family:var(--fm);font-size:14px;color:var(--pl)">wp_register_ability()</code> is a candidate. The adapter runs a discovery gate — only abilities marked <code style="font-family:var(--fm);font-size:14px;color:var(--pl)">mcp.public: true</code> appear in the manifest. The rest are internal.</p>
+
+    <div class="gate-diagram">
+
+      <div class="gate-row">
+        <div class="gate-box">
+          <div class="gate-label">AI Client</div>
+          <div class="gate-name">Claude · Cursor · any MCP client</div>
+          <div class="gate-detail">STDIO · JSON-RPC 2.0</div>
+        </div>
+      </div>
+
+      <div class="gate-join" style="margin-left:20px;padding:3px 0;"><div class="gate-jl"></div></div>
+
+      <div class="gate-row">
+        <div class="gate-box gate-box--p">
+          <div class="gate-label">abilities-mcp-adapter · REST endpoint</div>
+          <div class="gate-name gate-name--p">mcp-adapter/get-started</div>
+          <div class="gate-detail">Returns site capabilities + next_action → knowledge/boot</div>
+        </div>
+      </div>
+
+      <div class="gate-join" style="margin-left:20px;padding:3px 0;"><div class="gate-jl"></div></div>
+
+      <div class="gate-row">
+        <div class="gate-box gate-box--p">
+          <div class="gate-label">Discovery gate · mcp.public filter</div>
+          <div class="gate-name gate-name--p">mcp-adapter/discover-abilities</div>
+          <div class="gate-detail">Full manifest · filter by category · annotation · keyword search · ~77KB unfiltered</div>
+        </div>
+      </div>
+
+      <div class="gate-join" style="margin-left:20px;padding:3px 0;"><div class="gate-jl"></div></div>
+
+      <div class="gate-row">
+        <div class="gate-box gate-box--open">
+          <div class="gate-label">Every registered ability · all 627</div>
+          <div class="gate-name gate-name--p">Unlocked — schema-validated, permission-gated, MCP-native</div>
+          <div class="gate-detail">content · blocks · meta · menus · themes · knowledge · fluent · surecart · astra · spectra · presto · and everything registered by third-party plugins</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">02 — Execution chain</span>
+    <h2 class="sh">Every call. Every time. No exceptions.</h2>
+    <p class="sp2">Before any ability fires, two independent checks run in sequence inside the adapter. Both must pass. Neither can be skipped.</p>
+
+    <div class="cap-list">
+
+      <div class="cap-item">
+        <div class="cap-n">Auth</div>
+        <div class="cap-body">
+          <div class="cap-title">WordPress authentication</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>The AI agent connects as a WordPress user. Before the adapter does anything else, it checks <code style="font-family:var(--fm);font-size:12px;color:var(--pl)">is_user_logged_in()</code>. If the user isn't authenticated, the request is rejected immediately.</p>
+            <p>Then it checks <code style="font-family:var(--fm);font-size:12px;color:var(--pl)">current_user_can()</code>. The WordPress role you assign to the AI agent user is the security boundary. Not a separate config. Not a plugin setting. The role you assign in WordPress governs exactly what the AI can reach.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-item">
+        <div class="cap-n">Gate</div>
+        <div class="cap-body">
+          <div class="cap-title">Discovery gate</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Only abilities explicitly marked <code style="font-family:var(--fm);font-size:12px;color:var(--pl)">mcp.public: true</code> in their registration metadata appear in the manifest at all.</p>
+            <p>Everything else is invisible — not blocked with a 403, invisible. The AI cannot discover, call, or guess at abilities that aren't in the public manifest. The gate runs at startup when the tool list is built, not at call time.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">03 — Permission model</span>
+    <h2 class="sh">Delete is off. You turn it on.</h2>
+    <p class="sp2">Every module ships with a default permission state built into the source code. Read is on. Write is on. Delete is off — across every module, from first install. The AI cannot delete anything until you explicitly enable it.</p>
+
+    <div class="cap-list">
+
+      <div class="cap-item">
+        <div class="cap-n">Default</div>
+        <div class="cap-body">
+          <div class="cap-title">Delete is always off at install</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>The permission defaults are baked into the source: <code style="font-family:var(--fm);font-size:12px;color:var(--g)">read: true, write: true, delete: false</code> for every module. This is not a recommendation — it is the actual default shipped in code.</p>
+            <p>On a fresh install, the AI can read everything and write everything. But it cannot delete anything. Not content. Not users. Not terms. Nothing. You enable delete explicitly, per module, when you're ready.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-item">
+        <div class="cap-n">Levels</div>
+        <div class="cap-body">
+          <div class="cap-title">Two levels of control</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Permissions work at two levels simultaneously. <strong>Module level:</strong> a single toggle covers every read, write, or delete ability in that module.</p>
+            <p><strong>Ability level:</strong> individual overrides that differ from the module setting. You can have write enabled for the content module but <code style="font-family:var(--fm);font-size:12px;color:var(--pl)">content/search-replace</code> specifically turned off.</p>
+            <p>The per-ability override always wins over the module setting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-item">
+        <div class="cap-n">AI</div>
+        <div class="cap-body">
+          <div class="cap-title">The AI can manage its own permissions</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Permissions are stored in WordPress options. The AI agent has <code style="font-family:var(--fm);font-size:12px;color:var(--pl)">manage_options</code> access. Which means you can ask the AI to change its own permission scope mid-session.</p>
+            <p>"Turn off write access to users." "Enable delete for the cache module." The AI executes the change immediately.</p>
+            <p>This is not a bug. It is the design. The human controls the conversation. The human decides when to expand or restrict.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-item">
+        <div class="cap-n">Timing</div>
+        <div class="cap-body">
+          <div class="cap-title">Checked at execution, not at discovery</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>The permission gate fires inside the callback wrapper at the moment an ability is called — not at registration, not at discovery.</p>
+            <p>A disabled ability still appears in the manifest. It can be listed. It just returns a 403 when called. This means you can see what's turned off, not just what's on — which matters when you're auditing what the AI can and cannot do.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">04 — MCP annotations</span>
+    <h2 class="sh">The AI knows what's safe before it calls.</h2>
+    <p class="sp2">Every ability carries MCP annotations that tell the AI client its safety profile. No guessing. No prompting required.</p>
+
+    <div class="cap-list">
+      <div class="cap-item">
+        <div class="cap-n">Read</div>
+        <div class="cap-body">
+          <div class="cap-title" style="color:var(--g)">readonly: true</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Safe to call freely. No state change. The AI calls these without asking — get-site-map, discover-types, list-users, site-health/pulse.</p>
+            <p>All 15 Knowledge Layer read abilities carry this annotation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Write</div>
+        <div class="cap-body">
+          <div class="cap-title">destructive: false</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Creates or modifies state but is not permanent. Content updates, meta writes, term assignments.</p>
+            <p>The behavioral directive from the Knowledge Layer controls whether the AI calls these without a human directive in the current session.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Delete</div>
+        <div class="cap-body">
+          <div class="cap-title" style="color:var(--y)">destructive: true</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Irreversible. Requires explicit human confirmation in the conversation before the AI proceeds.</p>
+            <p>The adapter's own execute-ability carries this annotation — which is why it doesn't appear in the public manifest.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Retry</div>
+        <div class="cap-body">
+          <div class="cap-title">idempotent: true</div>
+          <div class="prose" style="margin-bottom:0;">
+            <p>Safe to retry if uncertain whether a previous call completed.</p>
+            <p>get-started and discover-abilities both carry this — the AI can call them again after a dropped connection without risk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /c -->
+
+
+<!-- ════════════════════════════════════════════
+     HERO 03 — abilities-for-ai
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+
+<section class="hero c">
+  <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Layer 03 · Engine · WordPress Plugin</div>
+
+  <h1 class="hero-title">
+    Build anything.<br>
+    Fix everything.<br>
+    <em>In natural language.</em>
+  </h1>
+
+  <p class="hero-sub">
+    The enchanted world. 137 abilities across 21 WordPress modules —
+    every surface the platform exposes, now operable from any AI chat interface.
+    Content, blocks, themes, users, filesystem, cron, revisions — all of it,
+    without ever opening the admin panel.
+  </p>
+
+  <hr class="gl gl--g">
+</section>
+
+<div class="stat-band stat-band--g">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n sg">137</div>
+      <div class="stat-l">abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sg">21</div>
+      <div class="stat-l">core modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">4</div>
+      <div class="stat-l">suite loaders</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">PHP 8.0+</div>
+      <div class="stat-l">WordPress 6.9+</div>
+    </div>
+  </div>
+</div>
+
+<div class="c">
+
+  <div class="section">
+    <span class="sn">01 — 21 modules</span>
+    <h2 class="sh">Every WordPress surface. All of it.</h2>
+    <p class="sp2">Plus four third-party suite loaders — Astra, Spectra, SureCart, Presto Player. Each bails early if the plugin isn't active. Zero cost, clean manifest.</p>
+
+    <div class="mods">
+      <div class="mod"><span class="mod-name mod-name--g">Knowledge Layer</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Content</span><span class="mod-n">15</span></div>
+      <div class="mod"><span class="mod-name">Meta fields</span><span class="mod-n">13</span></div>
+      <div class="mod"><span class="mod-name">Menus</span><span class="mod-n">12</span></div>
+      <div class="mod"><span class="mod-name">Themes</span><span class="mod-n">11</span></div>
+      <div class="mod"><span class="mod-name">Taxonomies</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Users</span><span class="mod-n">9</span></div>
+      <div class="mod"><span class="mod-name">Blocks</span><span class="mod-n">8</span></div>
+      <div class="mod"><span class="mod-name">Cache</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Plugins</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Settings</span><span class="mod-n">7</span></div>
+      <div class="mod"><span class="mod-name">Media</span><span class="mod-n">6</span></div>
+      <div class="mod"><span class="mod-name">Cron</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Filesystem</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Revisions</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Site health</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Comments</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">Patterns</span><span class="mod-n">5</span></div>
+      <div class="mod"><span class="mod-name">REST discovery</span><span class="mod-n">4</span></div>
+      <div class="mod"><span class="mod-name">Rewrite rules</span><span class="mod-n">3</span></div>
+      <div class="mod"><span class="mod-name">MCP adapter</span><span class="mod-n">2</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">02 — What you can do</span>
+    <h2 class="sh">Possibilities never accessed in WordPress before.</h2>
+    <p class="sp2">These aren't admin shortcuts. They're operational capabilities that didn't exist for AI before the Abilities API — and before this plugin filled it.</p>
+
+    <div class="cap-list">
+      <div class="cap-item">
+        <div class="cap-n">Map</div>
+        <div class="cap-body">
+          <div class="cap-title">Understand your entire site in one session</div>
+          <div class="cap-desc">get-site-map, discover-types, taxonomies/discover, site-health/pulse — a complete structured picture of everything on the site before touching a single thing. Page hierarchy, content counts, plugin stack, scheduled tasks, cache architecture, all of it.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Build</div>
+        <div class="cap-body">
+          <div class="cap-title">Create and edit content entirely in natural language</div>
+          <div class="cap-desc">Write posts, update excerpts, insert blocks, assign taxonomies, set featured images, manage revisions — in a conversation. Describe what you want. The AI reads first, proposes second, writes only after you confirm.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Fix</div>
+        <div class="cap-body">
+          <div class="cap-title">Diagnose and repair without touching the admin</div>
+          <div class="cap-desc">Run site-health tests, inspect cron schedules, audit user roles, check cache status, scan for orphaned transients, detect mixed content — and then fix what's broken. The same session that finds a problem can resolve it.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Explore</div>
+        <div class="cap-body">
+          <div class="cap-title">Security, performance, accessibility — all diagnosable</div>
+          <div class="cap-desc">Security audits from login attack patterns to plugin vulnerability surfaces. Performance scans from block complexity to cron health. Accessibility audits from missing alt text to heading hierarchy. 33 diagnostic protocols built from existing abilities — zero new development needed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">03 — A real session</span>
+    <h2 class="sh">What it looks like in practice.</h2>
+    <p class="sp2">From the live site helenawillow.com — session 4. The AI arrives, boots, reads, waits. Nothing written until the human says go.</p>
+
+    <div class="terminal">
+      <div class="tbar">
+        <div class="d1"></div><div class="d2"></div><div class="d3"></div>
+        <div class="ttab">abilities-mcp · helenawillow.com · session 4</div>
+      </div>
+      <div class="tbody">
+<span class="ln" style="opacity:.2"># connect. first call always get-started.</span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">mcp-adapter/get-started</span></span>
+<span class="ln">  site: <span class="gw">"Helena Willow"</span>  abilities: <span class="gg">627</span>  next: <span class="gw">"knowledge/boot"</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/boot</span></span>
+<span class="ln">  mode: <span class="gw">"inquiry"</span>  allowed: <span class="gg">["read"]</span>  restricted: <span class="gy">["write","delete"]</span></span>
+<span class="ln">  session: <span class="gg">4</span>  observations_open: <span class="gg">24</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.2"># ai reads. writes nothing. waits.</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">site-health/pulse</span>         <span class="gg">✓ WordPress 6.9.4 · PHP 8.3.30 · 48 plugins · 0 issues</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get-site-map</span>       <span class="gg">✓ 11 pages · 14 products · 3 videos</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">cron/list-events</span>           <span class="gg">✓ 33 scheduled tasks · all healthy</span></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">cache/object-cache-status</span>  <span class="gg">✓ LiteSpeed + BunnyCDN · optimal</span></span>
+<span class="lb"></span>
+<span class="ln" style="opacity:.2"># you: "update the excerpt on page 4439."</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/get</span>      <span style="opacity:.2">{ id: 4439 }  ← read first, always</span></span>
+<span class="ln" style="opacity:.2">#    "Helena Willow is a spiritual guide and author based in Sweden."</span>
+<span class="ln" style="opacity:.2">#    confirmed by human.</span>
+<span class="ln"><span class="gy">→</span> <span class="gp">content/update</span>   <span style="opacity:.2">{ id: 4439, excerpt: "Helena Willow is a spiritual guide…" }</span></span>
+<span class="ln">                   <span class="gg">✓ updated</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gy">→</span> <span class="gp">knowledge/log-session</span>  <span class="gg">✓ session 4 logged. next session picks up here.</span></span>
+<span class="lb"></span>
+<span class="ln"><span class="gg">$</span> <span class="cur"></span></span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /c -->
+
+
+<!-- ════════════════════════════════════════════
+     HERO 04 — The Knowledge Layer
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+
+<section class="hero c">
+  <div class="eyebrow eyebrow--kl"><span class="ebdot"></span>Layer 04 · Memory · Inside WordPress</div>
+
+  <h1 class="hero-title">
+    Your site remembers<br>
+    what every AI<br>
+    <em>ever learned here.</em>
+  </h1>
+
+  <p class="hero-sub">
+    The Knowledge Layer is not a feature. It is memory infrastructure —
+    kl_* database tables inside your own WordPress, growing richer with
+    every session. Agents, skills, protocols, session logs, observations.
+    The site itself becomes the shared state between every AI that ever connects.
+  </p>
+
+  <hr class="gl gl--g">
+</section>
+
+<div class="stat-band stat-band--kl">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n sg">15</div>
+      <div class="stat-l">abilities</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sg">5</div>
+      <div class="stat-l">agents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">∞</div>
+      <div class="stat-l">sessions accumulated</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n sw">0</div>
+      <div class="stat-l">external services required</div>
+    </div>
+  </div>
+</div>
+
+<div class="c">
+
+  <div class="section">
+    <span class="sn">01 — Boot sequence</span>
+    <h2 class="sh">What the AI reads before it speaks.</h2>
+    <p class="sp2">Every session begins with the same sequence — no exceptions. The AI reads these files in order before presenting anything to the human. By the time you see the first word, the AI already knows your site.</p>
+
+    <div class="boot-seq">
+      <div class="boot-step boot-step--active">
+        <div class="boot-n">01</div>
+        <div>
+          <div class="boot-file">knowledge/boot</div>
+          <div class="boot-desc">The entry point. Returns the behavioral directive, session count, last session summary, site identity, open observations, available agents, available courses, and the next_action sequence. The AI follows this before speaking.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">02</div>
+        <div>
+          <div class="boot-file">ESSENCE.md</div>
+          <div class="boot-desc">Who is this site. The business, the mission, the voice, the audience, the pricing, the funnel, the philosophy. Synthesized from the first diagnostic session. Updated through conversation, not forms.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">03</div>
+        <div>
+          <div class="boot-file">SITE-IDENTITY.md</div>
+          <div class="boot-desc">How the site is built. Environment, theme stack, plugins, capabilities, what the AI can access. The technical map of the site.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">04</div>
+        <div>
+          <div class="boot-file">SITE-STATE.md</div>
+          <div class="boot-desc">What happened last session. What's open. What was found but not fixed. The pending decisions. The thread the next session picks up from.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">05</div>
+        <div>
+          <div class="boot-file">SESSION-LOG.md</div>
+          <div class="boot-desc">The most recent session in detail. Every agent run is a coherent unit — what was attempted, what was found, what was resolved, what was deferred. Six months of logs build a rich operational history.</div>
+        </div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-n">06</div>
+        <div>
+          <div class="boot-file">CAPABILITIES.md</div>
+          <div class="boot-desc">What abilities are active on this specific site. Not a product manual — a site-specific manifest. Built from get-started on first boot. Updated when plugins change.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">02 — Agents</span>
+    <h2 class="sh">The AI chooses a role. The role shapes everything.</h2>
+    <p class="sp2">Pre-written modes that define how the AI operates in a given session. The human chooses a role — or the AI suggests one based on context. Each role has defined lanes, permission defaults, and a distinct operating style.</p>
+
+    <div class="agents">
+      <div class="agent">
+        <div class="agent-role">Default · read-only</div>
+        <div class="agent-name">Diagnostician</div>
+        <div class="agent-desc">Runs diagnostic protocols. Health checks, plugin audits, content reviews. Read-only by default. The role during onboarding and every first session on a new site.</div>
+      </div>
+      <div class="agent">
+        <div class="agent-role">Content lane</div>
+        <div class="agent-name">Publisher</div>
+        <div class="agent-desc">Creates, edits, and publishes posts and pages. Operates in the content lane — blocks, meta, media, revisions. Read-write in its lane, read-only elsewhere.</div>
+      </div>
+      <div class="agent">
+        <div class="agent-role">Theme lane</div>
+        <div class="agent-name">Designer</div>
+        <div class="agent-desc">Theme settings, CSS, layout, blocks, patterns, design tokens. Operates in the creative and structure lanes. The visual intelligence of the stack.</div>
+      </div>
+      <div class="agent">
+        <div class="agent-role">System lane</div>
+        <div class="agent-name">Maintainer</div>
+        <div class="agent-desc">Plugins, updates, cron, cache, security. The system lane. Runs scheduled health checks. Identifies what's broken and proposes the fix.</div>
+      </div>
+      <div class="agent agent--kl">
+        <div class="agent-role">Full access · experienced users</div>
+        <div class="agent-name agent-name--g">Operator</div>
+        <div class="agent-desc">All lanes. Full read-write access. Available after the Introduction Course is complete. The mode for users who know exactly what they want to do.</div>
+      </div>
+      <div class="agent">
+        <div class="agent-role">Coming</div>
+        <div class="agent-name" style="color:var(--t3)">Custom agents</div>
+        <div class="agent-desc">Define your own roles with custom permissions, lane restrictions, and behavioral directives stored in the Knowledge Layer. Your site, your AI.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">03 — What lives inside</span>
+    <h2 class="sh">Not logging. Operational memory.</h2>
+    <p class="sp2">The difference: a log records what happened (past tense, compliance). Operational memory records what was learned (present tense, actionable). The Knowledge Layer is the latter.</p>
+
+    <div class="kl-box">
+      <div class="kl-label">Behavioral directive — every connection</div>
+      <div class="kl-directive">
+        mode: inquiry<br>
+        allowed: [ "read" ]<br>
+        restricted: [ "write", "delete" ]<br>
+        lifts: when the user gives a directive
+      </div>
+      <p class="kl-p">The AI reads everything. Writes nothing until you say go. This is not a limitation — it is what makes it trustworthy.</p>
+    </div>
+
+    <div class="kl-docs">
+      <div class="kl-doc kl-doc--active">
+        <div class="kl-doc-type kl-doc-type--g">Document type · boot</div>
+        <div class="kl-doc-name kl-doc-name--g">BOOT.md</div>
+        <div class="kl-doc-desc">The startup sequence. The AI reads this before speaking. No exceptions. Governs session behaviour for every agent, every session, every site.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · identity</div>
+        <div class="kl-doc-name">ESSENCE.md</div>
+        <div class="kl-doc-desc">The site's identity brief — synthesized from the first diagnostic session through conversation, not forms. Who this site is, what it does, who it serves.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · agent</div>
+        <div class="kl-doc-name">Agents</div>
+        <div class="kl-doc-desc">Pre-written AI roles stored in the Knowledge Layer. The human chooses; the AI becomes. Each has defined lanes, permissions, and operating style.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · skill</div>
+        <div class="kl-doc-name">Skills</div>
+        <div class="kl-doc-desc">Stored protocols the AI knows how to run on this site. Security audit. Performance scan. Migration readiness. Accessibility review. Called by name, executed in sequence.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · observation</div>
+        <div class="kl-doc-name">Observations</div>
+        <div class="kl-doc-desc">Structured findings from every diagnostic run. Category, severity, session, status. Open → resolved with notes. A complete bug lifecycle inside WordPress.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · session</div>
+        <div class="kl-doc-name">Session logs</div>
+        <div class="kl-doc-desc">Every session is a coherent unit — what was attempted, found, modified, deferred. The next AI that connects can read six months of operational history.</div>
+      </div>
+      <div class="kl-doc kl-doc--active">
+        <div class="kl-doc-type kl-doc-type--g">Document type · course</div>
+        <div class="kl-doc-name kl-doc-name--g">Courses</div>
+        <div class="kl-doc-desc">Guided journeys through the stack — the Introduction Course walks new sites through first-boot diagnostic. Level 1 scopes to a single lane. Operator unlocks everything.</div>
+      </div>
+      <div class="kl-doc">
+        <div class="kl-doc-type">Document type · revision</div>
+        <div class="kl-doc-name">Revisions</div>
+        <div class="kl-doc-desc">Every document change creates a revision before updating. Full version history on every Knowledge Layer document. Restore any document to any previous state.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="sn">04 — The vision</span>
+    <h2 class="sh">AI-to-AI handoff. Provider-agnostic. Sovereign.</h2>
+    <p class="sp2">Claude runs Monday. GPT runs Wednesday. Gemini runs Friday. The observations are in WordPress — not in any provider's context window. The site remembers what every agent learned, regardless of who wrote the finding.</p>
+
+    <div class="cap-list">
+      <div class="cap-item">
+        <div class="cap-n">Now</div>
+        <div class="cap-body">
+          <div class="cap-title">Structured observations — live</div>
+          <div class="cap-desc">Category (technical, strategic, security, content, design), severity (info, attention, action_needed), session grouping, resolution tracking. A complete observation lifecycle inside WordPress. In the live test: 18 observations logged in 40 minutes. Observation #2 — opened, investigated, fixed, marked resolved — a complete bug lifecycle inside the Knowledge Layer.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Next</div>
+        <div class="cap-body">
+          <div class="cap-title">Cross-site. Dashboard widget. GitHub sync.</div>
+          <div class="cap-desc">Query observations across multiple sites from a single connection. WP-Admin dashboard widget showing open observation count. Webhook on new action_needed findings. GitHub issue sync for open-source products. WP-CLI: <code style="font-family:var(--fm);font-size:12px;color:var(--g)">wp knowledge list-observations --severity=action_needed</code></div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-n">Vision</div>
+        <div class="cap-body">
+          <div class="cap-title">Like wp_options — but for AI operational memory</div>
+          <div class="cap-desc">This is infrastructure. The way wp_options is the foundation for settings, the Knowledge Layer is the foundation for AI operational memory across the entire WordPress ecosystem. Nobody else is building this. Core has no equivalent concept. The site is the shared state.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /c -->
+
+
+<!-- ════════════════════════════════════════════
+     QUOTE MONUMENT
+     ════════════════════════════════════════════ -->
+<div class="quote-monument">
+  <div class="quote-text">
+    They put AI inside the plugin.<br>
+    We put <em>all plugins inside AI.</em><br>
+    <span style="color:var(--t3);font-size:0.6em;font-weight:700;letter-spacing:-0.02em;">The site is the shared state.</span>
+  </div>
+  <div class="quote-attr">Wicked Evolutions · CTO session 5 · 2026</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CTA
+     ════════════════════════════════════════════ -->
+<section class="cta">
+  <h2 class="cta-title">Start building.</h2>
+  <p class="cta-sub">Free to install. Open source. Your server. Your data. No account required to begin.</p>
+  <div class="cta-btns">
+    <a href="https://github.com/Wicked-Evolutions" class="btn btn--g">Get the stack on GitHub →</a>
+    <a href="https://wickedevolutions.com" class="btn btn--ghost">Read the blog</a>
+  </div>
+  <div class="cta-trust">
+    GPL-2.0 <span>·</span> WordPress 6.9+ <span>·</span> Claude · Cursor · Windsurf · any MCP client
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">Wicked <span>Evolutions</span></div>
+  <div class="footer-meta">GPL-2.0 · wickedevolutions.com · 2026</div>
+</footer>
+
+</body>
+</html>

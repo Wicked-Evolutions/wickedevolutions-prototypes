@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Module — Wicked Evolutions Docs</title>
+  <link rel="stylesheet" href="css/docs.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Documentation</span>
+  <nav class="topbar-nav"><a href="#">Blog</a><a href="#">GitHub</a><a href="#">Community</a><span class="topbar-version">v1.5.0</span><button class="theme-toggle" id="theme-toggle" title="Toggle light/dark"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button></nav>
+</header>
+
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Products</span>
+      <a href="#" class="nav-item level-2">Abilities for AI</a>
+      <a href="#" class="nav-item level-2">Abilities for Fluent Plugins</a>
+      <a href="#" class="nav-item level-2">Abilities MCP Adapter</a>
+      <a href="#" class="nav-item level-2">Abilities MCP Bridge</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Core Concepts</span>
+      <a href="#" class="nav-item level-2">How Abilities Work</a>
+      <a href="#" class="nav-item level-2">Permissions &amp; Access</a>
+      <a href="#" class="nav-item level-2">Free vs Pro</a>
+      <a href="#" class="nav-item level-2">Multi-Site Support</a>
+      <a href="#" class="nav-item level-2">Error Handling</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="agent-diagnostician.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item active"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+      <span class="nav-section-label" style="margin-top:.75rem">Core Modules</span>
+      <a href="module-content.html" class="nav-item level-2 active">Content</a>
+      <a href="#" class="nav-item level-2">Blocks</a>
+      <a href="#" class="nav-item level-2">Comments</a>
+      <a href="#" class="nav-item level-2">Filesystem</a>
+      <a href="#" class="nav-item level-2">Media</a>
+      <a href="#" class="nav-item level-2">Menus</a>
+      <a href="#" class="nav-item level-2">Meta</a>
+      <a href="#" class="nav-item level-2">Plugins</a>
+      <a href="#" class="nav-item level-2">Taxonomies</a>
+      <a href="#" class="nav-item level-2">Themes</a>
+      <a href="#" class="nav-item level-2">Users</a>
+      <a href="#" class="nav-item level-2">Knowledge Layer</a>
+      <span class="nav-section-label" style="margin-top:.75rem">Fluent Modules</span>
+      <a href="#" class="nav-item level-2">Fluent CRM</a>
+      <a href="#" class="nav-item level-2">Fluent Community</a>
+      <a href="#" class="nav-item level-2">Fluent Cart</a>
+      <a href="#" class="nav-item level-2">Fluent Support</a>
+      <a href="#" class="nav-item level-2">Fluent Booking</a>
+      <a href="#" class="nav-item level-2">Fluent Boards</a>
+      <a href="#" class="nav-item level-2" style="color:var(--text-muted)">+7 more…</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="content-with-toc">
+      <article class="article">
+        <div class="breadcrumb"><a href="index.html">Docs</a><span class="sep">›</span><a href="#">Modules</a><span class="sep">›</span><span class="current">Content</span></div>
+        <header class="post-header">
+          <div class="post-meta">
+            <span class="category-badge badge-module">Module</span>
+            <span class="post-date">abilities-for-ai · free tier · updated 2026-03-17</span>
+          </div>
+          <h1>Content Module</h1>
+          <p class="post-tagline">Create, read, update, and delete WordPress posts, pages, and custom post types. The foundation of everything content-related in the Abilities API.</p>
+          <div class="tag-list">
+            <a href="#" class="tag">abilities-for-ai</a>
+            <a href="#" class="tag">free</a>
+            <a href="#" class="tag">content</a>
+            <a href="#" class="tag">read</a>
+            <a href="#" class="tag">write</a>
+            <a href="#" class="tag">delete</a>
+          </div>
+        </header>
+
+        <div class="stats-bar">
+          <div class="stat"><div class="stat-value">17</div><div class="stat-label">Total</div></div>
+          <div class="stat read"><div class="stat-value">10</div><div class="stat-label">Read</div></div>
+          <div class="stat write"><div class="stat-value">5</div><div class="stat-label">Write</div></div>
+          <div class="stat delete"><div class="stat-value">2</div><div class="stat-label">Delete</div></div>
+        </div>
+
+        <h2 id="overview">Overview</h2>
+        <p>The Content module manages WordPress <code>WP_Post</code> objects — posts, pages, and any registered custom post type. It wraps <code>WP_Query</code>, <code>wp_insert_post()</code>, <code>wp_update_post()</code>, and <code>wp_delete_post()</code> behind a consistent, permission-aware interface.</p>
+        <p>All write and delete abilities are pro-gated by default. Read abilities are available on the free tier. The permissions filter <code>wp_abilities_suite_permissions</code> controls access per user role.</p>
+        <div class="callout"><strong>Block markup note</strong><code>content/get</code> returns raw Gutenberg block markup. If you pass this directly to <code>content/update</code>, the block structure is preserved. Use the Blocks module (<code>blocks/parse</code>, <code>blocks/insert</code>) to surgically modify content without touching the full post.</div>
+
+        <h2 id="abilities">Ability Reference</h2>
+        <div class="ability-table-wrap">
+          <table class="ability-table">
+            <thead><tr><th>Ability</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="ability-name">content/list</span></td><td><span class="type-badge type-r">R</span></td><td>List posts with filtering by post_type, status, author, taxonomy terms. Supports pagination.</td></tr>
+              <tr><td><span class="ability-name">content/get</span></td><td><span class="type-badge type-r">R</span></td><td>Get a single post by ID. Returns full block markup in post_content.</td></tr>
+              <tr><td><span class="ability-name">content/get-text</span></td><td><span class="type-badge type-r">R</span></td><td>Get a post's readable text content with block markup and HTML stripped.</td></tr>
+              <tr><td><span class="ability-name">content/get-by-slug</span></td><td><span class="type-badge type-r">R</span></td><td>Retrieve a post by post_name (slug) and post_type.</td></tr>
+              <tr><td><span class="ability-name">content/find-by-url</span></td><td><span class="type-badge type-r">R</span></td><td>Find a post by its full permalink URL. Useful when you have a URL but not an ID.</td></tr>
+              <tr><td><span class="ability-name">content/get-snapshot</span></td><td><span class="type-badge type-r">R</span></td><td>Complete post data in one call: fields, all meta, taxonomy terms, and author info.</td></tr>
+              <tr><td><span class="ability-name">content/get-site-map</span></td><td><span class="type-badge type-r">R</span></td><td>Full hierarchical page tree — ID, title, slug, parent, and children.</td></tr>
+              <tr><td><span class="ability-name">content/list-structure</span></td><td><span class="type-badge type-r">R</span></td><td>List post metadata without loading the content field. Fast for structural surveys.</td></tr>
+              <tr><td><span class="ability-name">content/discover-types</span></td><td><span class="type-badge type-r">R</span></td><td>List all registered post types with their capabilities and REST support status.</td></tr>
+              <tr><td><span class="ability-name">content/search</span></td><td><span class="type-badge type-r">R</span></td><td>Full-text search across post titles and content with relevance ordering.</td></tr>
+              <tr><td><span class="ability-name">content/create</span></td><td><span class="type-badge type-w">W</span></td><td>Create a new post. Accepts post_type, title, content (block markup), status, date, meta.</td></tr>
+              <tr><td><span class="ability-name">content/update</span></td><td><span class="type-badge type-w">W</span></td><td>Update an existing post. Accepts any post fields. Preserves block structure if content is omitted.</td></tr>
+              <tr><td><span class="ability-name">content/append</span></td><td><span class="type-badge type-w">W</span></td><td>Append block markup to the end of an existing post without reading first.</td></tr>
+              <tr><td><span class="ability-name">content/search-replace</span></td><td><span class="type-badge type-w">W</span></td><td>Bulk find-and-replace in post_content. Supports dry_run, post_type filter, post_ids filter.</td></tr>
+              <tr><td><span class="ability-name">content/change-type</span></td><td><span class="type-badge type-w">W</span></td><td>Convert a post between post types. Returns old/new permalink; warns about orphaned taxonomy terms.</td></tr>
+              <tr><td><span class="ability-name">content/delete</span></td><td><span class="type-badge type-d">D</span></td><td>Move a post to trash (default) or permanently delete with <code>force: true</code>.</td></tr>
+              <tr><td><span class="ability-name">content/batch-update</span></td><td><span class="type-badge type-w">W</span></td><td>Update multiple posts in a single call. Accepts an array of post objects with IDs.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="workflows">Common Workflows</h2>
+        <h3>Publish a blog post</h3>
+        <pre><code>1. content/create        → post_status: "draft", post_type: "post"
+2. taxonomies/assign     → attach category + tag term IDs
+3. media/upload          → upload featured image, get attachment ID
+4. meta/update-post-meta → set _thumbnail_id to attachment ID
+5. content/update        → post_status: "publish"</code></pre>
+
+        <h3>Survey site content structure</h3>
+        <pre><code>1. content/discover-types     → see all post types
+2. content/get-site-map       → hierarchical page tree
+3. content/list-structure     → posts list without content (fast)
+4. taxonomies/list-terms      → categories and tags in use</code></pre>
+
+        <h3>Surgical content edit</h3>
+        <pre><code>1. blocks/parse              → get block array from post_content
+2. blocks/find-in-post       → locate target block by type/attribute
+3. blocks/update-attributes  → change only what needs changing
+4. content/update            → write modified block markup back</code></pre>
+
+        <h2 id="related">Related Modules</h2>
+        <div class="related-grid">
+          <a href="#" class="related-card"><div class="related-card-title">Blocks Module</div><div class="related-card-meta">13 abilities — surgical block editing</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Taxonomies Module</div><div class="related-card-meta">9 abilities — categories and tags</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Meta Module</div><div class="related-card-meta">13 abilities — post meta fields</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Revisions Module</div><div class="related-card-meta">5 abilities — version history</div></a>
+        </div>
+
+        <h2 id="gotchas">Known Gotchas</h2>
+        <div class="callout warn"><strong>Block markup preservation</strong>If you pass a plain string (not block markup) to <code>content/update</code> as <code>post_content</code>, WordPress will save it as a Classic block. Always use <code>blocks/serialize</code> if you're constructing content programmatically.</div>
+        <div class="callout warn"><strong>post_author not yet supported</strong><code>content/create</code> and <code>content/update</code> do not accept a <code>post_author</code> parameter. Posts default to the bridge user. Known gap — GitHub issue filed, queued for next sprint.</div>
+        <div class="callout warn"><strong>search-replace on large sites</strong>Always use <code>dry_run: true</code> first. On sites with thousands of posts, consider using <code>post_ids</code> to batch the operation.</div>
+
+        <nav class="post-nav">
+          <a href="#" class="post-nav-item"><span class="pn-label">← Previous</span><span class="pn-title">Blocks Module</span></a>
+          <a href="#" class="post-nav-item next"><span class="pn-label">Next →</span><span class="pn-title">Comments Module</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc-rail">
+        <span class="toc-label">On this page</span>
+        <ul class="toc-list">
+          <li class="toc-item"><a href="#overview">Overview</a></li>
+          <li class="toc-item"><a href="#abilities">Ability Reference</a></li>
+          <li class="toc-item"><a href="#workflows">Common Workflows</a></li>
+          <li class="toc-item level-3"><a href="#workflows">Publish a blog post</a></li>
+          <li class="toc-item level-3"><a href="#workflows">Survey site structure</a></li>
+          <li class="toc-item level-3"><a href="#workflows">Surgical content edit</a></li>
+          <li class="toc-item"><a href="#related">Related Modules</a></li>
+          <li class="toc-item"><a href="#gotchas">Known Gotchas</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="js/docs.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html">Landing</a>
+    <a href="module-content.html" class="we-active">Module</a>
+    <a href="skill-initial-read.html">SKILL</a>
+    <a href="agent-diagnostician.html">Agent</a>
+    <a href="category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+/* ══════════════════════════════════════════════════════════
+   Pitch Landing Page — Supplemental Styles
+   Extends style.css with pitch/presentation-specific design
+   ══════════════════════════════════════════════════════════ */
+
+/* ── SLIDE NUMBERS ── */
+.slide-number {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  opacity: 0.4;
+  margin-bottom: 1.5rem;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.section-alt .slide-number,
+.hero .slide-number {
+  display: block;
+  text-align: center;
+}
+
+/* ── PITCH SLIDES ── */
+.pitch-slide {
+  position: relative;
+}
+
+/* ── PITCH HERO ── */
+.pitch-tagline {
+  display: inline-block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── AGENDA ── */
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.agenda-item {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.agenda-item:hover {
+  border-color: var(--accent-border);
+}
+
+.agenda-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+}
+
+.agenda-item h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.agenda-item p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* ── OPPORTUNITY STATS ── */
+.opportunity-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 3rem;
+  padding: 2.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.opp-stat {
+  text-align: center;
+}
+
+.opp-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(56,189,248,0.25);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.opp-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 180px;
+}
+
+.opp-divider {
+  width: 1px;
+  height: 60px;
+  background: var(--border);
+}
+
+/* ── BENEFITS ── */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.benefit-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.benefit-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-3px);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.benefit-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.benefit-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.benefit-proof {
+  display: inline-block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  margin-top: 0.5rem;
+}
+
+/* ── PROOF POINTS ── */
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.proof-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.proof-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+}
+
+.proof-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 100px;
+  background: var(--accent-alt-dim);
+  color: var(--accent-alt);
+  border: 1px solid var(--accent-alt-border);
+  margin-bottom: 1rem;
+}
+
+.proof-badge-alt {
+  background: var(--amber-dim);
+  color: var(--amber);
+  border-color: var(--amber-border);
+}
+
+.proof-badge-agency {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+
+.proof-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.proof-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.proof-stats {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.proof-stat {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.proof-stat span {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+/* ── COMPETITIVE MATRIX ── */
+.competitive-matrix {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2.5rem;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.matrix-row:last-child {
+  margin-bottom: 0;
+}
+
+.matrix-cell {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.matrix-cell-us {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+}
+
+.matrix-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.matrix-cell-us .matrix-header {
+  color: var(--accent);
+}
+
+.matrix-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.matrix-dot {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+.dot-them {
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.dot-us {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.matrix-top-left,
+.matrix-top-right {
+  display: none; /* Labels handled by matrix-header */
+}
+
+/* ── BUSINESS MODEL ── */
+.biz-model {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.biz-stream {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.biz-stream-header {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.biz-stream-header h3 {
+  margin-bottom: 0.25rem;
+}
+
+.biz-stream-header p {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+
+.biz-free {
+  background: var(--green-dim);
+  border-bottom: 2px solid var(--green-border);
+}
+
+.biz-free h3 { color: var(--green); }
+.biz-free p { color: var(--green); opacity: 0.7; }
+
+.biz-pro {
+  background: var(--accent-alt-dim);
+  border-bottom: 2px solid var(--accent-alt-border);
+}
+
+.biz-pro h3 { color: var(--accent-alt); }
+.biz-pro p { color: var(--accent-alt); opacity: 0.7; }
+
+.biz-community {
+  background: var(--accent-dim);
+  border-bottom: 2px solid var(--accent-border);
+}
+
+.biz-community h3 { color: var(--accent); }
+.biz-community p { color: var(--accent); opacity: 0.7; }
+
+.biz-stream-body {
+  padding: 1.5rem;
+}
+
+.biz-stream-body p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--border);
+}
+
+.biz-stream-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── TRACTION ── */
+.traction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.traction-item {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.traction-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(56,189,248,0.2);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.traction-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ── ROADMAP ── */
+.roadmap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.roadmap-phase {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.roadmap-header {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.roadmap-header h3 {
+  margin-bottom: 0;
+}
+
+.roadmap-phase-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.roadmap-now {
+  background: var(--green-dim);
+  border-bottom: 2px solid var(--green-border);
+}
+.roadmap-now .roadmap-phase-label { color: var(--green); }
+.roadmap-now h3 { color: var(--green); }
+
+.roadmap-next {
+  background: var(--accent-dim);
+  border-bottom: 2px solid var(--accent-border);
+}
+.roadmap-next .roadmap-phase-label { color: var(--accent); }
+.roadmap-next h3 { color: var(--accent); }
+
+.roadmap-future {
+  background: var(--accent-alt-dim);
+  border-bottom: 2px solid var(--accent-alt-border);
+}
+.roadmap-future .roadmap-phase-label { color: var(--accent-alt); }
+.roadmap-future h3 { color: var(--accent-alt); }
+
+.roadmap-body {
+  padding: 1.5rem;
+}
+
+.roadmap-body p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+.roadmap-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── PITCH CLOSING ── */
+.pitch-closing {
+  text-align: center;
+  position: relative;
+  padding: 6rem 2rem;
+}
+
+.closing-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── RESPONSIVE PITCH ── */
+@media (max-width: 900px) {
+  .agenda-grid { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .proof-grid { grid-template-columns: 1fr; }
+  .biz-model { grid-template-columns: 1fr; }
+  .traction-grid { grid-template-columns: repeat(2, 1fr); }
+  .roadmap { grid-template-columns: 1fr; }
+  .matrix-row { grid-template-columns: 1fr; }
+  .opportunity-stats { flex-direction: column; gap: 1.5rem; }
+  .opp-divider { width: 60px; height: 1px; }
+}
+
+@media (max-width: 600px) {
+  .traction-grid { grid-template-columns: 1fr; }
+  .proof-stats { flex-direction: column; gap: 0.5rem; }
+  .closing-links { flex-direction: column; align-items: center; }
+  .agenda-num { font-size: 2rem; }
+  .opp-num { font-size: 2rem; }
+  .traction-num { font-size: 2rem; }
+}

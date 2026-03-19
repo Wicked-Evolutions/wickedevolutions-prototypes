@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Initial Read Protocol — Knowledge Layer Admin</title>
+  <link rel="stylesheet" href="css/kl-admin.css" />
+  <link rel="stylesheet" href="css/kl-light.css" />
+</head>
+<body>
+
+<div class="kl-shell">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <nav class="kl-sidebar">
+    <div class="kl-sidebar-brand">
+      <h2>Abilities for AI</h2>
+      <h1><span class="dot"></span>Knowledge Layer</h1>
+    </div>
+    <div class="kl-nav">
+      <a href="dashboard.html" class="kl-nav-item"><span class="kl-nav-icon">◫</span> Dashboard</a>
+      <a href="documents.html" class="kl-nav-item active"><span class="kl-nav-icon">◧</span> Documents</a>
+      <a href="sessions.html" class="kl-nav-item"><span class="kl-nav-icon">▤</span> Sessions</a>
+      <a href="observations.html" class="kl-nav-item"><span class="kl-nav-icon">◉</span> Observations</a>
+      <a href="tags.html" class="kl-nav-item"><span class="kl-nav-icon">⬡</span> Tags</a>
+    </div>
+    <div class="kl-sidebar-footer">v0.1.0 · abilities-for-ai</div>
+  </nav>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <div class="kl-main">
+
+    <!-- Detail Header -->
+    <div class="kl-detail-header">
+      <a href="documents.html" class="kl-back">← Documents</a>
+      <div class="kl-detail-title-row">
+        <span class="kl-badge badge-skill">skill</span>
+        <h1 class="kl-detail-title">Initial Read Protocol</h1>
+        <select class="kl-filter" style="margin-left:auto; width:120px;">
+          <option selected>Active</option>
+          <option>Draft</option>
+          <option>Archived</option>
+        </select>
+      </div>
+      <div class="kl-detail-meta">
+        <span>v0.3.0</span>
+        <span>Created Mar 1, 2026</span>
+        <span>Updated Mar 17, 2026</span>
+        <span>Source: plugin</span>
+        <span>🔒 Locked</span>
+      </div>
+      <div class="kl-tags-row">
+        <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+        <span class="kl-tag"><span class="tag-dot" style="background:#42A5F5"></span>onboarding</span>
+        <span class="kl-tag"><span class="tag-dot" style="background:#FFB74D"></span>diagnostic</span>
+        <span class="kl-tag-add" title="Add tag">+</span>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px;">
+        <button class="kl-btn kl-btn-secondary kl-btn-sm" onclick="document.querySelector('.kl-publish-sidebar').style.display='flex'">📤 Publish to Blog</button>
+        <button class="kl-btn kl-btn-secondary kl-btn-sm">📋 Export</button>
+      </div>
+    </div>
+
+    <!-- Lock Banner -->
+    <div style="padding: 0 28px; padding-top: 20px;">
+      <div class="kl-lock-banner">
+        <span class="lock-icon">🔒</span>
+        <div>
+          <strong style="display:block; font-size:.875rem; margin-bottom:2px;">This document is plugin-managed.</strong>
+          Fork to create an editable copy. The original stays pristine for plugin updates.
+        </div>
+        <button class="kl-btn kl-btn-sm kl-btn-primary" style="margin-left:auto;">Fork</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="kl-tabs">
+      <button class="kl-tab active" data-tab="tab-content">Content</button>
+      <button class="kl-tab" data-tab="tab-metadata">Metadata</button>
+      <button class="kl-tab" data-tab="tab-revisions">Revisions</button>
+      <button class="kl-tab" data-tab="tab-sessions">Sessions</button>
+      <button class="kl-tab" data-tab="tab-observations">Observations</button>
+    </div>
+
+    <!-- Tab: Content -->
+    <div class="kl-tab-panel active" id="tab-content">
+      <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+        <button class="kl-btn kl-btn-sm kl-btn-ghost">Preview</button>
+        <button class="kl-btn kl-btn-sm kl-btn-ghost" style="opacity:.5;">Edit Source</button>
+      </div>
+      <div class="kl-content-preview">
+        <h1>Initial Read Protocol</h1>
+        <p>A structured first-contact procedure for AI agents connecting to a new WordPress site through the Abilities API. This protocol builds foundational understanding before any modifications are attempted.</p>
+
+        <h2>Purpose</h2>
+        <p>When an AI agent connects to a WordPress site for the first time, it needs to build a mental model of what exists — the content architecture, plugin ecosystem, theme structure, and operational state. This protocol provides a repeatable, pacing-aware sequence for that discovery.</p>
+
+        <h2>Prerequisites</h2>
+        <ul>
+          <li>Abilities for AI plugin installed and activated</li>
+          <li>MCP connection established via <code>abilities-mcp-adapter</code></li>
+          <li>Boot sequence completed (<code>knowledge/boot</code>)</li>
+        </ul>
+
+        <h2>Steps</h2>
+        <h3>Step 1: Site Health Check</h3>
+        <p>Call <code>site-health/pulse</code> to get WordPress version, PHP version, active theme, and overall health status. This establishes the technical baseline.</p>
+
+        <h3>Step 2: Content Map</h3>
+        <p>Call <code>content/get-site-map</code> to retrieve the full page hierarchy. Follow with <code>content/discover-types</code> for all registered post types and <code>taxonomies/discover</code> for taxonomy structure.</p>
+
+        <h3>Step 3: Plugin Audit</h3>
+        <p>Call <code>plugins/list</code> to inventory all installed plugins. Note active vs inactive. Cross-reference with known Fluent plugins to determine which ability suites are available.</p>
+
+        <h3>Step 4: Synthesise and Report</h3>
+        <p>Present findings to the human. Do not take any write actions. Wait for direction.</p>
+      </div>
+    </div>
+
+    <!-- Tab: Metadata -->
+    <div class="kl-tab-panel" id="tab-metadata">
+      <div class="kl-meta-grid">
+        <div class="kl-meta-key">doc_type</div>
+        <div class="kl-meta-val">skill</div>
+        <div class="kl-meta-key">slug</div>
+        <div class="kl-meta-val">initial-read</div>
+        <div class="kl-meta-key">lane</div>
+        <div class="kl-meta-val">system</div>
+        <div class="kl-meta-key">course</div>
+        <div class="kl-meta-val">introduction</div>
+        <div class="kl-meta-key">pacing</div>
+        <div class="kl-meta-val">true</div>
+        <div class="kl-meta-key">tested</div>
+        <div class="kl-meta-val">true</div>
+        <div class="kl-meta-key">tested_against</div>
+        <div class="kl-meta-val">helenawillow.com</div>
+        <div class="kl-meta-key">steps</div>
+        <div class="kl-meta-val">["health_check", "content_map", "plugin_audit", "synthesise"]</div>
+        <div class="kl-meta-key">locked</div>
+        <div class="kl-meta-val">true</div>
+        <div class="kl-meta-key">source</div>
+        <div class="kl-meta-val">plugin</div>
+        <div class="kl-meta-key">parent_id</div>
+        <div class="kl-meta-val">null</div>
+        <div class="kl-meta-key">author_id</div>
+        <div class="kl-meta-val">0 (system)</div>
+      </div>
+    </div>
+
+    <!-- Tab: Revisions -->
+    <div class="kl-tab-panel" id="tab-revisions">
+      <div class="kl-revision-item">
+        <span class="kl-revision-ver">v0.3.0</span>
+        <div class="kl-revision-info">
+          <div class="kl-revision-summary">Added plugin audit step and Fluent cross-reference</div>
+          <div class="kl-revision-meta">Mar 17, 2026 · AI (Claude Opus 4.6)</div>
+        </div>
+        <button class="kl-btn kl-btn-sm kl-btn-ghost">Current</button>
+      </div>
+      <div class="kl-revision-item">
+        <span class="kl-revision-ver">v0.2.0</span>
+        <div class="kl-revision-info">
+          <div class="kl-revision-summary">Expanded content structure step with taxonomy discovery</div>
+          <div class="kl-revision-meta">Mar 5, 2026 · AI (Claude Opus 4.6)</div>
+        </div>
+        <button class="kl-btn kl-btn-sm kl-btn-secondary">Restore</button>
+      </div>
+      <div class="kl-revision-item">
+        <span class="kl-revision-ver">v0.1.0</span>
+        <div class="kl-revision-info">
+          <div class="kl-revision-summary">Initial seed — plugin activation</div>
+          <div class="kl-revision-meta">Mar 1, 2026 · System</div>
+        </div>
+        <button class="kl-btn kl-btn-sm kl-btn-secondary">Restore</button>
+      </div>
+    </div>
+
+    <!-- Tab: Sessions -->
+    <div class="kl-tab-panel" id="tab-sessions">
+      <div class="kl-feed">
+        <div class="kl-feed-item">
+          <div class="kl-feed-body">
+            <div class="kl-feed-title">Session #a3f8c1 — Diagnostician</div>
+            <div class="kl-feed-sub">Mar 17, 2026 · 24 min · Claude Opus 4.6</div>
+            <div style="margin-top:6px; font-size:.8125rem; color:var(--text-secondary);">
+              Updated Initial Read Protocol to v0.3.0 — added plugin audit step.
+            </div>
+          </div>
+          <div class="kl-feed-right">
+            <span class="kl-badge badge-agent-type">diagnostician</span>
+          </div>
+        </div>
+        <div class="kl-feed-item">
+          <div class="kl-feed-body">
+            <div class="kl-feed-title">Session #7b2e09 — Diagnostician</div>
+            <div class="kl-feed-sub">Mar 5, 2026 · 18 min · Claude Opus 4.6</div>
+            <div style="margin-top:6px; font-size:.8125rem; color:var(--text-secondary);">
+              Ran content structure protocol. Updated Initial Read to v0.2.0.
+            </div>
+          </div>
+          <div class="kl-feed-right">
+            <span class="kl-badge badge-agent-type">diagnostician</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Observations -->
+    <div class="kl-tab-panel" id="tab-observations">
+      <div class="kl-feed">
+        <div class="kl-feed-item">
+          <div class="kl-feed-body">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="kl-badge badge-attention">attention</span>
+              <span class="kl-badge badge-open">open</span>
+            </div>
+            <div class="kl-feed-title">Protocol does not check for caching layer</div>
+            <div class="kl-feed-sub">Session #a3f8c1 · Mar 17, 2026</div>
+            <div style="margin-top:6px; font-size:.8125rem; color:var(--text-secondary);">
+              The health check step should include a cache detection call. Sites with object caching have different performance characteristics that affect subsequent operations.
+            </div>
+          </div>
+          <div class="kl-feed-right">
+            <button class="kl-btn kl-btn-sm kl-btn-success">Resolve</button>
+          </div>
+        </div>
+        <div class="kl-feed-item">
+          <div class="kl-feed-body">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="kl-badge badge-info">info</span>
+              <span class="kl-badge badge-resolved">resolved</span>
+            </div>
+            <div class="kl-feed-title">Missing taxonomy discovery in step 2</div>
+            <div class="kl-feed-sub">Session #7b2e09 · Mar 5, 2026 · Resolved Mar 17</div>
+            <div style="margin-top:6px; font-size:.8125rem; color:var(--text-secondary);">
+              Fixed in v0.2.0 — added taxonomies/discover call to content map step.
+            </div>
+          </div>
+          <div class="kl-feed-right">
+            <span style="font-family:var(--font-mono); font-size:.75rem; color:var(--status-active);">✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/kl-admin.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+.light .we-bottom-nav{background:rgba(234,230,223,0.97);border-top-color:rgba(50,44,36,0.12);}
+.light .we-nav-label{color:rgba(50,44,36,0.30);}
+.light .we-nav-sep{background:rgba(50,44,36,0.12);}
+.light .we-bottom-nav a{color:rgba(50,44,36,0.55);}
+.light .we-bottom-nav a:hover{color:rgba(50,44,36,1);}
+.light .we-bottom-nav a.we-active{color:#7A5C10;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">KL Admin</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="documents.html">Documents</a>
+    <a href="document-detail.html" class="we-active">Detail</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="observations.html">Observations</a>
+    <a href="tags.html">Tags</a>
+    <a href="publish-sidebar.html">Pub:Side</a>
+    <a href="publish-modal.html">Pub:Modal</a>
+    <a href="publish-fullpage.html">Pub:Full</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('kl-admin-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('kl-admin-theme');if(saved)setMode(saved);})();
+</script>
+
+</body>
+</html>

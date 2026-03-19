@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tags — Knowledge Layer Admin</title>
+  <link rel="stylesheet" href="css/kl-admin.css" />
+  <link rel="stylesheet" href="css/kl-light.css" />
+</head>
+<body>
+
+<div class="kl-shell">
+  <nav class="kl-sidebar">
+    <div class="kl-sidebar-brand"><h2>Abilities for AI</h2><h1><span class="dot"></span>Knowledge Layer</h1></div>
+    <div class="kl-nav">
+      <a href="dashboard.html" class="kl-nav-item"><span class="kl-nav-icon">◫</span> Dashboard</a>
+      <a href="documents.html" class="kl-nav-item"><span class="kl-nav-icon">◧</span> Documents</a>
+      <a href="sessions.html" class="kl-nav-item"><span class="kl-nav-icon">▤</span> Sessions</a>
+      <a href="observations.html" class="kl-nav-item"><span class="kl-nav-icon">◉</span> Observations</a>
+      <a href="tags.html" class="kl-nav-item active"><span class="kl-nav-icon">⬡</span> Tags</a>
+    </div>
+    <div class="kl-sidebar-footer">v0.1.0 · abilities-for-ai</div>
+  </nav>
+
+  <div class="kl-main">
+    <div class="kl-page-header">
+      <h1 class="kl-page-title">Tags</h1>
+      <span class="spacer"></span>
+    </div>
+
+    <!-- Create Form -->
+    <div class="kl-create-row">
+      <input type="color" class="kl-color-input" value="#66BB6A" title="Tag color" />
+      <input type="text" class="kl-input" placeholder="Tag title…" style="width:200px;" />
+      <input type="text" class="kl-input" placeholder="Description (optional)…" style="flex:1;" />
+      <button class="kl-btn kl-btn-primary">+ Create Tag</button>
+    </div>
+
+    <div class="kl-table-wrap">
+      <table class="kl-table">
+        <thead>
+          <tr>
+            <th style="width:40px;">Color</th>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Description</th>
+            <th>Usage</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#66BB6A;"></span></td>
+            <td class="kl-cell-title">system</td>
+            <td class="kl-cell-mono kl-cell-muted">system</td>
+            <td class="kl-cell-muted">Core system-level documents and protocols</td>
+            <td class="kl-cell-mono">12</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#42A5F5;"></span></td>
+            <td class="kl-cell-title">onboarding</td>
+            <td class="kl-cell-mono kl-cell-muted">onboarding</td>
+            <td class="kl-cell-muted">Documents used during first-contact and setup</td>
+            <td class="kl-cell-mono">5</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#FFB74D;"></span></td>
+            <td class="kl-cell-title">diagnostic</td>
+            <td class="kl-cell-mono kl-cell-muted">diagnostic</td>
+            <td class="kl-cell-muted">Protocols and results from diagnostic runs</td>
+            <td class="kl-cell-mono">6</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#7E57C2;"></span></td>
+            <td class="kl-cell-title">content</td>
+            <td class="kl-cell-mono kl-cell-muted">content</td>
+            <td class="kl-cell-muted">Content lane — documents about site content and publishing</td>
+            <td class="kl-cell-mono">4</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#AB47BC;"></span></td>
+            <td class="kl-cell-title">structure</td>
+            <td class="kl-cell-mono kl-cell-muted">structure</td>
+            <td class="kl-cell-muted">Structure lane — site architecture, taxonomies, navigation</td>
+            <td class="kl-cell-mono">3</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#5C6BC0;"></span></td>
+            <td class="kl-cell-title">creative</td>
+            <td class="kl-cell-mono kl-cell-muted">creative</td>
+            <td class="kl-cell-muted">Creative lane — design, branding, visual identity</td>
+            <td class="kl-cell-mono">2</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#EC407A;"></span></td>
+            <td class="kl-cell-title">essence</td>
+            <td class="kl-cell-mono kl-cell-muted">essence</td>
+            <td class="kl-cell-muted">Site identity and ESSENCE synthesis documents</td>
+            <td class="kl-cell-mono">3</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#29B6F6;"></span></td>
+            <td class="kl-cell-title">continuity</td>
+            <td class="kl-cell-mono kl-cell-muted">continuity</td>
+            <td class="kl-cell-muted">Session continuity — end session, boot, memory</td>
+            <td class="kl-cell-mono">2</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 3</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#EF5350;"></span></td>
+            <td class="kl-cell-title">security</td>
+            <td class="kl-cell-mono kl-cell-muted">security</td>
+            <td class="kl-cell-muted">Security-related protocols and observations</td>
+            <td class="kl-cell-mono">0</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 3</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="kl-color-dot" style="background:#8D6E63;"></span></td>
+            <td class="kl-cell-title">ecosystem</td>
+            <td class="kl-cell-mono kl-cell-muted">ecosystem</td>
+            <td class="kl-cell-muted">Ecosystem lane — plugins, integrations, external services</td>
+            <td class="kl-cell-mono">0</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 3</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="kl-btn kl-btn-sm kl-btn-ghost">Edit</button>
+                <button class="kl-btn kl-btn-sm kl-btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kl-pagination">
+      <span class="kl-pagination-info">10 tags</span>
+      <div class="kl-pagination-pages"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/kl-admin.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+.light .we-bottom-nav{background:rgba(234,230,223,0.97);border-top-color:rgba(50,44,36,0.12);}
+.light .we-nav-label{color:rgba(50,44,36,0.30);}
+.light .we-nav-sep{background:rgba(50,44,36,0.12);}
+.light .we-bottom-nav a{color:rgba(50,44,36,0.55);}
+.light .we-bottom-nav a:hover{color:rgba(50,44,36,1);}
+.light .we-bottom-nav a.we-active{color:#7A5C10;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">KL Admin</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="documents.html">Documents</a>
+    <a href="document-detail.html">Detail</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="observations.html">Observations</a>
+    <a href="tags.html" class="we-active">Tags</a>
+    <a href="publish-sidebar.html">Pub:Side</a>
+    <a href="publish-modal.html">Pub:Modal</a>
+    <a href="publish-fullpage.html">Pub:Full</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('kl-admin-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('kl-admin-theme');if(saved)setMode(saved);})();
+</script>
+
+</body>
+</html>

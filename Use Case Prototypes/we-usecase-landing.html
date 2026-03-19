@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Use Case Is The Proof · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   BRAND TOKENS — from we-brandbook.html
+   ═══════════════════════════════════════════════ */
+:root {
+  --y:  #FFEE58;  --g:  #22c55e;  --p:  #7c3aed;  --pl: #a78bfa;
+  --yd: rgba(255,238,88,0.07);   --yb: rgba(255,238,88,0.17);
+  --gd: rgba(34,197,94,0.07);    --gb: rgba(34,197,94,0.17);
+  --pd: rgba(124,58,237,0.07);   --pb: rgba(124,58,237,0.16);
+  --gl: rgba(255,255,255,0.025); --glb:rgba(255,255,255,0.055); --glh:rgba(255,255,255,0.11);
+  --fd:'Syne',sans-serif; --fb:'Manrope',system-ui,sans-serif; --fm:'JetBrains Mono',monospace;
+  --col:800px; --wide:1140px;
+}
+[data-theme="dark"] {
+  --bg:#111111; --text:#E0DDD5;
+  --t2:rgba(224,221,213,.50); --t3:rgba(224,221,213,.22); --t4:rgba(224,221,213,.09);
+  --card:rgba(255,255,255,.025); --border:rgba(255,255,255,.055); --bordh:rgba(255,255,255,.11);
+}
+[data-theme="light"] {
+  --bg:#F5F4F0; --text:#1a1a18;
+  --t2:rgba(26,26,24,.55); --t3:rgba(26,26,24,.30); --t4:rgba(26,26,24,.10);
+  --card:rgba(255,255,255,.75); --border:rgba(0,0,0,.09); --bordh:rgba(0,0,0,.16);
+  --gl:rgba(0,0,0,.03); --glb:rgba(0,0,0,.09); --glh:rgba(0,0,0,.16);
+  --yd:rgba(255,238,88,.10); --yb:rgba(255,238,88,.22);
+  --gd:rgba(34,197,94,.08);  --gb:rgba(34,197,94,.20);
+  --pd:rgba(124,58,237,.06); --pb:rgba(124,58,237,.18);
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:300;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s;}
+::selection{background:var(--p);color:#fff;}
+.c  {max-width:var(--col);margin:0 auto;padding:0 56px;}
+.cw {max-width:var(--wide);margin:0 auto;padding:0 56px;}
+
+/* ═══════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════ */
+.nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px solid var(--glb);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;backdrop-filter:blur(12px);transition:background .3s;}
+.nav-brand{font-family:var(--fd);font-size:.85rem;font-weight:800;letter-spacing:-.02em;color:var(--text);text-decoration:none;}
+.nav-brand span{color:var(--pl);}
+.nav-right{display:flex;align-items:center;gap:24px;}
+.nav-link{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--text);}
+.theme-btn{display:flex;align-items:center;gap:7px;cursor:pointer;background:var(--card);border:1px solid var(--glb);border-radius:100px;padding:5px 14px 5px 10px;font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;transition:all .2s;user-select:none;}
+.theme-btn:hover{border-color:var(--bordh);color:var(--text);}
+.tdot{width:7px;height:7px;border-radius:50%;background:var(--y);flex-shrink:0;}
+[data-theme="light"] .tdot{background:var(--p);}
+
+/* ═══════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════ */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--pb);color:var(--pl);padding:5px 16px;border-radius:100px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
+.eyebrow--y{border-color:var(--yb);color:var(--y);}
+.eyebrow--g{border-color:var(--gb);color:var(--g);}
+.ebdot{width:5px;height:5px;background:var(--pl);border-radius:50%;animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;}
+.ebdot--y{background:var(--y);}
+.ebdot--g{background:var(--g);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--p),transparent);box-shadow:0 0 14px rgba(124,58,237,.2);opacity:.28;max-width:90px;}
+hr.gl--y{background:linear-gradient(90deg,transparent,var(--y),transparent);box-shadow:0 0 14px rgba(255,238,88,.2);}
+hr.gl--g{background:linear-gradient(90deg,transparent,var(--g),transparent);box-shadow:0 0 14px rgba(34,197,94,.2);}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:8px;font-family:var(--fb);font-size:15px;font-weight:500;cursor:pointer;border:none;text-decoration:none;transition:all .2s;letter-spacing:-.01em;}
+.btn--g{background:var(--g);color:#0a0a0a;}
+.btn--g:hover{background:#4ade80;transform:translateY(-1px);}
+.btn--ghost{background:transparent;color:var(--t2);border:1px solid var(--glb);}
+.btn--ghost:hover{border-color:var(--glh);color:var(--text);}
+
+.pill{padding:3px 12px;border-radius:100px;font-family:var(--fm);font-size:10px;font-weight:500;display:inline-flex;}
+.py{background:var(--yd);color:var(--y);border:1px solid var(--yb);}
+.pp{background:var(--pd);color:var(--pl);border:1px solid var(--pb);}
+.pg{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
+.p0{background:transparent;color:var(--t3);border:1px solid var(--glb);}
+
+.anno{font-family:var(--fm);font-size:9px;padding:2px 8px;border-radius:4px;font-weight:500;background:var(--gd);color:var(--g);border:1px solid var(--gb);}
+
+/* ═══════════════════════════════════════════════
+   SECTION SCAFFOLD
+   ═══════════════════════════════════════════════ */
+section{padding:120px 0;border-bottom:1px solid var(--glb);}
+section:last-of-type{border-bottom:none;}
+
+.sh{font-family:var(--fd);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:var(--text);margin-bottom:16px;}
+.sp{font-size:17px;font-weight:300;color:var(--t2);line-height:1.82;max-width:580px;margin-bottom:52px;}
+.guide-label{font-family:var(--fm);font-size:9.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--pl);margin-bottom:12px;}
+.guide-label--y{color:rgba(255,238,88,.6);}
+.guide-label--g{color:rgba(34,197,94,.6);}
+
+/* ═══════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════ */
+.hero{padding:160px 0 120px;border-bottom:1px solid var(--glb);}
+.hero-title{font-family:var(--fd);font-size:clamp(3rem,5.5vw,5rem);font-weight:800;letter-spacing:-.045em;line-height:1.03;margin-bottom:32px;}
+.hero-title em{font-style:normal;display:block;}
+.ht-g{color:var(--g);}
+.ht-p{color:var(--pl);}
+.ht-y{color:var(--y);}
+.hero-sub{font-size:19px;font-weight:300;color:var(--t2);max-width:560px;line-height:1.85;margin-bottom:48px;}
+.hero-eyebrow{margin-bottom:40px;}
+
+/* ═══════════════════════════════════════════════
+   STAT BAND
+   ═══════════════════════════════════════════════ */
+.stat-band{border-top:1px solid var(--glb);border-bottom:1px solid var(--glb);padding:56px 56px;}
+.stat-band--p{border-color:var(--pb);}
+.stats{max-width:var(--wide);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+.stat{padding:0 48px;border-right:1px solid var(--glb);}
+.stat-band--p .stat{border-right-color:var(--pb);}
+.stat:first-child{padding-left:0;}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:var(--fd);font-size:clamp(2.6rem,4vw,3.8rem);font-weight:800;letter-spacing:-.045em;line-height:1;margin-bottom:8px;}
+.stat-l{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);}
+.stat-band--p .stat-l{color:rgba(167,139,250,.55);}
+
+/* ═══════════════════════════════════════════════
+   STEP COUNTER — numbered pipeline stages
+   ═══════════════════════════════════════════════ */
+.step-marker{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+.step-n{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--t3);}
+.step-line{flex:1;height:1px;background:var(--glb);}
+
+/* ═══════════════════════════════════════════════
+   ABILITY CARDS
+   ═══════════════════════════════════════════════ */
+.ability-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
+.ability-card{background:var(--card);border:1px solid var(--glb);border-radius:10px;padding:22px 26px;transition:border-color .2s;}
+.ability-card:hover{border-color:var(--bordh);}
+.ability-card--p{border-color:rgba(167,139,250,.2);background:linear-gradient(135deg,var(--pd),var(--card) 65%);}
+.ability-card--g{border-color:rgba(34,197,94,.18);background:linear-gradient(135deg,var(--gd),var(--card) 65%);}
+.ability-card--y{border-color:rgba(255,238,88,.15);background:linear-gradient(135deg,var(--yd),var(--card) 65%);}
+.ac-meta{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.ac-name{font-family:var(--fm);font-size:13px;font-weight:500;margin-bottom:6px;}
+.ac-ns{color:var(--t3);}
+.ac-fn-p{color:var(--pl);}
+.ac-fn-g{color:var(--g);}
+.ac-fn-y{color:var(--y);}
+.ac-desc{font-size:13px;font-weight:300;color:var(--t2);line-height:1.6;}
+.ac-returns{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+
+/* ═══════════════════════════════════════════════
+   TERMINAL BLOCK
+   ═══════════════════════════════════════════════ */
+.terminal{background:#09090f;border:1px solid rgba(255,255,255,.05);border-radius:14px;overflow:hidden;font-family:var(--fm);font-size:13px;line-height:1.9;}
+.tbar{display:flex;align-items:center;gap:6px;padding:14px 22px;background:rgba(255,255,255,.015);border-bottom:1px solid rgba(255,255,255,.04);}
+.d1,.d2,.d3{width:9px;height:9px;border-radius:50%;opacity:.55;}
+.d1{background:#ef4444;}.d2{background:#f59e0b;}.d3{background:#22c55e;}
+.ttab{margin-left:auto;font-size:10px;color:rgba(255,255,255,.16);letter-spacing:.05em;}
+.tbody{padding:28px 32px 32px;color:rgba(224,221,213,.3);}
+.ln{display:block;}.lb{display:block;height:.9em;}
+.gy{color:var(--y);}.gp{color:var(--pl);}.gg{color:var(--g);}.gw{color:rgba(224,221,213,.78);}
+.gi{color:rgba(224,221,213,.4);}
+.cur{display:inline-block;width:7px;height:1em;background:var(--g);vertical-align:text-bottom;animation:blink .9s steps(1) infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ═══════════════════════════════════════════════
+   DATA OUTPUT CARDS
+   ═══════════════════════════════════════════════ */
+.data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px;}
+.data-card{background:var(--card);border:1px solid var(--glb);border-radius:10px;padding:20px 22px;}
+.data-card--g{border-color:var(--gb);background:linear-gradient(135deg,var(--gd),var(--card) 65%);}
+.dc-type{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px;}
+.dc-type--g{color:rgba(34,197,94,.6);}
+.dc-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;letter-spacing:-.01em;}
+.dc-desc{font-size:13px;font-weight:300;color:var(--t2);line-height:1.65;}
+.dc-stat{font-family:var(--fd);font-size:1.6rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-top:10px;}
+
+/* ═══════════════════════════════════════════════
+   PIPELINE FLOW — visual connector strip
+   ═══════════════════════════════════════════════ */
+.pipeline-strip{display:flex;align-items:stretch;gap:0;margin:52px 0;overflow:hidden;border-radius:10px;border:1px solid var(--glb);}
+.ps-stage{flex:1;padding:20px 18px;background:var(--card);border-right:1px solid var(--glb);position:relative;text-align:center;}
+.ps-stage:last-child{border-right:none;}
+.ps-stage--p{background:linear-gradient(135deg,var(--pd),var(--card));}
+.ps-stage--g{background:linear-gradient(135deg,var(--gd),var(--card));}
+.ps-stage--y{background:linear-gradient(135deg,var(--yd),var(--card));}
+.ps-num{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;}
+.ps-name{font-family:var(--fd);font-size:.8rem;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:4px;}
+.ps-name--p{color:var(--pl);}
+.ps-name--g{color:var(--g);}
+.ps-name--y{color:var(--y);}
+.ps-sub{font-size:11px;font-weight:300;color:var(--t3);line-height:1.5;}
+.ps-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:20px;height:20px;background:var(--bg);border:1px solid var(--glb);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--t3);z-index:1;}
+
+/* ═══════════════════════════════════════════════
+   DASHBOARD PREVIEW FRAME
+   ═══════════════════════════════════════════════ */
+.dashboard-frame{border:1px solid var(--glb);border-radius:14px;overflow:hidden;margin:40px 0;}
+.df-bar{background:rgba(255,255,255,.03);border-bottom:1px solid var(--glb);padding:12px 20px;display:flex;align-items:center;gap:8px;}
+.df-dot{width:8px;height:8px;border-radius:50%;background:var(--glb);}
+.df-url{font-family:var(--fm);font-size:10px;color:var(--t3);flex:1;text-align:center;}
+.df-inner{padding:28px;background:var(--card);}
+
+.mini-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.mm{background:var(--bg);border:1px solid var(--glb);border-radius:6px;padding:10px 12px;}
+.mm-label{font-family:var(--fm);font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:4px;}
+.mm-val{font-family:var(--fd);font-size:1.2rem;font-weight:800;letter-spacing:-.03em;}
+
+.mini-bars{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.mb-row{display:flex;align-items:center;gap:8px;font-size:11px;}
+.mb-lbl{color:var(--t2);width:100px;flex-shrink:0;}
+.mb-track{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.mb-fill{height:100%;border-radius:3px;}
+.mb-n{color:var(--t3);font-family:var(--fm);font-size:10px;width:20px;text-align:right;}
+
+/* ═══════════════════════════════════════════════
+   PROCESS STEPS (numbered list)
+   ═══════════════════════════════════════════════ */
+.process-list{border-top:1px solid var(--glb);margin-top:40px;}
+.process-item{display:grid;grid-template-columns:52px 1fr;gap:28px;align-items:start;padding:24px 0;border-bottom:1px solid var(--glb);}
+.process-item:last-child{border-bottom:none;}
+.pi-n{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);padding-top:3px;}
+.pi-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:6px;letter-spacing:-.01em;}
+.pi-desc{font-size:15px;font-weight:300;color:var(--t2);line-height:1.72;}
+.pi-tag{display:inline-flex;align-items:center;gap:5px;margin-top:8px;}
+
+/* ═══════════════════════════════════════════════
+   BLOCK PATTERN PREVIEW
+   ═══════════════════════════════════════════════ */
+.block-preview{background:var(--card);border:1px solid var(--glb);border-radius:10px;padding:28px;margin:24px 0;}
+.bp-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);margin-bottom:16px;}
+.bp-inner{background:var(--bg);border-radius:8px;overflow:hidden;}
+
+/* ═══════════════════════════════════════════════
+   META LOOP BOX
+   ═══════════════════════════════════════════════ */
+.meta-loop{border:1px solid var(--gb);border-radius:12px;background:linear-gradient(135deg,var(--gd),var(--card) 60%);padding:40px 44px;margin:52px 0;}
+.ml-label{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:rgba(34,197,94,.6);margin-bottom:12px;}
+.ml-title{font-family:var(--fd);font-size:1.15rem;font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:16px;line-height:1.25;}
+.ml-copy{font-size:16px;font-weight:300;color:var(--t2);line-height:1.8;max-width:640px;}
+.ml-copy p+p{margin-top:12px;}
+.ml-steps{display:flex;gap:2px;margin-top:24px;flex-wrap:wrap;}
+.ml-step{padding:8px 14px;background:var(--gd);border:1px solid var(--gb);border-radius:6px;font-family:var(--fm);font-size:10px;color:var(--g);display:flex;align-items:center;gap:6px;}
+.ml-sep{color:var(--t3);font-size:12px;align-self:center;}
+
+/* ═══════════════════════════════════════════════
+   VALUE LIST
+   ═══════════════════════════════════════════════ */
+.value-list{border-top:1px solid var(--glb);margin-top:8px;}
+.value-item{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--glb);}
+.value-item:last-child{border-bottom:none;}
+.vi-name{font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-.02em;color:var(--text);line-height:1.2;}
+.vi-copy{font-size:16px;font-weight:300;color:var(--t2);line-height:1.78;}
+
+/* ═══════════════════════════════════════════════
+   QUOTE MONUMENT
+   ═══════════════════════════════════════════════ */
+.quote-monument{padding:140px 56px;text-align:center;border-top:1px solid var(--glb);border-bottom:1px solid var(--glb);}
+.qt{font-family:var(--fd);font-size:clamp(2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.2;color:var(--text);max-width:700px;margin:0 auto;}
+.qt em{font-style:normal;color:var(--y);}
+.qa{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-top:32px;}
+
+/* ═══════════════════════════════════════════════
+   FINAL CTA
+   ═══════════════════════════════════════════════ */
+.final-cta{padding:120px 0;}
+.cta-label{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:12px;}
+.cta-heading{font-family:var(--fd);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:var(--text);margin-bottom:14px;}
+.cta-text{font-size:17px;font-weight:300;color:var(--t2);line-height:1.78;max-width:520px;margin-bottom:32px;}
+.cta-btns{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════ */
+.footer{max-width:var(--col);margin:0 auto;padding:36px 56px 80px;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--glb);}
+.footer-brand{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em;}
+.footer-brand span{color:var(--pl);}
+.footer-note{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
+
+/* ═══════════════════════════════════════════════
+   ANIMATION
+   ═══════════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media(max-width:700px){
+  .c,.cw{padding:0 24px;}
+  .nav{padding:0 24px;}
+  .hero{padding:80px 0 60px;}
+  section{padding:72px 0;}
+  .ability-grid,.data-grid{grid-template-columns:1fr;}
+  .pipeline-strip{flex-direction:column;}
+  .ps-arrow{display:none;}
+  .value-item{grid-template-columns:1fr;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .stat:nth-child(2){border-right:none;}
+  .stat:nth-child(3){padding-left:0;margin-top:28px;}
+  .quote-monument{padding:80px 24px;}
+  .mini-metrics{grid-template-columns:1fr 1fr;}
+  .ml-steps{flex-direction:column;}
+  .process-item{grid-template-columns:1fr;}
+  .pi-n{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     NAV
+     ══════════════════════════════════════════════ -->
+<nav class="nav">
+  <a href="#" class="nav-brand">Wicked <span>Evolutions</span></a>
+  <div class="nav-right">
+    <a href="#abilities" class="nav-link">Abilities</a>
+    <a href="#pipeline" class="nav-link">Pipeline</a>
+    <a href="#data" class="nav-link">Data</a>
+    <a href="#publish" class="nav-link">Publish</a>
+    <div class="theme-btn" onclick="toggleTheme()"><div class="tdot"></div><span id="tlabel">Dark</span></div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════ -->
+<div class="hero">
+<div class="c">
+  <div class="hero-eyebrow">
+    <div class="eyebrow"><span class="ebdot ebdot--g"></span>Abilities MCP · Use Case · Helena site</div>
+  </div>
+
+  <h1 class="hero-title">
+    We called the API.<br>
+    <em class="ht-g">It gave us the data.</em><br>
+    <em class="ht-y">We built the page.</em><br>
+    <em class="ht-p">Then we published it here.</em>
+  </h1>
+
+  <p class="hero-sub">
+    This page is the use case. Every section documents a real step in a real session — ability calls, data returned, dashboards rendered, and finally: this page published to WordPress through the same abilities that pulled the data.
+  </p>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:64px;">
+    <a href="#abilities" class="btn btn--g">See the abilities →</a>
+    <a href="https://github.com/Wicked-Evolutions/abilities-for-ai" class="btn btn--ghost">Get free on GitHub →</a>
+  </div>
+
+  <hr class="gl gl--g">
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     STAT BAND
+     ══════════════════════════════════════════════ -->
+<div class="stat-band stat-band--p">
+<div class="stats">
+  <div class="stat"><div class="stat-n" style="color:var(--pl);">5</div><div class="stat-l">ability calls total</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--g);">0</div><div class="stat-l">writes to database</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--y);">24</div><div class="stat-l">contacts analysed</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--text);">3</div><div class="stat-l">dashboards rendered</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     01 — THE ABILITIES
+     ══════════════════════════════════════════════ -->
+<section id="abilities">
+<div class="c reveal">
+  <div class="guide-label">01 — What they are</div>
+  <h2 class="sh">Abilities are the API layer between AI and WordPress.</h2>
+  <p class="sp">Every action an AI agent can take on a WordPress site is expressed as a named, schema-validated ability. The manifest is discoverable. The parameters are typed. The permissions are baked in. The AI never guesses.</p>
+
+  <div class="ability-grid">
+    <div class="ability-card ability-card--p">
+      <div class="ac-meta"><span>mcp-adapter</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">mcp-adapter/</span><span class="ac-fn-p">discover-abilities</span></div>
+      <div class="ac-desc">Returns the full ability manifest filtered by category, annotation, or keyword. The AI calls this before anything else — it reads the map before it moves.</div>
+      <div class="ac-returns"><span class="pill pp">manifest</span><span class="pill p0">schemas</span><span class="pill p0">annotations</span></div>
+    </div>
+    <div class="ability-card ability-card--p">
+      <div class="ac-meta"><span>mcp-adapter</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">mcp-adapter/</span><span class="ac-fn-p">get-ability-info</span></div>
+      <div class="ac-desc">Returns the complete input/output schema for a specific ability. The AI inspects the schema before calling an unfamiliar ability — no parameter guessing.</div>
+      <div class="ac-returns"><span class="pill pp">input_schema</span><span class="pill pp">output_schema</span><span class="pill p0">tier</span></div>
+    </div>
+    <div class="ability-card ability-card--g">
+      <div class="ac-meta"><span>fluent-crm</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">fluent-crm/</span><span class="ac-fn-g">list-tags</span></div>
+      <div class="ac-desc">Lists all CRM tags with subscriber counts. Search by keyword to resolve human-readable tag names into numeric IDs before filtering contacts.</div>
+      <div class="ac-returns"><span class="pill pg">tag IDs</span><span class="pill pg">subscriber counts</span></div>
+    </div>
+    <div class="ability-card ability-card--g">
+      <div class="ac-meta"><span>fluent-crm</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">fluent-crm/</span><span class="ac-fn-g">list-contacts</span></div>
+      <div class="ac-desc">Retrieves contacts filtered by tag IDs, lists, status, or search. Always filter — avoid large unscoped result sets. Returns roster with IDs, emails, status, and created dates.</div>
+      <div class="ac-returns"><span class="pill pg">24 contacts</span><span class="pill p0">paginated</span></div>
+    </div>
+    <div class="ability-card ability-card--g">
+      <div class="ac-meta"><span>fluent-crm</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">fluent-crm/</span><span class="ac-fn-g">get-cohort-journeys</span></div>
+      <div class="ac-desc">Bulk-fetches compact journey summaries for a cohort. Tags + tag_dates, purchases, email stats, automations, event counts, note summaries. 10–15× cheaper than calling get-contact-journey per person.</div>
+      <div class="ac-returns"><span class="pill pg">full journey data</span><span class="pill p0">one row per contact</span></div>
+    </div>
+    <div class="ability-card ability-card--g">
+      <div class="ac-meta"><span>fluent-crm</span><span class="anno">readonly</span></div>
+      <div class="ac-name"><span class="ac-ns">fluent-crm/</span><span class="ac-fn-g">get-cohort-patterns</span></div>
+      <div class="ac-desc">Aggregates purchase stats, time-to-first-purchase distribution, pre-purchase engagement signals ranked by frequency, tag progression paths, email totals, and the full conversion funnel. ~2K tokens.</div>
+      <div class="ac-returns"><span class="pill pg">117.5k SEK</span><span class="pill pg">87.5% purchase rate</span><span class="pill pg">10 signals</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="guide-label guide-label--y" style="margin-bottom:16px;">627 abilities across the full Trinity stack</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;">
+      <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:16px 18px;">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;">abilities-for-ai</div>
+        <div style="font-family:var(--fd);font-size:1.4rem;font-weight:800;letter-spacing:-.03em;color:var(--g);margin-bottom:4px;">137</div>
+        <div style="font-size:12px;font-weight:300;color:var(--t2);">Core WordPress — content, blocks, meta, media, menus, users, taxonomies, settings</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:16px 18px;">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;">Fluent Suite</div>
+        <div style="font-family:var(--fd);font-size:1.4rem;font-weight:800;letter-spacing:-.03em;color:var(--g);margin-bottom:4px;">490</div>
+        <div style="font-size:12px;font-weight:300;color:var(--t2);">FluentCRM, Community, Forms, Cart, Booking, Boards, Support, Snippets, Player</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--pb);border-radius:8px;padding:16px 18px;background:linear-gradient(135deg,var(--pd),var(--card) 70%);">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(167,139,250,.6);margin-bottom:6px;">mcp-adapter</div>
+        <div style="font-family:var(--fd);font-size:1.4rem;font-weight:800;letter-spacing:-.03em;color:var(--pl);margin-bottom:4px;">6</div>
+        <div style="font-size:12px;font-weight:300;color:var(--t2);">Discovery, execution, batch, schema inspection, health check, site info</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:16px 18px;">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;">Knowledge Layer</div>
+        <div style="font-family:var(--fd);font-size:1.4rem;font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:4px;">24</div>
+        <div style="font-size:12px;font-weight:300;color:var(--t2);">Session memory, observations, site identity, behavioral directive, boot sequence</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     02 — THE PIPELINE
+     ══════════════════════════════════════════════ -->
+<section id="pipeline">
+<div class="c reveal">
+  <div class="guide-label">02 — How AI uses them</div>
+  <h2 class="sh">Five calls. One complete picture of 24 customers.</h2>
+  <p class="sp">This is the exact sequence Claude ran in a single session on the Helena Willow site. No SQL. No dashboard clicking. No export-import loop. One conversation, five ability calls, two rendered dashboards.</p>
+
+  <!-- PIPELINE STRIP -->
+  <div class="pipeline-strip">
+    <div class="ps-stage ps-stage--p">
+      <div class="ps-arrow">→</div>
+      <div class="ps-num">Call 1–2</div>
+      <div class="ps-name ps-name--p">Discover</div>
+      <div class="ps-sub">Read the manifest. Inspect schemas.</div>
+    </div>
+    <div class="ps-stage ps-stage--p">
+      <div class="ps-arrow">→</div>
+      <div class="ps-num">Call 3</div>
+      <div class="ps-name ps-name--p">Resolve</div>
+      <div class="ps-sub">list-tags → IDs 52 &amp; 53</div>
+    </div>
+    <div class="ps-stage ps-stage--g">
+      <div class="ps-arrow">→</div>
+      <div class="ps-num">Call 4</div>
+      <div class="ps-name ps-name--g">Fetch</div>
+      <div class="ps-sub">list-contacts + cohort-journeys</div>
+    </div>
+    <div class="ps-stage ps-stage--g">
+      <div class="ps-arrow">→</div>
+      <div class="ps-num">Call 5</div>
+      <div class="ps-name ps-name--g">Analyse</div>
+      <div class="ps-sub">get-cohort-patterns</div>
+    </div>
+    <div class="ps-stage ps-stage--y">
+      <div class="ps-num">In-context</div>
+      <div class="ps-name ps-name--y">Render</div>
+      <div class="ps-sub">No further calls needed</div>
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="terminal">
+    <div class="tbar"><div class="d1"></div><div class="d2"></div><div class="d3"></div><div class="ttab">abilities-mcp · helena · priestess cohort session</div></div>
+    <div class="tbody">
+      <span class="ln"><span class="gi">→ discovering ability manifest</span></span>
+      <span class="ln"><span class="gy">call</span> <span class="gp">mcp-adapter/discover-abilities</span> <span class="gw">search:"contact"</span></span>
+      <span class="ln"><span class="gg">  ← 41 abilities · schemas confirmed · annotations read</span></span>
+      <span class="lb"></span>
+      <span class="ln"><span class="gi">→ resolving tag IDs before filtering</span></span>
+      <span class="ln"><span class="gy">call</span> <span class="gp">fluent-crm/list-tags</span> <span class="gw">search:"priestess"</span></span>
+      <span class="ln"><span class="gg">  ← ID 52 · AT_PRIESTESS_CH1_ONB · 24 subscribers</span></span>
+      <span class="ln"><span class="gg">  ← ID 53 · AT_PRIESTESS_CH1_ORD · 20 subscribers</span></span>
+      <span class="lb"></span>
+      <span class="ln"><span class="gi">→ fetching contact roster</span></span>
+      <span class="ln"><span class="gy">call</span> <span class="gp">fluent-crm/list-contacts</span> <span class="gw">tags:"52,53" per_page:100</span></span>
+      <span class="ln"><span class="gg">  ← 24 contacts · all subscribed · IDs extracted</span></span>
+      <span class="lb"></span>
+      <span class="ln"><span class="gi">→ bulk journey fetch — 10-15× cheaper than individual calls</span></span>
+      <span class="ln"><span class="gy">call</span> <span class="gp">fluent-crm/get-cohort-journeys</span> <span class="gw">selector_type:"contact_ids" · 24 IDs</span></span>
+      <span class="ln"><span class="gg">  ← tags + tag_dates · purchases · emails · automations · events · notes</span></span>
+      <span class="lb"></span>
+      <span class="ln"><span class="gi">→ aggregate pattern analysis</span></span>
+      <span class="ln"><span class="gy">call</span> <span class="gp">fluent-crm/get-cohort-patterns</span> <span class="gw">same 24 IDs · purchase_event_key:cart_order_paid</span></span>
+      <span class="ln"><span class="gg">  ← 117.5k SEK · 87.5% purchase rate · 83.4% open rate · 10 signals ranked</span></span>
+      <span class="lb"></span>
+      <span class="ln"><span class="gi">→ all data in context — rendering dashboards</span></span>
+      <span class="ln"><span class="gg">$</span> <span class="cur"></span></span>
+    </div>
+  </div>
+
+  <div class="meta-loop" style="margin-top:40px;">
+    <div class="ml-label">The design principle</div>
+    <div class="ml-title">Read the manifest. Resolve IDs. Fetch with context. Never guess.</div>
+    <div class="ml-copy">
+      <p>The AI doesn't know what abilities exist until it calls <code style="font-family:var(--fm);font-size:12px;color:var(--pl);">discover-abilities</code>. It doesn't know tag IDs until it calls <code style="font-family:var(--fm);font-size:12px;color:var(--g);">list-tags</code>. Every step is grounded in schema-validated data from the site itself.</p>
+      <p>This is not automation. This is a structured dialogue between an AI and a live system — where the AI waits for each response before deciding what to ask next.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     03 — THE DATA
+     ══════════════════════════════════════════════ -->
+<section id="data">
+<div class="c reveal">
+  <div class="guide-label guide-label--g">03 — What comes back</div>
+  <h2 class="sh">The data your Fluent plugins already hold — made readable.</h2>
+  <p class="sp">Every FluentCRM contact, purchase, email event, automation step, community interaction, booking, and session note is now queryable in a single conversation. Here is what five calls returned from one cohort of 24.</p>
+
+  <div class="data-grid">
+    <div class="data-card data-card--g">
+      <div class="dc-type dc-type--g">From list-contacts</div>
+      <div class="dc-title">Contact roster</div>
+      <div class="dc-desc">ID, name, email, status, created date for every tagged contact. The selector for all subsequent calls.</div>
+      <div class="dc-stat" style="color:var(--g);">24</div>
+      <div style="font-family:var(--fm);font-size:10px;color:var(--t3);margin-top:2px;">contacts · all subscribed</div>
+    </div>
+    <div class="data-card">
+      <div class="dc-type">From get-cohort-journeys</div>
+      <div class="dc-title">Full journey per contact</div>
+      <div class="dc-desc">Tags + exact application dates, every purchase with value, email open/click counts, automation history, event keys + occurrence counts, note summaries.</div>
+      <div class="dc-stat" style="color:var(--text);">117.5k</div>
+      <div style="font-family:var(--fm);font-size:10px;color:var(--t3);margin-top:2px;">SEK total revenue surfaced</div>
+    </div>
+    <div class="data-card">
+      <div class="dc-type">From get-cohort-patterns</div>
+      <div class="dc-title">Aggregate intelligence</div>
+      <div class="dc-desc">Purchase frequency, time-to-first-purchase distribution, conversion funnel (24→21→19), 10 engagement signals ranked by frequency, tag progression paths.</div>
+      <div class="dc-stat" style="color:var(--pl);">87.5%</div>
+      <div style="font-family:var(--fm);font-size:10px;color:var(--t3);margin-top:2px;">purchase rate · ~2K tokens</div>
+    </div>
+  </div>
+
+  <!-- MINI DASHBOARD PREVIEW -->
+  <div style="margin-top:32px;margin-bottom:8px;">
+    <div class="guide-label guide-label--y">Dashboard rendered in-browser — no server calls</div>
+  </div>
+  <div class="dashboard-frame">
+    <div class="df-bar">
+      <div class="df-dot" style="background:#ef4444;"></div>
+      <div class="df-dot" style="background:#f59e0b;"></div>
+      <div class="df-dot" style="background:#22c55e;"></div>
+      <div class="df-url">Cohort 360 · The Priestess · Helena site · we-cohort-360.html</div>
+    </div>
+    <div class="df-inner">
+      <div class="mini-metrics">
+        <div class="mm"><div class="mm-label">Cohort</div><div class="mm-val" style="color:var(--text);">24</div></div>
+        <div class="mm"><div class="mm-label">Paid ORD</div><div class="mm-val" style="color:var(--pl);">20</div></div>
+        <div class="mm"><div class="mm-label">Revenue</div><div class="mm-val" style="color:var(--g);">117k</div></div>
+        <div class="mm"><div class="mm-label">Open rate</div><div class="mm-val" style="color:var(--y);">83%</div></div>
+      </div>
+      <div style="margin-top:12px;">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;">Archetype journey coverage</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;">
+          <div style="background:var(--card);border:1px solid var(--glb);border-radius:5px;padding:8px;text-align:center;">
+            <div style="font-family:var(--fm);font-size:8px;color:var(--t3);margin-bottom:3px;">Seeress</div>
+            <div style="font-family:var(--fd);font-size:1rem;font-weight:800;color:#378ADD;">17</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--glb);border-radius:5px;padding:8px;text-align:center;">
+            <div style="font-family:var(--fm);font-size:8px;color:var(--t3);margin-bottom:3px;">Healer</div>
+            <div style="font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--g);">18</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--glb);border-radius:5px;padding:8px;text-align:center;">
+            <div style="font-family:var(--fm);font-size:8px;color:var(--t3);margin-bottom:3px;">Witch</div>
+            <div style="font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--y);">19</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--glb);border-radius:5px;padding:8px;text-align:center;">
+            <div style="font-family:var(--fm);font-size:8px;color:var(--t3);margin-bottom:3px;">Priestess</div>
+            <div style="font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--pl);">24</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--glb);border-radius:5px;padding:8px;text-align:center;">
+            <div style="font-family:var(--fm);font-size:8px;color:var(--t3);margin-bottom:3px;">Client</div>
+            <div style="font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--y);">16</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;">Priestess entry path</div>
+        <div class="mini-bars">
+          <div class="mb-row"><div class="mb-lbl">Paid prior archetype</div><div class="mb-track"><div class="mb-fill" style="width:68%;background:var(--pl);"></div></div><div class="mb-n">14</div></div>
+          <div class="mb-row"><div class="mb-lbl">Free / beta access</div><div class="mb-track"><div class="mb-fill" style="width:24%;background:var(--g);"></div></div><div class="mb-n">5</div></div>
+          <div class="mb-row"><div class="mb-lbl">ONB only, no order</div><div class="mb-track"><div class="mb-fill" style="width:24%;background:var(--y);"></div></div><div class="mb-n">5</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:14px;font-weight:300;color:var(--t3);font-family:var(--fm);margin-top:8px;">↑ Partial preview — <a href="we-cohort-360.html" style="color:var(--pl);text-decoration:none;">open the full 360 dashboard →</a> · <a href="we-cohort-patterns.html" style="color:var(--g);text-decoration:none;">open cohort patterns →</a></p>
+
+  <div style="margin-top:48px;">
+    <div class="guide-label guide-label--g">Key findings surfaced in this session</div>
+    <div class="value-list">
+      <div class="value-item">
+        <div class="vi-name">87.5% purchase rate</div>
+        <div class="vi-copy">Once a contact is tagged into the Priestess cohort, they almost certainly buy — and 90.5% of buyers repeat. Three non-buyers stand out as genuinely unusual for this audience.</div>
+      </div>
+      <div class="value-item">
+        <div class="vi-name">Course enrollment is the signal</div>
+        <div class="vi-copy">49 course enrollment events recorded before first purchase across the cohort. It's the dominant pre-purchase signal by a wide margin — this audience commits to learning before spending.</div>
+      </div>
+      <div class="value-item">
+        <div class="vi-name">Apprenticeship Path distorts</div>
+        <div class="vi-copy">Two buyers of one product account for 34% of total cohort revenue (40k SEK of 117.5k). Strip those out and the archetype product economics become clear and separately plannable.</div>
+      </div>
+      <div class="value-item">
+        <div class="vi-name">Median beats average</div>
+        <div class="vi-copy">Median time to first purchase: 66 days. Average: 118 days. A few slow converters pull the mean up significantly. Don't campaign to the average — the median is the operative window.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     04 — THE PUBLISH
+     ══════════════════════════════════════════════ -->
+<section id="publish">
+<div class="c reveal">
+  <div class="guide-label guide-label--y">04 — The loop closing</div>
+  <h2 class="sh">This page was built and published using the same abilities that pulled the data.</h2>
+  <p class="sp">After the session — after the calls, after the dashboards, after the diagrams — the AI used <code style="font-family:var(--fm);font-size:14px;color:var(--pl);">content/create</code>, <code style="font-family:var(--fm);font-size:14px;color:var(--pl);">blocks/insert</code>, and <code style="font-family:var(--fm);font-size:14px;color:var(--pl);">content/update</code> to publish this page to WordPress. No FTP. No copy-paste. One conversation, start to finish.</p>
+
+  <div class="process-list">
+    <div class="process-item">
+      <div class="pi-n">01</div>
+      <div>
+        <div class="pi-title">Session: data call</div>
+        <div class="pi-desc">Five ability calls to FluentCRM across one conversation. Manifest discovery → tag resolution → contact roster → cohort journeys → cohort patterns. All readonly. Zero writes.</div>
+        <div class="pi-tag"><span class="pill pp">5 calls</span><span class="pill pg">readonly</span><span class="pill p0">fluent-crm</span></div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="pi-n">02</div>
+      <div>
+        <div class="pi-title">Session: render dashboards</div>
+        <div class="pi-desc">Data assembled in Claude context — no further ability calls. Two HTML dashboards rendered in-browser using WE brand tokens from the brand book. Dark/light mode. Filterable. Exportable as standalone files.</div>
+        <div class="pi-tag"><span class="pill py">360 cohort dashboard</span><span class="pill py">cohort patterns</span></div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="pi-n">03</div>
+      <div>
+        <div class="pi-title">Session: build the pipeline diagram</div>
+        <div class="pi-desc">The pipeline itself diagrammed as a standalone HTML artifact using WE brand language — lane labels, connector arrows, node cards, annotation badges, stat band, quote monument. Same brand tokens. Same dark/light toggle.</div>
+        <div class="pi-tag"><span class="pill pp">we-pipeline-diagram.html</span></div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="pi-n">04</div>
+      <div>
+        <div class="pi-title">Session: design this landing page</div>
+        <div class="pi-desc">The use case page you are reading now — designed in WE brand style using the brand book as the design system specification. Four sections: Abilities / Pipeline / Data / Publish. The page is the proof.</div>
+        <div class="pi-tag"><span class="pill pg">we-usecase-landing.html</span><span class="pill p0">this file</span></div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="pi-n">05</div>
+      <div>
+        <div class="pi-title">Publish: content/create → blocks/insert → content/update</div>
+        <div class="pi-desc">The AI dev uses the PPTX-to-Blocks skill to convert the design into Gutenberg block markup, then publishes to WordPress through abilities. The Gutenberg Expert Agent handles the block structure. The page goes live without a human touching the editor.</div>
+        <div class="pi-tag"><span class="pill pp">content/create</span><span class="pill pp">blocks/insert</span><span class="pill pp">content/update</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE META LOOP -->
+  <div class="meta-loop">
+    <div class="ml-label">The meta-show</div>
+    <div class="ml-title">We used the Abilities to document the Abilities. The use case is the demonstration.</div>
+    <div class="ml-copy">
+      <p>Most product documentation describes a capability. This page <em>is</em> the capability running. Every section you read was produced by the exact process it describes — AI calling abilities, pulling real data, rendering real dashboards, designing in WE brand language, and publishing through WordPress abilities.</p>
+      <p>The infrastructure is the argument. The process is the product. The page is the proof.</p>
+    </div>
+    <div class="ml-steps">
+      <div class="ml-step">Ability call</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step">Data returned</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step">Dashboard rendered</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step">Diagram built</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step">Page designed</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step">Published to WordPress</div>
+      <span class="ml-sep">→</span>
+      <div class="ml-step" style="border-color:var(--gb);color:var(--g);background:rgba(34,197,94,.1);">You are reading it now</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     QUOTE MONUMENT
+     ══════════════════════════════════════════════ -->
+<div class="quote-monument">
+  <div class="qt">
+    They put AI inside the plugin.<br>
+    We put <em>all plugins inside AI.</em><br>
+    <span style="color:var(--t3);font-size:.6em;font-weight:700;letter-spacing:-.02em;">The use case is the proof.</span>
+  </div>
+  <div class="qa">Wicked Evolutions · Abilities MCP · Helena site · Session 2026</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FINAL CTA
+     ══════════════════════════════════════════════ -->
+<div class="final-cta">
+<div class="c reveal">
+  <div class="cta-label">Start here</div>
+  <div class="cta-heading">Run this on your WordPress site.</div>
+  <p class="cta-text">Three plugins. One MCP endpoint. Your AI client connected to every Fluent plugin you run — CRM, Community, Forms, Cart, Booking, Boards, Support — in a single conversation.</p>
+  <div class="cta-btns">
+    <a href="https://github.com/Wicked-Evolutions/abilities-mcp" class="btn btn--g">Get abilities-mcp (free) →</a>
+    <a href="https://github.com/Wicked-Evolutions/abilities-for-ai" class="btn btn--ghost">Get abilities-for-ai →</a>
+  </div>
+
+  <div style="margin-top:64px;border-top:1px solid var(--glb);padding-top:40px;">
+    <div class="guide-label" style="margin-bottom:20px;">Everything built in this session</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+      <a href="we-pipeline-diagram.html" style="text-decoration:none;">
+        <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:18px 20px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--bordh)'" onmouseout="this.style.borderColor='var(--glb)'">
+          <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--pl);margin-bottom:6px;">Pipeline diagram</div>
+          <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;">Ability call pipeline</div>
+          <div style="font-size:13px;font-weight:300;color:var(--t2);">5-step diagram · dark/light · embeddable HTML</div>
+        </div>
+      </a>
+      <a href="we-cohort-360.html" style="text-decoration:none;">
+        <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:18px 20px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--bordh)'" onmouseout="this.style.borderColor='var(--glb)'">
+          <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:6px;">360 Dashboard</div>
+          <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;">Cohort 360 · The Priestess</div>
+          <div style="font-size:13px;font-weight:300;color:var(--t2);">Roster · revenue chart · archetype grid · filters</div>
+        </div>
+      </a>
+      <a href="we-cohort-patterns.html" style="text-decoration:none;">
+        <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:18px 20px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--bordh)'" onmouseout="this.style.borderColor='var(--glb)'">
+          <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:6px;">Patterns Dashboard</div>
+          <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;">Cohort patterns</div>
+          <div style="font-size:13px;font-weight:300;color:var(--t2);">Funnel · signals · time-to-purchase · insights</div>
+        </div>
+      </a>
+      <a href="we-pipeline-diagram.html" style="text-decoration:none;">
+        <div style="background:var(--card);border:1px solid var(--glb);border-radius:8px;padding:18px 20px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--bordh)'" onmouseout="this.style.borderColor='var(--glb)'">
+          <div style="font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--pl);margin-bottom:6px;">This page</div>
+          <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;">Use case landing page</div>
+          <div style="font-size:13px;font-weight:300;color:var(--t2);">What you are reading now · the meta-show</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Wicked <span>Evolutions</span> · Use Case · The Priestess</div>
+  <div class="footer-note">Session 2026 · 5 ability calls · 0 writes · 3 dashboards · CC BY 4.0</div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('tlabel').textContent=isDark?'Light':'Dark';
+}
+
+// Scroll reveal
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

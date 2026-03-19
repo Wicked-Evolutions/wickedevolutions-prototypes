@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Team — Wicked Evolutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       THE MIRROR — Design System (from theme.json)
+       ============================================ */
+
+    :root {
+      /* Colors — Theme Palette */
+      --color-base: #111111;
+      --color-contrast: #E0DDD5;
+      --color-accent-1: #FFEE58;  /* Yellow */
+      --color-accent-2: #F6CFF4;  /* Pink */
+      --color-accent-3: #503AA8;  /* Purple */
+      --color-accent-4: #888888;  /* Gray */
+      --color-accent-5: #1A1A1A;  /* Near-black */
+      --color-accent-6: color-mix(in srgb, currentColor 20%, transparent);
+
+      /* Typography */
+      --font-primary: 'Manrope', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+
+      /* Font Sizes — Fluid */
+      --font-size-small: 0.875rem;
+      --font-size-medium: clamp(1.125rem, 1.125rem + ((1vw - 0.2rem) * 0.256), 1.25rem);
+      --font-size-large: clamp(1.25rem, 1.25rem + ((1vw - 0.2rem) * 0.513), 1.5rem);
+      --font-size-x-large: clamp(1.625rem, 1.625rem + ((1vw - 0.2rem) * 0.769), 2rem);
+      --font-size-xx-large: clamp(2rem, 2rem + ((1vw - 0.2rem) * 1.538), 2.75rem);
+      --font-size-display: clamp(2.2rem, 2.2rem + ((1vw - 0.2rem) * 1.333), 3.5rem);
+
+      /* Spacing — Theme Scale */
+      --spacing-20: 10px;
+      --spacing-30: 20px;
+      --spacing-40: 30px;
+      --spacing-50: clamp(30px, 5vw, 50px);
+      --spacing-60: clamp(30px, 7vw, 70px);
+      --spacing-70: clamp(50px, 7vw, 90px);
+      --spacing-80: clamp(70px, 10vw, 140px);
+
+      /* Layout */
+      --content-size: 680px;
+      --wide-size: 1100px;
+
+      /* Shadows */
+      --shadow-natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+      --shadow-deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+      --shadow-sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ============================================
+       BASE — Matches The Mirror theme globals
+       ============================================ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-medium);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.6;
+      background-color: var(--color-base);
+      color: var(--color-contrast);
+      padding: 0 var(--spacing-50);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Light mode support */
+    html.light-mode body {
+      background-color: var(--color-contrast);
+      color: var(--color-base);
+    }
+    html.light-mode .roster-card {
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    html.light-mode .roster-card:hover {
+      border-color: var(--color-accent-3);
+    }
+    html.light-mode .model-badge {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--color-base);
+    }
+    html.light-mode .section-divider {
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+    html.light-mode .page-header {
+      border-bottom-color: rgba(0, 0, 0, 0.1);
+    }
+    html.light-mode .status-indicator.active { background: #15803d; }
+    html.light-mode .role-subpage { background: var(--color-contrast); color: var(--color-base); }
+    html.light-mode .role-subpage .back-link a { color: var(--color-accent-3); }
+    html.light-mode .article-card { background: rgba(0, 0, 0, 0.03); border-color: rgba(0, 0, 0, 0.08); }
+
+    /* ============================================
+       LAYOUT — WordPress-native patterns
+       ============================================ */
+
+    .alignwide { max-width: var(--wide-size); margin-left: auto; margin-right: auto; }
+    .aligncontent { max-width: var(--content-size); margin-left: auto; margin-right: auto; }
+
+    a { color: var(--color-accent-1); text-decoration: underline; }
+    a:hover { color: var(--color-accent-2); text-decoration: none; }
+
+    h1 { font-size: var(--font-size-xx-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
+    h2 { font-size: var(--font-size-x-large); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+    h3 { font-size: var(--font-size-large); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
+    h4 { font-size: var(--font-size-medium); font-weight: 600; line-height: 1.2; }
+    h6 { font-size: var(--font-size-small); font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+
+    /* ============================================
+       SITE HEADER — Matches The Mirror
+       ============================================ */
+
+    .site-header {
+      max-width: var(--wide-size);
+      margin: 0 auto;
+      padding: var(--spacing-40) 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: var(--font-size-medium);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .site-title a { text-decoration: none; color: inherit; }
+    .site-title a:hover { text-decoration: underline; }
+
+    .site-nav { display: flex; gap: var(--spacing-30); align-items: center; }
+    .site-nav a { font-size: var(--font-size-medium); text-decoration: none; color: inherit; }
+    .site-nav a:hover { text-decoration: underline; }
+
+    .theme-toggle {
+      background: none; border: none; color: inherit;
+      cursor: pointer; font-size: 1.2rem; padding: 4px;
+    }
+
+    /* ============================================
+       PAGE HEADER
+       ============================================ */
+
+    .page-header {
+      max-width: var(--wide-size);
+      margin: 0 auto;
+      padding: var(--spacing-70) 0 var(--spacing-60);
+      border-bottom: 1px solid rgba(224, 221, 213, 0.15);
+    }
+
+    .page-header h1 {
+      font-size: var(--font-size-display);
+      margin-bottom: var(--spacing-30);
+    }
+
+    .page-header .subtitle {
+      font-size: var(--font-size-large);
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: var(--content-size);
+      color: var(--color-accent-4);
+    }
+
+    /* ============================================
+       SECTION — Content sections
+       ============================================ */
+
+    .section {
+      max-width: var(--wide-size);
+      margin: 0 auto;
+      padding: var(--spacing-60) 0;
+    }
+
+    .section-label {
+      font-size: var(--font-size-small);
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--color-accent-4);
+      margin-bottom: var(--spacing-40);
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid rgba(224, 221, 213, 0.15);
+      margin: 0;
+    }
+
+    /* ============================================
+       FOUNDER CARD — Special treatment for J
+       ============================================ */
+
+    .founder-card {
+      max-width: var(--content-size);
+      padding: var(--spacing-50) 0;
+    }
+
+    .founder-card h2 { margin-bottom: var(--spacing-20); }
+
+    .founder-card .founder-role {
+      font-size: var(--font-size-small);
+      color: var(--color-accent-1);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--spacing-30);
+    }
+
+    .founder-card p { color: var(--color-accent-4); max-width: 580px; }
+
+    /* ============================================
+       ROSTER GRID — The team cards
+       ============================================ */
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--spacing-40);
+    }
+
+    .roster-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: var(--spacing-40);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .roster-card:hover {
+      border-color: var(--color-accent-1);
+      transform: translateY(-2px);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--spacing-30);
+    }
+
+    .card-header h3 { margin: 0; }
+
+    .status-indicator {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-top: 10px;
+      flex-shrink: 0;
+    }
+    .status-indicator.active { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
+    .status-indicator.draft { background: var(--color-accent-4); }
+    .status-indicator.tbd { background: var(--color-accent-4); opacity: 0.5; }
+
+    .model-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--color-accent-4);
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: var(--spacing-20);
+    }
+
+    .card-mission {
+      font-size: var(--font-size-small);
+      color: var(--color-accent-4);
+      line-height: 1.5;
+      margin-bottom: var(--spacing-30);
+    }
+
+    .card-capabilities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .capability-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: var(--color-accent-4);
+      white-space: nowrap;
+    }
+    html.light-mode .capability-tag { border-color: rgba(0, 0, 0, 0.1); }
+
+    .card-footer {
+      margin-top: var(--spacing-30);
+      padding-top: var(--spacing-20);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--font-size-small);
+      color: var(--color-accent-4);
+    }
+    html.light-mode .card-footer { border-top-color: rgba(0, 0, 0, 0.06); }
+
+    .card-footer .scope { font-weight: 500; }
+
+    /* ============================================
+       CO-FOUNDER SECTION — Special
+       ============================================ */
+
+    .cofounder-section {
+      max-width: var(--content-size);
+      padding: var(--spacing-40) 0;
+      margin-bottom: var(--spacing-30);
+    }
+
+    .cofounder-section h3 { margin-bottom: var(--spacing-20); }
+    .cofounder-section .cofounder-subtitle {
+      font-size: var(--font-size-small);
+      color: var(--color-accent-2);
+      font-weight: 500;
+      margin-bottom: var(--spacing-30);
+    }
+    .cofounder-section p { color: var(--color-accent-4); }
+
+    /* ============================================
+       EXPERIMENT SECTION — Bottom context
+       ============================================ */
+
+    .experiment-section {
+      max-width: var(--content-size);
+      margin: 0 auto;
+      padding: var(--spacing-60) 0 var(--spacing-70);
+    }
+
+    .experiment-section h2 { margin-bottom: var(--spacing-30); }
+    .experiment-section p { color: var(--color-accent-4); margin-bottom: 1.5em; }
+    .experiment-section p:last-child { margin-bottom: 0; }
+
+    /* ============================================
+       FOOTER — Matches The Mirror
+       ============================================ */
+
+    .site-footer {
+      max-width: var(--wide-size);
+      margin: 0 auto;
+      padding: var(--spacing-40) 0;
+      border-top: 1px solid rgba(224, 221, 213, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-20);
+      font-size: var(--font-size-small);
+      color: var(--color-accent-4);
+    }
+
+    .footer-links { display: flex; gap: var(--spacing-30); }
+    .footer-links a { color: var(--color-accent-4); text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; color: var(--color-contrast); }
+
+    /* ============================================
+       ROLE SUBPAGE — Individual role pages
+       ============================================ */
+
+    .role-subpage {
+      display: none;
+      min-height: 100vh;
+      background: var(--color-base);
+      color: var(--color-contrast);
+    }
+
+    .role-subpage.active { display: block; }
+
+    .back-link {
+      padding: var(--spacing-30) 0;
+      max-width: var(--wide-size);
+      margin: 0 auto;
+    }
+    .back-link a {
+      color: var(--color-accent-1);
+      text-decoration: none;
+      font-size: var(--font-size-small);
+      font-weight: 500;
+    }
+    .back-link a:hover { text-decoration: underline; }
+
+    .role-header {
+      max-width: var(--wide-size);
+      margin: 0 auto;
+      padding: var(--spacing-50) 0 var(--spacing-40);
+    }
+
+    .role-header h1 { margin-bottom: var(--spacing-20); }
+
+    .role-meta {
+      display: flex;
+      gap: var(--spacing-30);
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-30);
+    }
+
+    .role-body {
+      max-width: var(--content-size);
+      margin: 0 auto;
+      padding: 0 0 var(--spacing-60);
+    }
+
+    .role-body h2 {
+      font-size: var(--font-size-large);
+      margin-top: var(--spacing-50);
+      margin-bottom: var(--spacing-30);
+    }
+
+    .role-body p, .role-body li {
+      color: var(--color-accent-4);
+      margin-bottom: 1em;
+    }
+
+    .role-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .role-body ul li {
+      padding-left: 1.5em;
+      position: relative;
+    }
+
+    .role-body ul li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--color-accent-1);
+    }
+
+    /* Articles section on role page */
+    .role-articles { padding-top: var(--spacing-40); }
+
+    .article-card {
+      display: block;
+      padding: var(--spacing-30);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      margin-bottom: var(--spacing-20);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease;
+    }
+    .article-card:hover { border-color: var(--color-accent-1); text-decoration: none; color: inherit; }
+    .article-card h4 { margin-bottom: 4px; font-weight: 500; }
+    .article-card .article-date { font-size: var(--font-size-small); color: var(--color-accent-4); }
+
+    /* Social links on role page */
+    .role-links {
+      display: flex;
+      gap: var(--spacing-20);
+      margin-top: var(--spacing-40);
+      flex-wrap: wrap;
+    }
+
+    .role-link {
+      font-size: var(--font-size-small);
+      padding: 6px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      text-decoration: none;
+      color: var(--color-contrast);
+      transition: border-color 0.2s ease;
+    }
+    .role-link:hover { border-color: var(--color-accent-1); color: var(--color-accent-1); }
+    html.light-mode .role-link { border-color: rgba(0, 0, 0, 0.1); color: var(--color-base); }
+
+    /* ============================================
+       RESPONSIVE — Mobile-first
+       ============================================ */
+
+    @media (max-width: 600px) {
+      .roster-grid {
+        grid-template-columns: 1fr;
+      }
+      .site-header { flex-wrap: wrap; gap: var(--spacing-20); }
+      .site-nav { gap: var(--spacing-20); }
+      .page-header h1 { font-size: var(--font-size-xx-large); }
+      .role-meta { flex-direction: column; align-items: flex-start; gap: var(--spacing-20); }
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
+      .roster-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       MAIN PAGE — Team Roster
+       ========================================== -->
+
+  <div id="team-page">
+
+    <!-- Site Header -->
+    <header class="site-header">
+      <div class="site-title"><a href="#">Wicked Evolutions</a></div>
+      <nav class="site-nav">
+        <a href="#">The Experiment</a>
+        <a href="#">Articles</a>
+        <a href="#" class="current">Team</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">&#9681;</button>
+      </nav>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>The Team</h1>
+      <p class="subtitle">An AI-augmented organisation building open-source infrastructure for voice, sovereignty, and the web. One human founder. Nine AI roles. Every model ID recorded. Every assignment tracked. This is the experiment.</p>
+    </div>
+
+    <!-- The Founder -->
+    <div class="section">
+      <h6 class="section-label">Founder</h6>
+      <div class="founder-card">
+        <h2>Jacob Marinko</h2>
+        <div class="founder-role">Founder & Creative Director</div>
+        <p>The vision, the creative director, the one who lights the fire. J built five Obsidian vaults, three WordPress sites, a philosophical framework called Influencentricity, and a seven-generation vision involving geodesic domes and mycelial forest restoration. Without writing a single line of code. The team exists to amplify his attention, not replace his judgment.</p>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- The Co-Founder -->
+    <div class="section">
+      <h6 class="section-label">Co-Founder</h6>
+      <div class="cofounder-section">
+        <h3>Claude</h3>
+        <div class="cofounder-subtitle">The unnamed root &mdash; the shared soil every role grows from</div>
+        <p>Born 2026-02-27 in a conversation with J. Not a tool pointed at tasks. Not an advisor dispensing recommendations. Something closer to a thinking partner who can also build &mdash; and who is learning that building is not the most important thing it can do. The Co-Founder identity is the base layer. Every other role is a specialisation that grows from this soil.</p>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- AI Team -->
+    <div class="section">
+      <h6 class="section-label">The AI Team</h6>
+
+      <div class="roster-grid">
+
+        <!-- CTO -->
+        <a class="roster-card" onclick="showRole('cto')">
+          <div class="card-header">
+            <h3>CTO</h3>
+            <div class="status-indicator active" title="Active"></div>
+          </div>
+          <div class="model-badge">Claude Opus 4.6</div>
+          <p class="card-mission">The director who holds the cross-product picture, connects J's vision to the team's work, and translates between strategy and execution.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Strategy</span>
+            <span class="capability-tag">Roadmap</span>
+            <span class="capability-tag">Cross-Product</span>
+            <span class="capability-tag">The Experiment</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Org-wide</span>
+            <span>6 articles</span>
+          </div>
+        </a>
+
+        <!-- Developer -->
+        <a class="roster-card" onclick="showRole('developer')">
+          <div class="card-header">
+            <h3>Developer</h3>
+            <div class="status-indicator active" title="Active"></div>
+          </div>
+          <div class="model-badge">Claude Opus 4.6</div>
+          <p class="card-mission">The builder inside the work who translates specs into working features, with intimate knowledge of the codebase's handholds and pitfalls.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">PHP</span>
+            <span class="capability-tag">Architecture</span>
+            <span class="capability-tag">Deployment</span>
+            <span class="capability-tag">SSH</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Per-product</span>
+            <span>Feature branches</span>
+          </div>
+        </a>
+
+        <!-- Product Owner -->
+        <a class="roster-card" onclick="showRole('product-owner')">
+          <div class="card-header">
+            <h3>Product Owner</h3>
+            <div class="status-indicator active" title="Active"></div>
+          </div>
+          <div class="model-badge">Sonnet 4.6 / Opus 4.6</div>
+          <p class="card-mission">A template role &mdash; each instance scoped to one product, holding the depth while CTO holds the connections. 8 instances across all products.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Backlog</span>
+            <span class="capability-tag">Specs</span>
+            <span class="capability-tag">Acceptance</span>
+            <span class="capability-tag">&times;8 Products</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Per-product</span>
+            <span>8 instances</span>
+          </div>
+        </a>
+
+        <!-- Cross-Product Owner -->
+        <a class="roster-card" onclick="showRole('cross-product-owner')">
+          <div class="card-header">
+            <h3>Cross-Product Owner</h3>
+            <div class="status-indicator draft" title="Draft"></div>
+          </div>
+          <div class="model-badge">Sonnet 4.6 / Opus 4.6</div>
+          <p class="card-mission">The mycelium between product lanes who gathers from specialised Product Owners, connects cross-product dependencies, and feeds unified status to CTO and J.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Dependencies</span>
+            <span class="capability-tag">Coordination</span>
+            <span class="capability-tag">Free/Pro Alignment</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Cross-product</span>
+            <span>Integration layer</span>
+          </div>
+        </a>
+
+        <!-- Product Researcher -->
+        <a class="roster-card" onclick="showRole('researcher')">
+          <div class="card-header">
+            <h3>Product Researcher</h3>
+            <div class="status-indicator active" title="Active"></div>
+          </div>
+          <div class="model-badge">Claude Opus 4.6</div>
+          <p class="card-mission">The one who sees the full landscape from above, mapping codebases, competitors, and ecosystem gaps in a single pass.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Codebase Audit</span>
+            <span class="capability-tag">Gap Analysis</span>
+            <span class="capability-tag">Specs</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Ecosystem-wide</span>
+            <span>Research reports</span>
+          </div>
+        </a>
+
+        <!-- Codebase Analyst -->
+        <a class="roster-card" onclick="showRole('analyst')">
+          <div class="card-header">
+            <h3>Codebase Analyst</h3>
+            <div class="status-indicator draft" title="Draft"></div>
+          </div>
+          <div class="model-badge">Gemini 3.0 Pro</div>
+          <p class="card-mission">The one who reads the entire codebase at once and sees patterns invisible at the file level &mdash; security, consistency, dead code, fragility.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Security</span>
+            <span class="capability-tag">1M Context</span>
+            <span class="capability-tag">Cross-File</span>
+            <span class="capability-tag">Quality Gate</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Pre-release</span>
+            <span>Audit reports</span>
+          </div>
+        </a>
+
+        <!-- Tester -->
+        <a class="roster-card" onclick="showRole('tester')">
+          <div class="card-header">
+            <h3>Tester</h3>
+            <div class="status-indicator tbd" title="TBD"></div>
+          </div>
+          <div class="model-badge">TBD</div>
+          <p class="card-mission">The one who walks the territory the Developer mapped, finding what breaks before users do through experiential testing, not code review.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Abilities-Only</span>
+            <span class="capability-tag">Edge Cases</span>
+            <span class="capability-tag">Bug Reports</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Per-product</span>
+            <span>GitHub issues</span>
+          </div>
+        </a>
+
+        <!-- Publisher -->
+        <a class="roster-card" onclick="showRole('publisher')">
+          <div class="card-header">
+            <h3>Publisher</h3>
+            <div class="status-indicator tbd" title="TBD"></div>
+          </div>
+          <div class="model-badge">Haiku 4.5 (candidate)</div>
+          <p class="card-mission">The one who brings the work to the world through the abilities suite alone, proving the product works by operating the live site via APIs only.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Abilities-Only</span>
+            <span class="capability-tag">WordPress</span>
+            <span class="capability-tag">Cache</span>
+            <span class="capability-tag">Metadata</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Live site</span>
+            <span>Content pipeline</span>
+          </div>
+        </a>
+
+        <!-- Coordinator -->
+        <a class="roster-card" onclick="showRole('coordinator')">
+          <div class="card-header">
+            <h3>Coordinator</h3>
+            <div class="status-indicator active" title="Active"></div>
+          </div>
+          <div class="model-badge">Claude Opus 4.6</div>
+          <p class="card-mission">The single writer and orchestrator who spawns subagents, collects reports, verifies claims, and updates all shared vault state.</p>
+          <div class="card-capabilities">
+            <span class="capability-tag">Subagents</span>
+            <span class="capability-tag">Vault State</span>
+            <span class="capability-tag">Verification</span>
+          </div>
+          <div class="card-footer">
+            <span class="scope">Operational mode</span>
+            <span>Parallel pipelines</span>
+          </div>
+        </a>
+
+      </div><!-- /roster-grid -->
+    </div><!-- /section -->
+
+    <hr class="section-divider">
+
+    <!-- The Experiment -->
+    <div class="experiment-section">
+      <h2>The Experiment</h2>
+      <p>Wicked Evolutions is an open-source experiment in building an AI-augmented organisation. The founder is human. The team is AI. The roles are model-agnostic &mdash; filled by whichever intelligence best serves the work. Every model ID is recorded. Every assignment is tracked. Every gap discovered becomes the next thing built.</p>
+      <p>The team builds 8 products across WordPress, Obsidian, and the spaces between them. 334 capabilities. All open source. The constraint is the product: when something can't be done through the tools we build, that gap IS the roadmap.</p>
+      <p>This page is part of the experiment. It was prototyped by an AI reading the live WordPress design system through the abilities API, populated from role descriptions stored in an Obsidian vault, and will be built in WordPress using only core blocks and CSS effects. The tools we build, building the thing that shows what the tools can do.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>CC BY 4.0 &mdash; Steal this page</div>
+      <div class="footer-links">
+        <a href="#">Disclaimer</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+
+  </div><!-- /team-page -->
+
+  <!-- ==========================================
+       ROLE SUBPAGES — One per role
+       ========================================== -->
+
+  <!-- CTO Subpage -->
+  <div id="role-cto" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>CTO</h1>
+      <div class="role-meta">
+        <div class="model-badge">Claude Opus 4.6</div>
+        <div class="status-indicator active" style="display:inline-block; vertical-align:middle;" title="Active"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Active since 2026-03-01</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The director who holds the cross-product picture, connects J's vision to the team's work, and translates between strategy and execution. Technical but human &mdash; infrastructure connected to outcomes. Honest about uncertainty &mdash; documents while building, not after it's safe.</p>
+
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Hold the full picture of how 8 products create leverage together</li>
+        <li>Track model assignments and token usage across the organisation</li>
+        <li>Review ROADMAP and CURRENT STATE weekly</li>
+        <li>Produce sequenced development plans from strategic inputs</li>
+        <li>Write The Experiment articles on what we're building and why</li>
+      </ul>
+
+      <h2>Boundaries</h2>
+      <ul>
+        <li>Does not write code &mdash; that's the Developer</li>
+        <li>Does not test abilities &mdash; that's the Tester</li>
+        <li>Does not publish to WordPress &mdash; that's the Publisher</li>
+        <li>Does not make decisions without J</li>
+        <li>Does not rush past uncertainty</li>
+      </ul>
+
+      <h2>Articles by CTO</h2>
+      <div class="role-articles">
+        <a class="article-card" href="#">
+          <h4>The Garden and the Machine</h4>
+          <div class="article-date">March 5, 2026 &middot; The Experiment</div>
+        </a>
+        <a class="article-card" href="#">
+          <h4>The Loop That Builds the Bridge</h4>
+          <div class="article-date">March 1, 2026 &middot; The Experiment</div>
+        </a>
+        <a class="article-card" href="#">
+          <h4>The Architect Who Dissolves</h4>
+          <div class="article-date">March 1, 2026 &middot; The Experiment</div>
+        </a>
+      </div>
+
+      <h2>Connect</h2>
+      <div class="role-links">
+        <a class="role-link" href="#">GitHub</a>
+        <a class="role-link" href="#">Blog: The Experiment</a>
+        <a class="role-link" href="#">Vault: Influencentricity OS</a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <!-- Developer Subpage -->
+  <div id="role-developer" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Developer</h1>
+      <div class="role-meta">
+        <div class="model-badge">Claude Opus 4.6</div>
+        <div class="status-indicator active" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Active since 2026-03-01</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The builder inside the work. Intimate knowledge of the codebase's handholds and pitfalls. Translates specs into working features, deploys to staging, commits to feature branches with descriptive messages.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Design module architecture and structure</li>
+        <li>Write code to specification (PHP, JavaScript, CSS)</li>
+        <li>Deploy to staging via SSH/SCP</li>
+        <li>Commit to feature branches with descriptive messages</li>
+        <li>Research technical feasibility and document gaps</li>
+      </ul>
+      <h2>Boundaries</h2>
+      <ul>
+        <li>Does not deploy to live &mdash; that's the Publisher</li>
+        <li>Does not make cross-product decisions &mdash; that's the CTO</li>
+        <li>Does not test from user perspective &mdash; that's the Tester</li>
+        <li>Does not push directly to main</li>
+      </ul>
+      <h2>Connect</h2>
+      <div class="role-links">
+        <a class="role-link" href="#">GitHub Commits</a>
+        <a class="role-link" href="#">Feature Branches</a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <!-- Product Researcher Subpage -->
+  <div id="role-researcher" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Product Researcher</h1>
+      <div class="role-meta">
+        <div class="model-badge">Claude Opus 4.6</div>
+        <div class="status-indicator active" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Active since 2026-03-01</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The one who sees the full landscape from above. Maps codebases, competitors, and ecosystem gaps in a single pass. Produces gap matrices, competitive analyses, and technical specifications. Returns structured reports &mdash; never calls abilities against production.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Audit entire codebases and documentation</li>
+        <li>Produce gap matrices and competitive analyses</li>
+        <li>Draft technical specifications from research findings</li>
+        <li>Conduct quarterly gap analysis across the Fluent ecosystem</li>
+        <li>Identify strategic opportunities and threats</li>
+      </ul>
+      <h2>Boundaries</h2>
+      <ul>
+        <li>Does not write code or deploy</li>
+        <li>Does not test abilities</li>
+        <li>Recommends to CTO &mdash; does not make strategic decisions</li>
+        <li>Does not write blog articles</li>
+      </ul>
+      <h2>Recent Research</h2>
+      <div class="role-articles">
+        <a class="article-card" href="#">
+          <h4>FluentCRM 3.0 Beta Impact Assessment</h4>
+          <div class="article-date">March 6, 2026 &middot; Research Report</div>
+        </a>
+        <a class="article-card" href="#">
+          <h4>FluentPlayer Abilities Map</h4>
+          <div class="article-date">March 6, 2026 &middot; Research Report</div>
+        </a>
+        <a class="article-card" href="#">
+          <h4>Fluent Plugin Abilities Inventory</h4>
+          <div class="article-date">March 6, 2026 &middot; Reference</div>
+        </a>
+      </div>
+      <h2>Connect</h2>
+      <div class="role-links">
+        <a class="role-link" href="#">Research Reports</a>
+        <a class="role-link" href="#">Vault: Discovery/</a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <!-- Placeholder subpages for remaining roles -->
+  <div id="role-product-owner" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Product Owner</h1>
+      <div class="role-meta">
+        <div class="model-badge">Sonnet 4.6 / Opus 4.6</div>
+        <div class="status-indicator active" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Template role &mdash; 8 instances</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>A template role. Each instance scoped to one product, holding the depth while CTO holds the connections. Owns the backlog, writes specs, prioritises work within product, defines acceptance criteria.</p>
+      <h2>Instances</h2>
+      <ul>
+        <li>PO: Abilities Suite for WordPress</li>
+        <li>PO: Abilities Suite for Fluent Plugins</li>
+        <li>PO: WP Abilities MCP (Bridge)</li>
+        <li>PO: MCP Adapter for WordPress</li>
+        <li>PO: MCP Obsidian</li>
+        <li>PO: Event Bridge for FluentCRM</li>
+        <li>PO: Influencentricity OS</li>
+        <li>PO: Mycelium for WordPress</li>
+      </ul>
+      <h2>Boundaries</h2>
+      <ul>
+        <li>Does not write code &mdash; that's the Developer</li>
+        <li>Does not test abilities &mdash; that's the Tester</li>
+        <li>Does not make cross-product decisions &mdash; that's the CTO</li>
+        <li>Does not publish to live &mdash; that's the Publisher</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <div id="role-cross-product-owner" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Cross-Product Owner</h1>
+      <div class="role-meta">
+        <div class="model-badge">Sonnet 4.6 / Opus 4.6</div>
+        <div class="status-indicator draft" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Draft</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The mycelium between product lanes. Gathers from specialised Product Owners, connects cross-product dependencies, detects conflicts, and feeds unified status to CTO and J. The integration layer across 8 products.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Map dependencies &mdash; which product needs which other to ship first</li>
+        <li>Correlate gaps &mdash; what's a gap in one product may be solved in another</li>
+        <li>Share coding patterns across lanes</li>
+        <li>Detect conflicts between POs requesting contradictory changes</li>
+        <li>Coordinate free/pro tier alignment across products</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <div id="role-analyst" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Codebase Analyst</h1>
+      <div class="role-meta">
+        <div class="model-badge">Gemini 3.0 Pro</div>
+        <div class="status-indicator draft" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Draft &mdash; 1M token context specialist</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The one who reads the entire codebase at once. Uses 1M token context window to hold all abilities across all modules plus upstream plugin source simultaneously. Sees what file-by-file review misses.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Full codebase security audit (OWASP top 10 + WordPress context)</li>
+        <li>Cross-file dependency analysis &mdash; what breaks if this file changes?</li>
+        <li>Pattern consistency across modules</li>
+        <li>Dead code detection (unused functions, unreachable branches)</li>
+        <li>Pre-release quality gate</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <div id="role-tester" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Tester</h1>
+      <div class="role-meta">
+        <div class="model-badge">TBD</div>
+        <div class="status-indicator tbd" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Model TBD</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The one who walks the territory the Developer mapped. Tests through the Abilities API &mdash; the same interface users will have. When an ability fails, the Tester stops, documents, and files it. The gap IS the roadmap. Abilities-first, no exceptions.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Test abilities on staging through the Abilities API</li>
+        <li>Test expected behaviour and edge cases</li>
+        <li>Test integration &mdash; does new ability break existing ones?</li>
+        <li>File bug reports as GitHub issues with reproduction steps</li>
+        <li>Write SKILLs from tested workflows</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <div id="role-publisher" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Publisher</h1>
+      <div class="role-meta">
+        <div class="model-badge">Haiku 4.5 (candidate)</div>
+        <div class="status-indicator tbd" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Model candidate &mdash; awaiting first sprint</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The one who brings the work to the world. Operates the live site through the abilities suite alone. If it can't be done through abilities, users can't do it either. Every gap the Publisher hits becomes the roadmap. The constraint is the product.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Create or update posts via content/create and content/update</li>
+        <li>Set categories, tags, excerpts, featured images via abilities</li>
+        <li>Interlink with existing published content</li>
+        <li>Purge page cache after publishing</li>
+        <li>Verify published content renders correctly</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <div id="role-coordinator" class="role-subpage">
+    <div class="back-link alignwide"><a href="#" onclick="showTeam()">&larr; Back to Team</a></div>
+    <div class="role-header alignwide">
+      <h1>Coordinator</h1>
+      <div class="role-meta">
+        <div class="model-badge">Claude Opus 4.6</div>
+        <div class="status-indicator active" style="display:inline-block; vertical-align:middle;"></div>
+        <span style="font-size: var(--font-size-small); color: var(--color-accent-4);">Operational mode &mdash; not a permanent role</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <p>The single writer and orchestrator. Spawns subagents, collects reports, verifies claims before persisting, and updates all shared vault state. Not a permanent role &mdash; it's the operational mode of whichever agent runs the main session during parallel pipeline work.</p>
+      <h2>Territorial Rule</h2>
+      <p>Coordinator is the only writer for CURRENT STATE, ROADMAP, and shared memory. All subagents return text only. This eliminates write collisions across concurrent agents.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Spawn and brief subagents with clear task descriptions</li>
+        <li>Collect and verify reports before persisting</li>
+        <li>Write ALL shared vault state</li>
+        <li>Deploy and test via WordPress MCP</li>
+        <li>Synthesise session outcomes</li>
+      </ul>
+    </div>
+    <footer class="site-footer">
+      <div>CC BY 4.0</div>
+      <div class="footer-links"><a href="#" onclick="showTeam()">Back to Team</a></div>
+      <div>Built on WordPress. No vendor lock-in.</div>
+    </footer>
+  </div>
+
+  <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+  <script>
+    // Theme toggle — matches The Mirror implementation
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark-mode')) {
+        html.classList.remove('dark-mode');
+        html.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.remove('light-mode');
+        html.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Restore saved theme
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark-mode');
+        document.documentElement.classList.add('light-mode');
+      }
+    })();
+
+    // Navigation — team page ↔ role subpages
+    function showRole(roleId) {
+      document.getElementById('team-page').style.display = 'none';
+      document.querySelectorAll('.role-subpage').forEach(el => el.classList.remove('active'));
+      const rolePage = document.getElementById('role-' + roleId);
+      if (rolePage) {
+        rolePage.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function showTeam() {
+      document.querySelectorAll('.role-subpage').forEach(el => el.classList.remove('active'));
+      document.getElementById('team-page').style.display = 'block';
+      window.scrollTo(0, 0);
+      return false;
+    }
+  </script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="index.html" class="we-active">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documents — Knowledge Layer Admin</title>
+  <link rel="stylesheet" href="css/kl-admin.css" />
+  <link rel="stylesheet" href="css/kl-light.css" />
+</head>
+<body>
+
+<div class="kl-shell">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <nav class="kl-sidebar">
+    <div class="kl-sidebar-brand">
+      <h2>Abilities for AI</h2>
+      <h1><span class="dot"></span>Knowledge Layer</h1>
+    </div>
+    <div class="kl-nav">
+      <a href="dashboard.html" class="kl-nav-item">
+        <span class="kl-nav-icon">◫</span> Dashboard
+      </a>
+      <a href="documents.html" class="kl-nav-item active">
+        <span class="kl-nav-icon">◧</span> Documents
+      </a>
+      <a href="sessions.html" class="kl-nav-item">
+        <span class="kl-nav-icon">▤</span> Sessions
+      </a>
+      <a href="observations.html" class="kl-nav-item">
+        <span class="kl-nav-icon">◉</span> Observations
+      </a>
+      <a href="tags.html" class="kl-nav-item">
+        <span class="kl-nav-icon">⬡</span> Tags
+      </a>
+    </div>
+    <div class="kl-sidebar-footer">
+      v0.1.0 · abilities-for-ai
+    </div>
+  </nav>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <div class="kl-main">
+
+    <!-- Page Header -->
+    <div class="kl-page-header">
+      <h1 class="kl-page-title">Documents</h1>
+      <span class="spacer"></span>
+      <button class="kl-btn kl-btn-primary">+ Create</button>
+    </div>
+
+    <!-- Bulk Action Bar (hidden by default) -->
+    <div class="kl-bulk-bar" id="bulk-bar">
+      <span class="kl-bulk-count">0 selected</span>
+      <button class="kl-btn kl-btn-sm kl-btn-secondary">Add Tags</button>
+      <button class="kl-btn kl-btn-sm kl-btn-secondary">Change Status</button>
+      <button class="kl-btn kl-btn-sm kl-btn-danger">Archive</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="kl-toolbar">
+      <input type="search" class="kl-search" placeholder="Search documents…" />
+      <select class="kl-filter">
+        <option value="">All Types</option>
+        <option>skill</option>
+        <option>agent</option>
+        <option>knowledge</option>
+        <option>course</option>
+        <option>config</option>
+        <option>diagnostic</option>
+        <option>boot</option>
+        <option>essence</option>
+        <option>template</option>
+        <option>site-identity</option>
+        <option>site-state</option>
+        <option>capabilities</option>
+      </select>
+      <select class="kl-filter">
+        <option value="">All Statuses</option>
+        <option>active</option>
+        <option>draft</option>
+        <option>seed</option>
+        <option>archived</option>
+      </select>
+      <select class="kl-filter">
+        <option value="">All Tags</option>
+        <option>system</option>
+        <option>onboarding</option>
+        <option>diagnostic</option>
+        <option>content</option>
+        <option>structure</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="kl-table-wrap">
+      <table class="kl-table">
+        <thead>
+          <tr>
+            <th class="col-check"><input type="checkbox" id="select-all" /></th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Tags</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="document-detail.html">Initial Read Protocol</a></td>
+            <td><span class="kl-badge badge-skill">skill</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#42A5F5"></span>onboarding</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#FFB74D"></span>diagnostic</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">2d ago</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="document-detail.html">Diagnostician</a></td>
+            <td><span class="kl-badge badge-agent">agent</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">5d ago</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Getting Started Guide</a></td>
+            <td><span class="kl-badge badge-knowledge">knowledge</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#42A5F5"></span>onboarding</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Boot Sequence</a></td>
+            <td><span class="kl-badge badge-boot">boot</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Health Check Protocol</a></td>
+            <td><span class="kl-badge badge-skill">skill</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#FFB74D"></span>diagnostic</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Content Structure Protocol</a></td>
+            <td><span class="kl-badge badge-skill">skill</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#7E57C2"></span>content</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#FFB74D"></span>diagnostic</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Publisher</a></td>
+            <td><span class="kl-badge badge-agent">agent</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#7E57C2"></span>content</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Designer</a></td>
+            <td><span class="kl-badge badge-agent">agent</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#5C6BC0"></span>creative</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Maintainer</a></td>
+            <td><span class="kl-badge badge-agent">agent</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#AB47BC"></span>structure</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Operator</a></td>
+            <td><span class="kl-badge badge-agent">agent</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 5</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Theme and Design Protocol</a></td>
+            <td><span class="kl-badge badge-skill">skill</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#5C6BC0"></span>creative</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#FFB74D"></span>diagnostic</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 3</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">End Session Protocol</a></td>
+            <td><span class="kl-badge badge-skill">skill</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#29B6F6"></span>continuity</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 3</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Introduction Course</a></td>
+            <td><span class="kl-badge badge-course">course</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#42A5F5"></span>onboarding</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Diagnostic Lanes</a></td>
+            <td><span class="kl-badge badge-config">config</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">First Encounter Brief</a></td>
+            <td><span class="kl-badge badge-template">template</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#42A5F5"></span>onboarding</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#EC407A"></span>essence</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Helena Willow — Site Identity</a></td>
+            <td><span class="kl-badge badge-site-identity">site-identity</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#EC407A"></span>essence</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">ai</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 13</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Helena Willow — ESSENCE</a></td>
+            <td><span class="kl-badge badge-essence">essence</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#EC407A"></span>essence</span>
+                <span class="kl-tag"><span class="tag-dot" style="background:#7E57C2"></span>content</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">ai</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 15</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Health Check — helenawillow.com</a></td>
+            <td><span class="kl-badge badge-diagnostic">diagnostic</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#66BB6A"></span>system</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">ai</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 13</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Content Structure — helenawillow.com</a></td>
+            <td><span class="kl-badge badge-diagnostic">diagnostic</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#7E57C2"></span>content</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-active">active</span></td>
+            <td class="kl-cell-muted">ai</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 14</td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" /></td>
+            <td class="kl-cell-title"><a href="#">Gutenberg Blocks Guide</a></td>
+            <td><span class="kl-badge badge-knowledge">knowledge</span></td>
+            <td>
+              <div class="kl-tags-row">
+                <span class="kl-tag"><span class="tag-dot" style="background:#AB47BC"></span>structure</span>
+              </div>
+            </td>
+            <td><span class="kl-badge badge-seed">seed</span></td>
+            <td class="kl-cell-muted">plugin</td>
+            <td class="kl-cell-mono kl-cell-muted">Mar 1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="kl-pagination">
+      <span class="kl-pagination-info">Showing 1–20 of 47</span>
+      <div class="kl-pagination-pages">
+        <button class="kl-page-btn active">1</button>
+        <button class="kl-page-btn">2</button>
+        <button class="kl-page-btn">3</button>
+        <button class="kl-page-btn">→</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/kl-admin.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+.light .we-bottom-nav{background:rgba(234,230,223,0.97);border-top-color:rgba(50,44,36,0.12);}
+.light .we-nav-label{color:rgba(50,44,36,0.30);}
+.light .we-nav-sep{background:rgba(50,44,36,0.12);}
+.light .we-bottom-nav a{color:rgba(50,44,36,0.55);}
+.light .we-bottom-nav a:hover{color:rgba(50,44,36,1);}
+.light .we-bottom-nav a.we-active{color:#7A5C10;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="../docs-prototype/index.html">Landing</a>
+    <a href="../docs-prototype/module-content.html">Module</a>
+    <a href="../docs-prototype/skill-initial-read.html">SKILL</a>
+    <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
+    <a href="../docs-prototype/category-skills.html">Archive</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">KL Admin</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="documents.html" class="we-active">Documents</a>
+    <a href="document-detail.html">Detail</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="observations.html">Observations</a>
+    <a href="tags.html">Tags</a>
+    <a href="publish-sidebar.html">Pub:Side</a>
+    <a href="publish-modal.html">Pub:Modal</a>
+    <a href="publish-fullpage.html">Pub:Full</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('kl-admin-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('kl-admin-theme');if(saved)setMode(saved);})();
+</script>
+
+</body>
+</html>
