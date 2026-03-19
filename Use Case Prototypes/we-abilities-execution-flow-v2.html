@@ -8,151 +8,374 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+
+/* ═══════════════════════════════════════════════════════════
+   WE BRAND TOKENS — v1.1 canonical
+   Source: Design System.md + Light Mode Design Guide.md
+
+   DARK MODE: colour-expressive — purple/green brand colours
+   LIGHT MODE: ink-first — near-black text scale, amber accent only
+
+   LIGHT MODE PRINCIPLE (from Light Mode Design Guide):
+   "Use the ink scale for readability. Reduce colour."
+   Text:    #1C1915 (primary), #2E2A24 (body), #7A7268 (muted)
+   Border:  rgba(50,44,36,x) warm dark channel only
+   Accent:  #8B6914 amber — the ONE colour allowed
+   In SVG:  all labels, arrows, conditions → ink scale
+             only alt-frame tabs get amber as structural marker
+   NO opacity on body text — solid hex values only
+
+   Transparency is a design flaw in light mode:
+   rgba(26,26,24,0.55) computes ~#787672 — marginal AA
+   Solid #2E2A24 = 13.4:1 WCAG AAA — use this instead
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --y:#FFEE58; --g:#22c55e; --p:#7c3aed; --pl:#a78bfa;
-  --yd:rgba(255,238,88,.07); --yb:rgba(255,238,88,.17);
-  --gd:rgba(34,197,94,.07);  --gb:rgba(34,197,94,.17);
-  --pd:rgba(124,58,237,.07); --pb:rgba(124,58,237,.16);
-  --fd:'Syne',sans-serif; --fb:'Manrope',system-ui,sans-serif; --fm:'JetBrains Mono',monospace;
+  --fd:'Syne',sans-serif;
+  --fb:'Manrope',system-ui,sans-serif;
+  --fm:'JetBrains Mono',monospace;
 }
+
+/* ── DARK MODE ─────────────────────────────────────────────── */
 [data-theme="dark"] {
+  /* Page */
   --bg:#111111; --bg2:#161616; --text:#E0DDD5;
-  --t2:rgba(224,221,213,.70); --t3:rgba(224,221,213,.35);
-  --card:rgba(255,255,255,.025); --border:rgba(255,255,255,.055); --bordh:rgba(255,255,255,.11);
-  --svg-bg:#0d0d10; --msg-bg:rgba(10,10,14,.90);
+  --t2:rgba(224,221,213,0.70); /* #a2a09a · 7.22:1 WCAG AAA */
+  --t3:rgba(224,221,213,0.35); /* intentional ghost only */
+  --card:rgba(255,255,255,0.025);
+  --border:rgba(255,255,255,0.055); --bordh:rgba(255,255,255,0.11);
+  --yd:rgba(255,238,88,0.07);  --yb:rgba(255,238,88,0.17);
+  --gd:rgba(34,197,94,0.07);   --gb:rgba(34,197,94,0.17);
+  --pd:rgba(124,58,237,0.07);  --pb:rgba(124,58,237,0.16);
+
+  /* SVG tokens — dark */
+  --svgbg:#0c0c10;
+  --actor-p-fill:rgba(124,58,237,0.14); --actor-p-stroke:#a78bfa; --actor-p-text:#a78bfa;
+  --actor-g-fill:rgba(34,197,94,0.12);  --actor-g-stroke:#22c55e; --actor-g-text:#22c55e;
+  --actor-sub:#a78bfa; --actor-sub-op:0.45;
+  --lane-p:rgba(124,58,237,0.03); --lane-g:rgba(34,197,94,0.025);
+  --lifeline-p:rgba(167,139,250,0.16); --lifeline-g:rgba(34,197,94,0.16);
+  --arrow-call:#a78bfa; --arrow-return:#22c55e; --arrow-error:#f87171;
+  --msg-call:#a78bfa; --msg-return:#22c55e; --msg-error:#f87171;
+  --msg-bg:rgba(8,8,12,0.90);
+  --act-p:#a78bfa; --act-p-op:0.28; --act-g:#22c55e; --act-g-op:0.24;
+  --err-zone:rgba(248,113,113,0.05); --err-bar:#f87171;
+  --alt-fill:rgba(124,58,237,0.05); --alt-stroke:rgba(124,58,237,0.32);
+  --alt-tab:#7c3aed; --alt-tab-text:#ffffff; --alt-cond:#a78bfa;
+  --ialt-fill:rgba(34,197,94,0.05); --ialt-stroke:rgba(34,197,94,0.28);
+  --ialt-tab:#22c55e; --ialt-tab-text:#0a0a0a; --ialt-cond:#22c55e;
+  --note-fill:rgba(255,238,88,0.07); --note-stroke:rgba(255,238,88,0.24);
+  --note-fold:rgba(255,238,88,0.18); --note-text:#FFEE58;
+  --note-op:0.82; --note-sub-op:0.48;
+
+  /* Page accent aliases */
+  --accent-p:#a78bfa; --accent-g:#22c55e; --accent-y:#FFEE58;
+  /* UI */
+  --eyebrow-color:var(--accent-p); --eyebrow-border:var(--pb);
+  --ebdot-bg:var(--accent-p);
+  --seclabel-color:var(--accent-p);
 }
+
+/* ── LIGHT MODE ────────────────────────────────────────────── */
+/*
+   Ink scale — solid hex, no opacity on readable text.
+   Source: Light Mode Design Guide §2.2
+   #1C1915 = 15.2:1 WCAG AAA (primary/strong)
+   #2E2A24 = 13.4:1 WCAG AAA (body)
+   #7A7268 = 4.6:1  WCAG AA  (muted labels only)
+   #8B6914 = 5.8:1  WCAG AA  (amber — the single accent)
+
+   SVG diagram: pure ink. No purple, no green, no transparency.
+   Amber (#8B6914) only on alt-frame tabs and note cards.
+   All arrows, labels, actor boxes → ink scale.
+*/
 [data-theme="light"] {
-  --bg:#F5F4F0; --bg2:#EAE6DF; --text:#1a1a18;
-  --t2:rgba(26,26,24,.70); --t3:rgba(26,26,24,.35);
-  --card:rgba(255,255,255,.75); --border:rgba(0,0,0,.09); --bordh:rgba(0,0,0,.16);
-  --yd:rgba(255,238,88,.12); --yb:rgba(255,238,88,.26);
-  --gd:rgba(34,197,94,.09);  --gb:rgba(34,197,94,.22);
-  --pd:rgba(124,58,237,.07); --pb:rgba(124,58,237,.20);
-  --svg-bg:#E6E3DC; --msg-bg:rgba(230,227,220,.94);
+  /* Page */
+  --bg:#F5F4F0; --bg2:#EAE6DF; --text:#1C1915;
+  --t2:#2E2A24;    /* solid — 13.4:1 WCAG AAA */
+  --t3:#7A7268;    /* solid — 4.6:1 WCAG AA — labels/meta only */
+  --card:rgba(255,255,255,0.80);
+  --border:rgba(50,44,36,0.12); --bordh:rgba(50,44,36,0.26);
+  /* Tint pairs — warm channel, amber-based */
+  --yd:rgba(139,105,20,0.09); --yb:rgba(139,105,20,0.22);
+  --gd:rgba(50,44,36,0.06);   --gb:rgba(50,44,36,0.16);
+  --pd:rgba(50,44,36,0.06);   --pb:rgba(50,44,36,0.16);
+
+  /* SVG tokens — light ink system */
+  --svgbg:#E8E4DC;
+  /* Actor boxes — ink, not colour */
+  --actor-p-fill:rgba(50,44,36,0.07);
+  --actor-p-stroke:#2E2A24;
+  --actor-p-text:#1C1915;
+  --actor-g-fill:rgba(50,44,36,0.05);
+  --actor-g-stroke:#2E2A24;
+  --actor-g-text:#1C1915;
+  --actor-sub:#7A7268; --actor-sub-op:1; /* solid, not transparent */
+  /* Lane backgrounds — barely-there */
+  --lane-p:rgba(50,44,36,0.022); --lane-g:rgba(50,44,36,0.015);
+  /* Lifelines — ink */
+  --lifeline-p:rgba(50,44,36,0.20); --lifeline-g:rgba(50,44,36,0.16);
+  /* Arrows — ink scale only */
+  --arrow-call:#1C1915;   /* solid near-black for calls */
+  --arrow-return:#7A7268; /* muted ink for returns */
+  --arrow-error:#B91C1C;  /* dark red — only colour in diagram */
+  /* Message labels — ink */
+  --msg-call:#1C1915;
+  --msg-return:#2E2A24;
+  --msg-error:#B91C1C;
+  --msg-bg:rgba(232,228,220,0.96);
+  /* Activation bars — ink */
+  --act-p:#1C1915; --act-p-op:0.14;
+  --act-g:#1C1915; --act-g-op:0.10;
+  /* Error zone */
+  --err-zone:rgba(185,28,28,0.05); --err-bar:#B91C1C;
+  /* Alt frame — amber structural marker, ink condition text */
+  --alt-fill:rgba(139,105,20,0.06);
+  --alt-stroke:rgba(139,105,20,0.28);
+  --alt-tab:#8B6914; --alt-tab-text:#ffffff;
+  --alt-cond:#7A7268; /* muted ink — subordinate italic text */
+  /* Inner alt — dark ink */
+  --ialt-fill:rgba(50,44,36,0.04);
+  --ialt-stroke:rgba(50,44,36,0.20);
+  --ialt-tab:#2E2A24; --ialt-tab-text:#ffffff;
+  --ialt-cond:#7A7268;
+  /* Note cards — amber only */
+  --note-fill:rgba(139,105,20,0.07);
+  --note-stroke:rgba(139,105,20,0.26);
+  --note-fold:rgba(139,105,20,0.20);
+  --note-text:#8B6914;
+  --note-op:1; --note-sub-op:0.75; /* high opacity — solid text */
+
+  /* Page accent aliases */
+  --accent-p:#1C1915; /* headings use ink, not purple */
+  --accent-g:#2E2A24; /* body */
+  --accent-y:#8B6914; /* amber — the one accent */
+  /* UI elements */
+  --eyebrow-color:#1C1915;
+  --eyebrow-border:rgba(50,44,36,0.20);
+  --ebdot-bg:#8B6914;  /* amber dot on eyebrow */
+  --seclabel-color:#2E2A24; /* ink, not colour */
 }
+
+/* ═══════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:300;
-  line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;transition:background .3s,color .3s;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--fb);font-weight:300;
+  font-size:21px; /* body base — v1.1 */
+  line-height:1.82;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;transition:background .3s,color .3s;
+}
 
 /* TOP BAR */
-.top-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);
-  padding:0 48px;display:flex;align-items:center;justify-content:space-between;
-  height:52px;backdrop-filter:blur(12px);transition:background .3s;}
-.tb-brand{font-family:var(--fd);font-size:.85rem;font-weight:800;letter-spacing:-.02em;color:var(--text);}
-.tb-brand span{color:var(--pl);}
+.top-bar{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:52px;backdrop-filter:blur(12px);
+  transition:background .3s,border-color .3s;
+}
+.tb-brand{font-family:var(--fd);font-size:0.85rem;font-weight:800;letter-spacing:-0.02em;color:var(--text);}
+.tb-brand span{color:var(--eyebrow-color);}
 .tb-right{display:flex;align-items:center;gap:14px;}
-.tb-pill{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
-  color:var(--t3);padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
-.theme-btn{display:flex;align-items:center;gap:7px;cursor:pointer;background:var(--card);
-  border:1px solid var(--border);border-radius:100px;padding:5px 14px 5px 10px;
-  font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--t2);
-  text-transform:uppercase;transition:all .2s;user-select:none;}
+.tb-pill{
+  font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--t3);padding:4px 10px;border:1px solid var(--border);border-radius:100px;
+}
+.theme-btn{
+  display:flex;align-items:center;gap:7px;cursor:pointer;
+  background:var(--card);border:1px solid var(--border);border-radius:100px;
+  padding:5px 14px 5px 10px;
+  font-family:var(--fm);font-size:11px;letter-spacing:0.08em;color:var(--t2);
+  text-transform:uppercase;transition:all .2s;user-select:none;
+}
 .theme-btn:hover{border-color:var(--bordh);color:var(--text);}
-.tdot{width:7px;height:7px;border-radius:50%;background:var(--y);flex-shrink:0;transition:background .3s;}
-[data-theme="light"] .tdot{background:var(--p);}
+.tdot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent-y);
+  flex-shrink:0;transition:background .3s;
+}
 
 /* PAGE */
 .page{max-width:1020px;margin:0 auto;padding:72px 48px 120px;}
 
-/* HEADER */
-.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--pb);color:var(--pl);
-  padding:4px 14px;border-radius:100px;font-family:var(--fm);font-size:10px;
-  letter-spacing:.1em;text-transform:uppercase;margin-bottom:22px;}
-.ebdot{width:5px;height:5px;background:var(--pl);border-radius:50%;
-  animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;}
+/* ── EYEBROW ────────────────────────────────────────────────
+   Light mode: ink text + ink border. No purple. Amber dot.
+   Dark mode: purple text + purple border.
+──────────────────────────────────────────────────────────── */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--eyebrow-border);
+  color:var(--eyebrow-color);
+  padding:4px 14px;border-radius:100px;
+  font-family:var(--fm);
+  font-size:14px; /* v1.1 eyebrow size */
+  letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.ebdot{
+  width:5px;height:5px;
+  background:var(--ebdot-bg);
+  border-radius:50%;
+  animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.doc-title{font-family:var(--fd);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;
-  letter-spacing:-.04em;line-height:1.08;margin-bottom:16px;color:var(--text);}
-.doc-title em{font-style:normal;color:var(--g);}
-.ingress{font-size:18px;font-weight:300;color:var(--t2);max-width:640px;line-height:1.78;margin-bottom:12px;}
-hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--p),transparent);
-  opacity:.28;max-width:72px;margin-bottom:52px;}
 
-/* SECTION LABEL */
-.sec-label{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.16em;
-  color:var(--pl);margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;}
-.sec-label--g{color:rgba(34,197,94,.65);}
+/* ── DOC TITLE ──────────────────────────────────────────────
+   v1.1: clamp(1.7rem, 3vw, 2.4rem) for doc/ref pages
+──────────────────────────────────────────────────────────── */
+.doc-title{
+  font-family:var(--fd);
+  font-size:clamp(1.7rem,3vw,2.4rem);
+  font-weight:800;letter-spacing:-0.04em;line-height:1.08;
+  margin-bottom:16px;color:var(--text);
+}
+.doc-title em{font-style:normal;color:var(--accent-y);} /* amber in both modes */
 
-/* DIAGRAM CHROME */
-.diagram-wrap{background:var(--svg-bg);border:1px solid var(--border);border-radius:14px;
-  overflow:hidden;margin-bottom:2px;transition:background .3s;}
-.diagram-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
-  border-bottom:1px solid var(--border);background:var(--bg2);transition:background .3s;}
+/* ── INGRESS ────────────────────────────────────────────────
+   v1.1: 22px desktop / 20px tablet / 18px mobile (section sub)
+──────────────────────────────────────────────────────────── */
+.ingress{
+  font-size:22px;font-weight:300;color:var(--t2);
+  max-width:640px;line-height:1.82;margin-bottom:12px;
+}
+
+hr.gl{
+  height:1px;border:none;
+  background:linear-gradient(90deg,transparent,var(--eyebrow-border),transparent);
+  opacity:1;max-width:72px;margin-bottom:52px;
+}
+
+/* ── SECTION LABEL ──────────────────────────────────────────
+   Light: solid ink #2E2A24, not coloured
+   v1.1: 14px
+──────────────────────────────────────────────────────────── */
+.sec-label{
+  font-family:var(--fm);font-size:14px;text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--seclabel-color);
+  margin-bottom:18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+/* ── DIAGRAM CHROME ─────────────────────────────────────── */
+.diagram-wrap{
+  background:var(--svgbg);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;margin-bottom:2px;transition:background .3s;
+}
+.diagram-bar{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
+  border-bottom:1px solid var(--border);background:var(--bg2);transition:background .3s;
+}
 .db-dots{display:flex;gap:6px;}
 .db-dot{width:9px;height:9px;border-radius:50%;}
-.replay-btn{display:flex;align-items:center;gap:7px;cursor:pointer;
-  font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--g);padding:4px 12px;border:1px solid var(--gb);border-radius:100px;
-  background:var(--gd);transition:all .2s;user-select:none;}
-.replay-btn:hover{background:rgba(34,197,94,.14);}
+.replay-btn{
+  display:flex;align-items:center;gap:7px;cursor:pointer;
+  font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--t2);padding:4px 12px;border:1px solid var(--border);border-radius:100px;
+  background:var(--card);transition:all .2s;user-select:none;
+}
+.replay-btn:hover{border-color:var(--bordh);color:var(--text);}
 .step-dots{display:flex;align-items:center;gap:5px;margin-right:10px;}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .25s;}
-.sdot.active{background:var(--g);}
-.sdot.done{background:rgba(34,197,94,.28);}
+.sdot.active{background:var(--accent-y);}
+.sdot.done{background:rgba(139,105,20,0.30);}
 
-/* LEGEND */
-.legend{display:flex;align-items:center;flex-wrap:wrap;gap:20px;
-  padding:13px 22px;background:var(--card);border:1px solid var(--border);
-  border-radius:0 0 10px 10px;margin-bottom:40px;}
-.leg{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:10px;color:var(--t2);}
+/* ── LEGEND ─────────────────────────────────────────────── */
+.legend{
+  display:flex;align-items:center;flex-wrap:wrap;gap:20px;padding:13px 22px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:0 0 10px 10px;margin-bottom:40px;
+  font-family:var(--fm);font-size:11px;color:var(--t2);
+}
+.leg{display:flex;align-items:center;gap:8px;}
 
-/* ANNOTATION CARDS */
+/* ── ANNOTATION CARDS ───────────────────────────────────── */
 .anno-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
-.anno-card{background:var(--card);border:1px solid var(--border);border-radius:10px;
-  padding:22px 26px;display:flex;align-items:flex-start;gap:14px;}
+.anno-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:22px 26px;display:flex;align-items:flex-start;gap:14px;
+}
 .anno-card--p{border-color:var(--pb);background:linear-gradient(135deg,var(--pd),var(--card) 70%);}
 .anno-card--g{border-color:var(--gb);background:linear-gradient(135deg,var(--gd),var(--card) 70%);}
-.anno-card--r{border-color:rgba(239,68,68,.18);background:linear-gradient(135deg,rgba(239,68,68,.05),var(--card) 70%);}
+.anno-card--r{border-color:rgba(185,28,28,0.18);background:linear-gradient(135deg,rgba(185,28,28,0.05),var(--card) 70%);}
 .anno-card--y{border-color:var(--yb);background:linear-gradient(135deg,var(--yd),var(--card) 70%);}
-.anno-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px;}
+.anno-icon{
+  width:34px;height:34px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px;
+}
 .anno-icon--p{background:var(--pd);border:1px solid var(--pb);}
 .anno-icon--g{background:var(--gd);border:1px solid var(--gb);}
-.anno-icon--r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);}
+.anno-icon--r{background:rgba(185,28,28,0.07);border:1px solid rgba(185,28,28,0.2);}
 .anno-icon--y{background:var(--yd);border:1px solid var(--yb);}
-.anno-title{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:-.01em;
-  color:var(--text);margin-bottom:5px;line-height:1.2;}
-.anno-desc{font-size:13px;font-weight:300;color:var(--t2);line-height:1.65;}
-.anno-code{font-family:var(--fm);font-size:11px;color:var(--pl);background:var(--pd);
-  border:1px solid var(--pb);padding:2px 8px;border-radius:4px;display:inline-block;margin-top:7px;}
-.anno-code--g{color:var(--g);background:var(--gd);border-color:var(--gb);}
-.anno-code--r{color:#ef4444;background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);}
-.anno-code--y{color:var(--y);background:var(--yd);border-color:var(--yb);}
+.anno-title{
+  font-family:var(--fd);font-size:16px;font-weight:700;
+  color:var(--text);margin-bottom:5px;line-height:1.2;
+}
+.anno-desc{font-size:16px;font-weight:300;color:var(--t2);line-height:1.65;}
+.anno-code{
+  font-family:var(--fm);font-size:13px;
+  color:var(--eyebrow-color);background:var(--pd);
+  border:1px solid var(--pb);padding:2px 8px;border-radius:4px;
+  display:inline-block;margin-top:7px;
+}
+.anno-code--g{color:var(--t2);background:var(--gd);border-color:var(--gb);}
+.anno-code--r{color:var(--arrow-error);background:rgba(185,28,28,0.07);border-color:rgba(185,28,28,0.2);}
+.anno-code--y{color:var(--accent-y);background:var(--yd);border-color:var(--yb);}
 
-/* PERMISSION LAYERS */
+/* ── PERMISSION LAYERS ──────────────────────────────────── */
 .layers{display:flex;gap:2px;margin-bottom:40px;}
 .layer{flex:1;padding:20px 22px;background:var(--card);border:1px solid var(--border);border-radius:10px;}
-.layer--p{border-color:rgba(124,58,237,.25);background:linear-gradient(135deg,var(--pd),var(--card) 60%);}
-.layer--g{border-color:rgba(34,197,94,.22);background:linear-gradient(135deg,var(--gd),var(--card) 60%);}
-.layer-n{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--t3);margin-bottom:9px;}
-.layer-title{font-family:var(--fd);font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:6px;line-height:1.2;}
-.layer-desc{font-size:13px;font-weight:300;color:var(--t2);line-height:1.65;}
-.layer-code{font-family:var(--fm);font-size:11px;color:var(--pl);display:block;margin-top:9px;}
-.layer-code--g{color:var(--g);}
-.layer-sep{display:flex;align-items:center;padding:0 8px;flex-shrink:0;font-family:var(--fm);font-size:10px;color:var(--t3);}
+.layer--p{border-color:var(--pb);background:linear-gradient(135deg,var(--pd),var(--card) 60%);}
+.layer--g{border-color:var(--gb);background:linear-gradient(135deg,var(--gd),var(--card) 60%);}
+.layer-n{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--t3);margin-bottom:9px;}
+.layer-title{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.2;}
+.layer-desc{font-size:16px;font-weight:300;color:var(--t2);line-height:1.65;}
+.layer-code{font-family:var(--fm);font-size:13px;color:var(--eyebrow-color);display:block;margin-top:9px;}
+.layer-code--g{color:var(--t2);}
+.layer-sep{display:flex;align-items:center;padding:0 8px;flex-shrink:0;font-family:var(--fm);font-size:11px;color:var(--t3);}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:36px 0;margin-bottom:52px;}
+/* ── STATS ──────────────────────────────────────────────── */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:36px 0;margin-bottom:52px;
+}
 .stat{padding:0 24px;border-right:1px solid var(--border);}
-.stat:first-child{padding-left:0;}
-.stat:last-child{border-right:none;}
-.stat-n{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.045em;line-height:1;margin-bottom:5px;}
-.stat-l{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);}
+.stat:first-child{padding-left:0;}.stat:last-child{border-right:none;}
+.stat-n{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-0.045em;line-height:1;margin-bottom:5px;}
+.stat-l{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t2);}
 
-/* QUOTE */
+/* ── QUOTE ──────────────────────────────────────────────── */
 .quote{text-align:center;padding:16px 0 0;}
-.quote-text{font-family:var(--fd);font-size:clamp(1.1rem,2vw,1.5rem);font-weight:800;
-  letter-spacing:-.04em;line-height:1.22;color:var(--text);max-width:520px;margin:0 auto 12px;}
-.quote-text em{font-style:normal;color:var(--g);}
-.quote-attr{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+.quote-text{
+  font-family:var(--fd);font-size:clamp(1.1rem,2vw,1.5rem);font-weight:800;
+  letter-spacing:-0.04em;line-height:1.22;color:var(--text);max-width:520px;margin:0 auto 12px;
+}
+.quote-text em{font-style:normal;color:var(--accent-y);}
+.quote-attr{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t3);}
 
-@media(max-width:700px){
+/* ── RESPONSIVE — v1.1 breakpoints ─────────────────────── */
+@media(max-width:1024px){
+  body{font-size:19px;}
+  .ingress{font-size:20px;}
+  .eyebrow,.tb-pill{font-size:13px;}
+}
+@media(max-width:640px){
+  body{font-size:17px;}
   .page{padding:40px 20px 80px;}
   .top-bar{padding:0 20px;}
+  .ingress{font-size:18px;}
+  .eyebrow,.tb-pill{font-size:12px;}
   .anno-grid{grid-template-columns:1fr;}
   .layers{flex-direction:column;}
   .stats{grid-template-columns:1fr 1fr;}
+  .stat:nth-child(2){border-right:none;}
+  .stat:nth-child(3){padding-left:0;margin-top:24px;}
+  .stat:nth-child(4){margin-top:24px;}
 }
 </style>
 </head>
@@ -176,19 +399,14 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
   <p class="ingress">From MCP Client to WordPress Core to your callback — every hop, every gate, every branch. Permission layers, schema validation, and error handling shown exactly where they fire.</p>
   <hr class="gl">
 
-  <!-- DIAGRAM SECTION LABEL -->
   <div class="sec-label">
     <span>Execution Flow · Sequence Diagram</span>
     <div style="display:flex;align-items:center;gap:10px;">
       <div class="step-dots">
-        <div class="sdot" id="sd0"></div>
-        <div class="sdot" id="sd1"></div>
-        <div class="sdot" id="sd2"></div>
-        <div class="sdot" id="sd3"></div>
-        <div class="sdot" id="sd4"></div>
-        <div class="sdot" id="sd5"></div>
-        <div class="sdot" id="sd6"></div>
-        <div class="sdot" id="sd7"></div>
+        <div class="sdot" id="sd0"></div><div class="sdot" id="sd1"></div>
+        <div class="sdot" id="sd2"></div><div class="sdot" id="sd3"></div>
+        <div class="sdot" id="sd4"></div><div class="sdot" id="sd5"></div>
+        <div class="sdot" id="sd6"></div><div class="sdot" id="sd7"></div>
       </div>
       <div class="replay-btn" onclick="replayDiagram()">
         <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor"><polygon points="1,0.5 8.5,4.5 1,8.5"/></svg>
@@ -200,360 +418,303 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
   <div class="diagram-wrap">
     <div class="diagram-bar">
       <div class="db-dots">
-        <div class="db-dot" style="background:rgba(239,68,68,.6);"></div>
-        <div class="db-dot" style="background:rgba(245,158,11,.6);"></div>
-        <div class="db-dot" style="background:rgba(34,197,94,.6);"></div>
-        <span style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-left:10px;">abilities-for-ai · wp_get_ability() → $ability→execute() → callback</span>
+        <div class="db-dot" style="background:rgba(239,68,68,.6)"></div>
+        <div class="db-dot" style="background:rgba(245,158,11,.6)"></div>
+        <div class="db-dot" style="background:rgba(34,197,94,.6)"></div>
+        <span style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-left:10px">abilities-for-ai · wp_get_ability() → $ability→execute() → callback</span>
       </div>
-      <span style="font-family:var(--fm);font-size:10px;color:var(--t3);">sequenceDiagram</span>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--t3)">sequenceDiagram</span>
     </div>
 
     <!--
-    ══════════════════════════════════════════════════════════
-    SVG SEQUENCE DIAGRAM — V2
-    viewBox: 0 0 1060 896
-    Actor x-centres:  118 | 385 | 652 | 920
-    Between centres:  267px each — comfortable label room
-    Actor boxes:      140 × 64px
-    Row pitch:        52px between message baselines
-    ══════════════════════════════════════════════════════════
+    viewBox 1060×896. Actors at x=118|385|652|920. Spacing 267px.
+    ALL SVG colours via style="...var(--token)..." — no hardcoded hex.
+    Light mode: full ink scale. No purple, no green in diagram.
+    Amber (#8B6914 via --alt-tab) only on structural tab badges.
     -->
     <svg id="seq" viewBox="0 0 1060 896" xmlns="http://www.w3.org/2000/svg"
-         style="display:block;width:100%;padding:28px 24px 36px;">
+         style="display:block;width:100%;padding:28px 24px 36px">
       <defs>
         <marker id="hc" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
-          <path d="M0,0 L0,7 L9,3.5 Z" fill="#a78bfa"/>
+          <path d="M0,0 L0,7 L9,3.5 Z" style="fill:var(--arrow-call)"/>
         </marker>
         <marker id="hr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
-          <path d="M0,0 L0,7 L9,3.5 Z" fill="#22c55e"/>
+          <path d="M0,0 L0,7 L9,3.5 Z" style="fill:var(--arrow-return)"/>
         </marker>
         <marker id="he" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
-          <path d="M0,0 L0,7 L9,3.5 Z" fill="#ef4444"/>
+          <path d="M0,0 L0,7 L9,3.5 Z" style="fill:var(--arrow-error)"/>
         </marker>
       </defs>
 
-      <!-- ── LANE BACKGROUNDS ──────────────────────────── -->
-      <rect x="48"  y="0" width="142" height="896" fill="rgba(124,58,237,.025)"/>
-      <rect x="315" y="0" width="142" height="896" fill="rgba(124,58,237,.020)"/>
-      <rect x="582" y="0" width="142" height="896" fill="rgba(34,197,94,.020)"/>
-      <rect x="848" y="0" width="144" height="896" fill="rgba(34,197,94,.025)"/>
+      <!-- Lane backgrounds -->
+      <rect x="48"  y="0" width="142" height="896" style="fill:var(--lane-p)"/>
+      <rect x="315" y="0" width="142" height="896" style="fill:var(--lane-p)"/>
+      <rect x="582" y="0" width="142" height="896" style="fill:var(--lane-g)"/>
+      <rect x="848" y="0" width="144" height="896" style="fill:var(--lane-g)"/>
 
-      <!-- ── ACTOR BOXES TOP ───────────────────────────── -->
-      <!-- Client -->
-      <rect x="48" y="10" width="140" height="64" rx="8" fill="rgba(124,58,237,.14)" stroke="#a78bfa" stroke-width="1.5"/>
-      <text x="118" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#a78bfa">Client</text>
-      <text x="118" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#a78bfa" opacity=".5">MCP Client</text>
+      <!-- Actor boxes TOP -->
+      <rect x="48"  y="10" width="140" height="64" rx="8" style="fill:var(--actor-p-fill);stroke:var(--actor-p-stroke);stroke-width:1.5"/>
+      <text x="118" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-p-text)">Client</text>
+      <text x="118" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">MCP Client</text>
 
-      <!-- Adapter -->
-      <rect x="315" y="10" width="140" height="64" rx="8" fill="rgba(124,58,237,.14)" stroke="#a78bfa" stroke-width="1.5"/>
-      <text x="385" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#a78bfa">Adapter</text>
-      <text x="385" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#a78bfa" opacity=".5">MCP Adapter</text>
+      <rect x="315" y="10" width="140" height="64" rx="8" style="fill:var(--actor-p-fill);stroke:var(--actor-p-stroke);stroke-width:1.5"/>
+      <text x="385" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-p-text)">Adapter</text>
+      <text x="385" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">MCP Adapter</text>
 
-      <!-- WordPress -->
-      <rect x="582" y="10" width="140" height="64" rx="8" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
-      <text x="652" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#22c55e">WordPress</text>
-      <text x="652" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#22c55e" opacity=".5">Core · WP 6.9+</text>
+      <rect x="582" y="10" width="140" height="64" rx="8" style="fill:var(--actor-g-fill);stroke:var(--actor-g-stroke);stroke-width:1.5"/>
+      <text x="652" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-g-text)">WordPress</text>
+      <text x="652" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">Core · WP 6.9+</text>
 
-      <!-- Callback -->
-      <rect x="848" y="10" width="144" height="64" rx="8" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
-      <text x="920" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#22c55e">Callback</text>
-      <text x="920" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#22c55e" opacity=".5">Ability + Gates</text>
+      <rect x="848" y="10" width="144" height="64" rx="8" style="fill:var(--actor-g-fill);stroke:var(--actor-g-stroke);stroke-width:1.5"/>
+      <text x="920" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-g-text)">Callback</text>
+      <text x="920" y="56" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">Ability + Gates</text>
 
-      <!-- ── LIFELINES ──────────────────────────────────── -->
-      <line x1="118" y1="74" x2="118" y2="820" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5 5" opacity=".15"/>
-      <line x1="385" y1="74" x2="385" y2="820" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5 5" opacity=".15"/>
-      <line x1="652" y1="74" x2="652" y2="820" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 5" opacity=".15"/>
-      <line x1="920" y1="74" x2="920" y2="820" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 5" opacity=".15"/>
+      <!-- Lifelines -->
+      <line x1="118" y1="74" x2="118" y2="820" style="stroke:var(--lifeline-p)" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <line x1="385" y1="74" x2="385" y2="820" style="stroke:var(--lifeline-p)" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <line x1="652" y1="74" x2="652" y2="820" style="stroke:var(--lifeline-g)" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <line x1="920" y1="74" x2="920" y2="820" style="stroke:var(--lifeline-g)" stroke-width="1.5" stroke-dasharray="5 5"/>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 0 · tools/call   baseline Y=114
-           ════════════════════════════════════════════════ -->
+      <!-- S0 · tools/call Y=118 -->
       <g id="s0" opacity="0">
-        <!-- activation bar on Client -->
-        <rect x="112" y="108" width="12" height="52" rx="2" fill="#a78bfa" opacity=".32"/>
-        <!-- arrow -->
-        <line x1="126" y1="118" x2="373" y2="118" stroke="#a78bfa" stroke-width="2" marker-end="url(#hc)"/>
-        <!-- label -->
-        <rect x="148" y="103" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="259" y="115" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" font-weight="500" fill="#a78bfa">tools/call {ability_name, input}</text>
+        <rect x="112" y="108" width="12" height="52" rx="2" style="fill:var(--act-p);opacity:var(--act-p-op)"/>
+        <line x1="126" y1="118" x2="373" y2="118" style="stroke:var(--arrow-call)" stroke-width="2" marker-end="url(#hc)"/>
+        <rect x="148" y="103" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="259" y="115" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="500" style="fill:var(--msg-call)">tools/call {ability_name, input}</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 1 · wp_get_ability(name)   Y=170
-           ════════════════════════════════════════════════ -->
+      <!-- S1 · wp_get_ability(name) Y=170 -->
       <g id="s1" opacity="0">
-        <!-- activation bar on Adapter — tall, covers steps 1-3 -->
-        <rect x="379" y="108" width="12" height="162" rx="2" fill="#a78bfa" opacity=".28"/>
-        <line x1="393" y1="170" x2="640" y2="170" stroke="#a78bfa" stroke-width="2" marker-end="url(#hc)"/>
-        <rect x="414" y="155" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="525" y="167" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" font-weight="500" fill="#a78bfa">wp_get_ability(name)</text>
+        <rect x="379" y="108" width="12" height="162" rx="2" style="fill:var(--act-p);opacity:var(--act-p-op)"/>
+        <line x1="393" y1="170" x2="640" y2="170" style="stroke:var(--arrow-call)" stroke-width="2" marker-end="url(#hc)"/>
+        <rect x="414" y="155" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="525" y="167" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="500" style="fill:var(--msg-call)">wp_get_ability(name)</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 2 · $ability object return   Y=222
-           ════════════════════════════════════════════════ -->
+      <!-- S2 · $ability object return Y=222 -->
       <g id="s2" opacity="0">
-        <rect x="640" y="160" width="12" height="54" rx="2" fill="#22c55e" opacity=".26"/>
-        <line x1="640" y1="222" x2="395" y2="222" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
-        <rect x="414" y="207" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="525" y="219" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#22c55e">$ability object</text>
+        <rect x="640" y="160" width="12" height="54" rx="2" style="fill:var(--act-g);opacity:var(--act-g-op)"/>
+        <line x1="640" y1="222" x2="395" y2="222" style="stroke:var(--arrow-return)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
+        <rect x="414" y="207" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="525" y="219" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-return)">$ability object</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 3 · $ability→execute(input)   Y=270
-           ════════════════════════════════════════════════ -->
+      <!-- S3 · $ability→execute(input) Y=270 -->
       <g id="s3" opacity="0">
-        <line x1="393" y1="270" x2="640" y2="270" stroke="#a78bfa" stroke-width="2" marker-end="url(#hc)"/>
-        <rect x="414" y="255" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="525" y="267" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" font-weight="500" fill="#a78bfa">$ability→execute(input)</text>
+        <line x1="393" y1="270" x2="640" y2="270" style="stroke:var(--arrow-call)" stroke-width="2" marker-end="url(#hc)"/>
+        <rect x="414" y="255" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="525" y="267" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="500" style="fill:var(--msg-call)">$ability→execute(input)</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           SCHEMA VALIDATE NOTE (replaces self-loop)   Y=288-324
-           ════════════════════════════════════════════════ -->
+      <!-- S3N · schema validate note -->
       <g id="s3n" opacity="0">
-        <!-- WP activation bar — covers steps 3 onward -->
-        <rect x="640" y="262" width="12" height="358" rx="2" fill="#a78bfa" opacity=".26"/>
-        <!-- note card -->
-        <rect x="668" y="282" width="284" height="48" rx="6"
-              fill="rgba(255,238,88,.07)" stroke="rgba(255,238,88,.25)" stroke-width="1.2"/>
-        <!-- dog-ear fold -->
-        <polygon points="668,282 692,282 668,304" fill="rgba(255,238,88,.20)"/>
-        <text x="810" y="301" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#FFEE58" opacity=".80">validate input vs input_schema</text>
-        <text x="810" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#FFEE58" opacity=".45">WP_Error if invalid · callback not invoked</text>
+        <rect x="640" y="262" width="12" height="358" rx="2" style="fill:var(--act-p);opacity:var(--act-p-op)"/>
+        <rect x="668" y="282" width="284" height="48" rx="6" style="fill:var(--note-fill);stroke:var(--note-stroke);stroke-width:1.2"/>
+        <polygon points="668,282 692,282 668,304" style="fill:var(--note-fold)"/>
+        <text x="810" y="301" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--t3)">validate input vs input_schema</text>
+        <text x="810" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="12" style="fill:var(--t3)">WP_Error if invalid · callback not invoked</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           ALT OUTER FRAME   Y=346 → Y=714
-           ════════════════════════════════════════════════ -->
+      <!-- ALT OUTER FRAME Y=346→714 -->
       <g id="alt-frame" opacity="0">
-        <rect x="28" y="346" width="1006" height="368" rx="6"
-              fill="rgba(124,58,237,.04)" stroke="rgba(124,58,237,.30)" stroke-width="1.5"/>
-        <!-- solid tab -->
-        <rect x="28" y="346" width="34" height="22" rx="3" fill="#7c3aed"/>
-        <text x="45" y="360" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="500" fill="#fff" letter-spacing=".06em">alt</text>
-        <text x="72" y="361" font-family="'JetBrains Mono',monospace" font-size="11" fill="#a78bfa" opacity=".75" font-style="italic" dominant-baseline="middle">[ Validation fails ]</text>
+        <rect x="28" y="346" width="1006" height="368" rx="6" style="fill:var(--alt-fill);stroke:var(--alt-stroke);stroke-width:1.5"/>
+        <rect x="28" y="346" width="34" height="22" rx="3" style="fill:var(--alt-tab)"/>
+        <text x="45" y="360" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="500" dominant-baseline="middle" style="fill:var(--alt-tab-text)" letter-spacing=".06em">alt</text>
+        <text x="72" y="358" font-family="'JetBrains Mono',monospace" font-size="13" dominant-baseline="middle" style="fill:var(--t3)" font-style="italic">[ Validation fails ]</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 4A · validation-fail path   Y=376-440
-           ════════════════════════════════════════════════ -->
+      <!-- S4A · validation fail Y=376-440 -->
       <g id="s4a" opacity="0">
-        <!-- red tint zone -->
-        <rect x="28" y="368" width="1006" height="84" rx="0" fill="rgba(239,68,68,.04)"/>
-        <!-- WP_Error back to Adapter -->
-        <rect x="640" y="368" width="12" height="32" rx="2" fill="#ef4444" opacity=".28"/>
-        <line x1="640" y1="400" x2="395" y2="400" stroke="#ef4444" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
-        <rect x="414" y="385" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="525" y="397" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#ef4444">WP_Error · schema_violation</text>
-        <!-- Adapter → Client -->
-        <line x1="379" y1="440" x2="130" y2="440" stroke="#ef4444" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
-        <rect x="148" y="425" width="226" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="261" y="437" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#ef4444">MCP error response</text>
+        <rect x="28" y="368" width="1006" height="84" rx="0" style="fill:var(--err-zone)"/>
+        <rect x="640" y="368" width="12" height="32" rx="2" style="fill:var(--err-bar);opacity:.24"/>
+        <line x1="640" y1="400" x2="395" y2="400" style="stroke:var(--arrow-error)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
+        <rect x="414" y="385" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="525" y="397" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-error)">WP_Error · schema_violation</text>
+        <line x1="379" y1="440" x2="130" y2="440" style="stroke:var(--arrow-error)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
+        <rect x="148" y="425" width="226" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="261" y="437" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-error)">MCP error response</text>
       </g>
 
-      <!-- ── ELSE DIVIDER ──────────────────────────────── -->
+      <!-- Else divider -->
       <g id="alt-else" opacity="0">
-        <line x1="28" y1="462" x2="1034" y2="462" stroke="rgba(124,58,237,.30)" stroke-width="1.2" stroke-dasharray="5 4"/>
-        <text x="34" y="476" font-family="'JetBrains Mono',monospace" font-size="9" fill="#a78bfa" dominant-baseline="middle" letter-spacing=".06em">else</text>
-        <text x="67" y="476" font-family="'JetBrains Mono',monospace" font-size="11" fill="#a78bfa" opacity=".65" font-style="italic" dominant-baseline="middle">[ Validation passes ]</text>
+        <line x1="28" y1="462" x2="1034" y2="462" style="stroke:var(--alt-stroke)" stroke-width="1.2" stroke-dasharray="5 4"/>
+        <text x="34" y="476" font-family="'JetBrains Mono',monospace" font-size="11" dominant-baseline="middle" style="fill:var(--alt-tab)" letter-spacing=".06em">else</text>
+        <text x="67" y="476" font-family="'JetBrains Mono',monospace" font-size="13" dominant-baseline="middle" style="fill:var(--t3)" font-style="italic">[ Validation passes ]</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 5 · execute_callback(input)   Y=500
-           ════════════════════════════════════════════════ -->
+      <!-- S5 · execute_callback(input) Y=500 -->
       <g id="s5" opacity="0">
-        <line x1="654" y1="500" x2="906" y2="500" stroke="#a78bfa" stroke-width="2" marker-end="url(#hc)"/>
-        <rect x="668" y="485" width="234" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="785" y="497" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" font-weight="500" fill="#a78bfa">execute_callback(input)</text>
+        <line x1="654" y1="500" x2="906" y2="500" style="stroke:var(--arrow-call)" stroke-width="2" marker-end="url(#hc)"/>
+        <rect x="668" y="485" width="234" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="785" y="497" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="500" style="fill:var(--msg-call)">execute_callback(input)</text>
       </g>
 
-      <!-- GATE CHECK NOTE -->
+      <!-- S5N · gate check note -->
       <g id="s5n" opacity="0">
-        <!-- Callback activation bar -->
-        <rect x="912" y="492" width="12" height="226" rx="2" fill="#22c55e" opacity=".28"/>
-        <!-- note -->
-        <rect x="670" y="510" width="234" height="34" rx="5"
-              fill="rgba(255,238,88,.07)" stroke="rgba(255,238,88,.22)" stroke-width="1.2"/>
-        <polygon points="670,510 690,510 670,526" fill="rgba(255,238,88,.20)"/>
-        <text x="787" y="529" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#FFEE58" opacity=".75">abilities_for_ai_ability_enabled()</text>
+        <rect x="912" y="492" width="12" height="226" rx="2" style="fill:var(--act-g);opacity:var(--act-g-op)"/>
+        <rect x="670" y="510" width="234" height="34" rx="5" style="fill:var(--note-fill);stroke:var(--note-stroke);stroke-width:1.2"/>
+        <polygon points="670,510 690,510 670,526" style="fill:var(--note-fold)"/>
+        <text x="787" y="529" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">abilities_for_ai_ability_enabled()</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           INNER ALT · permission gate   Y=556 → Y=714
-           ════════════════════════════════════════════════ -->
+      <!-- Inner alt · permission gate Y=556→714 -->
       <g id="inner-alt" opacity="0">
-        <rect x="836" y="556" width="196" height="158" rx="6"
-              fill="rgba(34,197,94,.04)" stroke="rgba(34,197,94,.28)" stroke-width="1.5"/>
-        <rect x="836" y="556" width="32" height="22" rx="3" fill="#22c55e"/>
-        <text x="852" y="570" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="500" fill="#0a0a0a" dominant-baseline="middle" letter-spacing=".06em">alt</text>
-        <text x="877" y="570" font-family="'JetBrains Mono',monospace" font-size="10" fill="#22c55e" opacity=".75" font-style="italic" dominant-baseline="middle">[ Denied ]</text>
+        <rect x="836" y="556" width="196" height="158" rx="6" style="fill:var(--ialt-fill);stroke:var(--ialt-stroke);stroke-width:1.5"/>
+        <rect x="836" y="556" width="32" height="22" rx="3" style="fill:var(--ialt-tab)"/>
+        <text x="852" y="570" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="500" dominant-baseline="middle" style="fill:var(--ialt-tab-text)" letter-spacing=".06em">alt</text>
+        <text x="877" y="570" font-family="'JetBrains Mono',monospace" font-size="12" dominant-baseline="middle" style="fill:var(--t3)" font-style="italic">[ Denied ]</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 6A · permission denied   Y=586-626
-           ════════════════════════════════════════════════ -->
+      <!-- S6A · permission denied Y=574-644 -->
       <g id="s6a" opacity="0">
-        <rect x="836" y="574" width="196" height="70" rx="0" fill="rgba(239,68,68,.05)"/>
-        <rect x="842" y="576" width="12" height="28" rx="2" fill="#ef4444" opacity=".28"/>
-        <line x1="842" y1="604" x2="666" y2="604" stroke="#ef4444" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
-        <rect x="664" y="589" width="172" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="750" y="601" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#ef4444">WP_Error 403 · ability_disabled</text>
+        <rect x="836" y="574" width="196" height="70" rx="0" style="fill:var(--err-zone)"/>
+        <rect x="842" y="576" width="12" height="28" rx="2" style="fill:var(--err-bar);opacity:.24"/>
+        <line x1="842" y1="604" x2="666" y2="604" style="stroke:var(--arrow-error)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#he)"/>
+        <rect x="664" y="589" width="172" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="750" y="601" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--msg-error)">WP_Error 403 · ability_disabled</text>
       </g>
 
-      <!-- ── INNER ELSE ─────────────────────────────────── -->
+      <!-- Inner else -->
       <g id="inner-else" opacity="0">
-        <line x1="836" y1="646" x2="1032" y2="646" stroke="rgba(34,197,94,.28)" stroke-width="1.2" stroke-dasharray="5 4"/>
-        <text x="842" y="660" font-family="'JetBrains Mono',monospace" font-size="9" fill="#22c55e" dominant-baseline="middle" letter-spacing=".06em">else</text>
-        <text x="873" y="660" font-family="'JetBrains Mono',monospace" font-size="10" fill="#22c55e" opacity=".65" font-style="italic" dominant-baseline="middle">[ Granted ]</text>
+        <line x1="836" y1="646" x2="1032" y2="646" style="stroke:var(--ialt-stroke)" stroke-width="1.2" stroke-dasharray="5 4"/>
+        <text x="842" y="660" font-family="'JetBrains Mono',monospace" font-size="11" dominant-baseline="middle" style="fill:var(--ialt-tab)" letter-spacing=".06em">else</text>
+        <text x="873" y="660" font-family="'JetBrains Mono',monospace" font-size="12" dominant-baseline="middle" style="fill:var(--t3)" font-style="italic">[ Granted ]</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 6B · result array   Y=686
-           ════════════════════════════════════════════════ -->
+      <!-- S6B · result array Y=686 -->
       <g id="s6b" opacity="0">
-        <line x1="912" y1="686" x2="666" y2="686" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
-        <rect x="668" y="671" width="240" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="788" y="683" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#22c55e">result array</text>
+        <line x1="912" y1="686" x2="666" y2="686" style="stroke:var(--arrow-return)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
+        <rect x="668" y="671" width="240" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="788" y="683" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-return)">result array</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 7 · WP → Adapter   Y=736
-           ════════════════════════════════════════════════ -->
+      <!-- S7 · WP → Adapter Y=736 -->
       <g id="s7" opacity="0">
-        <line x1="640" y1="736" x2="395" y2="736" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
-        <rect x="414" y="721" width="222" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="525" y="733" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#22c55e">result</text>
+        <line x1="640" y1="736" x2="395" y2="736" style="stroke:var(--arrow-return)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
+        <rect x="414" y="721" width="222" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="525" y="733" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-return)">result</text>
       </g>
 
-      <!-- ════════════════════════════════════════════════
-           STEP 8 · Adapter → Client   Y=784
-           ════════════════════════════════════════════════ -->
+      <!-- S8 · Adapter → Client Y=784 -->
       <g id="s8" opacity="0">
-        <line x1="379" y1="784" x2="130" y2="784" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
-        <rect x="148" y="769" width="226" height="22" rx="3" fill="var(--msg-bg)"/>
-        <text x="261" y="781" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#22c55e">MCP response</text>
+        <line x1="379" y1="784" x2="130" y2="784" style="stroke:var(--arrow-return)" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#hr)"/>
+        <rect x="148" y="769" width="226" height="22" rx="3" style="fill:var(--msg-bg)"/>
+        <text x="261" y="781" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13.5" style="fill:var(--msg-return)">MCP response</text>
       </g>
 
-      <!-- ── ACTOR BOXES BOTTOM ────────────────────────── -->
-      <rect x="48"  y="824" width="140" height="64" rx="8" fill="rgba(124,58,237,.14)" stroke="#a78bfa" stroke-width="1.5"/>
-      <text x="118" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#a78bfa">Client</text>
-      <text x="118" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#a78bfa" opacity=".5">MCP Client</text>
+      <!-- Actor boxes BOTTOM -->
+      <rect x="48"  y="824" width="140" height="64" rx="8" style="fill:var(--actor-p-fill);stroke:var(--actor-p-stroke);stroke-width:1.5"/>
+      <text x="118" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-p-text)">Client</text>
+      <text x="118" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">MCP Client</text>
 
-      <rect x="315" y="824" width="140" height="64" rx="8" fill="rgba(124,58,237,.14)" stroke="#a78bfa" stroke-width="1.5"/>
-      <text x="385" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#a78bfa">Adapter</text>
-      <text x="385" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#a78bfa" opacity=".5">MCP Adapter</text>
+      <rect x="315" y="824" width="140" height="64" rx="8" style="fill:var(--actor-p-fill);stroke:var(--actor-p-stroke);stroke-width:1.5"/>
+      <text x="385" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-p-text)">Adapter</text>
+      <text x="385" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">MCP Adapter</text>
 
-      <rect x="582" y="824" width="140" height="64" rx="8" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
-      <text x="652" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#22c55e">WordPress</text>
-      <text x="652" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#22c55e" opacity=".5">Core · WP 6.9+</text>
+      <rect x="582" y="824" width="140" height="64" rx="8" style="fill:var(--actor-g-fill);stroke:var(--actor-g-stroke);stroke-width:1.5"/>
+      <text x="652" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-g-text)">WordPress</text>
+      <text x="652" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">Core · WP 6.9+</text>
 
-      <rect x="848" y="824" width="144" height="64" rx="8" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
-      <text x="920" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="500" fill="#22c55e">Callback</text>
-      <text x="920" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#22c55e" opacity=".5">Ability + Gates</text>
+      <rect x="848" y="824" width="144" height="64" rx="8" style="fill:var(--actor-g-fill);stroke:var(--actor-g-stroke);stroke-width:1.5"/>
+      <text x="920" y="850" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="500" style="fill:var(--actor-g-text)">Callback</text>
+      <text x="920" y="870" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" style="fill:var(--t3)">Ability + Gates</text>
 
     </svg>
   </div><!-- /diagram-wrap -->
 
-  <!-- LEGEND -->
+  <!-- Legend -->
   <div class="legend">
     <div class="leg">
-      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" stroke="#a78bfa" stroke-width="2"/><polygon points="39,2.5 46,6 39,9.5" fill="#a78bfa"/></svg>
+      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" style="stroke:var(--arrow-call)" stroke-width="2"/><polygon points="39,2.5 46,6 39,9.5" style="fill:var(--arrow-call)"/></svg>
       Call / Request
     </div>
     <div class="leg">
-      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4"/><polygon points="39,2.5 46,6 39,9.5" fill="#22c55e"/></svg>
+      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" style="stroke:var(--arrow-return)" stroke-width="2" stroke-dasharray="8 4"/><polygon points="39,2.5 46,6 39,9.5" style="fill:var(--arrow-return)"/></svg>
       Return / Response
     </div>
     <div class="leg">
-      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" stroke="#ef4444" stroke-width="2" stroke-dasharray="8 4"/><polygon points="39,2.5 46,6 39,9.5" fill="#ef4444"/></svg>
+      <svg width="46" height="12"><line x1="0" y1="6" x2="39" y2="6" style="stroke:var(--arrow-error)" stroke-width="2" stroke-dasharray="8 4"/><polygon points="39,2.5 46,6 39,9.5" style="fill:var(--arrow-error)"/></svg>
       Error (WP_Error)
     </div>
     <div class="leg">
-      <svg width="22" height="12"><rect x="0" y="1" width="16" height="10" rx="2" fill="#a78bfa" opacity=".36"/></svg>
+      <svg width="22" height="12"><rect x="0" y="1" width="16" height="10" rx="2" style="fill:var(--act-p);opacity:var(--act-p-op)"/></svg>
       Execution focus
     </div>
     <div class="leg">
-      <svg width="26" height="12"><rect x="0" y="1" width="24" height="10" rx="2" fill="rgba(255,238,88,.10)" stroke="rgba(255,238,88,.32)" stroke-width="1"/><polygon points="0,1 9,1 0,8" fill="rgba(255,238,88,.28)"/></svg>
+      <svg width="28" height="12"><rect x="0" y="1" width="26" height="10" rx="2" style="fill:var(--note-fill);stroke:var(--note-stroke)"/><polygon points="0,1 9,1 0,8" style="fill:var(--note-fold)"/></svg>
       Note
     </div>
     <div class="leg">
-      <svg width="26" height="12"><rect x="0" y="1" width="24" height="10" rx="3" fill="rgba(124,58,237,.06)" stroke="rgba(124,58,237,.32)" stroke-width="1"/></svg>
+      <svg width="28" height="12"><rect x="0" y="1" width="26" height="10" rx="3" style="fill:var(--alt-fill);stroke:var(--alt-stroke)"/></svg>
       alt / else frame
     </div>
-    <div style="flex:1;"></div>
-    <span style="font-family:var(--fm);font-size:10px;color:var(--t3);">Purple = protocol layer · Green = WordPress layer</span>
+    <div style="flex:1"></div>
+    <span style="color:var(--t3)">Dark: brand colours · Light: ink scale, amber accent only</span>
   </div>
 
-  <!-- KEY MECHANICS -->
-  <div class="sec-label sec-label--g">Key execution mechanics</div>
+  <!-- Key mechanics -->
+  <div class="sec-label">Key execution mechanics</div>
   <div class="anno-grid">
-
     <div class="anno-card anno-card--p">
       <div class="anno-icon anno-icon--p">🔍</div>
       <div>
         <div class="anno-title">No wp_execute_ability()</div>
-        <div class="anno-desc">Execution goes through the ability object. The Adapter retrieves it then calls execute directly — there is no global execute function.</div>
+        <div class="anno-desc">Execution goes through the ability object. The Adapter retrieves it then calls execute directly — no global execute function exists.</div>
         <div class="anno-code">wp_get_ability($name)→execute($input)</div>
       </div>
     </div>
-
     <div class="anno-card anno-card--g">
       <div class="anno-icon anno-icon--g">✓</div>
       <div>
         <div class="anno-title">Schema validation is automatic</div>
-        <div class="anno-desc">WordPress Core validates input against the registered <code style="font-family:var(--fm);font-size:11px;">input_schema</code> before the callback is ever called. Your callback never receives invalid data.</div>
+        <div class="anno-desc">WordPress Core validates input against <code style="font-family:var(--fm);font-size:13px">input_schema</code> before the callback is called. Invalid data never reaches your code.</div>
         <div class="anno-code anno-code--g">WP_Error on failure · callback not called</div>
       </div>
     </div>
-
     <div class="anno-card anno-card--r">
       <div class="anno-icon anno-icon--r">⛔</div>
       <div>
         <div class="anno-title">Permission gate fires inside callback</div>
-        <div class="anno-desc">The Registrar wraps every callback with an enable-check. The ability always registers successfully — it returns WP_Error 403 at execution time if disabled.</div>
+        <div class="anno-desc">The Registrar wraps every callback with an enable-check. The ability always registers — it returns WP_Error 403 at execution time if disabled.</div>
         <div class="anno-code anno-code--r">WP_Error · code: ability_disabled · status: 403</div>
       </div>
     </div>
-
     <div class="anno-card anno-card--y">
       <div class="anno-icon anno-icon--y">🪝</div>
       <div>
         <div class="anno-title">Registration hook is critical</div>
-        <div class="anno-desc">Abilities must register on <code style="font-family:var(--fm);font-size:11px;">wp_abilities_api_init</code>. Any other hook silently fails — the registry isn't initialised yet. No error, no log.</div>
+        <div class="anno-desc">Abilities must register on <code style="font-family:var(--fm);font-size:13px">wp_abilities_api_init</code>. Any other hook silently fails — no error, no log.</div>
         <div class="anno-code anno-code--y">add_action('wp_abilities_api_init', ...)</div>
       </div>
     </div>
-
   </div>
 
-  <!-- PERMISSION LAYERS -->
-  <div class="sec-label" style="margin-top:40px;">Two permission layers · resolution order</div>
+  <!-- Permission layers -->
+  <div class="sec-label" style="margin-top:40px">Two permission layers · resolution order</div>
   <div class="layers">
     <div class="layer layer--p">
       <div class="layer-n">Layer 1 · Runs first · Before callback</div>
       <div class="layer-title">WordPress Capability Check</div>
-      <div class="layer-desc">The <code style="font-family:var(--fm);font-size:11px;color:var(--pl);">permission_callback</code> fires before execution. Fails here — the ability never reaches your code.</div>
+      <div class="layer-desc">The <code style="font-family:var(--fm);font-size:13px">permission_callback</code> fires before execution. Fails here — the ability never reaches your code.</div>
       <code class="layer-code">current_user_can($capability)</code>
     </div>
     <div class="layer-sep">then</div>
     <div class="layer layer--g">
       <div class="layer-n">Layer 2 · Inside callback · Runtime</div>
       <div class="layer-title">Ability Enable / Disable Toggle</div>
-      <div class="layer-desc">Registrar wraps your callback with an enable-check. Per-ability overrides win over module defaults. Read=ON, Write=ON, Delete=OFF by default across 24 modules.</div>
+      <div class="layer-desc">Registrar wraps your callback with an enable-check. Per-ability overrides win over module defaults. Read=ON, Write=ON, Delete=OFF by default.</div>
       <code class="layer-code layer-code--g">abilities_for_ai_ability_enabled()</code>
     </div>
   </div>
 
-  <!-- STATS -->
+  <!-- Stats -->
   <div class="stats">
-    <div class="stat"><div class="stat-n" style="color:var(--pl);">3</div><div class="stat-l">actors in the chain</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--g);">2</div><div class="stat-l">permission layers</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--text);">2</div><div class="stat-l">error exit points</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--y);">0</div><div class="stat-l">global execute fns</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--eyebrow-color)">3</div><div class="stat-l">actors in the chain</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--t2)">2</div><div class="stat-l">permission layers</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--text)">2</div><div class="stat-l">error exit points</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--accent-y)">0</div><div class="stat-l">global execute fns</div></div>
   </div>
 
-  <!-- QUOTE -->
   <div class="quote">
     <div class="quote-text">The ability always registers.<br><em>The gate decides at runtime.</em></div>
     <div class="quote-attr">abilities-for-ai · helpers.php · Permission gating pattern · 2026</div>
@@ -564,58 +725,36 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 <script>
 function toggleTheme(){
   const h=document.documentElement;
-  const dark=h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme',dark?'light':'dark');
-  document.getElementById('tlabel').textContent=dark?'Light':'Dark';
+  h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');
+  document.getElementById('tlabel').textContent=h.getAttribute('data-theme')==='light'?'Light':'Dark';
 }
 
 const STEPS=[
-  {ids:['s0'],           dot:0, delay:500  },
-  {ids:['s1'],           dot:1, delay:1050 },
-  {ids:['s2'],           dot:1, delay:1500 },
-  {ids:['s3','s3n'],     dot:2, delay:1950 },
-  {ids:['alt-frame'],    dot:3, delay:2450 },
-  {ids:['s4a'],          dot:3, delay:2800 },
-  {ids:['alt-else'],     dot:3, delay:3200 },
-  {ids:['s5','s5n'],     dot:4, delay:3600 },
-  {ids:['inner-alt'],    dot:5, delay:3950 },
-  {ids:['s6a'],          dot:5, delay:4200 },
-  {ids:['inner-else'],   dot:5, delay:4500 },
-  {ids:['s6b'],          dot:6, delay:4800 },
-  {ids:['s7'],           dot:6, delay:5200 },
-  {ids:['s8'],           dot:7, delay:5600 },
+  {ids:['s0'],dot:0,delay:500},{ids:['s1'],dot:1,delay:1050},
+  {ids:['s2'],dot:1,delay:1500},{ids:['s3','s3n'],dot:2,delay:1950},
+  {ids:['alt-frame'],dot:3,delay:2450},{ids:['s4a'],dot:3,delay:2800},
+  {ids:['alt-else'],dot:3,delay:3200},{ids:['s5','s5n'],dot:4,delay:3600},
+  {ids:['inner-alt'],dot:5,delay:3950},{ids:['s6a'],dot:5,delay:4200},
+  {ids:['inner-else'],dot:5,delay:4500},{ids:['s6b'],dot:6,delay:4800},
+  {ids:['s7'],dot:6,delay:5200},{ids:['s8'],dot:7,delay:5600},
 ];
-
 let timers=[],curDot=-1;
-
 function setDot(i){
   if(i===curDot)return;
   if(curDot>=0){const p=document.getElementById('sd'+curDot);if(p){p.classList.remove('active');p.classList.add('done');}}
-  curDot=i;
-  const el=document.getElementById('sd'+i);if(el){el.classList.remove('done');el.classList.add('active');}
+  curDot=i;const el=document.getElementById('sd'+i);if(el){el.classList.remove('done');el.classList.add('active');}
 }
-
 function show(ids,dot){
-  ids.forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    el.style.transition='opacity .5s ease';
-    el.style.opacity='1';
-  });
+  ids.forEach(id=>{const el=document.getElementById(id);if(!el)return;el.style.transition='opacity .5s ease';el.style.opacity='1';});
   setDot(dot);
 }
-
 function replayDiagram(){
   timers.forEach(clearTimeout);timers=[];
-  STEPS.forEach(s=>s.ids.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){el.style.transition='none';el.style.opacity='0';}
-  }));
+  STEPS.forEach(s=>s.ids.forEach(id=>{const el=document.getElementById(id);if(el){el.style.transition='none';el.style.opacity='0';}}));
   for(let i=0;i<8;i++){const el=document.getElementById('sd'+i);if(el){el.classList.remove('active','done');}}
   curDot=-1;
   STEPS.forEach(s=>{const t=setTimeout(()=>show(s.ids,s.dot),s.delay);timers.push(t);});
 }
-
 window.addEventListener('DOMContentLoaded',()=>setTimeout(replayDiagram,700));
 </script>
 </body>
