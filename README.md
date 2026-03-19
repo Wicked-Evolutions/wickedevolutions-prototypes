@@ -14,6 +14,7 @@ Live prototypes of a WordPress multisite ecosystem:
 | [**Trinity Landing**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-trinity-fullv4.html) | Product landing page for the Abilities stack — three layers, one interface |
 | [**Blog**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-blog-proto.html) | Editorial template — single post, archive, series views |
 | [**Knowledge Base**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/docs-prototype/) | Documentation site — abilities reference, categories, sidebar nav, TOC |
+| [**KL Admin**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/kl-admin/dashboard.html) | Knowledge Layer admin UI — dashboard, documents, sessions, observations, tags, publish flow |
 | [**Team**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/team-page-prototype/) | The team behind it — human founder + AI co-founder |
 
 ### Use Case Demos
