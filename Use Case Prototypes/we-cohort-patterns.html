@@ -95,16 +95,17 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 .chart-wrap{position:relative;width:100%;}
 
 /* FUNNEL */
-.funnel-wrap{display:flex;align-items:flex-end;justify-content:space-around;gap:8px;height:140px;margin-bottom:14px;}
-.funnel-col{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
+.funnel-wrap{display:flex;align-items:stretch;justify-content:space-around;gap:12px;margin-bottom:18px;}
+.funnel-col{display:flex;flex-direction:column;align-items:center;flex:1;min-width:0;}
+.funnel-n{font-family:var(--fd);font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:10px;}
+.funnel-bar-area{flex:1;width:100%;display:flex;align-items:flex-end;}
 .funnel-bar{width:100%;border-radius:5px 5px 0 0;transition:background .3s;}
 .funnel-bar--pl{background:var(--pl);}
 .funnel-bar--g{background:var(--g);}
 .funnel-bar--p{background:var(--p);}
 .funnel-bar--pd{background:var(--p);opacity:.75;}
-.funnel-n{font-family:var(--fd);font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--text);}
-.funnel-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);text-align:center;line-height:1.4;}
-.funnel-pct{font-family:var(--fm);font-size:10px;color:var(--pl);margin-top:2px;}
+.funnel-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);text-align:center;line-height:1.4;margin-top:10px;}
+.funnel-pct{font-family:var(--fm);font-size:10px;color:var(--pl);margin-top:4px;}
 
 /* PRODUCT TABLE */
 .prod-table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -126,11 +127,12 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
 .ttp-val{font-family:var(--fm);font-size:11px;color:var(--text);width:64px;text-align:right;}
 
 /* EMAIL BARS */
-.email-row{display:flex;align-items:flex-end;gap:10px;height:80px;margin-top:8px;}
-.email-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.email-bar{width:100%;border-radius:4px 4px 0 0;}
-.email-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);}
-.email-pct{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em;}
+.email-row{display:flex;align-items:stretch;gap:12px;height:120px;margin-top:12px;}
+.email-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;}
+.email-pct{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em;margin-bottom:8px;}
+.email-bar-area{flex:1;width:100%;display:flex;align-items:flex-end;}
+.email-bar{width:100%;border-radius:4px 4px 0 0;transition:background .3s;}
+.email-lbl{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-top:8px;}
 
 /* SIGNAL CHIPS */
 .signal-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
@@ -240,31 +242,31 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
     <!-- FUNNEL -->
     <div class="panel">
       <div class="panel-title">Conversion funnel</div>
-      <div class="funnel-wrap">
+      <div class="funnel-wrap" style="height:200px;">
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar funnel-bar--pl" style="height:140px;"></div>
+          <div class="funnel-bar-area"><div class="funnel-bar funnel-bar--pl" style="height:100%;"></div></div>
           <div class="funnel-lbl">In<br>cohort</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar funnel-bar--g" style="height:140px;"></div>
+          <div class="funnel-bar-area"><div class="funnel-bar funnel-bar--g" style="height:100%;"></div></div>
           <div class="funnel-lbl">Email<br>opened</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">24</div>
-          <div class="funnel-bar funnel-bar--g" style="height:140px;"></div>
+          <div class="funnel-bar-area"><div class="funnel-bar funnel-bar--g" style="height:100%;"></div></div>
           <div class="funnel-lbl">Any<br>event</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">21</div>
-          <div class="funnel-bar funnel-bar--p" style="height:122px;"></div>
+          <div class="funnel-bar-area"><div class="funnel-bar funnel-bar--p" style="height:87%;"></div></div>
           <div class="funnel-lbl">1+<br>purchase</div>
           <div class="funnel-pct">87.5%</div>
         </div>
         <div class="funnel-col">
           <div class="funnel-n">19</div>
-          <div class="funnel-bar funnel-bar--pd" style="height:110px;"></div>
+          <div class="funnel-bar-area"><div class="funnel-bar funnel-bar--pd" style="height:79%;"></div></div>
           <div class="funnel-lbl">Repeat<br>buyer</div>
           <div class="funnel-pct">90.5%</div>
         </div>
@@ -338,17 +340,17 @@ hr.gl{height:1px;border:none;background:linear-gradient(90deg,transparent,var(--
       <div class="email-row">
         <div class="email-bar-wrap">
           <div class="email-pct" style="color:var(--t2);">100%</div>
-          <div class="email-bar" style="height:60px;background:var(--pl);"></div>
+          <div class="email-bar-area"><div class="email-bar" style="height:100%;background:var(--pl);"></div></div>
           <div class="email-lbl">Sent</div>
         </div>
         <div class="email-bar-wrap">
           <div class="email-pct" style="color:var(--pl);">83.4%</div>
-          <div class="email-bar" style="height:50px;background:var(--p);"></div>
+          <div class="email-bar-area"><div class="email-bar" style="height:83%;background:var(--p);"></div></div>
           <div class="email-lbl">Opened</div>
         </div>
         <div class="email-bar-wrap">
           <div class="email-pct" style="color:var(--g);">14.9%</div>
-          <div class="email-bar" style="height:9px;background:var(--g);"></div>
+          <div class="email-bar-area"><div class="email-bar" style="height:15%;background:var(--g);"></div></div>
           <div class="email-lbl">Clicked</div>
         </div>
       </div>
