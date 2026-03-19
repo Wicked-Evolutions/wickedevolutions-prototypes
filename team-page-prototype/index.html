@@ -53,6 +53,19 @@
       --shadow-sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
     }
 
+    /* ── LIGHT MODE — variable overrides ──────── */
+    html.light-mode {
+      --color-base: #F5F4F0;
+      --color-contrast: #1a1a18;
+      --color-accent-1: #FFEE58;
+      --color-accent-2: #6B4FBB;
+      --color-accent-3: #3B2A8A;
+      --color-accent-4: #4A4A4A;
+      --color-accent-5: #F5F4F0;
+      --shadow-natural: 6px 6px 9px rgba(0,0,0,0.10);
+      --shadow-deep: 12px 12px 50px rgba(0,0,0,0.15);
+    }
+
     /* ============================================
        BASE — Matches The Mirror theme globals
        ============================================ */
@@ -71,11 +84,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Light mode support */
-    html.light-mode body {
-      background-color: var(--color-contrast);
-      color: var(--color-base);
-    }
+    /* Light mode support — variable overrides above handle body bg/text */
     html.light-mode .roster-card {
       background: rgba(0, 0, 0, 0.03);
       border-color: rgba(0, 0, 0, 0.08);
@@ -94,7 +103,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.1);
     }
     html.light-mode .status-indicator.active { background: #15803d; }
-    html.light-mode .role-subpage { background: var(--color-contrast); color: var(--color-base); }
+    html.light-mode .role-subpage { background: var(--color-base); color: var(--color-contrast); }
     html.light-mode .role-subpage .back-link a { color: var(--color-accent-3); }
     html.light-mode .article-card { background: rgba(0, 0, 0, 0.03); border-color: rgba(0, 0, 0, 0.08); }
 
@@ -1177,8 +1186,32 @@
     <a href="../docs-prototype/agent-diagnostician.html">Agent</a>
     <a href="../docs-prototype/category-skills.html">Archive</a>
   </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="navSetMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="navSetMode('light');return false;">Light</a>
+  </div>
 </nav>
 <div style="height:48px;"></div>
+
+<script>
+function navSetMode(m) {
+  var html = document.documentElement;
+  html.classList.remove('dark-mode', 'light-mode');
+  html.classList.add(m === 'light' ? 'light-mode' : 'dark-mode');
+  localStorage.setItem('theme', m);
+  document.getElementById('mode-dark').classList.toggle('we-active', m === 'dark');
+  document.getElementById('mode-light').classList.toggle('we-active', m === 'light');
+}
+(function() {
+  var saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.getElementById('mode-dark').classList.remove('we-active');
+    document.getElementById('mode-light').classList.add('we-active');
+  }
+})();
+</script>
 
 </body>
 </html>
