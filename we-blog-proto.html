@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +16,8 @@
 :root {
   --bg:    #111111;
   --text:  #E0DDD5;
-  --t2:    rgba(224,221,213,0.68);
-  --t3:    rgba(224,221,213,0.22);
+  --t2:    rgba(224,221,213,0.70);
+  --t3:    rgba(224,221,213,0.35);
   --t4:    rgba(224,221,213,0.09);
 
   --y:   #FFEE58;
@@ -36,6 +36,33 @@
   /* Layout — matches WordPress theme.json */
   --content: 680px;
   --wide:    1100px;
+}
+
+/* ── LIGHT MODE ──────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:    #F5F4F0;
+  --bg2:   #ECEAE4;
+  --text:  #1C1915;
+  --t2:    #2E2A24;
+  --t3:    #7A7268;
+  --t4:    rgba(28,25,21,0.10);
+  --card:  rgba(255,255,255,0.80);
+  --border: rgba(50,44,36,0.12);
+  --bordh:  rgba(50,44,36,0.26);
+  --gl:    rgba(0,0,0,0.03);
+  --glb:   rgba(0,0,0,0.09);
+  --glh:   rgba(0,0,0,0.16);
+  --yd:    rgba(139,105,20,0.09);
+  --yb:    rgba(139,105,20,0.22);
+  --gd:    rgba(50,44,36,0.06);
+  --gb:    rgba(50,44,36,0.16);
+  --pd:    rgba(50,44,36,0.06);
+  --pb:    rgba(50,44,36,0.16);
+  --eyebrow-color:  #1C1915;
+  --eyebrow-border: rgba(50,44,36,0.20);
+  --ebdot-bg:       #8B6914;
+  --seclabel-color: #2E2A24;
+  --accent-y: #8B6914;
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -1081,10 +1108,28 @@ body {
     <a href="docs-prototype/agent-diagnostician.html">Agent</a>
     <a href="docs-prototype/category-skills.html">Archive</a>
   </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
 </nav>
 <div style="height:48px;"></div>
 
 <script>
+function setMode(m) {
+  var h = document.documentElement;
+  h.setAttribute('data-theme', m);
+  localStorage.setItem('we-docs-theme', m);
+  document.getElementById('mode-dark').classList.toggle('we-active', m === 'dark');
+  document.getElementById('mode-light').classList.toggle('we-active', m === 'light');
+}
+(function() {
+  var saved = localStorage.getItem('we-docs-theme');
+  if (saved) setMode(saved);
+})();
+
 function show(view) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.proto-tab').forEach(t => t.classList.remove('active'));
