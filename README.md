@@ -39,12 +39,12 @@ Every prototype has dark/light mode. Toggle in the bottom nav.
 Three plugins. One MCP endpoint. Any WordPress site.
 
 ```
-Layer 01 · Bridge        abilities-mcp              Node.js MCP server
-Layer 02 · Protocol      abilities-mcp-adapter      WordPress plugin — MCP ↔ REST translation
-Layer 03 · Engine        abilities-for-ai           WordPress plugin — 137 core abilities
-Layer 04 · Suite         abilities-for-fluent-plugins   234 Fluent ecosystem abilities
-                                                    ─────────────────────────────
-                                                    371+ abilities. Operational.
+Layer 01 · Bridge        Abilities MCP                 Local MCP server (Node.js) — connects AI to WordPress
+Layer 02 · Protocol      Abilities MCP Adapter          WordPress plugin — MCP ↔ abilities translation
+Layer 03 · Engine        Abilities for AI               WordPress plugin — 362 core abilities
+Layer 04 · Suite         Abilities for Fluent Plugins    WordPress plugin — 380 Fluent ecosystem abilities
+                                                       ─────────────────────────────────
+                                                       747 abilities from source. Operational.
 ```
 
 An AI agent connects through the bridge, discovers available abilities, and operates your WordPress site through typed, schema-validated, permission-gated calls. Content, media, users, menus, taxonomies, settings, cache, cron, filesystem, blocks, Knowledge Layer — all through abilities.
@@ -58,7 +58,7 @@ Persistent AI memory built into WordPress. The AI boots from a behavioral direct
 ### What's operational right now
 
 - The full Trinity stack is deployed and tested on production WordPress sites
-- 371+ abilities verified operational across content, commerce, CRM, community, and infrastructure
+- 747 abilities from source across content, blocks, media, filesystem, commerce, CRM, community, and infrastructure
 - Multi-site capable — one bridge, multiple WordPress sites
 - Knowledge Layer with sessions, observations, tags, and a Vue.js admin dashboard
 - The AI team (multiple Claude instances in different roles) uses this stack daily to build, test, publish, and diagnose
