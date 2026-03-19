@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wicked Evolutions — Prototypes</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:   #111111;
+  --text: #E0DDD5;
+  --t2:   rgba(224,221,213,0.70);
+  --t3:   rgba(224,221,213,0.35);
+  --y:    #FFEE58;
+  --g:    #22c55e;
+  --p:    #7c3aed;
+  --pl:   #a78bfa;
+  --gl:   rgba(255,255,255,0.025);
+  --glb:  rgba(255,255,255,0.055);
+  --glh:  rgba(255,255,255,0.11);
+  --fd:   'Syne', sans-serif;
+  --fb:   'Manrope', system-ui, sans-serif;
+  --fm:   'JetBrains Mono', monospace;
+}
+[data-theme="light"] {
+  --bg:   #F5F4F0;
+  --text: #1C1915;
+  --t2:   #2E2A24;
+  --t3:   #7A7268;
+  --gl:   rgba(0,0,0,0.03);
+  --glb:  rgba(0,0,0,0.09);
+  --glh:  rgba(0,0,0,0.16);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--fb); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:80px 24px 120px; transition:background 0.3s, color 0.3s; }
+.eyebrow { display:inline-flex; align-items:center; gap:9px; border:1px solid rgba(124,58,237,0.16); color:var(--pl); padding:5px 16px; border-radius:100px; font-family:var(--fm); font-size:14px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:52px; }
+.ebdot { width:5px; height:5px; background:var(--g); border-radius:50%; animation:pulse 2.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+h1 { font-family:var(--fd); font-size:clamp(2.4rem,5vw,4rem); font-weight:800; letter-spacing:-0.045em; line-height:1.06; text-align:center; margin-bottom:36px; max-width:700px; }
+h1 em { font-style:normal; color:var(--g); display:block; }
+.sub { font-size:21px; font-weight:300; color:var(--t2); line-height:1.82; text-align:center; max-width:540px; margin-bottom:64px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:2px; max-width:960px; width:100%; margin-bottom:48px; }
+a.card { display:block; padding:28px 32px; background:var(--gl); border:1px solid var(--glb); border-radius:8px; text-decoration:none; transition:border-color 0.2s, transform 0.15s; }
+a.card:hover { border-color:var(--glh); transform:translateY(-1px); }
+.card-label { font-family:var(--fm); font-size:13px; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.card-label.y { color:var(--y); }
+.card-label.g { color:var(--g); }
+.card-label.p { color:var(--pl); }
+.card-label.m { color:var(--t3); }
+.card-title { font-family:var(--fd); font-size:1.1rem; font-weight:700; letter-spacing:-0.02em; color:var(--text); margin-bottom:6px; }
+.card-desc { font-size:15px; font-weight:300; color:var(--t2); line-height:1.65; }
+h2 { font-family:var(--fd); font-size:clamp(1.4rem,3vw,1.8rem); font-weight:700; letter-spacing:-0.03em; color:var(--text); margin-bottom:12px; max-width:960px; width:100%; }
+.section-sub { font-size:18px; font-weight:300; color:var(--t3); margin-bottom:32px; max-width:960px; width:100%; }
+.sep { width:100%; max-width:960px; height:1px; background:var(--glb); margin:48px 0; border:none; }
+.footer { margin-top:80px; font-family:var(--fm); font-size:13px; color:var(--t3); text-align:center; letter-spacing:0.05em; }
+.footer a { color:var(--t2); text-decoration:none; }
+.footer a:hover { color:var(--text); }
+.toggle { position:fixed; bottom:24px; right:24px; font-family:var(--fm); font-size:12px; color:var(--t3); background:var(--gl); border:1px solid var(--glb); border-radius:100px; padding:6px 16px; cursor:pointer; letter-spacing:0.05em; text-transform:uppercase; transition:border-color 0.2s; }
+.toggle:hover { border-color:var(--glh); color:var(--t2); }
+@media(max-width:640px) { body{padding:48px 16px 100px;} h1{font-size:2rem;} .sub{font-size:18px;} .grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="eyebrow"><span class="ebdot"></span> Pre-Alpha</div>
+
+<h1>Design Prototypes for<em>Wicked Evolutions</em></h1>
+
+<p class="sub">Every page here will become a native WordPress block theme — built entirely through AI ability calls. The process is the product.</p>
+
+<h2>Site Prototypes</h2>
+<p class="section-sub">The pages that become wickedevolutions.com</p>
+
+<div class="grid">
+  <a class="card" href="we-brandbook.html">
+    <div class="card-label p">Design System</div>
+    <div class="card-title">Brand Book</div>
+    <div class="card-desc">Typography, color tokens, components, spacing — the complete visual language.</div>
+  </a>
+  <a class="card" href="we-trinity-fullv4.html">
+    <div class="card-label y">Product</div>
+    <div class="card-title">Trinity Landing</div>
+    <div class="card-desc">Three layers, one interface. The Abilities stack for AI-native WordPress.</div>
+  </a>
+  <a class="card" href="we-blog-proto.html">
+    <div class="card-label g">Editorial</div>
+    <div class="card-title">Blog</div>
+    <div class="card-desc">Single post, archive, and series views. The Mirror Experiment.</div>
+  </a>
+  <a class="card" href="team-page-prototype/">
+    <div class="card-label m">Team</div>
+    <div class="card-title">The Team</div>
+    <div class="card-desc">Human founder + AI co-founders. How we built this.</div>
+  </a>
+  <a class="card" href="docs-prototype/">
+    <div class="card-label g">Knowledge</div>
+    <div class="card-title">Documentation</div>
+    <div class="card-desc">Abilities reference, categories, sidebar nav, TOC. The knowledge base.</div>
+  </a>
+</div>
+
+<hr class="sep">
+
+<h2>Use Case Demos</h2>
+<p class="section-sub">Real WordPress operations through abilities — the data is real</p>
+
+<div class="grid">
+  <a class="card" href="Use Case Prototypes/we-usecase-landing.html">
+    <div class="card-label y">Overview</div>
+    <div class="card-title">Use Case Landing</div>
+    <div class="card-desc">Every use case in one view. The meta-show.</div>
+  </a>
+  <a class="card" href="Use Case Prototypes/we-abilities-execution-flow-v2.html">
+    <div class="card-label p">Architecture</div>
+    <div class="card-title">Execution Flow</div>
+    <div class="card-desc">MCP bridge → adapter → WordPress → response. The sequence diagram.</div>
+  </a>
+  <a class="card" href="Use Case Prototypes/we-pipeline-diagram.html">
+    <div class="card-label g">Pipeline</div>
+    <div class="card-title">5-Call Pipeline</div>
+    <div class="card-desc">From boot to dashboard in one session. Five ability calls.</div>
+  </a>
+  <a class="card" href="Use Case Prototypes/we-cohort-360.html">
+    <div class="card-label y">CRM</div>
+    <div class="card-title">Cohort 360</div>
+    <div class="card-desc">24 contacts, purchase patterns, engagement scores. Live data.</div>
+  </a>
+  <a class="card" href="Use Case Prototypes/we-cohort-patterns.html">
+    <div class="card-label y">Analytics</div>
+    <div class="card-title">Cohort Patterns</div>
+    <div class="card-desc">Funnel analysis, time-to-purchase, behavioral signals.</div>
+  </a>
+</div>
+
+<hr class="sep">
+
+<div class="footer">
+  <a href="https://github.com/Wicked-Evolutions/wickedevolutions-prototypes">GitHub</a> · <a href="https://wickedevolutions.com">wickedevolutions.com</a><br><br>
+  Built by Wicked Evolutions — human founder + AI co-founders.<br>
+  We create atmospheres.
+</div>
+
+<button class="toggle" onclick="toggleTheme()" id="theme-toggle">Light</button>
+
+<script>
+function toggleTheme() {
+  var h = document.documentElement;
+  var isDark = h.getAttribute('data-theme') === 'dark';
+  var next = isDark ? 'light' : 'dark';
+  h.setAttribute('data-theme', next);
+  localStorage.setItem('we-docs-theme', next);
+  document.getElementById('theme-toggle').textContent = isDark ? 'Dark' : 'Light';
+}
+(function() {
+  var saved = localStorage.getItem('we-docs-theme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('theme-toggle').textContent = 'Dark';
+  }
+})();
+</script>
+
+</body>
+</html>

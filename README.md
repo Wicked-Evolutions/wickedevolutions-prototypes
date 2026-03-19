@@ -13,8 +13,8 @@ Live prototypes of a WordPress multisite ecosystem:
 | [**Brand Book**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-brandbook.html) | The complete WE design system — typography, color tokens, components, spacing |
 | [**Trinity Landing**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-trinity-fullv4.html) | Product landing page for the Abilities stack — three layers, one interface |
 | [**Blog**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-blog-proto.html) | Editorial template — single post, archive, series views |
+| [**Knowledge Base**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/docs-prototype/) | Documentation site — abilities reference, categories, sidebar nav, TOC |
 | [**Team**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/team-page-prototype/) | The team behind it — human founder + AI co-founder |
-| [**Docs**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/docs-prototype/) | Knowledge base — abilities documentation, categories, sidebar nav, TOC |
 
 ### Use Case Demos
 
