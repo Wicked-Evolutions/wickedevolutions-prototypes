@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build Agent Post — Wicked Evolutions Docs</title>
+  <link rel="stylesheet" href="css/docs.css" />
+  <link rel="stylesheet" href="css/skill-extras.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Documentation</span>
+  <nav class="topbar-nav"><a href="#">Blog</a><a href="#">GitHub</a><a href="#">Community</a><span class="topbar-version">v1.7.0</span><button class="theme-toggle" id="theme-toggle" title="Toggle light/dark"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button></nav>
+</header>
+
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item active"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="agent-diagnostician.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+      <span class="nav-section-label" style="margin-top:.75rem">SKILLs — Build</span>
+      <a href="skill-build-agent-post.html" class="nav-item level-2 active">Build Agent Post</a>
+      <a href="#" class="nav-item level-2">Build Module Post</a>
+      <a href="#" class="nav-item level-2">Build Page From Prototype</a>
+      <span class="nav-section-label" style="margin-top:.75rem">SKILLs — Practical</span>
+      <a href="skill-search-replace-content.html" class="nav-item level-2">Search &amp; Replace Content</a>
+      <a href="skill-initial-read.html" class="nav-item level-2">Initial Read Protocol</a>
+      <a href="#" class="nav-item level-2">Health Check Protocol</a>
+      <a href="#" class="nav-item level-2">Ship Plugin Patch</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="content-with-toc">
+      <article class="article">
+        <div class="breadcrumb"><a href="index.html">Docs</a><span class="sep">›</span><a href="category-skills.html">SKILLs</a><span class="sep">›</span><span class="current">Build Agent Post</span></div>
+
+        <header class="post-header">
+          <div class="post-meta">
+            <span class="category-badge badge-skill">SKILL</span>
+            <span class="post-date">v0.1.0 · 2026-03-21</span>
+          </div>
+          <h1>Build Agent Post</h1>
+          <p class="post-tagline">Build an agent definition post on the Knowledge Layer site. One ability call, 8 sections, ~40 blocks. Proven on the Diagnostician agent.</p>
+          <div class="tag-list">
+            <a href="#" class="tag">gutenberg</a>
+            <a href="#" class="tag">block-theme</a>
+            <a href="#" class="tag">native-wordpress</a>
+            <a href="#" class="tag">agent-post</a>
+            <a href="#" class="tag">build</a>
+          </div>
+        </header>
+
+        <div class="build-proof">
+          <div class="build-proof-stat">
+            <span class="build-proof-number">1</span>
+            <span class="build-proof-label">ability call</span>
+          </div>
+          <div class="build-proof-stat">
+            <span class="build-proof-number">8</span>
+            <span class="build-proof-label">sections</span>
+          </div>
+          <div class="build-proof-stat">
+            <span class="build-proof-number">~40</span>
+            <span class="build-proof-label">blocks</span>
+          </div>
+          <div class="build-proof-stat">
+            <span class="build-proof-number">0</span>
+            <span class="build-proof-label">validation errors</span>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>What this SKILL builds</strong>
+          A complete agent definition post — badges, description, capability lanes table, permission constraints, behavioral rules, course prerequisite, structured output format, and related items. Third build in the series: landing page (10 calls) → module post (2 calls) → agent post (1 call).
+        </div>
+
+        <h2 id="overview">Overview</h2>
+        <p>This SKILL produces agent definition posts for knowledge.wickedevolutions.com. Each agent post follows the same structure: identity badges, a description of the agent's role, a table of its operating lanes and key abilities, permission constraints, behavioral rules, any course prerequisites, a structured output format, and hand-picked related items.</p>
+        <p>The template (<code>single-post.html</code>) provides the page header, sidebar, breadcrumb, title, excerpt, category/tags, related query, post navigation, TOC rail, and footer. Content provides everything inside <code>wp:post-content</code>.</p>
+
+        <h2 id="data-requirements">Data Requirements</h2>
+        <p>Every agent post needs these fields before the build call. Collect them first — the build is a single ability call, so all data must be ready.</p>
+        <div class="ability-table-wrap">
+          <table class="ability-table">
+            <thead><tr><th>Field</th><th>Where It Goes</th><th>Source</th></tr></thead>
+            <tbody>
+              <tr><td>Title</td><td>Post title field</td><td>Agent name</td></tr>
+              <tr><td>Excerpt</td><td>Post excerpt field</td><td>One-line agent description</td></tr>
+              <tr><td>Category</td><td>Taxonomy assignment</td><td>"Agents" category</td></tr>
+              <tr><td>Tags</td><td>Taxonomy assignment</td><td>Permission level, lane tags</td></tr>
+              <tr><td>Badges</td><td>Content Section 1</td><td>Permission + type + lane chips</td></tr>
+              <tr><td>Description</td><td>Content Section 2</td><td>Agent role and purpose prose</td></tr>
+              <tr><td>Lanes table</td><td>Content Section 3</td><td>Focus areas with key abilities</td></tr>
+              <tr><td>Permission level</td><td>Content Section 4</td><td>Constraint statement + "why" callout</td></tr>
+              <tr><td>Behavioral rules</td><td>Content Section 5</td><td>Operational guidelines list</td></tr>
+              <tr><td>Course requirement</td><td>Content Section 6</td><td>Prerequisite with card link</td></tr>
+              <tr><td>Output format</td><td>Content Section 7</td><td>Report template as code block</td></tr>
+              <tr><td>Related items</td><td>Content Section 8</td><td>4 hand-picked related entries</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="block-map">Block Map</h2>
+        <p>The block map is the blueprint. It shows exactly how Gutenberg blocks nest, which attributes use preset slugs, and which use inline styles. This is the core of the SKILL — read it before writing any markup.</p>
+
+        <div class="block-map">
+          <div class="block-map-header">
+            <span class="block-map-title">Agent Post Content Structure</span>
+            <div class="block-map-legend">
+              <span class="bm-legend-item"><span class="bm-dot bm-dot--preset"></span>preset slug</span>
+              <span class="bm-legend-item"><span class="bm-dot bm-dot--inline"></span>inline style</span>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 1 — Badges</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper · metadata.name</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Group</span> <span class="bm-note">flex row, wrap, blockGap 8px</span></div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Paragraph</span> <span class="bm-note">badge chip ×N</span></div>
+              <div class="bm-attrs">
+                <span class="bm-attr bm-attr--preset">backgroundColor: green-tint | purple-tint | ghost</span>
+                <span class="bm-attr bm-attr--preset">textColor: green | purple-light | secondary</span>
+                <span class="bm-attr bm-attr--inline">fontSize: "11px" · textTransform · letterSpacing · fontWeight: "600"</span>
+                <span class="bm-attr bm-attr--inline">padding: 4px 10px · border-radius: "4px"</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 2 — Agent Description</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span> <span class="bm-attr bm-attr--preset">fontSize: "large"</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Paragraph</span> <span class="bm-attr bm-attr--preset">textColor: "secondary" · fontSize: "medium"</span></div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 3 — Lanes</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Paragraph</span> <span class="bm-note">intro text</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Table</span> <span class="bm-note">3×3 (Lane | Focus | Key Abilities)</span></div>
+              <div class="bm-attrs">
+                <span class="bm-attr bm-attr--inline">hasFixedLayout</span>
+                <span class="bm-attr bm-attr--preset">fontSize: "small"</span>
+                <span class="bm-note" style="margin-left:0">&lt;strong&gt; for lane names · &lt;code&gt; for ability names</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 4 — Permission Level</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Paragraph</span> <span class="bm-note">bold constraint statement</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Group</span> <span class="bm-note">callout</span></div>
+              <div class="bm-attrs">
+                <span class="bm-attr bm-attr--preset">backgroundColor: "green-tint"</span>
+                <span class="bm-attr bm-attr--inline">border-left: 3px solid green</span>
+              </div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Paragraph</span> <span class="bm-note">"Why read-only?" explanation</span></div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 5 — Behavioral Rules</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">List</span> <span class="bm-note">unordered, 7 items</span></div>
+              <div class="bm-attrs">
+                <span class="bm-attr bm-attr--preset">textColor: "secondary" · fontSize: "small"</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 6 — Course Requirement</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Paragraph</span> <span class="bm-note">requirement statement</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Group</span> <span class="bm-note">card — green-tint/green-border, compact</span></div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Paragraph</span> <span class="bm-note">linked title</span></div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Paragraph</span> <span class="bm-note">description</span></div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 7 — Output Format</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Paragraph</span> <span class="bm-note">intro text</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Code</span> <span class="bm-note">structured report template</span></div>
+            </div>
+          </div>
+
+          <div class="block-map-section">
+            <div class="bm-section-label">Section 8 — Related</div>
+            <div class="bm-tree">
+              <div class="bm-node bm-depth-0"><span class="bm-block">Group</span> <span class="bm-note">section wrapper</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Heading H2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Columns (2)</span> <span class="bm-note">row 1</span></div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Column → Group</span> <span class="bm-note">compact glass card ×2</span></div>
+              <div class="bm-node bm-depth-1"><span class="bm-block">Columns (2)</span> <span class="bm-note">row 2</span></div>
+              <div class="bm-node bm-depth-2"><span class="bm-block">Column → Group</span> <span class="bm-note">compact glass card ×2</span></div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="badge-patterns">Badge Chip Patterns</h2>
+        <p>Three color variants cover the badge use cases. Each is a Paragraph block with preset background/text colors and inline typography:</p>
+
+        <div class="badge-demo">
+          <span class="demo-chip demo-chip--green">read-only</span>
+          <span class="demo-chip demo-chip--purple">diagnostic</span>
+          <span class="demo-chip demo-chip--ghost">system</span>
+          <span class="demo-chip demo-chip--ghost">content</span>
+          <span class="demo-chip demo-chip--ghost">structure</span>
+        </div>
+
+        <div class="ability-table-wrap">
+          <table class="ability-table">
+            <thead><tr><th>Variant</th><th>backgroundColor</th><th>textColor</th><th>Used For</th></tr></thead>
+            <tbody>
+              <tr><td><span class="demo-chip demo-chip--green" style="font-size:.75rem">green</span></td><td><span class="ability-name">green-tint</span></td><td><span class="ability-name">green</span></td><td>Permission badges (read-only, read-write)</td></tr>
+              <tr><td><span class="demo-chip demo-chip--purple" style="font-size:.75rem">purple</span></td><td><span class="ability-name">purple-tint</span></td><td><span class="ability-name">purple-light</span></td><td>Type badges (diagnostic, publisher)</td></tr>
+              <tr><td><span class="demo-chip demo-chip--ghost" style="font-size:.75rem">ghost</span></td><td><span class="ability-name">ghost</span></td><td><span class="ability-name">secondary</span></td><td>Lane badges (system, content, structure)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="build-log">Build Log</h2>
+        <p>Proven on the Diagnostician agent (post 225, knowledge.wickedevolutions.com). One ability call produced the complete post.</p>
+
+        <div class="build-log">
+          <div class="build-log-call">
+            <div class="build-log-call-header">
+              <span class="ability-chip">content-create</span>
+              <span class="build-log-label">site: wicked.knowledge · post_type: post · status: draft</span>
+            </div>
+            <div class="build-log-call-detail">title: "Diagnostician" · excerpt: set · content: all 8 sections</div>
+          </div>
+        </div>
+
+        <h3 id="block-counts">Block Type Counts</h3>
+        <div class="ability-table-wrap">
+          <table class="ability-table">
+            <thead><tr><th>Block</th><th>Count</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><span class="ability-name">wp:group</span></td><td>14</td><td>8 section wrappers + badge row + callout + card + 3 inner</td></tr>
+              <tr><td><span class="ability-name">wp:heading</span></td><td>8</td><td>1× H2 per section</td></tr>
+              <tr><td><span class="ability-name">wp:paragraph</span></td><td>~22</td><td>Badges, descriptions, callout, card content</td></tr>
+              <tr><td><span class="ability-name">wp:table</span></td><td>1</td><td>3 rows, 3 columns, fixed layout</td></tr>
+              <tr><td><span class="ability-name">wp:list</span></td><td>1</td><td>Unordered, 7 items</td></tr>
+              <tr><td><span class="ability-name">wp:code</span></td><td>1</td><td>Report template</td></tr>
+              <tr><td><span class="ability-name">wp:columns</span></td><td>2</td><td>2×2 related cards</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="preset-tally">Preset vs Inline Tally</h3>
+        <div class="stats-bar">
+          <div class="stat"><span class="stat-value" style="color:var(--cat-skill)">~40</span><span class="stat-label">Preset slugs</span></div>
+          <div class="stat"><span class="stat-value" style="color:var(--accent)">~35</span><span class="stat-label">Inline styles</span></div>
+          <div class="stat"><span class="stat-value" style="color:var(--cat-skill)">0</span><span class="stat-label">var() in inline</span></div>
+          <div class="stat"><span class="stat-value" style="color:var(--cat-skill)">0</span><span class="stat-label">Validation errors</span></div>
+        </div>
+
+        <h2 id="duplication">Duplicating to Other Agents</h2>
+        <ol class="step-list">
+          <li class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-body">
+              <div class="step-title">Duplicate the base post</div>
+              <p style="font-size:.88rem; color:var(--text-secondary); margin-bottom:.5rem">Use <code>content/duplicate</code> on post 225, or create a new post with the same block structure via <code>content-create</code>.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-body">
+              <div class="step-title">Swap the content</div>
+              <p style="font-size:.88rem; color:var(--text-secondary); margin-bottom:.5rem">Change: title, excerpt, badges (different permission/type/lane combinations), description, lanes table rows, permission level text, behavioral rules list, output format code block, related items.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-body">
+              <div class="step-title">Assign taxonomy</div>
+              <p style="font-size:.88rem; color:var(--text-secondary); margin-bottom:.5rem">Set the correct category and tags. Badge color variants should match the agent's characteristics — green for read-only agents, amber for read-write.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout">
+          <strong>Build series progression</strong>
+          Landing page: 10 calls, ~75 blocks (learning the system). Module post: 2 calls, ~30 blocks (applying lessons). Agent post: 1 call, ~40 blocks (knowledge compounded). The pattern is proven across three post types.
+        </div>
+
+        <h2 id="related">Related</h2>
+        <div class="related-grid">
+          <a href="#" class="related-card"><div class="related-card-title">Build Page From Prototype</div><div class="related-card-meta">SKILL — The full 6-step workflow</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Build Module Post</div><div class="related-card-meta">SKILL — 1-call module reference build</div></a>
+          <a href="agent-diagnostician.html" class="related-card"><div class="related-card-title">Diagnostician Agent</div><div class="related-card-meta">Agent — built using this SKILL</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Block Theme Pitfalls</div><div class="related-card-meta">Gotchas — G1 attribute stripping, G2 separator</div></a>
+        </div>
+
+        <nav class="post-nav">
+          <a href="category-skills.html" class="post-nav-item"><span class="pn-label">← Back to</span><span class="pn-title">All SKILLs</span></a>
+          <a href="skill-search-replace-content.html" class="post-nav-item next"><span class="pn-label">Next →</span><span class="pn-title">Search &amp; Replace Content</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc-rail">
+        <span class="toc-label">On this page</span>
+        <ul class="toc-list">
+          <li class="toc-item"><a href="#overview">Overview</a></li>
+          <li class="toc-item"><a href="#data-requirements">Data Requirements</a></li>
+          <li class="toc-item"><a href="#block-map">Block Map</a></li>
+          <li class="toc-item"><a href="#badge-patterns">Badge Chip Patterns</a></li>
+          <li class="toc-item"><a href="#build-log">Build Log</a></li>
+          <li class="toc-item level-3"><a href="#block-counts">Block Type Counts</a></li>
+          <li class="toc-item level-3"><a href="#preset-tally">Preset vs Inline Tally</a></li>
+          <li class="toc-item"><a href="#duplication">Duplicating to Other Agents</a></li>
+          <li class="toc-item"><a href="#related">Related</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="js/docs.js"></script>
+
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html">Landing</a>
+    <a href="module-content.html">Module</a>
+    <a href="skill-initial-read.html">Protocol</a>
+    <a href="agent-diagnostician.html">Agent</a>
+    <a href="category-skills.html">Archive</a>
+    <a href="skill-build-agent-post.html" class="we-active">Build SKILL</a>
+    <a href="skill-search-replace-content.html">Recipe SKILL</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>

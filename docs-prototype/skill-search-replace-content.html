@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search &amp; Replace Content — Wicked Evolutions Docs</title>
+  <link rel="stylesheet" href="css/docs.css" />
+  <link rel="stylesheet" href="css/skill-extras.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle">☰ Menu</button>
+  <a href="index.html" class="topbar-logo"><span class="dot"></span>Wicked Evolutions</a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-section">Documentation</span>
+  <nav class="topbar-nav"><a href="#">Blog</a><a href="#">GitHub</a><a href="#">Community</a><span class="topbar-version">v1.7.0</span><button class="theme-toggle" id="theme-toggle" title="Toggle light/dark"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button></nav>
+</header>
+<nav class="tabstrip">
+  <a href="index.html" class="tabstrip-link active">Documentation</a>
+  <a href="#" class="tabstrip-link">Products</a>
+  <a href="#" class="tabstrip-link">API Reference</a>
+  <a href="#" class="tabstrip-link">Changelog</a>
+</nav>
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="page-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="search" placeholder="Search docs…" /></div>
+    <div class="nav-section">
+      <span class="nav-section-label">Pages</span>
+      <a href="index.html" class="nav-item">Documentation Home</a>
+      <a href="#" class="nav-item">What is the Abilities API?</a>
+      <a href="#" class="nav-item">Architecture</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Getting Started</span>
+      <a href="#" class="nav-item level-2">Installation</a>
+      <a href="#" class="nav-item level-2">Authentication</a>
+      <a href="#" class="nav-item level-2">Your First Ability Call</a>
+      <a href="#" class="nav-item level-2">Discover Abilities</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">For AI Agents</span>
+      <a href="#" class="nav-item level-2">Agent Quick Start</a>
+      <a href="#" class="nav-item level-2">Known Gotchas</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-section-label">Reference Library</span>
+      <a href="category-skills.html" class="nav-item active"><span class="cat-dot" style="background:var(--cat-skill)"></span>SKILLs</a>
+      <a href="agent-diagnostician.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-agent)"></span>Agents</a>
+      <a href="module-content.html" class="nav-item"><span class="cat-dot" style="background:var(--cat-module)"></span>Modules</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-workflow)"></span>Workflows</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-protocol)"></span>Protocols</a>
+      <a href="#" class="nav-item"><span class="cat-dot" style="background:var(--cat-changelog)"></span>Changelog</a>
+      <span class="nav-section-label" style="margin-top:.75rem">SKILLs — Build</span>
+      <a href="skill-build-agent-post.html" class="nav-item level-2">Build Agent Post</a>
+      <a href="#" class="nav-item level-2">Build Module Post</a>
+      <a href="#" class="nav-item level-2">Build Page From Prototype</a>
+      <span class="nav-section-label" style="margin-top:.75rem">SKILLs — Practical</span>
+      <a href="skill-search-replace-content.html" class="nav-item level-2 active">Search &amp; Replace Content</a>
+      <a href="skill-initial-read.html" class="nav-item level-2">Initial Read Protocol</a>
+      <a href="#" class="nav-item level-2">Health Check Protocol</a>
+      <a href="#" class="nav-item level-2">Ship Plugin Patch</a>
+    </div>
+  </nav>
+  <main class="main-content">
+    <div class="content-with-toc">
+      <article class="article">
+        <div class="breadcrumb"><a href="index.html">Docs</a><span class="sep">›</span><a href="category-skills.html">SKILLs</a><span class="sep">›</span><span class="current">Search &amp; Replace Content</span></div>
+        <header class="post-header">
+          <div class="post-meta">
+            <span class="category-badge badge-skill">SKILL</span>
+            <span class="post-date">v1.0.0 · 2026-02-28</span>
+          </div>
+          <h1>Search &amp; Replace Content</h1>
+          <p class="post-tagline">Bulk find-and-replace text across WordPress post content. Always preview with dry_run first.</p>
+          <div class="tag-list">
+            <a href="#" class="tag">practical</a>
+            <a href="#" class="tag">content</a>
+            <a href="#" class="tag">search-replace</a>
+            <a href="#" class="tag">bulk</a>
+          </div>
+        </header>
+        <h2 id="when-to-use">When to Use</h2>
+        <ul>
+          <li>URL changes after post type conversion or permalink structure change</li>
+          <li>Brand name changes across existing content</li>
+          <li>Fixing repeated typos or outdated references</li>
+          <li>Migrating domain references between environments</li>
+        </ul>
+        <h2 id="what-it-does">What It Does</h2>
+        <p>Scans <code>post_content</code> across posts (up to 500 per call). Plain text matching, case-sensitive, exact match — not regex, by design. Dry run mode previews replacements without saving. Filter by <code>post_type</code> or specific <code>post_ids</code>. Returns per-post detail: ID, title, type, and replacement count.</p>
+        <h2 id="procedure">Procedure</h2>
+        <div class="recipe-steps">
+          <div class="recipe-step">
+            <div class="recipe-step-marker">
+              <span class="recipe-step-num">1</span>
+              <span class="recipe-step-title">Always dry run first</span>
+            </div>
+            <div class="recipe-step-body">
+              <pre><code>content-search-replace(
+  search: "old-domain.com",
+  replace: "new-domain.com",
+  dry_run: true,
+  site: "wicked.community"
+)</code></pre>
+              <p>Review the response: <code>posts_scanned</code> (how many checked), <code>posts_affected</code> (how many matched), <code>total_replacements</code> (match count), and <code>details</code> (per-post breakdown).</p>
+            </div>
+          </div>
+          <div class="recipe-step">
+            <div class="recipe-step-marker">
+              <span class="recipe-step-num">2</span>
+              <span class="recipe-step-title">Scope if needed</span>
+            </div>
+            <div class="recipe-step-body">
+              <p>Limit to a specific post type:</p>
+              <pre><code>content-search-replace(
+  search: "old text",
+  replace: "new text",
+  dry_run: true,
+  post_type: "post"
+)</code></pre>
+              <p>Or limit to specific posts:</p>
+              <pre><code>content-search-replace(
+  search: "old text",
+  replace: "new text",
+  dry_run: true,
+  post_ids: [9, 22, 25]
+)</code></pre>
+              <p><code>post_ids</code> overrides <code>post_type</code> — if you provide both, only <code>post_ids</code> is used.</p>
+            </div>
+          </div>
+          <div class="recipe-step">
+            <div class="recipe-step-marker">
+              <span class="recipe-step-num">3</span>
+              <span class="recipe-step-title">Execute</span>
+            </div>
+            <div class="recipe-step-body">
+              <p>Once the dry run looks correct, run without it:</p>
+              <pre><code>content-search-replace(
+  search: "old text",
+  replace: "new text"
+)</code></pre>
+            </div>
+          </div>
+          <div class="recipe-step">
+            <div class="recipe-step-marker">
+              <span class="recipe-step-num">4</span>
+              <span class="recipe-step-title">Verify</span>
+            </div>
+            <div class="recipe-step-body">
+              <p>Pick a post from the results and spot-check:</p>
+              <pre><code>content-get(id: 19)</code></pre>
+            </div>
+          </div>
+          <div class="recipe-step">
+            <div class="recipe-step-marker">
+              <span class="recipe-step-num">5</span>
+              <span class="recipe-step-title">Flush cache</span>
+            </div>
+            <div class="recipe-step-body">
+              <p>After bulk content changes, clear the page cache:</p>
+              <pre><code>cache-flush-page-cache()</code></pre>
+            </div>
+          </div>
+        </div>
+        <h2 id="gotchas">Gotchas</h2>
+        <div class="gotcha-list">
+          <div class="gotcha-item">
+            <div class="gotcha-num">1</div>
+            <div class="gotcha-body">
+              <strong>Case-sensitive.</strong> "Wicked" won't match "wicked". Run separate passes for different cases if needed.
+            </div>
+          </div>
+          <div class="gotcha-item">
+            <div class="gotcha-num">2</div>
+            <div class="gotcha-body">
+              <strong>Exact match, not regex.</strong> This is intentional — regex in a bulk content tool is dangerous for AI agents. If you need regex, use SSH (dev agent only).
+            </div>
+          </div>
+          <div class="gotcha-item">
+            <div class="gotcha-num">3</div>
+            <div class="gotcha-body">
+              <strong>Identical strings rejected.</strong> The search and replace values must differ.
+            </div>
+          </div>
+          <div class="gotcha-item">
+            <div class="gotcha-num">4</div>
+            <div class="gotcha-body">
+              <strong>Matches inside block markup.</strong> The search operates on raw <code>post_content</code>, which includes block comments (<code>&lt;!-- wp:... --&gt;</code>). A search for "center" will match alignment attributes, not just visible text. Be specific with your search strings.
+            </div>
+          </div>
+          <div class="gotcha-item">
+            <div class="gotcha-num">5</div>
+            <div class="gotcha-body">
+              <strong>500 post limit per call.</strong> For sites with more content, filter by <code>post_type</code> or run multiple passes.
+            </div>
+          </div>
+          <div class="gotcha-item">
+            <div class="gotcha-num">6</div>
+            <div class="gotcha-body">
+              <strong>No undo.</strong> To revert, run the inverse replacement. Keep the original search/replace strings until you've verified.
+            </div>
+          </div>
+        </div>
+        <h2 id="tested-on">Tested On</h2>
+        <div class="tested-on-card">
+          <div class="tested-on-header">
+            <span class="tested-on-site">community.wickedevolutions.com</span>
+            <span class="tested-on-date">2026-02-28</span>
+          </div>
+          <ul class="tested-on-results">
+            <li><strong>Dry run:</strong> found "Wicked Evolutions" in 7 of 9 posts (9 replacements)</li>
+            <li><strong>Real replace + revert:</strong> roundtrip on post ID 19, 2 replacements each direction</li>
+            <li><strong>Post type filter:</strong> limiting to "post" correctly excluded pages</li>
+            <li><strong>Edge cases:</strong> identical strings rejected, post_ids filter works</li>
+          </ul>
+        </div>
+        <h2 id="abilities-used">Abilities Used</h2>
+        <div class="ability-table-wrap">
+          <table class="ability-table">
+            <thead><tr><th>Ability</th><th>Type</th><th>Module</th><th>Step</th></tr></thead>
+            <tbody>
+              <tr><td><span class="ability-name">content-search-replace</span></td><td><span class="type-badge type-w">W</span></td><td>Content</td><td>1–3</td></tr>
+              <tr><td><span class="ability-name">content-get</span></td><td><span class="type-badge type-r">R</span></td><td>Content</td><td>4</td></tr>
+              <tr><td><span class="ability-name">cache-flush-page-cache</span></td><td><span class="type-badge type-w">W</span></td><td>Cache</td><td>5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="related">Related</h2>
+        <div class="related-grid">
+          <a href="module-content.html" class="related-card"><div class="related-card-title">Content Module</div><div class="related-card-meta">Module — includes content-search-replace</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Ship Plugin Patch</div><div class="related-card-meta">SKILL — deploy workflow with verification</div></a>
+          <a href="skill-initial-read.html" class="related-card"><div class="related-card-title">Initial Read Protocol</div><div class="related-card-meta">SKILL — site orientation before changes</div></a>
+          <a href="#" class="related-card"><div class="related-card-title">Build Release Zip</div><div class="related-card-meta">SKILL — packaging for distribution</div></a>
+        </div>
+        <nav class="post-nav">
+          <a href="skill-build-agent-post.html" class="post-nav-item"><span class="pn-label">← Previous</span><span class="pn-title">Build Agent Post</span></a>
+          <a href="skill-initial-read.html" class="post-nav-item next"><span class="pn-label">Next →</span><span class="pn-title">Initial Read Protocol</span></a>
+        </nav>
+      </article>
+      <aside class="toc-rail">
+        <span class="toc-label">On this page</span>
+        <ul class="toc-list">
+          <li class="toc-item"><a href="#when-to-use">When to Use</a></li>
+          <li class="toc-item"><a href="#what-it-does">What It Does</a></li>
+          <li class="toc-item"><a href="#procedure">Procedure</a></li>
+          <li class="toc-item"><a href="#gotchas">Gotchas</a></li>
+          <li class="toc-item"><a href="#tested-on">Tested On</a></li>
+          <li class="toc-item"><a href="#abilities-used">Abilities Used</a></li>
+          <li class="toc-item"><a href="#related">Related</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="js/docs.js"></script>
+<!-- PROTOTYPE NAV -->
+<style>
+.we-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(17,17,17,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.08);height:48px;display:flex;align-items:center;padding:0 32px;gap:0;overflow-x:auto;scrollbar-width:none;}
+.we-bottom-nav::-webkit-scrollbar{display:none;}
+.we-nav-group{display:flex;align-items:center;flex-shrink:0;}
+.we-nav-label{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(224,221,213,0.30);padding-right:12px;white-space:nowrap;}
+.we-nav-sep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 16px;flex-shrink:0;}
+.we-bottom-nav a{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:0.02em;color:rgba(224,221,213,0.65);text-decoration:none;padding:0 14px;height:48px;display:inline-flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:color 0.15s;}
+.we-bottom-nav a:hover{color:rgba(224,221,213,1);}
+.we-bottom-nav a.we-active{color:#FFEE58;}
+</style>
+<nav class="we-bottom-nav">
+  <div class="we-nav-group">
+    <span class="we-nav-label">Prototypes</span>
+    <a href="../we-trinity-fullv4.html">Trinity</a>
+    <a href="../we-blog-proto.html">Blog</a>
+    <a href="../we-brandbook.html">Brand Book</a>
+    <a href="../team-page-prototype/index.html">Team Page</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group">
+    <span class="we-nav-label">Docs</span>
+    <a href="index.html">Landing</a>
+    <a href="module-content.html">Module</a>
+    <a href="skill-initial-read.html">Protocol</a>
+    <a href="agent-diagnostician.html">Agent</a>
+    <a href="category-skills.html">Archive</a>
+    <a href="skill-build-agent-post.html">Build SKILL</a>
+    <a href="skill-search-replace-content.html" class="we-active">Recipe SKILL</a>
+  </div>
+  <div class="we-nav-sep"></div>
+  <div class="we-nav-group" style="margin-left:auto;">
+    <span class="we-nav-label">Mode</span>
+    <a href="#" id="mode-dark" class="we-active" onclick="setMode('dark');return false;">Dark</a>
+    <a href="#" id="mode-light" onclick="setMode('light');return false;">Light</a>
+  </div>
+</nav>
+<div style="height:48px;"></div>
+<script>
+function setMode(m){var h=document.documentElement;h.classList.toggle('light',m==='light');h.classList.toggle('dark',m==='dark');localStorage.setItem('we-docs-theme',m);document.getElementById('mode-dark').classList.toggle('we-active',m==='dark');document.getElementById('mode-light').classList.toggle('we-active',m==='light');}
+(function(){var saved=localStorage.getItem('we-docs-theme');if(saved)setMode(saved);})();
+</script>
+</body>
+</html>
