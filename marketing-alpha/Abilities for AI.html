@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for AI · The Engine · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── COVERAGE GRID ── */
+.coverage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gb);
+}
+.cv {
+  background: var(--bg);
+  padding: 22px 22px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cv-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g); }
+.cv-name { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; color: var(--text); letter-spacing:-0.02em; }
+.cv-body { font-size: 13.5px; color: var(--t2); line-height: 1.65; }
+
+.coverage-foot {
+  padding-top: 22px;
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+  text-align: center;
+}
+
+/* ── CAPACITY (tier 02-03) ── */
+.capacity {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.cap {
+  background: var(--bg);
+  padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.cap-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g); }
+.cap-name { font-family: var(--fd); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+.cap-claim { font-size: 16px; color: var(--text); line-height: 1.5; }
+.cap-body { font-size: 14.5px; color: var(--t2); line-height: 1.75; padding-top: 14px; border-top: 1px solid var(--glb); }
+.cap-foot { font-family: var(--fm); font-size: 10.5px; letter-spacing: 0.06em; color: var(--t3); padding-top: 8px; }
+
+/* ── PRACTICE / scenarios ── */
+.practice {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.pr {
+  background: var(--bg);
+  padding: 30px 36px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+.pr-aside {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--g);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.pr-aside .pr-tag2 { color: var(--t3); }
+.pr-body { font-size: 16px; color: var(--text); line-height: 1.6; text-wrap: pretty; }
+.pr-body span.muted { color: var(--t2); font-weight: 300; }
+.pr-body strong { color: var(--text); font-weight: 500; }
+
+@media (max-width: 920px) {
+  .coverage { grid-template-columns: 1fr 1fr; }
+  .capacity { grid-template-columns: 1fr; }
+  .pr { grid-template-columns: 1fr; gap: 14px; }
+}
+</style>
+</head>
+<body data-screen-label="04 Abilities for AI">
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="11" cy="13" r="2.2" fill="currentColor"/></svg></span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils"><a href="Knowledge Layer.html">Knowledge</a><a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a><a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Wicked-Evolutions/abilities-for-ai" target="_blank" rel="noopener">GitHub</a><a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a></nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html" aria-current="page"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Layer 03 · Engine · WordPress Plugin</div>
+  </div>
+</header>
+
+<header class="hero c">
+  <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Layer 03 · Engine · WordPress Plugin</div>
+  <h1 class="hero-title">
+    Build anything.<br>
+    Fix everything.<br>
+    <em>In natural language.</em>
+  </h1>
+  <p class="hero-sub">
+    The enchanted world. Every WordPress surface — content, blocks, themes, users, filesystem, cron, revisions — registered as a named, schema-validated, permission-gated ability. Operable from any AI chat interface, without ever opening the admin panel. Growing every release.
+  </p>
+  <hr class="gl gl--g">
+</header>
+
+<section class="cw section">
+  <span class="sn">Abilities for AI / 01 — In one breath</span>
+  <h2 class="sh">What it is. Why it exists. How it works. <em>What it brings you.</em></h2>
+  <p class="sp2">A reading of the engine before any catalogue. The shape of the plugin in operator language — what it is, why it had to exist, what changes the day you install it.</p>
+
+  <div class="wwhb">
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What</div>
+      <div class="wwhb-claim">A WordPress plugin that registers every platform surface as a named, callable ability.</div>
+      <div class="wwhb-body">Posts, blocks, taxonomies, users, options, themes, plugins, files, cron, revisions, multisite — each surface becomes a small, well-described operation an AI can discover, plan with, and run.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Why</div>
+      <div class="wwhb-claim">So an AI can operate WordPress without raw database access or guesswork.</div>
+      <div class="wwhb-body">Without a registry, the AI is improvising against the database. With one, the AI is calling intentions you've named. Safer for the site. Clearer for you. Cheaper to run.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">How</div>
+      <div class="wwhb-claim">Each ability has a name, a description, an input schema, a permission, and an annotation.</div>
+      <div class="wwhb-body">When the Adapter exposes them, the AI sees the catalogue and the safety hints together. It can pick the right ability for the job — or decline, citing the gate that stopped it.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What it brings</div>
+      <div class="wwhb-claim">A WordPress site that can be operated by talking to it.</div>
+      <div class="wwhb-body">The admin panel becomes optional. Most of what you used to click — drafting, publishing, tagging, configuring, auditing — is now a sentence. The dashboard is for review, not for routine.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for AI / 02 — Coverage</span>
+  <h2 class="sh">Every WordPress surface. <em>All of it.</em></h2>
+  <p class="sp2">Not a curated subset. Not "the easy parts." The whole platform — the surfaces operators actually touch, the surfaces only developers used to touch, the surfaces nobody touched because they lived three layers deep in the admin. All registered. All callable. All gated.</p>
+
+  <div class="coverage">
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Content</div><div class="cv-body">Posts, pages, custom post types, drafts, revisions, scheduling.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Blocks</div><div class="cv-body">Block patterns, reusable blocks, block-level edits inside any post.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Taxonomies</div><div class="cv-body">Categories, tags, custom taxonomies, term relationships, hierarchies.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Media</div><div class="cv-body">Library, attachments, alt text, image sizes, replacements.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Users &amp; roles</div><div class="cv-body">Accounts, capabilities, role assignment, sessions.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Comments</div><div class="cv-body">Threads, moderation, spam handling, comment meta.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Options &amp; settings</div><div class="cv-body">Site identity, permalinks, reading, writing, discussion, every options table key.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Themes</div><div class="cv-body">Active theme, child themes, template parts, theme.json, customiser fields.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Plugins</div><div class="cv-body">Install, activate, deactivate, update, delete — gated by scope.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Filesystem</div><div class="cv-body">Theme files, plugin files, uploads — read and write where the OS allows.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Cron &amp; jobs</div><div class="cv-body">Scheduled events, queues, retries, the actual reason something didn't run.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Multisite</div><div class="cv-body">Network admin, sites, users-across-sites, network options.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">REST &amp; routes</div><div class="cv-body">Every registered route, namespace, schema — discoverable, callable.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Revisions &amp; history</div><div class="cv-body">Diff any post against any past version. Roll back. Compare authors.</div></div>
+    <div class="cv"><div class="cv-eb">Module</div><div class="cv-name">Diagnostics</div><div class="cv-body">Site health, security posture, taxonomy health, theme audit — compiled in one call.</div></div>
+  </div>
+
+  <div class="coverage-foot">Open source · GPL-2.0-or-later · Coverage growing every release</div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for AI / 03 — Capacity</span>
+  <h2 class="sh">Possibilities <em>never accessed in WordPress before.</em></h2>
+  <p class="sp2">Tier 1 is "do things" — the calls every product in this space gets to. Abilities for AI keeps going. The next two tiers are where the work actually changes.</p>
+
+  <div class="capacity">
+    <div class="cap">
+      <div class="cap-eb">Tier 02</div>
+      <div class="cap-name">Understand state.</div>
+      <div class="cap-claim">Compiled diagnostics. Eight sequential checks become one.</div>
+      <div class="cap-body">The AI doesn't issue ten read calls to figure out the state of your site. One ability does the cross-correlation server-side and returns the picture. Site health, security posture, taxonomy integrity, theme audit, network overview — each one a single call.</div>
+      <div class="cap-foot">faster · cheaper · more accurate · less drift</div>
+    </div>
+    <div class="cap">
+      <div class="cap-eb">Tier 03</div>
+      <div class="cap-name">Understand meaning.</div>
+      <div class="cap-claim">Editorial intelligence on top of the operations.</div>
+      <div class="cap-body">Voice signatures per author. Opening patterns across every post. Series arcs. Headline statistics. Content depth distributions. WordPress goes from a content management system to a content intelligence system — and nobody else is building this tier.</div>
+      <div class="cap-foot">on your data · in your site · without sending it anywhere</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for AI / 04 — In practice</span>
+  <h2 class="sh">What it looks like <em>in practice.</em></h2>
+  <p class="sp2">Three short scenes from the alpha, in the operator's words. Each one is a real sequence of abilities the AI ran — not a screenshot, not a marketing rendering. The actual shape of the day.</p>
+
+  <div class="practice">
+    <div class="pr">
+      <div class="pr-aside">
+        <div>Scene 01</div>
+        <div class="pr-tag2">A site you haven't seen before</div>
+      </div>
+      <div class="pr-body">
+        <span class="muted">Cold session. New AI, no prior context. You hand it the URL. </span>
+        <strong>It compiles a state report in 29 calls and under two minutes.</strong>
+        <span class="muted"> Site health, security posture, taxonomy integrity, theme audit, content depth, voice signature. The AI now understands the site well enough to recommend — and explain.</span>
+      </div>
+    </div>
+    <div class="pr">
+      <div class="pr-aside">
+        <div>Scene 02</div>
+        <div class="pr-tag2">A campaign retro</div>
+      </div>
+      <div class="pr-body">
+        <span class="muted">"Pull the contacts who replied to last month's campaign, segment them by behaviour, draft tomorrow's follow-up matched to each segment." </span>
+        <strong>The AI runs the segments, reads the prior thread, drafts the messages.</strong>
+        <span class="muted"> Sends nothing. Waits for you to approve. The campaign retro stops being a Saturday job.</span>
+      </div>
+    </div>
+    <div class="pr">
+      <div class="pr-aside">
+        <div>Scene 03</div>
+        <div class="pr-tag2">"Why is my site slow?"</div>
+      </div>
+      <div class="pr-body">
+        <span class="muted">A question the dashboard never quite answers. </span>
+        <strong>The AI runs the diagnostics ability, reads the cron queue, checks the recent revisions, finds a plugin update that landed yesterday and a job that's been retrying for six hours.</strong>
+        <span class="muted"> Names the cause. Suggests the fix. Waits for you.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for AI / 05 — How it relates</span>
+  <h2 class="sh">The engine is one of three. <em>All three are needed.</em></h2>
+  <p class="sp2">Abilities for AI registers what's possible. The Adapter exposes it through the gate. Abilities MCP routes the conversation. Together: a WordPress site that can be operated by talking to it.</p>
+
+  <div class="wwhb" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">← Layer 01</div>
+      <div class="wwhb-claim"><a href="Abilities MCP.html" style="color:inherit; border-bottom:1px solid var(--yb);">Abilities MCP</a></div>
+      <div class="wwhb-body">The bridge that runs on your machine and routes the call to the right site.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">← Layer 02</div>
+      <div class="wwhb-claim"><a href="MCP Adapter.html" style="color:inherit; border-bottom:1px solid var(--pb);">MCP Adapter</a></div>
+      <div class="wwhb-body">The gate on each site that authenticates, validates, redacts, and returns.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">This page</div>
+      <div class="wwhb-claim">Abilities for AI</div>
+      <div class="wwhb-body">Every WordPress surface registered as a callable named operation behind the gate.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">Stop clicking. <em>Start talking to your WordPress.</em></div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities for Fluent · The Sovereign Suite · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── ALPHA WEDGE BANNER ── */
+.wedge {
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  padding: 26px 32px;
+  background: linear-gradient(180deg, var(--gd), transparent 80%);
+  margin: 8px 0 28px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.wedge-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g); }
+.wedge-name { font-family: var(--fd); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.025em; color: var(--text); margin-top: 6px; }
+.wedge-body { font-size: 15.5px; color: var(--t2); line-height: 1.72; padding-left: 32px; border-left: 1px solid var(--glb); }
+
+/* ── FLUENT SUITE GRID ── */
+.suite {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gb);
+}
+.su {
+  background: var(--bg);
+  padding: 24px 22px 22px;
+  display: flex; flex-direction: column; gap: 8px;
+  min-height: 168px;
+}
+.su-eb { font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g); }
+.su-name { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.su-body { font-size: 13px; color: var(--t2); line-height: 1.65; }
+
+.suite-foot {
+  font-family: var(--fm); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3);
+  text-align: center; padding-top: 22px;
+}
+
+/* ── USE CASES ── */
+.usecases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.uc {
+  background: var(--bg);
+  padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.uc-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g); }
+.uc-name { font-family: var(--fd); font-size: 1.3rem; font-weight: 800; letter-spacing: -0.025em; color: var(--text); }
+.uc-claim { font-size: 16px; color: var(--text); line-height: 1.55; }
+.uc-body { font-size: 14.5px; color: var(--t2); line-height: 1.74; padding-top: 14px; border-top: 1px solid var(--glb); }
+.uc-quote { font-family: var(--fd); font-size: 0.95rem; color: var(--g); padding-top: 12px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.4; }
+
+/* ── EQUATION ── */
+.eq-row {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.eq-card {
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--gd), transparent 80%);
+  padding: 32px 36px;
+}
+.eq-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g); margin-bottom: 18px; }
+.eq-line { font-family: var(--fd); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.25; color: var(--text); margin-bottom: 22px; }
+.eq-line .plus { color: var(--t3); margin: 0 8px; }
+.eq-line .eq { color: var(--g); }
+.eq-foot { font-family: var(--fm); font-size: 11px; letter-spacing: 0.06em; color: var(--t3); padding-top: 16px; border-top: 1px solid var(--glb); }
+
+@media (max-width: 920px) {
+  .wedge { grid-template-columns: 1fr; gap: 16px; }
+  .wedge-body { padding-left: 0; border-left: none; padding-top: 14px; border-top: 1px solid var(--glb); }
+  .suite { grid-template-columns: 1fr 1fr; }
+  .usecases, .eq-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-screen-label="05 Abilities for Fluent">
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="11" cy="13" r="2.2" fill="currentColor"/></svg></span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils"><a href="Knowledge Layer.html">Knowledge</a><a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a><a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Wicked-Evolutions/abilities-for-fluent-plugins" target="_blank" rel="noopener">GitHub</a><a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a></nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html" aria-current="page"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Alpha Wedge · WordPress Plugin</div>
+  </div>
+</header>
+
+<header class="hero c">
+  <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Alpha · The Fluent Suite, AI-operable</div>
+  <h1 class="hero-title">
+    Run your business<br>
+    on the suite you trust.<br>
+    <em>Now operable by any AI.</em>
+  </h1>
+  <p class="hero-sub">
+    Abilities for Fluent registers every operation across the Fluent suite — CRM, forms, community, cart, support, booking, boards, affiliate — as a callable ability behind the Trinity gate. The plugins you already chose. The workflows you already built. Now reachable from a chat with your AI client.
+  </p>
+  <hr class="gl gl--g">
+</header>
+
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 01 — Why this is the alpha wedge</span>
+  <div class="wedge">
+    <div>
+      <div class="wedge-eb">The deep confirmation</div>
+      <div class="wedge-name">You bet on the right stack. Now you bet early.</div>
+    </div>
+    <div class="wedge-body">
+      We run our whole WordPress ecosystem on the Fluent suite by WP Manage Ninja. We built Abilities for Fluent because we needed it ourselves — and because the suite is wide enough that pairing it with the Trinity makes WordPress, plus eight first-party plugins, plus the Trinity itself, a complete sovereign stack. That's why the alpha launches here.
+    </div>
+  </div>
+</section>
+
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 02 — In one breath</span>
+  <h2 class="sh">What it is. Why it exists. How it works. <em>What it brings you.</em></h2>
+  <p class="sp2">A reading of this plugin before any feature list. Same shape as every product in the Trinity — value first, spec second.</p>
+
+  <div class="wwhb">
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What</div>
+      <div class="wwhb-claim">A WordPress plugin that registers every Fluent surface as a callable ability.</div>
+      <div class="wwhb-body">Contacts, segments, automations, forms, communities, courses, products, orders, tickets, bookings, boards, affiliates — each surface becomes a named ability the AI can run.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Why</div>
+      <div class="wwhb-claim">So your AI doesn't stop at WordPress core.</div>
+      <div class="wwhb-body">Most operators don't run the business on core alone — they run it on the suite. Without this plugin, the AI knows your posts but not your contacts. With it, the operating layer reaches the surfaces you actually live in.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">How</div>
+      <div class="wwhb-claim">Conditional. Loads only what you have. Inherits the same gate.</div>
+      <div class="wwhb-body">FluentCRM installed? CRM abilities register. FluentBooking installed? Booking abilities register. Same Adapter, same scopes, same redaction — no second control panel to learn.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What it brings</div>
+      <div class="wwhb-claim">A full sovereign suite for any business on WordPress.</div>
+      <div class="wwhb-body">Trinity + Fluent + WordPress core = everything you need to run a business or a project venture, AI-operable, on open source you own. No SaaS in the middle. No data leaving the site.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 03 — Coverage</span>
+  <h2 class="sh">Every Fluent surface. <em>Conditionally loaded.</em></h2>
+  <p class="sp2">Each plugin in the suite gets its own ability set, registered only if that plugin is active on the site. You don't pay an attention tax for capabilities you're not running.</p>
+
+  <div class="suite">
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentCRM</div><div class="su-body">Contacts, lists, segments, tags, automations, campaign retros, reply analysis.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">Fluent Forms</div><div class="su-body">Forms, fields, submissions, conditional logic, integrations, exports.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentCommunity</div><div class="su-body">Spaces, posts, members, courses, lessons, completion state, moderation.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentCart</div><div class="su-body">Products, orders, customers, refunds, coupons, inventory, fulfilment.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentSupport</div><div class="su-body">Tickets, conversations, agents, priorities, business hours, SLA state.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentBooking</div><div class="su-body">Calendars, slots, bookings, reschedule, cancellations, host availability.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentBoards</div><div class="su-body">Boards, lists, tasks, assignees, priorities, comments, board health.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">Fluent Affiliate</div><div class="su-body">Partners, referrals, commissions, payouts, performance windows.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentSnippets</div><div class="su-body">PHP, JS and CSS snippets, scopes, run conditions, audit history.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentSMTP</div><div class="su-body">Connections, deliverability, bounce handling, send logs, retries.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">Fluent Auth</div><div class="su-body">Logins, sessions, two-factor, IP rules, audit trail.</div></div>
+    <div class="su"><div class="su-eb">Plugin</div><div class="su-name">FluentChat &amp; more</div><div class="su-body">Messaging surfaces and the rest of the suite, registered as it ships.</div></div>
+  </div>
+
+  <div class="suite-foot">Conditional load · only what you run · gate inherited from the Adapter</div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 04 — In practice</span>
+  <h2 class="sh">What it looks like <em>in your day.</em></h2>
+  <p class="sp2">Two scenes from the alpha. Real sequences the AI can run today, on a site running the Trinity and Fluent together. The shape of the operator's day after.</p>
+
+  <div class="usecases">
+    <div class="uc">
+      <div class="uc-eb">Scene 01 · CRM &amp; campaigns</div>
+      <div class="uc-name">A campaign retro before lunch.</div>
+      <div class="uc-claim">"Look at last month's campaign. Pull the contacts who replied. Segment them by behaviour. Draft tomorrow's follow-up matched to each segment."</div>
+      <div class="uc-body">The AI reads the campaign, runs the segments through FluentCRM, drafts the messages, attaches the right tags, queues nothing without your approval. The retro stops being a Saturday job.</div>
+      <div class="uc-quote">"What used to take an afternoon takes a conversation."</div>
+    </div>
+    <div class="uc">
+      <div class="uc-eb">Scene 02 · Support &amp; cart</div>
+      <div class="uc-name">A ticket arrives. The AI is already reading it.</div>
+      <div class="uc-claim">"Customer wrote in. Find their prior orders, check if they're on a current plan, draft a reply with the right knowledge-base article."</div>
+      <div class="uc-body">FluentSupport reads the ticket, FluentCart returns the order history, FluentCRM returns the lifecycle state. The AI writes the reply. You read it. You hit send — or you don't. The boundary stays human.</div>
+      <div class="uc-quote">"The dashboard becomes the review layer, not the work layer."</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 05 — The equation</span>
+  <h2 class="sh">Trinity + Fluent + Core = <em>a full sovereign stack.</em></h2>
+  <p class="sp2">Not a marketing claim. A statement of completeness. The Trinity makes WordPress AI-operable. Abilities for Fluent extends that to the suite of plugins you already pay for. WordPress core gives you the rest. There is nothing else needed in the middle.</p>
+
+  <div class="eq-row">
+    <div class="eq-card">
+      <div class="eq-eb">The equation</div>
+      <div class="eq-line">
+        Trinity <span class="plus">+</span><br>
+        Abilities for Fluent <span class="plus">+</span><br>
+        WordPress core <span class="plus">=</span><br>
+        <span class="eq">a full operating stack you own.</span>
+      </div>
+      <div class="eq-foot">Open source · GPL-2.0-or-later · Runs on your WordPress, your machine</div>
+    </div>
+    <div>
+      <p class="sp2" style="margin-bottom: 24px;">
+        For the operator who already runs on Fluent, the deep confirmation is this: every plugin you chose, every workflow you built, is now part of the AI-operable layer. You didn't bet on the wrong stack. You bet early.
+      </p>
+      <p class="sp2" style="margin-bottom: 24px;">
+        For the operator who hasn't picked yet: this is the suite that pairs cleanly with the Trinity. One vendor on the suite side. One open-source ecosystem on the operating side. Zero SaaS layers between you and your data.
+      </p>
+      <p class="sp2" style="color: var(--t3); font-size: 14px;">
+        Other plugin suites can be supported the same way. Fluent is where the alpha launches because Fluent is what we run.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities for Fluent / 06 — How it relates</span>
+  <h2 class="sh">A fourth product — built on the Trinity. <em>Not a fourth piece of the Trinity.</em></h2>
+  <p class="sp2">The Trinity is three: Abilities MCP, MCP Adapter, Abilities for AI. Abilities for Fluent is what becomes possible the moment all three are in place — the same operating layer, extended into the plugin suite that runs your business.</p>
+
+  <div class="wwhb" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">Trinity · Layer 01</div>
+      <div class="wwhb-claim"><a href="Abilities MCP.html" style="color:inherit; border-bottom:1px solid var(--yb);">Abilities MCP</a></div>
+      <div class="wwhb-body">The bridge that runs on your machine and routes the call to the right site.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">Trinity · Layer 02</div>
+      <div class="wwhb-claim"><a href="MCP Adapter.html" style="color:inherit; border-bottom:1px solid var(--pb);">MCP Adapter</a></div>
+      <div class="wwhb-body">The gate on each site that authenticates, validates, redacts, and returns.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Trinity · Layer 03</div>
+      <div class="wwhb-claim"><a href="Abilities for AI.html" style="color:inherit; border-bottom:1px solid var(--gb);">Abilities for AI</a></div>
+      <div class="wwhb-body">Every WordPress core surface registered as a callable named operation.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">Run the whole business on open source. <em>Now AI-operable end to end.</em></div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>

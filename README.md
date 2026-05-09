@@ -8,6 +8,23 @@
 
 Live prototypes of a WordPress multisite ecosystem:
 
+### Alpha Marketing
+
+The landing pages for the alpha — what visitors will see when they hit wickedevolutions.com:
+
+| Page | What it shows |
+|------|--------------|
+| [**Trinity Hub**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Trinity%20Hub.html) | Product overview — the three-plugin stack, audience framing, sovereign suite, Knowledge Layer consequence |
+| [**Abilities MCP**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Abilities%20MCP.html) | The bridge — local Node.js MCP server, multi-site, multi-client, OS-keychain key storage |
+| [**MCP Adapter**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/MCP%20Adapter.html) | The gate — OAuth 2.1, scoped tokens, three-bucket redaction, layered permissions |
+| [**Abilities for AI**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Abilities%20for%20AI.html) | The engine — content, blocks, themes, plugins, users, filesystem, cron, multisite |
+| [**Abilities for Fluent**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Abilities%20for%20Fluent.html) | The Fluent suite — CRM, Forms, Community, Cart, Support, Booking, Boards, etc. |
+| [**Knowledge Layer**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Knowledge%20Layer.html) | Operational AI memory built into WordPress — sessions, observations, tags, ESSENCE |
+| [**Bridge Effect**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Bridge%20Effect.html) | Deep-dive on the WordPress Core CPT Bridge Effect — operate any CPT-based plugin without integration |
+| [**Get Alpha Access**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/marketing-alpha/Get%20Alpha%20Access.html) | Single-field signup — wired to the FluentForms endpoint at community.wickedevolutions.com |
+
+### Site Prototypes
+
 | Prototype | What it shows |
 |-----------|--------------|
 | [**Brand Book**](https://wicked-evolutions.github.io/wickedevolutions-prototypes/we-brandbook.html) | The complete WE design system — typography, color tokens, components, spacing |

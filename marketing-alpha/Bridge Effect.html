@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bridge Effect · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Spectral:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── PRINCIPLE LEDE ── */
+.lede {
+  font-family: var(--fd);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  color: var(--text);
+  max-width: 760px;
+  text-wrap: balance;
+  margin-bottom: 32px;
+}
+.lede em { font-style: normal; color: var(--g); }
+
+/* ── CABINETS ── */
+.cabinets {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gb);
+}
+.cab {
+  background: var(--bg);
+  padding: 28px 22px 26px;
+  display: flex; flex-direction: column; gap: 12px;
+  min-height: 240px;
+}
+.cab-num {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--g);
+}
+.cab-name {
+  font-family: var(--fd);
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  line-height: 1.18;
+}
+.cab-body {
+  font-size: 14.5px;
+  color: var(--t2);
+  line-height: 1.6;
+  margin-top: auto;
+}
+.cab-table {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--t4);
+  padding-top: 14px;
+  border-top: 1px solid var(--glb);
+  margin-top: 12px;
+}
+
+/* ── PATH ── */
+.path {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.path-row {
+  background: var(--bg);
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 220px 1fr 200px;
+  gap: 36px;
+  align-items: center;
+}
+.path-plugin {
+  font-family: var(--fd);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.path-what {
+  font-size: 16px;
+  color: var(--t2);
+  line-height: 1.6;
+}
+.path-where {
+  font-family: var(--fm);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--g);
+  text-transform: lowercase;
+  text-align: right;
+}
+
+/* ── COMP / cross-multiplier ── */
+.comp {
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  background: var(--gd);
+  padding: 44px 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+}
+.comp-headline {
+  font-family: var(--fd);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+}
+.comp-headline em { font-style: normal; color: var(--g); }
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.comp-cell {
+  border: 1px solid var(--glb);
+  border-radius: 10px;
+  padding: 18px 16px 16px;
+  background: rgba(17,17,17,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comp-vendor {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--g);
+}
+.comp-writes {
+  font-family: var(--fd);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.comp-key {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  color: var(--t3);
+  word-break: break-all;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--glb);
+}
+.comp-target {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border: 1px solid var(--glh);
+  border-radius: 10px;
+  background: rgba(17,17,17,0.55);
+}
+.comp-target-eb {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.comp-target-name {
+  font-family: var(--fd);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.comp-target-meta {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--t3);
+  margin-left: auto;
+}
+.comp-result {
+  font-size: 17px;
+  color: var(--t2);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.comp-result strong { color: var(--text); font-weight: 600; }
+
+/* ── EVIDENCE ── */
+.evidence {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.ev-aside {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--g);
+  line-height: 1.8;
+  padding-top: 4px;
+}
+.ev-aside-meta {
+  color: var(--t3);
+  margin-top: 12px;
+  letter-spacing: 0.08em;
+}
+.ev-flow {
+  display: grid;
+  gap: 1px;
+  background: var(--glb);
+  border: 1px solid var(--glb);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ev-step {
+  background: var(--bg);
+  padding: 16px 22px;
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 22px;
+  align-items: center;
+}
+.ev-num {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--t4);
+  letter-spacing: 0.06em;
+}
+.ev-call {
+  font-family: var(--fm);
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.ev-call .arg { color: var(--t3); }
+.ev-result {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--g);
+}
+.ev-result--neutral { color: var(--t3); }
+
+/* ── BOUNDARY ── */
+.boundary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.bd {
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  padding: 32px 32px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bd--in { border-color: var(--gb); background: var(--gd); }
+.bd--out { background: rgba(255,255,255,0.018); }
+.bd-eb {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.bd--in .bd-eb { color: var(--g); }
+.bd--out .bd-eb { color: var(--t3); }
+.bd-claim {
+  font-family: var(--fd);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: var(--text);
+}
+.bd-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--t2);
+  line-height: 1.55;
+}
+.bd-list li {
+  padding: 9px 0;
+  border-top: 1px solid var(--glb);
+  font-family: var(--fm);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--t2);
+}
+.bd-list li:first-child { border-top: none; padding-top: 4px; }
+.bd-foot {
+  margin-top: auto;
+  font-size: 14.5px;
+  color: var(--t3);
+  line-height: 1.6;
+  padding-top: 16px;
+  border-top: 1px solid var(--glb);
+  text-wrap: pretty;
+}
+
+/* ── PERMS ── */
+.perms {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.pm {
+  background: var(--bg);
+  padding: 26px 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.pm-num {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--pl);
+}
+.pm-name {
+  font-family: var(--fd);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+.pm-body {
+  font-size: 14px;
+  color: var(--t2);
+  line-height: 1.6;
+}
+.pm-foot {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--glb);
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--t3);
+}
+
+/* ── MATH ── */
+.math {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gb);
+  margin-bottom: 28px;
+}
+.mt {
+  background: var(--bg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+.mt-axis {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g);
+}
+.mt-num {
+  font-family: var(--fd);
+  font-size: 3.4rem;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--text);
+}
+.mt-num em {
+  font-style: normal;
+  color: var(--g);
+}
+.mt-label {
+  font-size: 14.5px;
+  color: var(--t2);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+@media (max-width: 1100px) {
+  .cabinets { grid-template-columns: repeat(2, 1fr); }
+  .comp-grid { grid-template-columns: repeat(2, 1fr); }
+  .perms { grid-template-columns: 1fr 1fr; }
+  .path-row { grid-template-columns: 1fr; gap: 12px; }
+  .path-where { text-align: left; }
+  .evidence { grid-template-columns: 1fr; gap: 28px; }
+  .boundary { grid-template-columns: 1fr; }
+  .math { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="6" r="3" fill="#FFEE58"/>
+          <circle cx="6" cy="14" r="3" fill="#22c55e"/>
+          <circle cx="16" cy="14" r="3" fill="#7c3aed"/>
+        </svg>
+      </span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils">
+      <a href="Knowledge Layer.html">Knowledge</a>
+      <a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a>
+      <a href="https://github.com/Wicked-Evolutions/abilities-mcp" target="_blank" rel="noopener">GitHub</a>
+      <a class="head-cta" href="Get Alpha Access.html">Get the Alpha</a>
+    </nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Overview</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <span class="tabs-right">Capability deep&#8209;dive · Bridge Effect</span>
+  </div>
+</header>
+
+<!-- ──────────────────────────────────────── HERO ──────────────────────────────────────── -->
+<section class="hero">
+  <div class="c">
+    <span class="eyebrow eyebrow--g"><span class="ebdot"></span>WordPress Core · Universal Storage</span>
+    <h1 class="hero-title">
+      The plugins on your site
+      <em>are already operable.</em>
+    </h1>
+    <p class="hero-sub">
+      WordPress was built around a small set of universal storage structures that almost every plugin uses to file its data. The Abilities suite operates those structures directly — so most of the plugins you already run on WordPress become AI-operable without those plugins doing anything.
+    </p>
+
+    <p class="lede">
+      <em>WordPress's universal storage is the surface. The Abilities suite operates that surface. Plugin coverage is a consequence — not a count.</em>
+    </p>
+
+    <div class="wwhb">
+      <div class="wwhb-cell wwhb-cell--g">
+        <div class="wwhb-eb">What</div>
+        <div class="wwhb-claim">Reach without integration.</div>
+        <div class="wwhb-body">A single set of core operations that reaches the data + meta + categorization + comments + settings layers of every plugin built on WordPress core.</div>
+      </div>
+      <div class="wwhb-cell wwhb-cell--g">
+        <div class="wwhb-eb">Why</div>
+        <div class="wwhb-claim">Because plugins write into shared storage.</div>
+        <div class="wwhb-body">When a plugin uses <span style="font-family:var(--fm);font-size:0.9em">register_post_type</span>, <span style="font-family:var(--fm);font-size:0.9em">register_taxonomy</span>, or post meta, its data lives in WordPress's own tables — addressable through one uniform interface.</div>
+      </div>
+      <div class="wwhb-cell wwhb-cell--g">
+        <div class="wwhb-eb">How</div>
+        <div class="wwhb-claim">The abilities are core-shaped, not plugin-shaped.</div>
+        <div class="wwhb-body">Every read and write goes through native WordPress APIs. The plugin's own hooks fire automatically — exactly as if the action came from <span style="font-family:var(--fm);font-size:0.9em">wp-admin</span>.</div>
+      </div>
+      <div class="wwhb-cell wwhb-cell--g">
+        <div class="wwhb-eb">Brings</div>
+        <div class="wwhb-claim">Whole-site operations, in one chain.</div>
+        <div class="wwhb-body">An AI agent can build a course, set its SEO meta in three languages, assign it to a category, and link it to a product — without switching tools between plugins.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── THE FIVE CABINETS ──────────────────────────────────────── -->
+<section class="section" id="cabinets">
+  <div class="cw">
+    <span class="sn">01 / The shared storage</span>
+    <h2 class="sh">Five universal cabinets <em>every plugin writes into.</em></h2>
+    <p class="sp2">WordPress organizes everything around five shared storage structures. The Abilities suite holds a key to all five — that is the entire mechanism.</p>
+
+    <div class="cabinets">
+      <div class="cab">
+        <div class="cab-num">01</div>
+        <div class="cab-name">Things</div>
+        <div class="cab-body">Every entity on the site — pages, posts, products, courses, lessons, custom anything.</div>
+        <div class="cab-table">wp_posts</div>
+      </div>
+      <div class="cab">
+        <div class="cab-num">02</div>
+        <div class="cab-name">Labels</div>
+        <div class="cab-body">Every category, tag, or grouping — product categories, course tracks, languages, brands.</div>
+        <div class="cab-table">wp_terms · wp_term_relationships</div>
+      </div>
+      <div class="cab">
+        <div class="cab-num">03</div>
+        <div class="cab-name">Notes on things</div>
+        <div class="cab-body">Every additional detail attached to an entity — price, SKU, SEO copy, course duration, language assignment.</div>
+        <div class="cab-table">wp_postmeta</div>
+      </div>
+      <div class="cab">
+        <div class="cab-num">04</div>
+        <div class="cab-name">Comments</div>
+        <div class="cab-body">Every comment, review, rating, or moderation note — including spam-score audit history.</div>
+        <div class="cab-table">wp_comments · wp_commentmeta</div>
+      </div>
+      <div class="cab">
+        <div class="cab-num">05</div>
+        <div class="cab-name">Settings</div>
+        <div class="cab-body">Every plugin's configuration — caches, CDNs, cookie banners, SEO globals, security policies.</div>
+        <div class="cab-table">wp_options</div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 40px; max-width: 760px;">
+      When a plugin needs to store data in WordPress, it almost always uses one of these. So the Abilities suite doesn't operate plugins. <strong style="color:var(--text)">It operates the storage that plugins write into.</strong> Whatever a plugin has filed becomes addressable.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── PATH 1 ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">02 / Path one</span>
+    <h2 class="sh">Plugins that file <em>their own things</em> in the cabinet.</h2>
+    <p class="sp2">The obvious path. A plugin registers a custom post type — a product, a course, an event — and that entity lands in the same shared storage the editor and the REST API already understand. Full create, read, update, delete is available the moment the plugin is active.</p>
+
+    <div class="path">
+      <div class="path-row">
+        <div class="path-plugin">WooCommerce</div>
+        <div class="path-what">Files products in the things cabinet — list, create, edit, delete operate on them directly. Validated end-to-end against a live store.</div>
+        <div class="path-where">post_type=product</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">LifterLMS</div>
+        <div class="path-what">Files courses, lessons, quizzes, certificates, memberships — nineteen folders in the things cabinet, all operable through the same interface.</div>
+        <div class="path-where">post_type=course · lesson · …</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">The Events Calendar</div>
+        <div class="path-what">Files events, venues, organizers in the things cabinet. Eight hundred thousand active sites, all reachable.</div>
+        <div class="path-where">post_type=tribe_events · …</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">Custom CPTs</div>
+        <div class="path-what">Site builders register their own — testimonials, FAQs, recipes, jobs, listings, portfolios. Same surface, no extra work.</div>
+        <div class="path-where">post_type=*</div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 36px; max-width: 720px;">
+      What the operator gets: build, audit, edit, and delete entities programmatically across every CPT-based plugin on the site — through one uniform set of operations.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── PATH 2 ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">03 / Path two</span>
+    <h2 class="sh">Plugins that file their data <em>onto other plugins' things.</em></h2>
+    <p class="sp2">The surprising path. Some plugins don't have entities of their own — they attach data to <em>other plugins'</em> entities, or sit in the labels, comments, or settings cabinets. They are reachable for the same reason: shared storage.</p>
+
+    <div class="path">
+      <div class="path-row">
+        <div class="path-plugin">Yoast SEO</div>
+        <div class="path-what">Adds SEO settings on top of every page, post, course, product — anything that lives in the things cabinet.</div>
+        <div class="path-where">notes · _yoast_wpseo_*</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">Rank Math</div>
+        <div class="path-what">Same idea, different keys — coexists with Yoast on the same entities without conflict. Both readable, both writable.</div>
+        <div class="path-where">notes · rank_math_*</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">Polylang</div>
+        <div class="path-what">Adds language assignment on top of every entity and groups translations together — through four special label types in the labels cabinet.</div>
+        <div class="path-where">labels · language · translations</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">Akismet</div>
+        <div class="path-what">Adds spam scores and audit history on top of every comment — readable per-comment for moderation and quality work.</div>
+        <div class="path-where">comments + notes</div>
+      </div>
+      <div class="path-row">
+        <div class="path-plugin">LiteSpeed · bunny.net · Cookie consent</div>
+        <div class="path-what">No CPTs, no meta — just configuration. They write to the settings cabinet, which is reachable like the others.</div>
+        <div class="path-where">settings · wp_options</div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 36px; max-width: 720px;">
+      No Yoast integration. No Polylang integration. No Rank Math integration. One set of operations for the cabinets — and those operations see everything in them.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── COMPOSITIONAL ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">04 / The compositional cross-multiplier</span>
+    <h2 class="sh">Five plugins, one entity, <em>one chain of operations.</em></h2>
+    <p class="sp2">This is the consequence that turns the bridge from useful to structural. A single entity in WordPress can carry the data of many plugins simultaneously — and all of it is reachable through one read or one write.</p>
+
+    <div class="comp">
+      <div class="comp-target">
+        <div>
+          <div class="comp-target-eb">Entity</div>
+          <div class="comp-target-name">A LifterLMS course</div>
+        </div>
+        <div class="comp-target-meta">post_type=course · id=61</div>
+      </div>
+
+      <div class="comp-grid">
+        <div class="comp-cell">
+          <div class="comp-vendor">LifterLMS</div>
+          <div class="comp-writes">Course duration, drip schedule, prerequisites</div>
+          <div class="comp-key">_llms_length<br>_llms_prereq</div>
+        </div>
+        <div class="comp-cell">
+          <div class="comp-vendor">Yoast SEO</div>
+          <div class="comp-writes">Meta title, meta description, OG image</div>
+          <div class="comp-key">_yoast_wpseo_title<br>_yoast_wpseo_metadesc</div>
+        </div>
+        <div class="comp-cell">
+          <div class="comp-vendor">Rank Math</div>
+          <div class="comp-writes">Independent SEO meta on the same course</div>
+          <div class="comp-key">rank_math_title<br>rank_math_description</div>
+        </div>
+        <div class="comp-cell">
+          <div class="comp-vendor">Polylang</div>
+          <div class="comp-writes">Language assignment, translation group</div>
+          <div class="comp-key">language · translations</div>
+        </div>
+        <div class="comp-cell">
+          <div class="comp-vendor">LifterLMS taxonomies</div>
+          <div class="comp-writes">Course category, tag, track, difficulty</div>
+          <div class="comp-key">course_cat · course_tag · course_track</div>
+        </div>
+      </div>
+
+      <div class="comp-headline">
+        Read all of it with one call. Edit any of it with one call. <em>Five plugins' worth of data, on one course, through one set of operations.</em>
+      </div>
+
+      <div class="comp-result">
+        That is what changes the AI-agent posture. The agent doesn't say <em>"let me switch to the Yoast tool, then to Polylang, then to LifterLMS."</em> It says <strong>"write SEO copy for this course in three languages and assign it to a category"</strong> — and that is one chain of operations through the cabinets.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── EVIDENCE ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">05 / Live evidence</span>
+    <h2 class="sh">A WooCommerce product, end-to-end, <em>without a WooCommerce integration.</em></h2>
+    <p class="sp2">Validated 2026-05-09 against a live WordPress site running WooCommerce. Sixteen calls. No plugin-specific abilities anywhere in the chain.</p>
+
+    <div class="evidence">
+      <div class="ev-aside">
+        Site &middot; abilitiesforai.io<br>
+        WooCommerce &middot; fresh install<br>
+        Bridge &middot; abilities-mcp 1.6.1
+        <div class="ev-aside-meta">
+          16 calls · 1 product · full lifecycle<br>
+          0 woo functions called by us
+        </div>
+      </div>
+
+      <div class="ev-flow">
+        <div class="ev-step">
+          <div class="ev-num">01</div>
+          <div class="ev-call">content-create <span class="arg">post_type=product title="Bridge Test"</span></div>
+          <div class="ev-result">id 50</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">02</div>
+          <div class="ev-call">content-get <span class="arg">id=50</span></div>
+          <div class="ev-result">full record</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">03</div>
+          <div class="ev-call">content-list <span class="arg">post_type=product</span></div>
+          <div class="ev-result">total 1</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">04</div>
+          <div class="ev-call">taxonomies-get-content-terms <span class="arg">post_id=50</span></div>
+          <div class="ev-result">7 taxonomies</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">05</div>
+          <div class="ev-call">blocks-parse <span class="arg">post_id=50</span></div>
+          <div class="ev-result">2 blocks</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">06</div>
+          <div class="ev-call">meta-update-post-meta <span class="arg">_regular_price=29.99</span></div>
+          <div class="ev-result">written</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">07</div>
+          <div class="ev-call">meta-update-post-meta <span class="arg">_sku · _stock_status · _manage_stock</span></div>
+          <div class="ev-result">written</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">08</div>
+          <div class="ev-call">content-update <span class="arg">id=50 title="Updated via MCP"</span></div>
+          <div class="ev-result">success</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">09</div>
+          <div class="ev-call">taxonomies-assign-to-content <span class="arg">product_cat terms=[16]</span></div>
+          <div class="ev-result">success</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">10</div>
+          <div class="ev-call">read-back · all writes confirmed stuck</div>
+          <div class="ev-result">verified</div>
+        </div>
+        <div class="ev-step">
+          <div class="ev-num">11</div>
+          <div class="ev-call">content-delete <span class="arg">id=50 force=true</span></div>
+          <div class="ev-result ev-result--neutral">clean state</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 48px; max-width: 720px;">
+      WooCommerce's own hooks fired throughout — exactly as they would for an action taken in <span style="font-family:var(--fm);font-size:0.9em">wp-admin</span>. The plugin saw a normal WordPress write and reacted normally. We never imported a WooCommerce class.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── BOUNDARY ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">06 / The honest boundary</span>
+    <h2 class="sh">Where the bridge ends — <em>and where dedicated work begins.</em></h2>
+    <p class="sp2">The same rule that makes the bridge broad makes its limit clear. Data in WordPress core's universal storage is reachable. Data in a plugin's private tables is not — until either the vendor adopts the WordPress Abilities API, or a dedicated suite is built.</p>
+
+    <div class="boundary">
+      <div class="bd bd--in">
+        <div class="bd-eb">Reachable through universal storage</div>
+        <div class="bd-claim">Anything filed into WordPress's five shared cabinets.</div>
+        <ul class="bd-list">
+          <li>Things · post types of any kind</li>
+          <li>Labels · taxonomies, including private ones</li>
+          <li>Notes · all post and term meta</li>
+          <li>Comments · including reviews and audit history</li>
+          <li>Settings · all wp_options entries</li>
+        </ul>
+        <div class="bd-foot">Validated against five newly-installed plugins on 2026-05-09 — Yoast, Rank Math, LifterLMS, Polylang, Akismet — plus WooCommerce. Cumulative install footprint: tens of millions of sites.</div>
+      </div>
+
+      <div class="bd bd--out">
+        <div class="bd-eb">Out of scope for the bridge</div>
+        <div class="bd-claim">Data plugins keep in their own private tables.</div>
+        <ul class="bd-list">
+          <li>WooCommerce HPOS orders, sessions, payment tokens</li>
+          <li>FluentCRM contacts, FluentBooking appointments</li>
+          <li>LifterLMS student progress and quiz attempts</li>
+          <li>Webhook logs, tax rates, shipping zones</li>
+          <li>Anything in custom database tables</li>
+        </ul>
+        <div class="bd-foot">Two principled paths: the vendor adopts the WordPress Abilities API and exposes their private surface — or a dedicated suite is built. <a href="Abilities for Fluent.html" style="color:var(--g);border-bottom:1px solid var(--gb)">Abilities for Fluent</a> is the worked example.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── PERMISSIONS ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">07 / The other half — runtime authorization</span>
+    <h2 class="sh">Reachable does not mean permitted. <em class="p">You decide what's exercised.</em></h2>
+    <p class="sp2">The bridge describes what is <em>structurally addressable</em>. A complementary architecture decides what is <em>actually exercised</em> at runtime. Four independent layers — and a call succeeds only when all four allow it.</p>
+
+    <div class="perms">
+      <div class="pm">
+        <div class="pm-num">Layer 01</div>
+        <div class="pm-name">WordPress capability</div>
+        <div class="pm-body">The OAuth user's role decides what they can do in WordPress in the first place. Editor, admin, custom — your existing role policy holds.</div>
+        <div class="pm-foot">Native WP role check</div>
+      </div>
+      <div class="pm">
+        <div class="pm-num">Layer 02</div>
+        <div class="pm-name">OAuth scope</div>
+        <div class="pm-body">The token scope you grant on consent. Narrow by default — read and write, no delete. Broaden by reauthorizing.</div>
+        <div class="pm-foot">Operator-controlled</div>
+      </div>
+      <div class="pm">
+        <div class="pm-num">Layer 03</div>
+        <div class="pm-name">Module permission</div>
+        <div class="pm-body">A per-module read/write/delete switch you set in the Permissions UI. Knowledge can be readable but not writable. Content writable but not deletable.</div>
+        <div class="pm-foot">Operator-controlled</div>
+      </div>
+      <div class="pm">
+        <div class="pm-num">Layer 04</div>
+        <div class="pm-name">Per-ability gate</div>
+        <div class="pm-body">A publish-to-MCP flag on every individual ability — set by the author at registration, overridable by you in the Permissions UI.</div>
+        <div class="pm-foot">Operator-controlled</div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 36px; max-width: 720px;">
+      The bridge is the upper bound on what's possible. The four layers are your cap on what's permitted. Together they are <em style="color:var(--pl);font-style:normal">what's possible in principle</em> &times; <em style="color:var(--pl);font-style:normal">what's permitted in practice</em>.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── REACH MATH ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">08 / What the surface actually looks like</span>
+    <h2 class="sh">Reach is multiplicative, <em>not additive.</em></h2>
+    <p class="sp2">A representative WordPress site already running multiple plugins. Numbers from the live validation site, not invented.</p>
+
+    <div class="math">
+      <div class="mt">
+        <div class="mt-axis">Entity types</div>
+        <div class="mt-num">41</div>
+        <div class="mt-label">Distinct post types registered — WooCommerce, LifterLMS, WordPress core templates and fonts and blocks, custom CPTs.</div>
+      </div>
+      <div class="mt">
+        <div class="mt-axis">Meta layers</div>
+        <div class="mt-num">6</div>
+        <div class="mt-label">LifterLMS fields, Yoast keys, Rank Math keys, WooCommerce keys, Polylang assignments, WordPress core meta — all coexisting on the same entities.</div>
+      </div>
+      <div class="mt">
+        <div class="mt-axis">Reach</div>
+        <div class="mt-num"><em>246</em></div>
+        <div class="mt-label">Distinct entity-meta combinations — all addressable through one operation shape. A third dimension of taxonomies multiplies again.</div>
+      </div>
+    </div>
+
+    <p class="sp2" style="margin-top: 28px; max-width: 740px;">
+      This is what makes the bridge structurally different from the industry default of <em>one MCP per plugin</em>. Instead of N integrations, the surface is N × M — and an AI agent walks all of it through the same operations.
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ──────────────────────────────────────── TRINITY RELATION ──────────────────────────────────────── -->
+<section class="section">
+  <div class="cw">
+    <span class="sn">09 / Where this fits</span>
+    <h2 class="sh">The Trinity carries the bridge <em class="p">to your AI client.</em></h2>
+    <p class="sp2">The bridge effect is what <a href="Abilities for AI.html" style="color:var(--g);border-bottom:1px solid var(--gb)">Abilities for AI</a> contributes to the Trinity — a core-shaped operations registry that reaches everything WordPress files in shared storage. The <a href="MCP Adapter.html" style="color:var(--pl);border-bottom:1px solid var(--pb)">MCP Adapter</a> exposes that registry over HTTP. The <a href="Abilities MCP.html" style="color:var(--y);border-bottom:1px solid var(--yb)">Abilities MCP</a> connects it to your client of choice — Claude, Cursor, Cline, anything that speaks MCP.</p>
+
+    <p class="sp2" style="max-width: 740px;">
+      For surfaces the bridge cannot reach — Fluent's CRM and forms and community and cart — there is <a href="Abilities for Fluent.html" style="color:var(--g);border-bottom:1px solid var(--gb)">Abilities for Fluent</a>: the dedicated suite that mirrors the Trinity's posture for plugins that keep their data in private tables.
+    </p>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────── FOOTER ──────────────────────────────────────── -->
+<footer class="foot">
+  <div class="cw">
+    <div class="foot-row">
+      <div class="foot-claim">Most of WordPress is <em>already operable.</em><br>The rest is named and addressable.</div>
+      <a class="foot-cta" href="Get Alpha Access.html">Get the alpha →</a>
+    </div>
+    <div class="foot-meta">
+      <span>Wicked Evolutions &middot; Alpha</span>
+      <span>Validated live · 2026&#8209;05&#8209;09</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

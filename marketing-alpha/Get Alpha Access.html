@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Alpha Access · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Spectral:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Background atmosphere ── */
+.atm {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.atm::before, .atm::after {
+  content: '';
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+}
+.atm::before {
+  top: -200px; left: -160px;
+  background: radial-gradient(circle, var(--y) 0%, transparent 65%);
+}
+.atm::after {
+  bottom: -240px; right: -200px;
+  background: radial-gradient(circle, var(--p) 0%, transparent 65%);
+}
+.atm-mid {
+  position: absolute;
+  top: 35%; left: 50%;
+  transform: translateX(-50%);
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--g) 0%, transparent 65%);
+  filter: blur(140px);
+  opacity: 0.10;
+}
+
+/* ── Minimal header ── */
+.alpha-head {
+  position: relative;
+  z-index: 5;
+  padding: 32px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.alpha-head a:hover { color: var(--text); }
+.alpha-head .brand {
+  font-family: var(--fd);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-transform: none;
+}
+
+/* ── Stage ── */
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 56px 120px;
+}
+.card {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.mark {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 56px;
+}
+.mark svg { width: 56px; height: 56px; }
+
+.tag {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 36px;
+}
+
+.lede {
+  font-family: var(--fd);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 28px;
+  text-wrap: balance;
+}
+.lede em { font-style: normal; color: var(--g); }
+
+.sub {
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--t2);
+  line-height: 1.65;
+  max-width: 480px;
+  margin-bottom: 64px;
+  text-wrap: pretty;
+}
+
+/* ── Form ── */
+.form {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glh);
+  border-radius: 100px;
+  padding: 8px 8px 8px 28px;
+  transition: border-color .25s, background .25s;
+}
+.form:focus-within {
+  border-color: var(--text);
+  background: rgba(255,255,255,0.05);
+}
+.form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--fb);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+.form input::placeholder { color: var(--t3); }
+.form button {
+  border: none;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--fm);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 28px;
+  height: 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  white-space: nowrap;
+}
+.form button:hover { background: var(--g); transform: translateY(-1px); }
+.form button:active { transform: translateY(0); }
+
+.form-foot {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-top: 22px;
+}
+
+/* ── J's word ── */
+.word {
+  position: relative;
+  z-index: 2;
+  margin-top: 140px;
+  padding: 80px 56px 0;
+  display: flex;
+  justify-content: center;
+}
+.word-inner {
+  width: 100%;
+  max-width: 720px;
+  border-top: 1px solid var(--glb);
+  padding-top: 64px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.word-eb {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t3);
+  line-height: 1.7;
+}
+.word-eb em {
+  font-style: normal;
+  display: block;
+  color: var(--y);
+  letter-spacing: 0.16em;
+  margin-bottom: 6px;
+}
+.word-body {
+  font-family: 'Spectral', Georgia, serif;
+  font-style: italic;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--t2);
+  line-height: 1.6;
+  text-wrap: pretty;
+  max-width: 520px;
+}
+.word-body p { margin-bottom: 1em; }
+.word-body p:last-child { margin-bottom: 0; }
+
+/* ── Wordpressnaut ── */
+.naut {
+  position: relative;
+  z-index: 2;
+  margin-top: 96px;
+  padding: 0 56px;
+  display: flex;
+  justify-content: center;
+}
+.naut-inner {
+  width: 100%;
+  max-width: 720px;
+  border-top: 1px solid var(--glb);
+  padding-top: 64px;
+}
+.naut-eb {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 28px;
+}
+.naut-headline {
+  font-family: var(--fd);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 28px;
+  max-width: 600px;
+  text-wrap: balance;
+}
+.naut-headline em { font-style: normal; color: var(--g); }
+.naut-body {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--t2);
+  line-height: 1.7;
+  max-width: 580px;
+  text-wrap: pretty;
+}
+.naut-body p { margin-bottom: 1em; }
+.naut-body p:last-child { margin-bottom: 0; }
+.naut-body em { font-style: italic; color: var(--text); }
+
+/* ── Traversal ── */
+.trav {
+  position: relative;
+  z-index: 2;
+  margin-top: 96px;
+  padding: 0 56px;
+  display: flex;
+  justify-content: center;
+}
+.trav-inner {
+  width: 100%;
+  max-width: 720px;
+  border-top: 1px solid var(--glb);
+  padding-top: 56px;
+}
+.trav-eb {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pl);
+  margin-bottom: 28px;
+}
+.trav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.trav-list li {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 0;
+  border-top: 1px solid var(--glb);
+  transition: padding-left .25s;
+}
+.trav-list li:first-child { border-top: none; }
+.trav-list li:hover { padding-left: 8px; }
+.trav-step {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--t4);
+}
+.trav-list a {
+  font-family: var(--fd);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.trav-list a:hover { color: var(--g); }
+.trav-host {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--t3);
+}
+
+/* ── Closing line ── */
+.closing {
+  position: relative;
+  z-index: 2;
+  margin-top: 120px;
+  padding: 80px 56px 80px;
+  display: flex;
+  justify-content: center;
+}
+.closing-inner {
+  width: 100%;
+  max-width: 720px;
+  border-top: 1px solid var(--glb);
+  padding-top: 64px;
+  text-align: center;
+}
+.closing-line {
+  font-family: var(--fd);
+  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.closing-line em.y { font-style: normal; color: var(--y); }
+.closing-line em.g { font-style: normal; color: var(--g); }
+.closing-line em.p { font-style: normal; color: var(--pl); }
+
+/* ── Foot ── */
+.alpha-foot {
+  position: relative;
+  z-index: 2;
+  padding: 28px 56px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t4);
+  border-top: 1px solid var(--glb);
+}
+
+@media (max-width: 720px) {
+  .alpha-head, .stage, .word, .naut, .trav, .closing, .alpha-foot { padding-left: 28px; padding-right: 28px; }
+  .form { flex-direction: column; border-radius: 18px; padding: 14px; gap: 10px; }
+  .form input { padding: 10px 16px; }
+  .form button { height: 48px; }
+  .word-inner { grid-template-columns: 1fr; gap: 24px; padding-top: 48px; }
+}
+</style>
+</head>
+<body>
+
+<div class="atm"><div class="atm-mid"></div></div>
+
+<header class="alpha-head">
+  <a class="brand" href="Trinity Hub.html">Wicked Evolutions</a>
+  <a href="Trinity Hub.html">← Overview</a>
+</header>
+
+<!-- ──────────────────────────────────────── STAGE ──────────────────────────────────────── -->
+<main class="stage">
+  <div class="card">
+    <div class="mark">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="14" r="7" fill="#FFEE58"/>
+        <circle cx="14" cy="36" r="7" fill="#22c55e"/>
+        <circle cx="42" cy="36" r="7" fill="#7c3aed"/>
+      </svg>
+    </div>
+
+    <div class="tag">Alpha · By invitation</div>
+
+    <h1 class="lede">Get alpha <em>access.</em></h1>
+
+    <p class="sub">
+      Drop your email. We'll send the bridge, the adapter, the abilities, and the path to fly safely.
+    </p>
+
+    <form class="form" id="alphaForm" autocomplete="email" novalidate>
+      <input type="email" name="email" placeholder="you@yourdomain.com" required aria-label="Email address">
+      <input type="text" name="company_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+      <button type="submit">Request access →</button>
+    </form>
+
+    <div class="form-foot" id="alphaFoot">No newsletter · One thread, one alpha</div>
+    <div class="form-thanks" id="alphaThanks" hidden>You're in. Check your inbox to confirm.</div>
+  </div>
+</main>
+
+<!-- ──────────────────────────────────────── WORD FROM J ──────────────────────────────────────── -->
+<section class="word">
+  <div class="word-inner">
+    <div class="word-eb"><em>A word from</em>J · Director of this creation</div>
+    <div class="word-body">
+      <p>Everything you see here is built by a single human who does not read or write code, and is written by AI.</p>
+      <p>Everything is in constant motion — and by observing that movement, we create the illusion of being still.</p>
+      <p>Change happens at any given moment. It is simply a law of evolution. Stillness is an act of conscious awareness, not a reality of life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────── WORDPRESSNAUT ──────────────────────────────────────── -->
+<section class="naut">
+  <div class="naut-inner">
+    <div class="naut-eb">Welcome, Wordpressnaut</div>
+    <h2 class="naut-headline">Here is the spaceship. <em>Now you'll have to learn how to fly.</em></h2>
+    <div class="naut-body">
+      <p>Please remember — humans make mistakes; humans created AI, so AI makes mistakes. Learning to fly is your job. To do that you'll need structure, systems, checklists, principles, and the understanding that you stand before a magical leap on a steep and wonderful learning curve.</p>
+      <p><em>Be patient. And do backup things.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────── TRAVERSAL ──────────────────────────────────────── -->
+<section class="trav">
+  <div class="trav-inner">
+    <div class="trav-eb">Deeper traversal</div>
+    <ul class="trav-list">
+      <li>
+        <span class="trav-step">01</span>
+        <a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Knowledge Layer</a>
+        <span class="trav-host">knowledge.wickedevolutions.com</span>
+      </li>
+      <li>
+        <span class="trav-step">02</span>
+        <a href="https://wickedevolutions.com" target="_blank" rel="noopener">Wicked Evolutions</a>
+        <span class="trav-host">wickedevolutions.com</span>
+      </li>
+      <li>
+        <span class="trav-step">03</span>
+        <a href="https://abilitiesforai.io" target="_blank" rel="noopener">Abilities for AI</a>
+        <span class="trav-host">abilitiesforai.io</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────── CLOSING ──────────────────────────────────────── -->
+<section class="closing">
+  <div class="closing-inner">
+    <p class="closing-line">
+      One solution to rule your <em class="y">WordPress</em> world.<br>
+      <em class="g">One solution</em> to <em class="p">bind them all.</em>
+    </p>
+  </div>
+</section>
+
+<footer class="alpha-foot">
+  <span>Wicked Evolutions</span>
+  <span>Alpha · 2026</span>
+</footer>
+
+<script>
+(() => {
+  const form = document.getElementById('alphaForm');
+  const foot = document.getElementById('alphaFoot');
+  const thanks = document.getElementById('alphaThanks');
+  const ENDPOINT = 'https://community.wickedevolutions.com/wp-json/fluentform/v1/submit-form';
+  const FORM_ID = 4;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (data.get('company_url')) return; // honeypot
+    const email = (data.get('email') || '').toString().trim();
+    if (!email) return;
+
+    const btn = form.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const body = new FormData();
+      body.append('form_id', String(FORM_ID));
+      body.append('data', new URLSearchParams({ email }).toString());
+      const r = await fetch(ENDPOINT, { method: 'POST', body });
+      if (!r.ok) throw new Error('http ' + r.status);
+      form.hidden = true;
+      foot.hidden = true;
+      thanks.hidden = false;
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Try again →';
+      foot.textContent = 'Could not reach the bridge. Try again.';
+      foot.style.color = 'var(--y)';
+    }
+  });
+})();
+</script>
+
+<style>
+.form-thanks {
+  font-family: 'Spectral', Georgia, serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--g);
+  margin-top: 24px;
+  letter-spacing: -0.005em;
+}
+</style>
+
+</body>
+</html>

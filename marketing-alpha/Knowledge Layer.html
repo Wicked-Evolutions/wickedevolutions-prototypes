@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Knowledge Layer · Memory inside WordPress · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── BOOTSTRAP READ ── */
+.boot {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gb);
+}
+.boot-cell {
+  background: var(--bg);
+  padding: 26px 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.boot-eb { font-family: var(--fm); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g); }
+.boot-name { font-family: var(--fd); font-size: 1.15rem; font-weight: 700; letter-spacing:-0.02em; color: var(--text); }
+.boot-body { font-size: 15px; color: var(--t2); line-height: 1.65; }
+
+/* ── AGENT ROLES ── */
+.roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.role {
+  background: var(--bg);
+  padding: 28px 28px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.role-eb { font-family: var(--fm); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g); }
+.role-name { font-family: var(--fd); font-size: 1.25rem; font-weight: 700; letter-spacing:-0.025em; color: var(--text); }
+.role-body { font-size: 15.5px; color: var(--t2); line-height: 1.65; }
+.role-shape { font-family: var(--fm); font-size: 12px; color: var(--t3); padding-top: 10px; border-top: 1px solid var(--glb); margin-top: auto; }
+
+/* ── MEMORY vs LOG split ── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.cmp {
+  background: var(--bg);
+  padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.cmp--off { background: linear-gradient(180deg, rgba(255,255,255,0.018), transparent 80%); }
+.cmp--on  { background: linear-gradient(180deg, var(--gd), transparent 80%); }
+.cmp-tag { font-family: var(--fm); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); display: inline-flex; align-items: center; gap: 9px; }
+.cmp--on .cmp-tag { color: var(--g); }
+.cmp-tag .pip { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
+.cmp-name { font-family: var(--fd); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+.cmp-claim { font-size: 17px; color: var(--text); line-height: 1.5; }
+.cmp-body { font-size: 15.5px; color: var(--t2); line-height: 1.7; padding-top: 14px; border-top: 1px solid var(--glb); }
+
+/* ── HANDOFF DIAGRAM ── */
+.handoff {
+  display: grid;
+  grid-template-columns: 1fr 220px 1fr;
+  gap: 32px;
+  align-items: center;
+  padding: 36px 32px;
+  border: 1px solid var(--gb);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--gd), transparent 80%);
+}
+.h-side {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.h-block {
+  border: 1px solid var(--glh);
+  border-radius: 10px;
+  padding: 16px 18px;
+  background: var(--bg);
+}
+.h-block-eb { font-family: var(--fm); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); }
+.h-block-name { font-family: var(--fd); font-size: 1rem; font-weight: 700; letter-spacing:-0.02em; color: var(--text); margin-top: 4px; }
+.h-block-sub { font-family: var(--fm); font-size: 12px; color: var(--t2); margin-top: 4px; }
+.h-core {
+  border: 1px solid var(--g);
+  border-radius: 12px;
+  padding: 22px 22px;
+  background: var(--bg);
+  text-align: center;
+  box-shadow: 0 0 32px rgba(34,197,94,0.14);
+}
+.h-core-eb { font-family: var(--fm); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g); }
+.h-core-name { font-family: var(--fd); font-size: 1.25rem; font-weight: 800; letter-spacing:-0.025em; color: var(--text); margin-top: 6px; }
+.h-core-sub { font-family: var(--fm); font-size: 12px; color: var(--t2); margin-top: 8px; line-height:1.5; }
+
+/* ── KL TABLES STRIP ── */
+.tables {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.tbl {
+  background: var(--bg);
+  padding: 22px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.tbl-mono { font-family: var(--fm); font-size: 12px; letter-spacing: 0.04em; color: var(--g); }
+.tbl-name { font-family: var(--fd); font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing:-0.02em; }
+.tbl-body { font-size: 14px; color: var(--t2); line-height: 1.6; }
+
+@media (max-width: 920px) {
+  .boot, .tables { grid-template-columns: 1fr 1fr; }
+  .roles, .compare { grid-template-columns: 1fr; }
+  .handoff { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-screen-label="06 Knowledge Layer">
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="11" cy="13" r="2.2" fill="currentColor"/></svg></span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils"><a href="Knowledge Layer.html" style="color: var(--text);">Knowledge</a><a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a><a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Wicked-Evolutions/abilities-for-ai" target="_blank" rel="noopener">GitHub</a><a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a></nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Knowledge Layer · Memory · Inside WordPress</div>
+  </div>
+</header>
+
+<header class="hero c">
+  <div class="eyebrow eyebrow--g"><span class="ebdot"></span>Layer 04 · Memory · Inside WordPress</div>
+  <h1 class="hero-title">
+    Your site remembers<br>
+    what every AI<br>
+    <em>ever learned here.</em>
+  </h1>
+  <p class="hero-sub">
+    The Knowledge Layer is not a feature. It is memory infrastructure — kl_* database tables inside your own WordPress, growing richer with every session. Agents, skills, protocols, session logs, observations. The site itself becomes the shared state between every AI that ever connects.
+  </p>
+  <hr class="gl gl--g">
+</header>
+
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 01 — In one breath</span>
+  <h2 class="sh">What it is. Why it exists. How it works. <em>What it brings you.</em></h2>
+  <p class="sp2">A reading of the Knowledge Layer before any spec. The shape of it in operator language — what changes the day it's there, why every AI you ever connect benefits from it.</p>
+
+  <div class="wwhb">
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What</div>
+      <div class="wwhb-claim">A small set of tables inside your WordPress that store what AIs learn here.</div>
+      <div class="wwhb-body">Not a content type. Not a custom post. A purpose-built schema — observations, sessions, agents, skills, protocols — designed to be read fast, written safely, and queried by the next AI that connects.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Why</div>
+      <div class="wwhb-claim">So the next session doesn't start from zero.</div>
+      <div class="wwhb-body">Without it, every AI conversation is a goldfish — bright, capable, forgetful. With it, the site itself remembers. The next AI reads what was learned before, then speaks.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">How</div>
+      <div class="wwhb-claim">Bootstrap on connect. Write at session end. Read on next connect.</div>
+      <div class="wwhb-body">When an AI connects, it bootstraps from these tables. While the session runs, it writes findings back. The next session — same provider or different — starts already knowing.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">What it brings</div>
+      <div class="wwhb-claim">Compounding intelligence on your server, owned by you.</div>
+      <div class="wwhb-body">Memory doesn't live in any provider's context. It lives in your WordPress. Switch from Claude to GPT to Gemini — the site keeps remembering. Sovereign by construction.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 02 — Bootstrap</span>
+  <h2 class="sh">What the AI reads <em>before it speaks.</em></h2>
+  <p class="sp2">Every connected session begins with a read of the Knowledge Layer. Four reads, in order — under a second, finished before the AI types its first word. The AI is now operating from your site's memory, not a blank slate.</p>
+
+  <div class="boot">
+    <div class="boot-cell">
+      <div class="boot-eb">Read 01</div>
+      <div class="boot-name">Agents</div>
+      <div class="boot-body">The roles your site recognises — editor, support, analyst, ops. The AI picks one based on what you're asking. The role shapes which abilities it considers safe.</div>
+    </div>
+    <div class="boot-cell">
+      <div class="boot-eb">Read 02</div>
+      <div class="boot-name">Skills</div>
+      <div class="boot-body">Named procedures that have been authored on this site — "do a campaign retro," "audit the taxonomy." The AI can recognise the request and reach for the right one.</div>
+    </div>
+    <div class="boot-cell">
+      <div class="boot-eb">Read 03</div>
+      <div class="boot-name">Protocols</div>
+      <div class="boot-body">The conventions of this site — how releases are tagged, how customers are addressed, how confidential data is handled. The AI inherits your house style.</div>
+    </div>
+    <div class="boot-cell">
+      <div class="boot-eb">Read 04</div>
+      <div class="boot-name">Observations</div>
+      <div class="boot-body">What previous sessions learned and saved — quirks, preferences, patterns, decisions, warnings. Compounding context. The reason the AI is faster on visit two than visit one.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 03 — Agents</span>
+  <h2 class="sh">The AI chooses a role. <em>The role shapes everything.</em></h2>
+  <p class="sp2">An agent is not a separate AI. It's a posture the AI adopts — a frame that decides which abilities are reasonable to consider, which skills to reach for, what tone to write in. Three example roles below; you author your own.</p>
+
+  <div class="roles">
+    <div class="role">
+      <div class="role-eb">Role example</div>
+      <div class="role-name">Editor</div>
+      <div class="role-body">Concerned with content, voice, structure, scheduling. Reaches for the editorial-intelligence abilities. Won't touch users, plugins, filesystem.</div>
+      <div class="role-shape">scopes: content · taxonomies · revisions</div>
+    </div>
+    <div class="role">
+      <div class="role-eb">Role example</div>
+      <div class="role-name">Operator</div>
+      <div class="role-body">Concerned with state, configuration, performance. Reaches for diagnostics, cron, options, themes, plugins. Confirms before destructive moves.</div>
+      <div class="role-shape">scopes: site state · operations · diagnostics</div>
+    </div>
+    <div class="role">
+      <div class="role-eb">Role example</div>
+      <div class="role-name">Support</div>
+      <div class="role-body">Concerned with people. Reaches into FluentSupport, FluentCRM, FluentCart in that order. Drafts replies, never sends without you.</div>
+      <div class="role-shape">scopes: tickets · contacts · orders</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 04 — Memory vs log</span>
+  <h2 class="sh"><em>Not logging.</em> Operational memory.</h2>
+  <p class="sp2">A log records what happened. Operational memory records what was learned — and the next session reads it before speaking. The distinction is the whole point.</p>
+
+  <div class="compare">
+    <div class="cmp cmp--off">
+      <div class="cmp-tag"><span class="pip"></span>What others build</div>
+      <div class="cmp-name">A log.</div>
+      <div class="cmp-claim">Records what was done. Filed away. Read by humans during incidents.</div>
+      <div class="cmp-body">A log accumulates. It does not change behaviour. The next session is identical to the first one — same questions, same answers, same blind spots. Useful for audit. Useless for compounding.</div>
+    </div>
+    <div class="cmp cmp--on">
+      <div class="cmp-tag"><span class="pip"></span>What KL is</div>
+      <div class="cmp-name">Operational memory.</div>
+      <div class="cmp-claim">Records what was learned. Read by the next AI before it speaks.</div>
+      <div class="cmp-body">Findings, decisions, quirks, preferences. The next session begins by reading them — and so it skips the rediscovery, asks better questions, lands closer on the first try. The site itself gets sharper across visits.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 05 — Handoff</span>
+  <h2 class="sh">AI-to-AI handoff. <em>Provider-agnostic. Sovereign.</em></h2>
+  <p class="sp2">The Knowledge Layer is the handoff. Whatever any AI learned here is readable by whatever AI connects next — same provider or different, same product or different. The site is the shared state. The provider is interchangeable.</p>
+
+  <div class="handoff">
+    <div class="h-side">
+      <div class="h-block">
+        <div class="h-block-eb">Monday session</div>
+        <div class="h-block-name">Claude</div>
+        <div class="h-block-sub">writes observations on close</div>
+      </div>
+      <div class="h-block">
+        <div class="h-block-eb">Wednesday session</div>
+        <div class="h-block-name">GPT</div>
+        <div class="h-block-sub">writes observations on close</div>
+      </div>
+      <div class="h-block">
+        <div class="h-block-eb">Friday session</div>
+        <div class="h-block-name">Gemini</div>
+        <div class="h-block-sub">writes observations on close</div>
+      </div>
+    </div>
+    <div class="h-core">
+      <div class="h-core-eb">Inside WordPress</div>
+      <div class="h-core-name">Knowledge Layer</div>
+      <div class="h-core-sub">kl_observations<br>kl_sessions<br>kl_agents · kl_skills · kl_protocols</div>
+    </div>
+    <div class="h-side">
+      <div class="h-block">
+        <div class="h-block-eb">Next session</div>
+        <div class="h-block-name">Whoever connects.</div>
+        <div class="h-block-sub">reads the layer, then speaks</div>
+      </div>
+      <div class="h-block">
+        <div class="h-block-eb">Owned by</div>
+        <div class="h-block-name">You.</div>
+        <div class="h-block-sub">in your database, on your server</div>
+      </div>
+      <div class="h-block">
+        <div class="h-block-eb">Locked into</div>
+        <div class="h-block-name">No one.</div>
+        <div class="h-block-sub">no provider holds the memory</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 06 — The schema</span>
+  <h2 class="sh">Five tables. <em>Inside your own WordPress.</em></h2>
+  <p class="sp2">The whole layer is five purpose-built tables on the WordPress database your site already has. No external store. No vector cloud. No SaaS. Migrate the site, the memory comes with it.</p>
+
+  <div class="tables">
+    <div class="tbl">
+      <div class="tbl-mono">kl_agents</div>
+      <div class="tbl-name">The roles.</div>
+      <div class="tbl-body">Named postures the AI can adopt — and the scope shape each one carries.</div>
+    </div>
+    <div class="tbl">
+      <div class="tbl-mono">kl_skills</div>
+      <div class="tbl-name">The procedures.</div>
+      <div class="tbl-body">Named multi-step jobs that have been authored on this site for an AI to execute.</div>
+    </div>
+    <div class="tbl">
+      <div class="tbl-mono">kl_protocols</div>
+      <div class="tbl-name">The conventions.</div>
+      <div class="tbl-body">House style — release tags, voice rules, redaction policies, data-handling boundaries.</div>
+    </div>
+    <div class="tbl">
+      <div class="tbl-mono">kl_sessions</div>
+      <div class="tbl-name">The visits.</div>
+      <div class="tbl-body">Who connected, when, with what scope, with which agent — the audit anchor for everything else.</div>
+    </div>
+    <div class="tbl">
+      <div class="tbl-mono">kl_observations</div>
+      <div class="tbl-name">The findings.</div>
+      <div class="tbl-body">What was learned in a session and saved for the next one. The compounding part. The reason it works.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Knowledge Layer / 07 — How it relates</span>
+  <h2 class="sh">A consequence — not a fourth Trinity piece. <em>What becomes possible the moment the Trinity is in place.</em></h2>
+  <p class="sp2">The Trinity is three: Abilities MCP, MCP Adapter, Abilities for AI. The Knowledge Layer is what the operating layer makes practical — memory that lives on your site, growing richer with every session, owned by you.</p>
+
+  <div class="wwhb" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">Trinity · Layer 01</div>
+      <div class="wwhb-claim"><a href="Abilities MCP.html" style="color:inherit; border-bottom:1px solid var(--yb);">Abilities MCP</a></div>
+      <div class="wwhb-body">The bridge that runs on your machine and routes the call to the right site.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">Trinity · Layer 02</div>
+      <div class="wwhb-claim"><a href="MCP Adapter.html" style="color:inherit; border-bottom:1px solid var(--pb);">MCP Adapter</a></div>
+      <div class="wwhb-body">The gate on each site that authenticates, validates, redacts, and returns.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Trinity · Layer 03</div>
+      <div class="wwhb-claim"><a href="Abilities for AI.html" style="color:inherit; border-bottom:1px solid var(--gb);">Abilities for AI</a></div>
+      <div class="wwhb-body">Every WordPress surface registered as a callable named operation behind the gate.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">Memory becomes a WordPress feature. <em>The site itself, getting sharper.</em></div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>

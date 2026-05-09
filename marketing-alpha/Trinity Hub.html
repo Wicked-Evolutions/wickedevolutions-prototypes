@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Trinity of Abilities · Wicked Evolutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:    #111111;
+  --text:  #EDEAE3;
+  --t2:    rgba(237,234,227,0.82);
+  --t3:    rgba(237,234,227,0.58);
+  --t4:    rgba(237,234,227,0.30);
+
+  --y:   #FFEE58;
+  --g:   #22c55e;
+  --p:   #7c3aed;
+  --pl:  #a78bfa;
+
+  --yd:  rgba(255,238,88,0.07);
+  --yb:  rgba(255,238,88,0.17);
+  --gd:  rgba(34,197,94,0.07);
+  --gb:  rgba(34,197,94,0.17);
+  --pd:  rgba(124,58,237,0.07);
+  --pb:  rgba(124,58,237,0.16);
+
+  --gl:  rgba(255,255,255,0.025);
+  --glb: rgba(255,255,255,0.055);
+  --glh: rgba(255,255,255,0.11);
+
+  --fd: 'Syne', sans-serif;
+  --fb: 'Manrope', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+
+  --col:  800px;
+  --wide: 1140px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--p); color:#fff; }
+
+a { color: inherit; text-decoration: none; }
+
+.c  { max-width:var(--col);  margin:0 auto; padding:0 56px; }
+.cw { max-width:var(--wide); margin:0 auto; padding:0 56px; }
+
+/* ── HEADER (two rows, persistent across all pages) ───── */
+.site-head {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(17,17,17,0.86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glb);
+}
+.head-row {
+  max-width:var(--wide); margin:0 auto; padding: 0 56px;
+  display:flex; align-items:center; justify-content: space-between;
+}
+.head-row--brand { height: 56px; border-bottom: 1px solid var(--glb); }
+.head-row--tabs  { height: 52px; }
+
+.brand {
+  font-family: var(--fd);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  display:flex; align-items:center; gap: 14px;
+}
+.brand-mark {
+  width: 22px; height: 22px;
+  display: inline-flex; align-items:center; justify-content:center;
+}
+.brand-mark svg { width:22px; height:22px; }
+
+.head-utils {
+  display:flex; align-items:center; gap:24px;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--t2);
+}
+.head-utils a:hover { color: var(--text); }
+.head-utils .head-cta {
+  color: var(--text);
+  border:1px solid var(--glh);
+  padding: 6px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.head-utils .head-cta:hover { border-color: var(--text); background: var(--gl); }
+
+.tabs {
+  display:flex; gap: 4px; align-items:center;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tab {
+  display:inline-flex; align-items:center; gap:9px;
+  padding: 8px 14px;
+  border-radius: 100px;
+  color: var(--t2);
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text); background: var(--gl); }
+.tab[aria-current="page"] { color: var(--text); background: var(--gl); }
+.tab .dot { width:6px; height:6px; border-radius:50%; background: var(--t3); }
+.tab .dot--y { background: var(--y); box-shadow: 0 0 8px var(--y); }
+.tab .dot--p { background: var(--pl); box-shadow: 0 0 8px var(--p); }
+.tab .dot--g { background: var(--g); box-shadow: 0 0 8px var(--g); }
+.tab .dot--w { background: var(--text); box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+
+.tabs-right { color: var(--t3); font-size: 10px; letter-spacing:0.14em; }
+
+/* ── GLOW LINE ── */
+.gl {
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--p), transparent);
+  box-shadow:0 0 14px rgba(124,58,237,0.2);
+  opacity:0.32;
+  max-width:90px;
+  border:none;
+}
+.gl--y { background:linear-gradient(90deg, transparent, var(--y), transparent); box-shadow:0 0 14px rgba(255,238,88,0.2); }
+.gl--g { background:linear-gradient(90deg, transparent, var(--g), transparent); box-shadow:0 0 14px rgba(34,197,94,0.2); }
+
+/* ── EYEBROW ── */
+.eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--pb);
+  color:var(--pl);
+  padding:6px 18px;
+  border-radius:100px;
+  font-family:var(--fm);
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  margin-bottom:52px;
+}
+.eyebrow--y { border-color:var(--yb); color:var(--y); }
+.eyebrow--g { border-color:var(--gb); color:var(--g); }
+
+.ebdot { width:5px; height:5px; background:var(--g); border-radius:50%; animation:pulse 2.2s ease-in-out infinite; }
+.ebdot--y { background:var(--y); }
+.ebdot--p { background:var(--pl); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── HERO ── */
+.hero { padding: 132px 0 100px; }
+.hero-title {
+  font-family:var(--fd);
+  font-size:clamp(3rem, 5.5vw, 5rem);
+  font-weight:800;
+  letter-spacing:-0.045em;
+  line-height:1.03;
+  color:var(--text);
+  margin-bottom:36px;
+}
+.hero-title em   { font-style:normal; color:var(--g); display:block; }
+.hero-title em.y { color:var(--y); }
+.hero-title em.p { color:var(--pl); }
+
+.hero-sub {
+  font-size:22px;
+  font-weight:400;
+  color:var(--t2);
+  max-width:600px;
+  line-height:1.7;
+  margin-bottom:80px;
+}
+
+/* ── SECTION ── */
+.section { padding: 96px 0; position: relative; }
+.section-divider { border:none; border-top:1px solid var(--glb); }
+
+.sn {
+  font-family:var(--fm);
+  font-size:11.5px;
+  text-transform:uppercase;
+  letter-spacing:0.16em;
+  color:var(--t3);
+  margin-bottom: 28px;
+  display: block;
+}
+.sh {
+  font-family:var(--fd);
+  font-size:clamp(1.8rem, 3vw, 2.6rem);
+  font-weight:700;
+  letter-spacing:-0.03em;
+  line-height:1.12;
+  color:var(--text);
+  margin-bottom:18px;
+  max-width: 720px;
+  text-wrap: balance;
+}
+.sh em { font-style:normal; color: var(--g); }
+.sh em.y { color: var(--y); }
+.sh em.p { color: var(--pl); }
+.sp2 {
+  font-size:20px;
+  font-weight:400;
+  color:var(--t2);
+  line-height:1.7;
+  max-width:660px;
+  margin-bottom:56px;
+  text-wrap: pretty;
+}
+
+/* ── TRINITY CARDS (replaces stat band) ── */
+.trinity-rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 16px;
+}
+.t-card {
+  padding: 36px 32px 32px;
+  border:1px solid var(--glb);
+  background: var(--gl);
+  border-radius: 12px;
+  display:flex; flex-direction: column; gap: 14px;
+  transition: border-color .25s, transform .25s;
+  min-height: 320px;
+}
+.t-card:hover { border-color: var(--glh); }
+.t-card--y { border-color: var(--yb); background: linear-gradient(180deg, var(--yd), transparent 70%); }
+.t-card--p { border-color: var(--pb); background: linear-gradient(180deg, var(--pd), transparent 70%); }
+.t-card--g { border-color: var(--gb); background: linear-gradient(180deg, var(--gd), transparent 70%); }
+
+.t-card-eb {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+  display: inline-flex; align-items:center; gap: 9px;
+}
+.t-card--y .t-card-eb { color: rgba(255,238,88,0.7); }
+.t-card--p .t-card-eb { color: rgba(167,139,250,0.8); }
+.t-card--g .t-card-eb { color: rgba(34,197,94,0.7); }
+.t-card-eb .pip { width:6px; height:6px; border-radius:50%; }
+.t-card--y .pip { background: var(--y); box-shadow: 0 0 8px var(--y); }
+.t-card--p .pip { background: var(--pl); box-shadow: 0 0 8px var(--p); }
+.t-card--g .pip { background: var(--g); box-shadow: 0 0 8px var(--g); }
+
+.t-card-name {
+  font-family: var(--fd);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  margin-top: 4px;
+}
+.t-card--y .t-card-name { color: var(--y); }
+.t-card--p .t-card-name { color: var(--pl); }
+.t-card--g .t-card-name { color: var(--g); }
+
+.t-card-claim {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.5;
+  margin-top: 4px;
+  text-wrap: pretty;
+}
+.t-card-body {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.75;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--glb);
+}
+
+.t-card-link {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--t2);
+  display: inline-flex; align-items:center; gap: 8px;
+  margin-top: 14px;
+  transition: color .2s;
+}
+.t-card-link:hover { color: var(--text); }
+.t-card--y .t-card-link:hover { color: var(--y); }
+.t-card--p .t-card-link:hover { color: var(--pl); }
+.t-card--g .t-card-link:hover { color: var(--g); }
+.t-card-link::after { content:'→'; font-family: var(--fb); transition: transform .2s; }
+.t-card-link:hover::after { transform: translateX(3px); }
+
+.trinity-rail-foot {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+  text-align: center;
+  padding-top: 28px;
+}
+
+/* ── AUDIENCE GRID ── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--glb);
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.audience-block {
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  padding: 32px 36px;
+  align-items: start;
+}
+.audience-aside {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.audience-label {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.audience-label--y { color: var(--y); }
+.audience-label--p { color: var(--pl); }
+.audience-label--g { color: var(--g); }
+.audience-name {
+  font-family: var(--fd);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.audience-body {
+  font-size: 15.5px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.78;
+  text-wrap: pretty;
+  border-left: 1px solid var(--glb);
+  padding-left: 36px;
+}
+.audience-body strong {
+  color: var(--text); font-weight: 500;
+}
+
+/* ── TIER LADDER ── */
+.tiers {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.tier {
+  display: grid;
+  grid-template-columns: 96px 1fr 1fr;
+  gap: 0;
+  padding: 30px 36px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--glb);
+  align-items: start;
+}
+.tier:last-child { border-bottom: none; }
+.tier-num {
+  font-family: var(--fd);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--t3);
+}
+.tier-name {
+  font-family: var(--fd);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.tier-tag {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.tier-body {
+  padding-left: 36px;
+  border-left: 1px solid var(--glb);
+  font-size: 15.5px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+.tier--3 .tier-num { color: var(--g); }
+.tier--3 .tier-name { color: var(--g); }
+.tier--3 { background: linear-gradient(90deg, var(--gd), transparent 60%); }
+
+/* ── CONFIRMATION BAND ── */
+.confirm {
+  border-top: 1px solid var(--glb);
+  border-bottom: 1px solid var(--glb);
+  padding: 80px 0;
+  margin: 80px 0;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.012), transparent);
+}
+.confirm-quote {
+  font-family: var(--fd);
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.22;
+  color: var(--text);
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+  text-wrap: balance;
+}
+.confirm-quote em { font-style: normal; color: var(--g); }
+.confirm-cite {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t3);
+  text-align: center;
+  margin-top: 28px;
+}
+
+/* ── SOVEREIGN SUITE ── */
+.sov {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.sov-side {
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  background: var(--gl);
+  padding: 32px 36px;
+}
+.sov-side-eb {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(34,197,94,0.7);
+  margin-bottom: 20px;
+}
+.sov-equation {
+  font-family: var(--fd);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.sov-equation .plus { color: var(--t3); margin: 0 8px; }
+.sov-equation .eq { color: var(--g); }
+.sov-fluent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 22px;
+}
+.sov-chip {
+  font-family: var(--fm);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  padding: 7px 10px;
+  border: 1px solid var(--glb);
+  border-radius: 100px;
+  color: var(--t2);
+  text-align: center;
+  background: rgba(34,197,94,0.03);
+}
+.sov-foot {
+  font-size: 14px;
+  color: var(--t3);
+  margin-top: 22px;
+  font-family: var(--fm);
+}
+
+/* ── KL CONSEQUENCE ── */
+.consequence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 28px;
+}
+.consequence-cell {
+  border: 1px solid var(--glb);
+  border-radius: 12px;
+  padding: 28px 30px;
+  background: var(--gl);
+}
+.consequence-eb {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 14px;
+}
+.consequence-claim {
+  font-family: var(--fd);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.consequence-body {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--t2);
+  line-height: 1.75;
+}
+
+/* ── FOOTER ── */
+.foot {
+  border-top: 1px solid var(--glb);
+  padding: 80px 0 60px;
+  margin-top: 60px;
+}
+.foot-row {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 56px;
+}
+.foot-claim {
+  font-family: var(--fd);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+  color: var(--text);
+  max-width: 540px;
+  text-wrap: balance;
+}
+.foot-claim em { font-style: normal; color: var(--g); }
+.foot-cta {
+  display: inline-flex; align-items:center; gap: 12px;
+  padding: 14px 24px;
+  border: 1px solid var(--text);
+  border-radius: 100px;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+}
+.foot-cta:hover { background: var(--text); color: var(--bg); }
+.foot-meta {
+  border-top: 1px solid var(--glb);
+  margin-top: 60px;
+  padding-top: 28px;
+  display: flex; justify-content: space-between;
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+
+@media (max-width: 920px) {
+  .trinity-rail { grid-template-columns: 1fr; }
+  .audience-block { grid-template-columns: 1fr; gap: 18px; }
+  .audience-body { padding-left: 0; border-left: none; padding-top: 14px; border-top: 1px solid var(--glb); }
+  .tier { grid-template-columns: 64px 1fr; }
+  .tier-body { grid-column: 1 / -1; padding-left: 0; border-left: none; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--glb); }
+  .sov { grid-template-columns: 1fr; }
+  .consequence { grid-template-columns: 1fr; }
+  .foot-row { flex-direction: column; align-items: flex-start; }
+  .head-row--tabs { display: none; }
+}
+</style>
+</head>
+<body data-screen-label="01 Trinity Hub">
+
+<!-- HEADER ──────────────────────────────────────── -->
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 22 22" fill="none">
+          <path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+          <circle cx="11" cy="13" r="2.2" fill="currentColor"/>
+        </svg>
+      </span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils" aria-label="Utility">
+      <a href="Knowledge Layer.html">Knowledge</a>
+      <a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a>
+      <a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a>
+      <a href="https://github.com/Wicked-Evolutions" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/Wicked-Evolutions" target="_blank" rel="noopener">GitHub</a>
+      <a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a>
+    </nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs" aria-label="Primary">
+      <a class="tab" href="Trinity Hub.html" aria-current="page"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Alpha · WP 6.9+</div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     GLOBAL HERO — locked verbatim from v1
+     ════════════════════════════════════════════ -->
+<header class="hero c">
+  <div class="eyebrow"><span class="ebdot"></span>Wicked Evolutions · The Trinity</div>
+
+  <h1 class="hero-title">
+    With The Trinity Of Abilities.<br>
+    Any AI. WordPress is AI Native.<br>
+    <em>Today.</em>
+  </h1>
+
+  <p class="hero-sub">
+    A coordinated stack that makes WordPress natively operable by any AI.
+    Your server. Your data. Your keys.
+    No SaaS layer, no escape hatch, no lock-in.
+  </p>
+
+  <hr class="gl">
+</header>
+
+<!-- ════════════════════════════════════════════
+     THE TRINITY — three plugins as capability cards
+     (replaces v1 stat band)
+     ════════════════════════════════════════════ -->
+<section class="cw section" aria-label="The three plugins of the Trinity">
+  <span class="sn">Trinity / 01 — The three plugins</span>
+  <h2 class="sh">Three plugins. One operating layer for <em>WordPress and AI.</em></h2>
+  <p class="sp2">Each one is a finished product that solves a specific problem on its own. Installed together they become the operating layer — the way your AI client and your WordPress site speak the same language without anything in between.</p>
+
+  <div class="trinity-rail">
+
+    <!-- Abilities MCP -->
+    <article class="t-card t-card--y">
+      <div class="t-card-eb"><span class="pip"></span>The Bridge · Node.js</div>
+      <div class="t-card-name">Abilities MCP</div>
+      <div class="t-card-claim">Connect any AI client to any number of WordPress sites — from one place, on your machine.</div>
+      <div class="t-card-body">
+        Runs locally. Holds your keys in the OS keychain. Routes a single Claude or Cursor or Codex session across every site you operate. New site? One command. Multisite? Subsites included.
+      </div>
+      <a class="t-card-link" href="Abilities MCP.html">Open Abilities MCP</a>
+    </article>
+
+    <!-- MCP Adapter -->
+    <article class="t-card t-card--p">
+      <div class="t-card-eb"><span class="pip"></span>The Gate · WordPress Plugin</div>
+      <div class="t-card-name">MCP Adapter</div>
+      <div class="t-card-claim">Turns your site into an AI-callable surface — with consent, scope, and safety baked in.</div>
+      <div class="t-card-body">
+        OAuth 2.1 with scoped keys, not pasted passwords. A consent screen the operator actually sees. Three-bucket redaction so secrets, payment data and contact PII never leak into chat. Every gate is named when it says no.
+      </div>
+      <a class="t-card-link" href="MCP Adapter.html">Open MCP Adapter</a>
+    </article>
+
+    <!-- Abilities for AI -->
+    <article class="t-card t-card--g">
+      <div class="t-card-eb"><span class="pip"></span>The Engine · WordPress Plugin</div>
+      <div class="t-card-name">Abilities for AI</div>
+      <div class="t-card-claim">Every WordPress surface, named and reachable as a callable ability.</div>
+      <div class="t-card-body">
+        Content. Blocks. Themes. Plugins. Users. Filesystem. Cron. Multisite. The whole platform, registered as named operations the AI can discover, validate and run — never as raw database access. Growing every release.
+      </div>
+      <a class="t-card-link" href="Abilities for AI.html">Open Abilities for AI</a>
+    </article>
+
+  </div>
+
+  <div class="trinity-rail-foot">Open source · GPL-2.0-or-later · Runs on your WordPress, your machine</div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     AUDIENCE — locked from v1
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+<section class="cw section" aria-label="Who this is for">
+  <span class="sn">Trinity / 02 — Who this is for</span>
+  <h2 class="sh">Built for the edge of WordPress.</h2>
+  <p class="sp2">The vibe-coder who builds with AI as co-pilot. The operator running a business across seven dashboards. The developer who wants to own the infrastructure layer. Three audiences. One stack. Different reasons to stop clicking and start talking.</p>
+
+  <div class="audience-grid">
+    <div class="audience-block">
+      <div class="audience-aside">
+        <div class="audience-label audience-label--y">Solopreneurs &amp; entrepreneurs</div>
+        <div class="audience-name">The dashboard problem</div>
+      </div>
+      <div class="audience-body">
+        You run your business on WordPress and you've been collecting dashboards — CRM, forms, store, support, courses, community. <strong>The Trinity makes those dashboards optional.</strong> The same operations are now reachable from a chat with the AI client you already use.
+      </div>
+    </div>
+    <div class="audience-block">
+      <div class="audience-aside">
+        <div class="audience-label audience-label--p">Agencies &amp; WordPress developers</div>
+        <div class="audience-name">The fleet problem</div>
+      </div>
+      <div class="audience-body">
+        You manage many client sites and the work is mostly the same work, repeated. The Trinity gives you <strong>one MCP connection across every client</strong>, with scoped keys per site and an audit trail per session. Multisite included.
+      </div>
+    </div>
+    <div class="audience-block">
+      <div class="audience-aside">
+        <div class="audience-label audience-label--g">Multi-brand operators</div>
+        <div class="audience-name">The portfolio problem</div>
+      </div>
+      <div class="audience-body">
+        Several sites, several brands, one head. The Trinity lets you <strong>operate the whole portfolio through one conversation</strong> — without giving anyone outside your network a copy of your data. Your server. Your keys. Your memory.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     WHAT'S NOW POSSIBLE — three tiers
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+<section class="cw section" aria-label="What's now possible">
+  <span class="sn">Trinity / 03 — What's now possible</span>
+  <h2 class="sh">A WordPress site that can <em>do, understand, and explain itself.</em></h2>
+  <p class="sp2">Most products in this space stop at the first floor. The Trinity opens three. Each tier composes on the one below it — and the third tier is the one nobody else is reaching.</p>
+
+  <div class="tiers">
+    <div class="tier tier--1">
+      <div class="tier-num">01</div>
+      <div>
+        <div class="tier-name">Do things</div>
+        <div class="tier-tag">CRUD · operations · workflows</div>
+      </div>
+      <div class="tier-body">
+        Create a post. Update a setting. Assign a tag. Install a plugin. The named operations every WordPress operator already does — now reachable from the AI conversation, with the operator's role as the safety boundary. <strong>Most products stop here.</strong>
+      </div>
+    </div>
+
+    <div class="tier tier--2">
+      <div class="tier-num">02</div>
+      <div>
+        <div class="tier-name">Understand state</div>
+        <div class="tier-tag">Compiled diagnostics · cross-correlation</div>
+      </div>
+      <div class="tier-body">
+        Site health, security posture, network overview, taxonomy health, theme audit — all compiled server-side, returned in one call. <strong>Eight sequential checks become one.</strong> The AI spends its intelligence on recommendations, not on figuring out what to ask for.
+      </div>
+    </div>
+
+    <div class="tier tier--3">
+      <div class="tier-num">03</div>
+      <div>
+        <div class="tier-name">Understand meaning</div>
+        <div class="tier-tag">Editorial intelligence · voice · arcs</div>
+      </div>
+      <div class="tier-body">
+        Voice signatures per author. Opening patterns across every post. Series arcs. Headline statistics. Content depth distributions. <strong>WordPress goes from a content management system to a content intelligence system.</strong> Nobody else is building tier 3.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     CONFIRMATION QUOTE — pulled from cold AI test
+     ════════════════════════════════════════════ -->
+<div class="confirm">
+  <div class="cw">
+    <p class="confirm-quote">
+      "An AI that can understand a WordPress site — its infrastructure, its content, its voice, its story — and work with a human to make it better. That's what <em>'AI-native WordPress'</em> actually means."
+    </p>
+    <div class="confirm-cite">Cold-AI session · 4 sites · 29 calls · under two minutes</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SOVEREIGN SUITE — Trinity + Fluent
+     ════════════════════════════════════════════ -->
+<section class="cw section" aria-label="The full sovereign suite">
+  <span class="sn">Trinity / 04 — The full sovereign suite</span>
+  <h2 class="sh">Pair the Trinity with Fluent. <em class="g">Run the whole business on open-source WordPress.</em></h2>
+  <p class="sp2">The Trinity makes WordPress AI-operable. Abilities for Fluent makes the suite of plugins you already pay for — CRM, forms, community, cart, support, booking, boards, affiliate — AI-operable too. Together: a full sovereign stack. No SaaS in the middle. No data leaving the site.</p>
+
+  <div class="sov">
+
+    <div class="sov-side">
+      <div class="sov-side-eb">The equation</div>
+      <div class="sov-equation">
+        Trinity <span class="plus">+</span><br>
+        Abilities for Fluent <span class="plus">+</span><br>
+        WordPress core <span class="plus">=</span><br>
+        <span class="eq">a full operating stack you own.</span>
+      </div>
+      <div class="sov-fluent-grid" aria-label="Fluent products covered">
+        <span class="sov-chip">CRM</span>
+        <span class="sov-chip">Community</span>
+        <span class="sov-chip">Boards</span>
+        <span class="sov-chip">Forms</span>
+        <span class="sov-chip">Booking</span>
+        <span class="sov-chip">Support</span>
+        <span class="sov-chip">Cart</span>
+        <span class="sov-chip">Affiliate</span>
+        <span class="sov-chip">Snippets</span>
+        <span class="sov-chip">Messaging</span>
+        <span class="sov-chip">SMTP</span>
+        <span class="sov-chip">Auth</span>
+      </div>
+      <div class="sov-foot">Conditional load · only what you run</div>
+    </div>
+
+    <div>
+      <h3 class="sh" style="font-size:1.4rem; margin-bottom:14px;">What this means in your day</h3>
+      <p class="sp2" style="margin-bottom:24px;">
+        You ask your AI to look at last month's campaign, pull the contacts who replied, segment them by behaviour and queue tomorrow's follow-up. It does — through your plugins, on your site, with your role as the boundary.
+      </p>
+      <p class="sp2" style="margin-bottom:24px;">
+        Or: a support ticket arrives, the AI reads it, finds the customer's prior orders, drafts a reply, attaches the right knowledge-base article, and waits for you to say send.
+      </p>
+      <p class="sp2" style="color: var(--t3); font-size:14px;">
+        The deep confirmation: every plugin you already chose, every workflow you already built, is now part of the AI-operable layer. You didn't bet on the wrong stack. You bet early.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     CONSEQUENCE — Knowledge Layer
+     ════════════════════════════════════════════ -->
+<hr class="section-divider">
+<section class="cw section" aria-label="What the Trinity makes possible">
+  <span class="sn">Trinity / 05 — What it makes possible</span>
+  <h2 class="sh">Once the operating layer exists, <em>memory becomes a WordPress feature.</em></h2>
+  <p class="sp2">The Knowledge Layer is not a fourth product. It's what becomes possible the moment the Trinity is in place — operational memory that lives inside your own WordPress, shared across every AI that ever connects.</p>
+
+  <div class="consequence">
+    <div class="consequence-cell">
+      <div class="consequence-eb">Provider-agnostic</div>
+      <div class="consequence-claim">Claude on Monday. GPT on Wednesday. Gemini on Friday.</div>
+      <div class="consequence-body">The observations live in your WordPress, not in any provider's context. The site remembers what every agent learned, regardless of who wrote the finding.</div>
+    </div>
+    <div class="consequence-cell">
+      <div class="consequence-eb">Operational, not archival</div>
+      <div class="consequence-claim">Not logging. Operational memory.</div>
+      <div class="consequence-body">A log records what happened. Operational memory records what was learned — and the next session reads it before speaking. Compounding intelligence, on your server.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════ -->
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">Stop clicking. <em>Start talking to your WordPress.</em></div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP Adapter · The Gate · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── DISCOVERY FLOW ── */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 1px solid var(--pb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--pb);
+  margin-bottom: 28px;
+}
+.flow-step {
+  background: var(--bg);
+  padding: 26px 24px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative;
+}
+.flow-num {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pl);
+}
+.flow-name {
+  font-family: var(--fd);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.flow-body { font-size: 13.5px; color: var(--t2); line-height: 1.7; }
+.flow-tag { font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); padding-top: 10px; border-top: 1px solid var(--glb); margin-top: auto; }
+
+/* ── GATE BLOCKS ── */
+.gates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.gate {
+  background: var(--bg);
+  padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.gate-eb { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pl); }
+.gate-name { font-family: var(--fd); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+.gate-claim { font-size: 16px; color: var(--text); line-height: 1.5; }
+.gate-body { font-size: 14.5px; color: var(--t2); line-height: 1.75; padding-top: 14px; border-top: 1px solid var(--glb); }
+
+/* ── REDACT BUCKETS ── */
+.buckets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.bucket {
+  background: var(--bg);
+  padding: 26px 26px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.bucket-tag { font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pl); }
+.bucket-name { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; color: var(--text); letter-spacing:-0.02em; }
+.bucket-body { font-size: 14px; color: var(--t2); line-height: 1.72; }
+
+/* ── PERMISSION TOGGLE ── */
+.perm-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.perm {
+  background: var(--bg);
+  padding: 30px 32px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.perm--off { background: linear-gradient(180deg, rgba(255,238,88,0.04), transparent 80%); }
+.perm--on  { background: linear-gradient(180deg, rgba(124,58,237,0.05), transparent 80%); }
+.perm-state {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 9px;
+  color: var(--t3);
+}
+.perm--off .perm-state { color: var(--y); }
+.perm--on  .perm-state { color: var(--pl); }
+.perm-state .pip { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
+.perm-name { font-family: var(--fd); font-size: 1.2rem; font-weight: 700; color: var(--text); letter-spacing:-0.025em; }
+.perm-body { font-size: 14.5px; color: var(--t2); line-height: 1.74; }
+
+@media (max-width: 920px) {
+  .flow, .gates, .buckets, .perm-pair { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-screen-label="03 MCP Adapter">
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="11" cy="13" r="2.2" fill="currentColor"/></svg></span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils"><a href="Knowledge Layer.html">Knowledge</a><a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a><a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Wicked-Evolutions/abilities-mcp-adapter" target="_blank" rel="noopener">GitHub</a><a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a></nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html" aria-current="page"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Layer 02 · Protocol · WordPress Plugin</div>
+  </div>
+</header>
+
+<header class="hero c">
+  <div class="eyebrow"><span class="ebdot ebdot--p"></span>Layer 02 · Protocol · WordPress Plugin</div>
+  <h1 class="hero-title">
+    The portal is open.<br>
+    The map of the territory.<br>
+    <em class="p">Every ability. WordPress is AI Native.</em>
+  </h1>
+  <p class="hero-sub">
+    The gate. The portal. The layer that translates the entire WordPress Abilities API into the Model Context Protocol. Without it, nothing connects. With it, every registered ability on your site becomes an MCP tool — reachable by any AI client, permission-gated, schema-validated.
+  </p>
+  <hr class="gl">
+</header>
+
+<section class="cw section">
+  <span class="sn">MCP Adapter / 01 — In one breath</span>
+  <h2 class="sh">What it is. Why it exists. How it works. <em class="p">What it brings you.</em></h2>
+  <p class="sp2">A plain reading of this plugin before the technical detail. Same shape as every product in the Trinity — value first, spec second.</p>
+
+  <div class="wwhb">
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">What</div>
+      <div class="wwhb-claim">A WordPress plugin that opens an AI-callable surface on your site.</div>
+      <div class="wwhb-body">It speaks the Model Context Protocol over HTTPS. Anything registered as a WordPress Ability becomes an MCP tool the moment this plugin is active.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">Why</div>
+      <div class="wwhb-claim">So an AI can reach your site without you pasting a password.</div>
+      <div class="wwhb-body">No bot user. No long-lived admin token glued into a config file. OAuth 2.1, scoped keys, a consent screen the operator actually sees.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">How</div>
+      <div class="wwhb-claim">It validates schema, checks the cap, redacts the response, and returns.</div>
+      <div class="wwhb-body">Every call passes through the same gate. Capability check → input validation → ability runs → output redaction → response. Same path. Every time. No exceptions.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">What it brings</div>
+      <div class="wwhb-claim">Trust you can audit, not trust you have to take on faith.</div>
+      <div class="wwhb-body">You see what the AI was allowed to do. You see what was denied, and why. You see what was sent back — and what was scrubbed before it left the site.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">MCP Adapter / 02 — Discovery</span>
+  <h2 class="sh">How a WordPress ability <em class="p">becomes an MCP tool.</em></h2>
+  <p class="sp2">Four steps, and they all happen inside your site. Nothing leaves. Nothing has to be re-declared in a separate manifest. The Adapter reads the WordPress Abilities API and turns each ability into a tool description an AI can read.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">Step 01</div>
+      <div class="flow-name">Read the registry</div>
+      <div class="flow-body">The Adapter asks WordPress for every ability that's been registered — by core, by Abilities for AI, by Fluent, by any plugin you've installed.</div>
+      <div class="flow-tag">in-process · no network</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">Step 02</div>
+      <div class="flow-name">Translate</div>
+      <div class="flow-body">Each ability's name, description, input schema and permissions become an MCP tool description. The AI now knows what's available — and what each thing requires.</div>
+      <div class="flow-tag">schema preserved 1:1</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">Step 03</div>
+      <div class="flow-name">Annotate</div>
+      <div class="flow-body">Read-only? Destructive? Idempotent? The Adapter labels every tool with the same hints WordPress already declared — so the AI can plan before it acts.</div>
+      <div class="flow-tag">honest by default</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">Step 04</div>
+      <div class="flow-name">Expose</div>
+      <div class="flow-body">The translated catalogue is what the AI client sees. The AI never sees raw WordPress internals — only the abilities your site chose to register.</div>
+      <div class="flow-tag">surface = registry</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">MCP Adapter / 03 — The gate</span>
+  <h2 class="sh">Every call. Every time. <em class="p">No exceptions.</em></h2>
+  <p class="sp2">There is one path through the Adapter and everything takes it. You can audit it because there's only one to audit. The same gate runs whether the call is "list posts" or "delete a user."</p>
+
+  <div class="gates">
+    <div class="gate">
+      <div class="gate-eb">What it does</div>
+      <div class="gate-name">Authentication.</div>
+      <div class="gate-claim">OAuth 2.1 with scoped keys. No pasted passwords. No bot users. No long-lived admin tokens.</div>
+      <div class="gate-body">The first time a client connects, you see a consent screen and pick the scope — read-only, editor, admin. The key it gets is bound to that scope and to that client. You can revoke it from inside WordPress without uninstalling anything.</div>
+    </div>
+    <div class="gate">
+      <div class="gate-eb">What it brings</div>
+      <div class="gate-name">Three-bucket redaction.</div>
+      <div class="gate-claim">Secrets are stripped. Payment data is stripped. Contact PII is stripped — unless the call's scope explicitly opens that bucket.</div>
+      <div class="gate-body">The Adapter knows three categories of content that should never leave the site by accident. Each call's scope decides which buckets are open and which are sealed. The default is sealed.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">MCP Adapter / 04 — Permissions</span>
+  <h2 class="sh"><em class="p">Delete is off.</em> You turn it on.</h2>
+  <p class="sp2">A working principle, not a feature. Every destructive ability ships off. Read-everything is the start. Write-things is a deliberate scope you grant. Delete-things is a separate one. The Adapter never assumes.</p>
+
+  <div class="perm-pair">
+    <div class="perm perm--off">
+      <div class="perm-state"><span class="pip"></span>Default</div>
+      <div class="perm-name">Delete is off.</div>
+      <div class="perm-body">Out of the box, an AI client connected via the Adapter cannot delete a post, a user, a file, a row in any table — nor any ability annotated as destructive. Even with admin scope, the destructive group is a separate switch.</div>
+    </div>
+    <div class="perm perm--on">
+      <div class="perm-state"><span class="pip"></span>Operator-enabled</div>
+      <div class="perm-name">You turn it on.</div>
+      <div class="perm-body">Inside WordPress, you flip the destructive scope on for the clients you trust. The flip is auditable, reversible, and per-client. The AI doesn't ask once and gain delete forever — the flip is yours, the audit is yours.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">MCP Adapter / 05 — Annotations</span>
+  <h2 class="sh">The AI knows what's safe <em class="p">before it calls.</em></h2>
+  <p class="sp2">An annotation is a label on a tool that tells the AI what kind of action this is. It comes from the Abilities API, the Adapter just passes it through honestly. The result: an AI that can plan a sequence without learning by breaking things.</p>
+
+  <div class="buckets">
+    <div class="bucket">
+      <div class="bucket-tag">Annotation</div>
+      <div class="bucket-name">Read-only</div>
+      <div class="bucket-body">"This call returns information and changes nothing." Safe to chain, safe to retry, safe to compose. The AI can fan these out to compile context.</div>
+    </div>
+    <div class="bucket">
+      <div class="bucket-tag">Annotation</div>
+      <div class="bucket-name">Idempotent write</div>
+      <div class="bucket-body">"This call changes state but the same input produces the same result." Safe to retry on a network blip without doubling the effect.</div>
+    </div>
+    <div class="bucket">
+      <div class="bucket-tag">Annotation</div>
+      <div class="bucket-name">Destructive</div>
+      <div class="bucket-body">"This call removes or overwrites." The AI is taught to confirm. The Adapter is set to deny by default. Two locks, not one.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">MCP Adapter / 06 — How it relates</span>
+  <h2 class="sh">The Adapter is one of three. <em class="p">All three are needed.</em></h2>
+  <p class="sp2">The Adapter is the gate on each WordPress site. Abilities MCP is the bridge that knocks. Abilities for AI is what's behind the door, ready to be called. None of the three works alone.</p>
+
+  <div class="wwhb" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">← Layer 01</div>
+      <div class="wwhb-claim"><a href="Abilities MCP.html" style="color:inherit; border-bottom:1px solid var(--yb);">Abilities MCP</a></div>
+      <div class="wwhb-body">The bridge that runs on your machine and routes the call to the right site.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">This page</div>
+      <div class="wwhb-claim">MCP Adapter</div>
+      <div class="wwhb-body">The gate on each site that authenticates, validates, redacts, and returns.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Layer 03 →</div>
+      <div class="wwhb-claim"><a href="Abilities for AI.html" style="color:inherit; border-bottom:1px solid var(--gb);">Abilities for AI</a></div>
+      <div class="wwhb-body">Every WordPress surface, registered as a callable named operation behind the gate.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">One plugin. <em>Your site becomes an AI server.</em> Consent. Scope. Redaction. By default.</div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>

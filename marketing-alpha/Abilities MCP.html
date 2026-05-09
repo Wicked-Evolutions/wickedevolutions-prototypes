@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abilities MCP · The Bridge · Wicked Evolutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── ROUTING DIAGRAM ── */
+.routing {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 40px;
+  align-items: center;
+  padding: 36px 32px;
+  border: 1px solid var(--yb);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--yd), transparent 80%);
+  margin-bottom: 28px;
+}
+.r-node {
+  border: 1px solid var(--glh);
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+  background: var(--bg);
+  text-align: center;
+}
+.r-node-eb { font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t3); }
+.r-node-name { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; color: var(--text); margin-top: 6px; letter-spacing:-0.02em; }
+.r-node-sub { font-family: var(--fm); font-size: 10px; color: var(--t2); margin-top: 6px; }
+.r-hub {
+  border: 1px solid var(--y);
+  border-radius: 12px;
+  padding: 22px 22px 20px;
+  background: var(--bg);
+  box-shadow: 0 0 32px rgba(255,238,88,0.12);
+  text-align: center;
+}
+.r-hub-eb { font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--y); }
+.r-hub-name { font-family: var(--fd); font-size: 1.3rem; font-weight: 800; color: var(--text); margin-top: 6px; letter-spacing:-0.025em; }
+.r-hub-sub { font-family: var(--fm); font-size: 10.5px; color: var(--t2); margin-top: 8px; line-height:1.5; }
+.r-stack { display: flex; flex-direction: column; gap: 10px; }
+.r-line { font-family: var(--fm); font-size: 10px; color: var(--t3); text-align: center; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ── TRANSPORT SPLIT ── */
+.transports {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.transport {
+  background: var(--bg);
+  padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.transport-tag {
+  font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--y);
+  display: flex; align-items: center; gap: 9px;
+}
+.transport-tag .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--y); box-shadow: 0 0 8px var(--y); }
+.transport-name { font-family: var(--fd); font-size: 1.45rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+.transport-claim { font-size: 16px; color: var(--text); line-height: 1.5; }
+.transport-body { font-size: 14.5px; color: var(--t2); line-height: 1.75; padding-top: 14px; border-top: 1px solid var(--glb); margin-top: auto; }
+.transport-who { font-family: var(--fm); font-size: 10.5px; color: var(--t3); letter-spacing: 0.06em; padding-top: 10px; }
+
+/* ── LOCAL TOOLS ── */
+.localtools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  border: 1px solid var(--glb);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--glb);
+}
+.lt {
+  background: var(--bg);
+  padding: 28px 26px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lt-name { font-family: var(--fd); font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing:-0.02em; }
+.lt-mono { font-family: var(--fm); font-size: 11px; color: var(--y); letter-spacing: 0.04em; }
+.lt-body { font-size: 14px; color: var(--t2); line-height: 1.72; }
+
+@media (max-width: 920px) {
+  .routing { grid-template-columns: 1fr; gap: 18px; }
+  .transports, .localtools { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-screen-label="02 Abilities MCP">
+
+<header class="site-head">
+  <div class="head-row head-row--brand">
+    <a class="brand" href="Trinity Hub.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 22 22" fill="none">
+          <path d="M11 2 L20 18 L2 18 Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+          <circle cx="11" cy="13" r="2.2" fill="currentColor"/>
+        </svg>
+      </span>
+      Wicked Evolutions
+    </a>
+    <nav class="head-utils" aria-label="Utility">
+      <a href="Knowledge Layer.html">Knowledge</a><a href="https://community.wickedevolutions.com" target="_blank" rel="noopener">Community</a><a href="https://knowledge.wickedevolutions.com" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Wicked-Evolutions/abilities-mcp" target="_blank" rel="noopener">GitHub</a>
+      <a class="head-cta" href="Get Alpha Access.html">Get Alpha Access</a>
+    </nav>
+  </div>
+  <div class="head-row head-row--tabs">
+    <nav class="tabs" aria-label="Primary">
+      <a class="tab" href="Trinity Hub.html"><span class="dot dot--w"></span>Trinity</a>
+      <a class="tab" href="Abilities MCP.html" aria-current="page"><span class="dot dot--y"></span>Abilities MCP</a>
+      <a class="tab" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+      <a class="tab" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+      <a class="tab" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+    </nav>
+    <div class="tabs-right">Layer 01 · Bridge · Node.js</div>
+  </div>
+</header>
+
+<!-- HERO — locked verbatim ──────────────────── -->
+<header class="hero c">
+  <div class="eyebrow eyebrow--y"><span class="ebdot ebdot--y"></span>Layer 01 · Bridge · Node.js</div>
+  <h1 class="hero-title">
+    One MCP<br>
+    To Rule Your<br>
+    <em class="y">WordPress World.</em>
+  </h1>
+  <p class="hero-sub">
+    One MCP to Bind Them All — an MCP server that runs on your machine and connects your AI client to any number of WordPress sites simultaneously. SSH for developers. HTTP for everyone. Multi-site, single-site, all sites at once.
+  </p>
+  <hr class="gl gl--y">
+</header>
+
+<!-- WHAT / WHY / HOW / BRINGS ─────────────────── -->
+<section class="cw section">
+  <span class="sn">Abilities MCP / 01 — In one breath</span>
+  <h2 class="sh">What it is. Why it exists. How it works. <em class="y">What it brings you.</em></h2>
+  <p class="sp2">A translation, before any technical detail. The shape of this product in plain operator language — so the spec that follows lands as confirmation, not first contact.</p>
+
+  <div class="wwhb">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">What</div>
+      <div class="wwhb-claim">A small program that runs on your computer.</div>
+      <div class="wwhb-body">It speaks the Model Context Protocol on one side and HTTPS on the other. Your AI client talks to it locally. It talks to your WordPress sites over the wire.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">Why</div>
+      <div class="wwhb-claim">So one AI conversation reaches every site you operate.</div>
+      <div class="wwhb-body">Without it, every site is its own connection, its own paste of credentials, its own mental tax. With it, all of them are one.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">How</div>
+      <div class="wwhb-claim">It registers each site once, holds the keys in your OS keychain, and routes calls.</div>
+      <div class="wwhb-body">Your AI asks for a site by handle. The bridge resolves it, attaches the right scoped key, and forwards the call. You see the answer. The keys never leave your machine.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">What it brings</div>
+      <div class="wwhb-claim">One conversation across your whole WordPress fleet.</div>
+      <div class="wwhb-body">Stop juggling tabs. Stop re-pasting tokens. Operate every site you run from the same chat — without giving any third party a copy of your data.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTING ────────────────────────────────── -->
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities MCP / 02 — Routing</span>
+  <h2 class="sh">One MCP. <em class="y">Every site you operate.</em></h2>
+  <p class="sp2">From your AI client's point of view it looks like one connection. From your point of view it looks like one chat. Underneath, the bridge is doing the routing — picking the right site, attaching the right key, returning the right answer.</p>
+
+  <div class="routing">
+    <div class="r-node">
+      <div class="r-node-eb">Your AI client</div>
+      <div class="r-node-name">Claude · Cursor · Codex</div>
+      <div class="r-node-sub">one MCP connection</div>
+    </div>
+    <div>
+      <div class="r-line">↔ local stdio / SSE ↔</div>
+      <div class="r-hub" style="margin: 14px 0;">
+        <div class="r-hub-eb">Bridge · runs on your machine</div>
+        <div class="r-hub-name">Abilities MCP</div>
+        <div class="r-hub-sub">resolves site handles<br>attaches scoped keys<br>signs the request</div>
+      </div>
+      <div class="r-line">↔ HTTPS · per-site ↔</div>
+    </div>
+    <div class="r-stack">
+      <div class="r-node"><div class="r-node-eb">Site</div><div class="r-node-name">studio.example</div><div class="r-node-sub">scoped key · admin</div></div>
+      <div class="r-node"><div class="r-node-eb">Site</div><div class="r-node-name">shop.example</div><div class="r-node-sub">scoped key · editor</div></div>
+      <div class="r-node"><div class="r-node-eb">Multisite</div><div class="r-node-name">network.example</div><div class="r-node-sub">subsites included</div></div>
+    </div>
+  </div>
+
+  <p class="sp2" style="font-size:15px; color: var(--t3); max-width: 720px;">
+    The fleet stays separate where it matters — keys, scopes, audit trails are per-site. The conversation stays unified where it matters — you. One person, one chat, one mental model across the whole portfolio.
+  </p>
+</section>
+
+<!-- TRANSPORTS ─────────────────────────────── -->
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities MCP / 03 — Transports</span>
+  <h2 class="sh"><em class="y">SSH for developers.</em> HTTP for everyone.</h2>
+  <p class="sp2">Two ways to reach the site. The bridge picks based on how the site is set up. Same outcome, different path — chosen so the install never asks an operator to touch infrastructure they don't own.</p>
+
+  <div class="transports">
+    <div class="transport">
+      <div class="transport-tag"><span class="pip"></span>Path A · HTTPS</div>
+      <div class="transport-name">For everyone.</div>
+      <div class="transport-claim">A normal HTTPS call to your WordPress site, signed with the scoped key.</div>
+      <div class="transport-body">If your WordPress is reachable on the open web — which is almost all of them — the bridge talks to it the same way your browser does. Nothing to install on the server. No port to open. No SSH key to manage.</div>
+      <div class="transport-who">For solopreneurs · operators · anyone with a normal hosted WordPress</div>
+    </div>
+    <div class="transport">
+      <div class="transport-tag"><span class="pip"></span>Path B · SSH tunnel</div>
+      <div class="transport-name">For developers.</div>
+      <div class="transport-claim">When the site is behind a firewall or only reachable from your laptop.</div>
+      <div class="transport-body">Local dev, staging boxes inside a private network, or production behind a VPN — the bridge tunnels through the SSH connection you already use, no public endpoint required. The same chat reaches sites no one else can see.</div>
+      <div class="transport-who">For developers · agencies · anyone with environments behind a wall</div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL TOOLS ────────────────────────────── -->
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities MCP / 04 — Local tools</span>
+  <h2 class="sh">Three tools that <em class="y">never touch WordPress.</em></h2>
+  <p class="sp2">Most of what the bridge offers is your WordPress, made callable. But three tools live entirely on your machine — they exist so the AI can manage the connection itself, without ever asking you to leave the chat.</p>
+
+  <div class="localtools">
+    <div class="lt">
+      <div class="lt-mono">site_register</div>
+      <div class="lt-name">Add a site to the fleet.</div>
+      <div class="lt-body">Hand the AI a URL and a one-time setup token. It registers the site, stores the scoped key in your OS keychain, and the next message can already work with it.</div>
+    </div>
+    <div class="lt">
+      <div class="lt-mono">site_list</div>
+      <div class="lt-name">See what's connected.</div>
+      <div class="lt-body">A list of every site this bridge knows about — handles, scopes, last-seen. The AI uses it to disambiguate when you say "the shop site." You use it to audit your own fleet.</div>
+    </div>
+    <div class="lt">
+      <div class="lt-mono">site_remove</div>
+      <div class="lt-name">Cut the connection.</div>
+      <div class="lt-body">Drop the key from the keychain. The AI loses access immediately. The site itself is unchanged — only this bridge is forgetting it.</div>
+    </div>
+  </div>
+
+  <p class="sp2" style="font-size:14px; color: var(--t3); max-width: 720px; margin-top: 36px; font-family: var(--fm); letter-spacing: 0.04em;">
+    Everything else the AI can call is on your WordPress. The bridge is intentionally thin.
+  </p>
+</section>
+
+<!-- BRIDGE TO REST OF TRINITY ─────────────── -->
+<hr class="section-divider">
+<section class="cw section">
+  <span class="sn">Abilities MCP / 05 — How it relates</span>
+  <h2 class="sh">The bridge is one of three. <em class="y">All three are needed.</em></h2>
+  <p class="sp2">Abilities MCP makes the connection. The MCP Adapter on each WordPress site receives it — and Abilities for AI is what's actually being called. None of the three works alone. Installed together, they are the operating layer.</p>
+
+  <div class="wwhb" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="wwhb-cell wwhb-cell--y">
+      <div class="wwhb-eb">This page</div>
+      <div class="wwhb-claim">Abilities MCP</div>
+      <div class="wwhb-body">The bridge that runs on your machine. Routes one conversation across your fleet.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--p">
+      <div class="wwhb-eb">Layer 02 →</div>
+      <div class="wwhb-claim"><a href="MCP Adapter.html" style="color:inherit; border-bottom:1px solid var(--pb);">MCP Adapter</a></div>
+      <div class="wwhb-body">The plugin on each site that opens the gate — with consent, scopes, and redaction.</div>
+    </div>
+    <div class="wwhb-cell wwhb-cell--g">
+      <div class="wwhb-eb">Layer 03 →</div>
+      <div class="wwhb-claim"><a href="Abilities for AI.html" style="color:inherit; border-bottom:1px solid var(--gb);">Abilities for AI</a></div>
+      <div class="wwhb-body">Every WordPress surface, registered as a callable named operation.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="cw foot">
+  <div class="foot-row">
+    <div class="foot-claim">One MCP. <em>Every site you run.</em> No SaaS in the middle.</div>
+    <a class="foot-cta" href="Get Alpha Access.html">Get Alpha Access →</a>
+  </div>
+  <div class="foot-meta">
+    <span>© Wicked Evolutions · GPL-2.0-or-later</span>
+    <span>Knowledge · Community · Docs · GitHub</span>
+  </div>
+</footer>
+
+</body>
+</html>
