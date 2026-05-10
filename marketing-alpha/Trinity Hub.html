@@ -610,8 +610,73 @@ a { color: inherit; text-decoration: none; }
   .foot-row { flex-direction: column; align-items: flex-start; }
   .head-row--tabs { display: none; }
 }
+
+/* ── MOBILE CHROME — menu button + drawer (defaults) ── */
+.menu-btn-row { display: none; }
+.mobile-drawer {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 280px; max-width: 82vw;
+  background: rgba(17,17,17,0.98);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-right: 1px solid var(--glb);
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 60;
+  padding: 88px 22px 28px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow-y: auto;
+}
+.mobile-drawer.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+.mobile-drawer-link {
+  font-family: var(--fm); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--t2); padding: 14px; border-radius: 10px;
+  display: flex; align-items: center; gap: 10px;
+  transition: background .15s, color .15s;
+}
+.mobile-drawer-link:hover,
+.mobile-drawer-link[aria-current="page"] { background: var(--gl); color: var(--text); }
+.mobile-drawer-link .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--t3); }
+.mobile-drawer-link .dot--y { background: var(--y); box-shadow: 0 0 8px var(--y); }
+.mobile-drawer-link .dot--p { background: var(--pl); box-shadow: 0 0 8px var(--p); }
+.mobile-drawer-link .dot--g { background: var(--g); box-shadow: 0 0 8px var(--g); }
+.mobile-drawer-link .dot--w { background: var(--text); box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+.mobile-drawer-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 55; opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.mobile-drawer-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+/* Section dividers get vertical breathing room everywhere */
+.section-divider { margin: 56px 0; }
+
+/* Mobile (<lg = <1024px per Claude Docs spec section 7) */
+@media (max-width: 1023px) {
+  body { font-size: 16px; line-height: 1.6; }
+  .hero-sub, .sp2 { font-size: 17px; }
+  .head-row--tabs { display: none; }
+  .head-utils a:not(.head-cta) { display: none; }
+  .head-utils { gap: 12px; }
+  .head-row { padding: 0 20px; }
+  .c, .cw { padding: 0 20px; }
+  .wwhb { grid-template-columns: 1fr !important; }
+  .foot-row { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero { padding-bottom: 132px; }
+
+  .menu-btn-row {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; height: 56px; padding: 0 20px;
+    border: none; background: transparent;
+    border-top: 1px solid var(--glb);
+    font-family: var(--fm); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--t2); cursor: pointer; text-align: left;
+  }
+  .menu-btn-row:hover,
+  .menu-btn-row[aria-expanded="true"] { color: var(--text); background: var(--gl); }
+  .menu-btn-icon { font-size: 18px; line-height: 1; color: var(--text); }
+}
 </style>
-<link rel="stylesheet" href="shared.css">
 </head>
 <body data-screen-label="01 Trinity Hub">
 
