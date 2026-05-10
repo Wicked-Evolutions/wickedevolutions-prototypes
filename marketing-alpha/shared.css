@@ -157,7 +157,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── SECTION ───────────────────────────── */
 .section { padding: 96px 0; position: relative; }
-.section-divider { border:none; border-top:1px solid var(--glb); }
+.section-divider { border:none; border-top:1px solid var(--glb); margin: 56px 0; }
 .sn { font-family:var(--fm); font-size:11.5px; text-transform:uppercase; letter-spacing:0.16em; color:var(--t3); margin-bottom: 28px; display: block; }
 .sh { font-family:var(--fd); font-size:clamp(1.8rem, 3vw, 2.6rem); font-weight:700; letter-spacing:-0.03em; line-height:1.12; color:var(--text); margin-bottom:18px; max-width: 720px; text-wrap: balance; }
 .sh em { font-style:normal; color: var(--g); }
@@ -217,8 +217,76 @@ a { color: inherit; text-decoration: none; }
 .foot-cta:hover { background: var(--text); color: var(--bg); }
 .foot-meta { border-top: 1px solid var(--glb); margin-top: 60px; padding-top: 28px; display: flex; justify-content: space-between; font-family: var(--fm); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); }
 
-@media (max-width: 920px) {
+/* ── MOBILE CHROME — menu button + drawer (defaults) ── */
+.menu-btn-row { display: none; }
+
+.mobile-drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 280px; max-width: 82vw;
+  background: rgba(17,17,17,0.98);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-right: 1px solid var(--glb);
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 60;
+  padding: 88px 22px 28px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow-y: auto;
+}
+.mobile-drawer.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+.mobile-drawer-link {
+  font-family: var(--fm); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--t2); padding: 14px; border-radius: 10px;
+  display: flex; align-items: center; gap: 10px;
+  transition: background .15s, color .15s;
+}
+.mobile-drawer-link:hover,
+.mobile-drawer-link[aria-current="page"] { background: var(--gl); color: var(--text); }
+.mobile-drawer-link .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--t3); }
+.mobile-drawer-link .dot--y { background: var(--y); box-shadow: 0 0 8px var(--y); }
+.mobile-drawer-link .dot--p { background: var(--pl); box-shadow: 0 0 8px var(--p); }
+.mobile-drawer-link .dot--g { background: var(--g); box-shadow: 0 0 8px var(--g); }
+.mobile-drawer-link .dot--w { background: var(--text); box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+
+.mobile-drawer-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 55; opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.mobile-drawer-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+/* ── Mobile (<lg = <1024px per spec section 7) ── */
+@media (max-width: 1023px) {
+  body { font-size: 16px; line-height: 1.6; }
+  .hero-sub, .sp2 { font-size: 17px; }
+
+  /* Header chrome */
   .head-row--tabs { display: none; }
-  .wwhb { grid-template-columns: 1fr 1fr; }
-  .foot-row { flex-direction: column; align-items: flex-start; }
+  .head-utils a:not(.head-cta) { display: none; }
+  .head-utils { gap: 12px; }
+  .head-row { padding: 0 20px; }
+
+  /* Content margins — 20px L/R, single column */
+  .c, .cw { padding: 0 20px; }
+  .wwhb { grid-template-columns: 1fr !important; }
+  .foot-row { flex-direction: column; align-items: flex-start; gap: 24px; }
+
+  /* Breathing room between hero glow line and section 2 eyebrow */
+  .hero { padding-bottom: 132px; }
+
+  /* Mobile menu button row */
+  .menu-btn-row {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; height: 56px; padding: 0 20px;
+    border: none; background: transparent;
+    border-top: 1px solid var(--glb);
+    font-family: var(--fm); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--t2); cursor: pointer; text-align: left;
+  }
+  .menu-btn-row:hover,
+  .menu-btn-row[aria-expanded="true"] { color: var(--text); background: var(--gl); }
+  .menu-btn-icon { font-size: 18px; line-height: 1; color: var(--text); }
 }

@@ -611,6 +611,7 @@ a { color: inherit; text-decoration: none; }
   .head-row--tabs { display: none; }
 }
 </style>
+<link rel="stylesheet" href="shared.css">
 </head>
 <body data-screen-label="01 Trinity Hub">
 
@@ -645,7 +646,20 @@ a { color: inherit; text-decoration: none; }
     </nav>
     <div class="tabs-right">Alpha · WP 6.9+</div>
   </div>
+  <button class="menu-btn-row" id="menu-toggle" aria-expanded="false" aria-controls="mobile-drawer">
+    <span class="menu-btn-icon" aria-hidden="true">☰</span>
+    <span class="menu-btn-label">Menu</span>
+  </button>
 </header>
+
+<aside class="mobile-drawer" id="mobile-drawer" aria-hidden="true" aria-label="Site navigation">
+  <a class="mobile-drawer-link" href="Trinity Hub.html" aria-current="page"><span class="dot dot--w"></span>Trinity Hub</a>
+  <a class="mobile-drawer-link" href="Abilities MCP.html"><span class="dot dot--y"></span>Abilities MCP</a>
+  <a class="mobile-drawer-link" href="MCP Adapter.html"><span class="dot dot--p"></span>MCP Adapter</a>
+  <a class="mobile-drawer-link" href="Abilities for AI.html"><span class="dot dot--g"></span>Abilities for AI</a>
+  <a class="mobile-drawer-link" href="Abilities for Fluent.html"><span class="dot dot--g"></span>Abilities for Fluent</a>
+</aside>
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop" aria-hidden="true"></div>
 
 <!-- ════════════════════════════════════════════
      GLOBAL HERO — locked verbatim from v1
@@ -901,5 +915,22 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script>
+(function () {
+  const btn = document.getElementById('menu-toggle');
+  const drawer = document.getElementById('mobile-drawer');
+  const backdrop = document.getElementById('mobile-drawer-backdrop');
+  if (!btn || !drawer || !backdrop) return;
+  const set = open => {
+    drawer.classList.toggle('open', open);
+    backdrop.classList.toggle('visible', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  };
+  btn.addEventListener('click', () => set(!drawer.classList.contains('open')));
+  backdrop.addEventListener('click', () => set(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
+})();
+</script>
 </body>
 </html>
