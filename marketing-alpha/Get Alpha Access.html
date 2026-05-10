@@ -510,13 +510,10 @@ body {
   const form = document.getElementById('alphaForm');
   const foot = document.getElementById('alphaFoot');
   const thanks = document.getElementById('alphaThanks');
-  // Fluent Forms public submit goes through admin-ajax.php (the WP-JSON
-  // form-submit route is admin-only, returns 401 from public origins).
-  // admin-ajax has no CORS headers by default, so we use mode: 'no-cors'
-  // and treat a non-throwing fetch() as success — the server processes the
-  // submission and Fluent Forms' downstream automation (notifications,
-  // CRM webhook, integrations) handles confirmation. A server-side CORS
-  // snippet is the proper long-term fix; until then, optimistic UI.
+  // Fluent Forms public submit goes through admin-ajax.php with action=
+  // fluentform_submit. Server-side Fluent Snippet on community.wicked
+  // evolutions.com adds CORS headers for this origin so the browser can
+  // read the response (success message, validation errors).
   const ENDPOINT = 'https://community.wickedevolutions.com/wp-admin/admin-ajax.php';
   const FORM_ID = 4;
 
@@ -536,22 +533,23 @@ body {
       body.append('action', 'fluentform_submit');
       body.append('form_id', String(FORM_ID));
       body.append('data', new URLSearchParams({ email }).toString());
-      // mode: 'no-cors' — admin-ajax doesn't echo CORS headers; without this
-      // the browser blocks the response and our fetch() throws even though
-      // the server successfully created the entry. Trade-off: response is
-      // opaque, so we can't read success/error. We treat any non-network
-      // failure as success (Fluent Forms' server-side validation handles
-      // bad input; the operator sees entries in WP admin regardless).
-      await fetch(ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
+      const r = await fetch(ENDPOINT, { method: 'POST', body });
+      const json = await r.json().catch(() => null);
+      if (!r.ok || !json || json.success !== true) {
+        // Surface server's validation message when present
+        const errs = json && json.data && json.data.errors;
+        const detail = errs
+          ? Object.values(errs).flat().join(' ')
+          : (json && json.data && json.data.message) || 'http ' + r.status;
+        throw new Error(detail);
+      }
       form.hidden = true;
       foot.hidden = true;
       thanks.hidden = false;
     } catch (err) {
-      // Only fires on actual network failure (offline, DNS error, etc.) —
-      // CORS-blocked-but-server-success is silenced by mode: 'no-cors'.
       btn.disabled = false;
       btn.textContent = 'Try again →';
-      foot.textContent = 'Could not reach the bridge. Try again.';
+      foot.textContent = String(err.message || 'Something went wrong. Try again.');
       foot.style.color = 'var(--y)';
     }
   });
