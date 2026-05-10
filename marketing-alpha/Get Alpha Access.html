@@ -510,7 +510,14 @@ body {
   const form = document.getElementById('alphaForm');
   const foot = document.getElementById('alphaFoot');
   const thanks = document.getElementById('alphaThanks');
-  const ENDPOINT = 'https://community.wickedevolutions.com/wp-json/fluentform/v1/submit-form';
+  // Fluent Forms public submit goes through admin-ajax.php (the WP-JSON
+  // form-submit route is admin-only, returns 401 from public origins).
+  // admin-ajax has no CORS headers by default, so we use mode: 'no-cors'
+  // and treat a non-throwing fetch() as success — the server processes the
+  // submission and Fluent Forms' downstream automation (notifications,
+  // CRM webhook, integrations) handles confirmation. A server-side CORS
+  // snippet is the proper long-term fix; until then, optimistic UI.
+  const ENDPOINT = 'https://community.wickedevolutions.com/wp-admin/admin-ajax.php';
   const FORM_ID = 4;
 
   form.addEventListener('submit', async (e) => {
@@ -526,14 +533,22 @@ body {
 
     try {
       const body = new FormData();
+      body.append('action', 'fluentform_submit');
       body.append('form_id', String(FORM_ID));
       body.append('data', new URLSearchParams({ email }).toString());
-      const r = await fetch(ENDPOINT, { method: 'POST', body });
-      if (!r.ok) throw new Error('http ' + r.status);
+      // mode: 'no-cors' — admin-ajax doesn't echo CORS headers; without this
+      // the browser blocks the response and our fetch() throws even though
+      // the server successfully created the entry. Trade-off: response is
+      // opaque, so we can't read success/error. We treat any non-network
+      // failure as success (Fluent Forms' server-side validation handles
+      // bad input; the operator sees entries in WP admin regardless).
+      await fetch(ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
       form.hidden = true;
       foot.hidden = true;
       thanks.hidden = false;
     } catch (err) {
+      // Only fires on actual network failure (offline, DNS error, etc.) —
+      // CORS-blocked-but-server-success is silenced by mode: 'no-cors'.
       btn.disabled = false;
       btn.textContent = 'Try again →';
       foot.textContent = 'Could not reach the bridge. Try again.';
